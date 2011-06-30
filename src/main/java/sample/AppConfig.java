@@ -3,6 +3,7 @@ package sample;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 /**
@@ -14,23 +15,16 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
  */
 @Configuration
 public class AppConfig {
-    @Bean
+    /*@Bean
     public SimpleJdbcTemplate simpleJdbcTemplate() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql:mem:twimini");
-        dataSource.setDriverClassName("com.mysql.jdbcDriver");
+        dataSource.setUrl("jdbc:mysql://localhost/twimini?user=purav&password=purav");
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setUsername("");
+        dataSource.setPassword("");
         SimpleJdbcTemplate db = new SimpleJdbcTemplate(dataSource);
 
-        db.update("create table user(\n" +
-                "    \tuid int primary key auto_increment,\n" +
-                "\tfirstname varchar(20) not null,\n" +
-                "\tlastname varchar(20),\n" +
-                "\temailid varchar(30) unique not null,\n" +
-                "\tpassword varchar(50) not null,\n" +
-                "\ttimestamp datetime not null );"
-
-        );
-
+        db.update("create table user(uid int primary key)");
         return db;
-    }
+    }*/
 }
