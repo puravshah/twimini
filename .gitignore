@@ -1,3 +1,4 @@
 .idea/*
 twimini.iml
 taget/*
+src/main/java/sample/AppConfig.java
