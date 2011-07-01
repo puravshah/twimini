@@ -1,6 +1,7 @@
 package sample.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +12,21 @@ import sun.nio.cs.ext.DBCS_IBM_EBCDIC_Decoder;
 
 import javax.servlet.http.HttpSession;
 import javax.swing.plaf.multi.MultiViewportUI;
+import javax.xml.ws.Service;
 import java.util.Map;
 
 @Controller
 public class UserController {
     public final SimpleJdbcTemplate db;
+    String username = "";
 
     @Autowired
     public UserController(SimpleJdbcTemplate db) {this.db = db;}
+
+    @RequestMapping("/users/*")
+    public ModelAndView userProfilePage(HttpSession session) {
+        return new ModelAndView("/login");
+    }
 
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
@@ -40,24 +48,27 @@ public class UserController {
                 addObject("loginMsg", "Password field cannot be left blank");
             }};
 
-        String uid = "";
+        String uid = "", firstname = "";
+        Map <String, Object> m = null;
         try {
-            Map <String, Object> m = db.queryForMap("SELECT uid FROM user WHERE email = ? and password = ?", email, password);
-
+            m = db.queryForMap("SELECT uid, firstname FROM user " +
+            "WHERE emailid = ? and password = ?", email, password);
+        }
+        catch(EmptyResultDataAccessException e) {
+            return new ModelAndView("/index") {{
+                addObject("loginMsg", "Invalid Email id or Password");
+            }};
         }
         catch(Exception e) {
             System.out.println("This is the db exception : " + e);
+            return new ModelAndView("/index") {{
+                addObject("loginMsg", "Login failed");
+            }};
         }
 
-        /*if()
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "Invalid Email id or Password");
-            }};*/
-
-        //session.setAttribute("uid", );
-        String firstname = email;
-        //String uid = .toString();
-        //session.setAttribute("uid", uid);
+        uid = m.get("uid").toString();
+        firstname = m.get("firstname").toString();
+        session.setAttribute("uid", uid);
         session.setAttribute("firstname", firstname);
 
         ModelAndView mv = new ModelAndView("/tweet");
@@ -87,6 +98,15 @@ public class UserController {
                 addObject("signupMsg", "The passwords is too short");
             }};*/
 
+        try {
+            db.update("INSERT INTO user(firstname, lastname, emailid, password, timestamp) values (?, ?, ?, ?, now())", firstname, lastname, email, password);
+        }
+        catch(Exception e) {
+            final String E = e.toString();
+            return new ModelAndView("/index") {{
+                addObject("signupMsg", "Unable to Signup" + E);
+            }};
+        }
         return new ModelAndView("/index") {{
             addObject("signupMsg", "Successfully Registered!");
         }};
@@ -103,6 +123,8 @@ public class UserController {
 
         //session.removeAttribute("uid");
         session.removeAttribute("username");
-        return new ModelAndView("/index");
+        return new ModelAndView("/index"){{
+            setViewName("/index");
+        }};
     }
 }

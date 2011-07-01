@@ -59,5 +59,8 @@
                 ${signupMsg}
             </div>
         </div>
+
+        <a href = "/users/purav">Click here</a>
+        <img src="../../static/a.jpg" alt="No image found" height="20" width="20"/>
     </body>
 </html>
