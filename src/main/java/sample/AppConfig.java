@@ -24,7 +24,36 @@ public class AppConfig {
         dataSource.setPassword("");
         SimpleJdbcTemplate db = new SimpleJdbcTemplate(dataSource);
 
+        /*db.update("create table user(" +
+                "uid int primary key auto_increment," +
+                "firstname varchar(20) not null," +
+                "lastname varchar(20)," +
+                "emailid varchar(30) unique not null," +
+                "password varchar(50) not null," +
+                "timestamp datetime not null )"
+                );
 
+        db.update("create table post(" +
+                "pid bigint primary key auto_increment, " +
+                "uid int references user(uid) on delete cascade, " +
+                "tweet varchar(100) not null, " +
+                "timestamp datetime not null )"
+                );
+
+        db.update("create table likes(" +
+                "pid bigint references post(pid) on delete cascade, " +
+                "uid int references user(uid) on delete cascade, " +
+                "timestamp datetime not null, " +
+                "primary key(pid, uid) )"
+                );
+
+        db.update("create table follow(" +
+                "uid int references user(uid) on delete cascade, " +
+                "following int references user(uid) on delete cascade, " +
+                "start datetime not null, " +
+                "end datetime, " +
+                "primary key(uid, following, start) )"
+                );*/
 
         return db;
     }
