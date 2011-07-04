@@ -23,11 +23,6 @@ public class UserController {
     @Autowired
     public UserController(SimpleJdbcTemplate db) {this.db = db;}
 
-    @RequestMapping("/users/*")
-    public ModelAndView userProfilePage(HttpSession session) {
-        return new ModelAndView("/login");
-    }
-
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
         return new ModelAndView("/index");
@@ -71,7 +66,8 @@ public class UserController {
         session.setAttribute("uid", uid);
         session.setAttribute("firstname", firstname);
 
-        ModelAndView mv = new ModelAndView("/tweet");
+        ModelAndView mv = new ModelAndView("");
+        mv.setViewName("redirect:/tweet");
         return mv;
     }
 
@@ -107,6 +103,9 @@ public class UserController {
                 addObject("signupMsg", "Unable to Signup" + E);
             }};
         }
+
+
+
         return new ModelAndView("/index") {{
             addObject("signupMsg", "Successfully Registered!");
         }};
