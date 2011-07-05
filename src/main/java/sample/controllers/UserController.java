@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import sample.model.UserModel;
+import sample.services.UserService;
 import sun.nio.cs.ext.DBCS_IBM_EBCDIC_Decoder;
 
 import javax.servlet.http.HttpSession;
@@ -17,15 +19,19 @@ import java.util.Map;
 
 @Controller
 public class UserController {
-    public final SimpleJdbcTemplate db;
-    String username = "";
-
-    @Autowired
-    public UserController(SimpleJdbcTemplate db) {this.db = db;}
 
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
         return new ModelAndView("/index");
+    }
+
+     @RequestMapping("/login")
+    public ModelAndView loginGet(HttpSession session) {
+         String uid = (String)session.getAttribute("uid");
+         if(uid == null || uid.equals("")) return new ModelAndView();
+         return new ModelAndView() {{
+             setViewName("redirect:/tweet");
+         }};
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -43,28 +49,28 @@ public class UserController {
                 addObject("loginMsg", "Password field cannot be left blank");
             }};
 
-        String uid = "", firstname = "";
-        Map <String, Object> m = null;
+        UserModel m = null;
         try {
-            m = db.queryForMap("SELECT uid, firstname FROM user " +
-            "WHERE emailid = ? and password = ?", email, password);
+            m = UserService.getUser(email, password);
+            if(m == null) {
+                throw new Exception("Invalid Email id or Password");
+            }
         }
         catch(EmptyResultDataAccessException e) {
+            e.printStackTrace();
             return new ModelAndView("/index") {{
                 addObject("loginMsg", "Invalid Email id or Password");
             }};
         }
         catch(Exception e) {
-            System.out.println("This is the db exception : " + e);
+            e.printStackTrace();
             return new ModelAndView("/index") {{
                 addObject("loginMsg", "Login failed");
             }};
         }
 
-        uid = m.get("uid").toString();
-        firstname = m.get("firstname").toString();
-        session.setAttribute("uid", uid);
-        session.setAttribute("firstname", firstname);
+        session.setAttribute("uid", "" + m.getUid());
+        session.setAttribute("firstname", m.getFirstName());
 
         ModelAndView mv = new ModelAndView("");
         mv.setViewName("redirect:/tweet");
@@ -94,36 +100,38 @@ public class UserController {
                 addObject("signupMsg", "The passwords is too short");
             }};*/
 
+        UserModel m = null;
         try {
-            db.update("INSERT INTO user(firstname, lastname, emailid, password, timestamp) values (?, ?, ?, ?, now())", firstname, lastname, email, password);
+            m = UserService.addUser(firstname, lastname, email, password);
+            if(m == null) throw new Exception("Unable to register user");
         }
         catch(Exception e) {
+            e.printStackTrace();
             final String E = e.toString();
             return new ModelAndView("/index") {{
                 addObject("signupMsg", "Unable to Signup" + E);
             }};
         }
 
-
-
         return new ModelAndView("/index") {{
-            addObject("signupMsg", "Successfully Registered!");
+            //addObject("signupMsg", "Successfully Registered!");
+            setViewName("redirect:/tweet");
         }};
     }
 
     @RequestMapping("/logout")
     ModelAndView logoutMethod(HttpSession session) {
-        /*String uid = (String)session.getAttribute("uid");
+        String uid = (String)session.getAttribute("uid");
         if(uid == null) {
             return new ModelAndView("/login") {{
                 addObject("msg", "You need to login first!");
             }};
-        }*/
+        }
 
-        //session.removeAttribute("uid");
+        session.removeAttribute("uid");
         session.removeAttribute("username");
-        return new ModelAndView("/index"){{
-            setViewName("/index");
+        return new ModelAndView(){{
+            setViewName("redirect:/");
         }};
     }
 }

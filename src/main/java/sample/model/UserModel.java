@@ -1,5 +1,11 @@
 package sample.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.security.Timestamp;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: purav.s
@@ -8,16 +14,57 @@ package sample.model;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, password, firstName, lastName;
+    private String email, password, firstName, lastName, timestamp;
     private int uid;
 
+    public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
+        @Override
+        public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
+            return new UserModel(resultSet);
+        }
+    };
+
     public UserModel(){}
-    public UserModel(int uid, String email, String password, String firstName, String lastName) {
+    public UserModel(ResultSet rs) throws SQLException{
+        email = rs.getString("email");
+        password = rs.getString("password");
+        firstName = rs.getString("firstname");
+        lastName = rs.getString("lastname");
+        timestamp = rs.getString("timestamp");
+        uid = rs.getInt("uid");
+    }
+
+    public UserModel(int uid, String email, String password, String firstName, String lastName, String timestamp) {
         this.uid = uid;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.timestamp = timestamp;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public void setUid(int uid) {
@@ -40,23 +87,7 @@ public class UserModel {
         this.lastName = lastName;
     }
 
-    public int getUid() {
-        return uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

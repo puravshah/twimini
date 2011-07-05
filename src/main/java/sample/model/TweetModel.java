@@ -9,13 +9,30 @@ package sample.model;
  */
 public class TweetModel {
     private int pid, uid;
-    private String tweet;
+    private String tweet, timestamp;
 
     public TweetModel(){}
-    public TweetModel(int pid, int uid, String tweet) {
+    public TweetModel(int pid, int uid, String tweet, String timestamp) {
         this.pid = pid;
         this.uid = uid;
         this.tweet = tweet;
+        this.timestamp = timestamp;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public String getTweet() {
+        return tweet;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public void setPid(int pid) {
@@ -30,15 +47,7 @@ public class TweetModel {
         this.tweet = tweet;
     }
 
-    public int getPid() {
-        return pid;
-    }
-
-    public int getUid() {
-        return uid;
-    }
-
-    public String getTweet() {
-        return tweet;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
