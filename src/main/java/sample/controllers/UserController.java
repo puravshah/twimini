@@ -25,13 +25,14 @@ public class UserController {
         return new ModelAndView("/index");
     }
 
-     @RequestMapping("/login")
+    @RequestMapping("/login")
     public ModelAndView loginGet(HttpSession session) {
          String uid = (String)session.getAttribute("uid");
          if(uid == null || uid.equals("")) return new ModelAndView();
-         return new ModelAndView() {{
-             setViewName("redirect:/tweet");
-         }};
+
+         ModelAndView mv = new ModelAndView();
+         mv.setViewName("redirect:/tweet");
+         return mv;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -72,7 +73,7 @@ public class UserController {
         session.setAttribute("uid", "" + m.getUid());
         session.setAttribute("firstname", m.getFirstName());
 
-        ModelAndView mv = new ModelAndView("");
+        ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
         return mv;
     }

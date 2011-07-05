@@ -25,7 +25,7 @@ public class TweetService {
 
     public static TweetModel addTweet(String uid, String tweet) throws Exception {
         db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", uid, tweet);
-        TweetModel t = db.queryForObject("SELECT * FROM post WHERE uid = ? AND tweet = ?", TweetModel.rowMapper, uid, tweet);
+        TweetModel t = db.queryForObject("SELECT * FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
         return t;
     }
 

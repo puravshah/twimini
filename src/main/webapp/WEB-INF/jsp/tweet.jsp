@@ -7,12 +7,26 @@
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
 
         <script type = "text/javascript">
-            function createTweet(form) {
-                $.post('/tweet/create.json', $(form).serialize(), function(data) {
+            function createTweet() {
+                firstname = '<%= session.getAttribute("firstname") %>';
+                $.ajax({
+                    url: "/tweet/create.json",
+                    type: "POST",
+                    data: "tweet=" + document.getElementById("tweetBox").value,
+                    success: function(data) {
+                        data.firstname = firstname;
+                        var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
+                        var tweetItemLi = $(html);
+                        $('#ListOfTweets').prepend(tweetItemLi);
+                    }
+                });
+
+                /*$.post('/tweet/create.json', $(form).serialize(), function(data) {
                     var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
                     var tweetItemLi = $(html);
+                    alert(data);
                     $('#ListOfTweets').prepend(tweetItemLi);
-                });
+                });*/
             }
 
             function prependItem(data) {
@@ -26,15 +40,17 @@
 
     <body>
         <h3>
-            Welcome ${firstname},
+            Welcome <%= session.getAttribute("firstname") %>,
             <a href= "/logout">logout</a>
         </h3>
 
         <div>
-            <form action = "/tweet/create.json" method = "post" onsubmit = "createTweet(this); return false;">
+            <!--<form action = "/tweet/create.json" method = "post" onsubmit = "createTweet(this); return false;">
                 <input type = "text" name = "tweet" />
                 <input type = "submit" value = "Add" />
-            </form>
+            </form>-->
+            <input type = "text" name = "tweet" id = "tweetBox" />
+            <input type = "button" value = "Add" onclick= "createTweet()" />
         </div>
 
         <div>
@@ -48,7 +64,7 @@
                             Posted on: ${item.timestamp}
                         </li>-->
                         <script type="text/javascript">
-                            prependItem({pid:${item.pid}, uid:${item.uid}, firstname:'${firstname}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                            prependItem({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                         </script>
                     </c:forEach>
                 </ul>

@@ -44,8 +44,8 @@ public class TweetController {
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("firstname", session.getAttribute("firstname").toString());
-        System.out.println("Tweet List : " + tweetList);
         mv.addObject("tweetList", tweetList);
+        mv.addObject("uid", uid);
         return mv;
     }
 
