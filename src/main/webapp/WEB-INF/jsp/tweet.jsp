@@ -15,18 +15,9 @@
                     data: "tweet=" + document.getElementById("tweetBox").value,
                     success: function(data) {
                         data.firstname = firstname;
-                        var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
-                        var tweetItemLi = $(html);
-                        $('#ListOfTweets').prepend(tweetItemLi);
+                        prependItem(data);
                     }
                 });
-
-                /*$.post('/tweet/create.json', $(form).serialize(), function(data) {
-                    var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
-                    var tweetItemLi = $(html);
-                    alert(data);
-                    $('#ListOfTweets').prepend(tweetItemLi);
-                });*/
             }
 
             function prependItem(data) {
@@ -35,16 +26,28 @@
                 $('#ListOfTweets').prepend(tweetItemLi);
             }
 
+            function search() {
+                searchText = document.getElementById("searchBox").value;
+                alert(searchText);
+            }
+
         </script>
     </head>
 
     <body>
-        <h3>
-            Welcome <%= session.getAttribute("firstname") %>,
+        <div id = "navbar">
+            <a href = "/tweet">Home</a>
+            <a href = "/user">Profile</a>
+            <input type = "text" name = "search" id = "searchBox" />
+            <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
+            <a href = "/user"><%= session.getAttribute("firstname") %></a>
             <a href= "/logout">logout</a>
-        </h3>
-         <div>
-         <h3>Followers :</h3>
+            <br />
+            <a href = "/user/following">Following</a>
+            <a href = "/user/follower">Follower</a>
+            <br />
+            <br />
+        </div>
 
         <div>
             <!--<form action = "/tweet/create.json" method = "post" onsubmit = "createTweet(this); return false;">

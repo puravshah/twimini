@@ -114,8 +114,9 @@ public class UserController {
             }};
         }
 
+        session.setAttribute("uid", "" + m.getUid());
+        session.setAttribute("firstname", m.getFirstName());
         return new ModelAndView("/index") {{
-            //addObject("signupMsg", "Successfully Registered!");
             setViewName("redirect:/tweet");
         }};
     }
