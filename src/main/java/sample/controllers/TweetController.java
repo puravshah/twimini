@@ -1,19 +1,17 @@
 package sample.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sample.model.TweetModel;
+import sample.services.TweetService;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.http.HTTPBinding;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,10 +23,6 @@ import java.util.Map;
 
 @Controller
 public class TweetController {
-    private SimpleJdbcTemplate db;
-
-    @Autowired
-    public TweetController(SimpleJdbcTemplate db) {this.db = db;}
 
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
@@ -39,15 +33,23 @@ public class TweetController {
             }};
         }
 
-        List <Map<String, Object>> tweets = db.queryForList("SELECT * FROM post WHERE uid = ?", uid);
+        List <TweetModel> tweetList = null;
+        try {
+            tweetList = TweetService.getTweetList(uid);
+            if(tweetList == null) throw new Exception("Invalid Tweet List");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
 
         ModelAndView mv = new ModelAndView();
         mv.addObject("firstname", session.getAttribute("firstname").toString());
-        mv.addObject("tweetList", tweets);
+        System.out.println("Tweet List : " + tweetList);
+        mv.addObject("tweetList", tweetList);
         return mv;
     }
 
-    @RequestMapping(value = "/tweet", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/tweet", method = RequestMethod.POST)
     public ModelAndView tweetPost(@RequestParam String tweet, HttpSession session) {
         String uid = (String)session.getAttribute("uid");
         if(uid == null) {
@@ -61,17 +63,27 @@ public class TweetController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("redirect:/tweet");
         return mv;
-    }
+    }*/
 
     @RequestMapping("/tweet/create.json") @ResponseBody
     Hashtable <String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String)session.getAttribute("uid");
 
-        db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", uid, tweet);
-        int pid = db.queryForInt("SELECT MAX(pid) FROM post");
-        ret.put("pid", "" + pid);
-        ret.put("tweet", tweet);
+        TweetModel t = null;
+        try {
+            t = TweetService.addTweet(uid, tweet);
+            if(t == null) throw new Exception("Invalid tweet");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        ret.put("pid", "" + t.getPid());
+        ret.put("uid", "" + t.getUid());
+        ret.put("tweet", t.getTweet());
+        ret.put("timestamp", t.getTimestamp());
         return ret;
     }
 }

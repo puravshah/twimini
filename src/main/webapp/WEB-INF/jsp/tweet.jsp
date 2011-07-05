@@ -16,7 +16,9 @@
             }
 
             function prependItem(data) {
-
+                var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
+                var tweetItemLi = $(html);
+                $('#ListOfTweets').prepend(tweetItemLi);
             }
 
         </script>
@@ -46,7 +48,7 @@
                             Posted on: ${item.timestamp}
                         </li>-->
                         <script type="text/javascript">
-                            prependItem({firstname:'${firstname}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                            prependItem({pid:${item.pid}, uid:${item.uid}, firstname:'${firstname}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                         </script>
                     </c:forEach>
                 </ul>

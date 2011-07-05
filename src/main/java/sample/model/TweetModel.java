@@ -1,5 +1,10 @@
 package sample.model;
 
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: purav.s
@@ -11,7 +16,21 @@ public class TweetModel {
     private int pid, uid;
     private String tweet, timestamp;
 
+    public static final RowMapper <TweetModel> rowMapper = new RowMapper<TweetModel>() {
+        @Override
+        public TweetModel mapRow(ResultSet resultSet, int i) throws SQLException {
+            return new TweetModel(resultSet);
+        }
+    };
+
     public TweetModel(){}
+    public TweetModel(ResultSet rs) throws SQLException {
+        pid = rs.getInt("pid");
+        uid = rs.getInt("uid");
+        tweet = rs.getString("tweet");
+        timestamp = rs.getString("timestamp");
+    }
+
     public TweetModel(int pid, int uid, String tweet, String timestamp) {
         this.pid = pid;
         this.uid = uid;
