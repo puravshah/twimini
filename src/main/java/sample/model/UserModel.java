@@ -24,6 +24,18 @@ public class UserModel {
         }
     };
 
+    public static final RowMapper <UserModel> rowMapper2 = new RowMapper<UserModel>() {
+        @Override
+        public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
+            UserModel u = new UserModel();
+            u.setFirstName(resultSet.getString("firstname"));
+            u.setLastName(resultSet.getString("lastname"));
+            u.setEmail(resultSet.getString("email"));
+            u.setUid(resultSet.getInt("uid"));
+            return u;
+        }
+    };
+
     public UserModel(){}
     public UserModel(ResultSet rs) throws SQLException{
         email = rs.getString("email");
