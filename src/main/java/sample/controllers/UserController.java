@@ -1,8 +1,6 @@
 package sample.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,28 +8,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import sample.model.UserModel;
 import sample.services.UserService;
-import sun.nio.cs.ext.DBCS_IBM_EBCDIC_Decoder;
-
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.multi.MultiViewportUI;
-import javax.xml.ws.Service;
-import java.util.Map;
 
 @Controller
 public class UserController {
 
     @RequestMapping("/")
     public ModelAndView index(HttpSession session) {
-        return new ModelAndView("/index");
+        String uid = (String)session.getAttribute("uid");
+        ModelAndView mv = new ModelAndView("/index");
+        if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+        return mv;
     }
 
     @RequestMapping("/login")
     public ModelAndView loginGet(HttpSession session) {
          String uid = (String)session.getAttribute("uid");
-         if(uid == null || uid.equals("")) return new ModelAndView();
-
          ModelAndView mv = new ModelAndView();
-         mv.setViewName("redirect:/tweet");
+         if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
          return mv;
     }
 

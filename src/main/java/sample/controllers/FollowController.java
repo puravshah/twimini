@@ -32,52 +32,45 @@ import java.util.Map;
 @Controller
 public class FollowController {
 
-    @RequestMapping("/user/follower")
-    @ResponseBody
-    public List<UserModel> FollowGet(HttpSession session) {
+    @RequestMapping("/user/follower") @ResponseBody
+    public List<UserModel> followGet(HttpSession session) {
         String uid = (String)session.getAttribute("uid");
-        Hashtable<String, String> ret = new Hashtable<String, String>();
-
-        List<FollowModel> followList = null;
-
-       List<UserModel> Follower=null;
+        List <UserModel> ret = null;
 
         try {
-          //  t = TweetService.addTweet(uid, tweet);
-           Follower= FollowService.getFollower(uid);
+            //t = TweetService.addTweet(uid, tweet);
+            ret = FollowService.getFollower(uid);
+            if(ret == null) throw new Exception("Could not render followers");
             //for(FollowModel follower :followList)
-             //Follower.add(UserService.getUser(follower.getUid()));
-         //   if(t == null) throw new Exception("Inval");
+            //Follower.add(UserService.getUser(follower.getUid()));
+            //if(t == null) throw new Exception("Inval");
         }
         catch(Exception e) {
             e.printStackTrace();
             return null;
         }
-       return Follower;
+        return ret;
      }
 
 
-
-    @RequestMapping(value = "/user/following")
-    @ResponseBody
-    public List<UserModel> FollowerGet(HttpSession session) {
-            String uid = (String)session.getAttribute("uid");
-              List<FollowModel> followList = null;
-        List uidName=null;
-       List<UserModel> Following=null;
+    @RequestMapping(value = "/user/following") @ResponseBody
+    public List<UserModel> followerGet(HttpSession session) {
+        String uid = (String)session.getAttribute("uid");
+        List<UserModel> ret = null;
 
         try {
-          //  t = TweetService.addTweet(uid, tweet);
-           Following= FollowService.getFollowing(uid);
+            //  t = TweetService.addTweet(uid, tweet);
+            ret = FollowService.getFollowing(uid);
+            if(ret == null) throw new Exception("Could not render following");
             //for(FollowModel following :followList)
-             //Following.add(UserService.getUser(following.getUid()));
-         //   if(t == null) throw new Exception("Inval");
+            //Following.add(UserService.getUser(following.getUid()));
+            //if(t == null) throw new Exception("Inval");
         }
         catch(Exception e) {
             e.printStackTrace();
             return null;
         }
-       return Following;
+       return ret;
 
 
     }

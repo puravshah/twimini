@@ -42,11 +42,7 @@
             <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
             <a href = "/user"><%= session.getAttribute("firstname") %></a>
             <a href= "/logout">logout</a>
-            <br />
-            <a href = "/user/following">Following</a>
-            <a href = "/user/follower">Follower</a>
-            <br />
-            <br />
+            <br /> <br /> <br />
         </div>
 
         <div>
@@ -59,8 +55,12 @@
         </div>
 
         <div>
-            <h1>Tweet Feed</h1>
             <div>
+                <a href = "/tweet">Tweet</a>
+                <a href = "/user/following">Following</a>
+                <a href = "/user/follower">Follower</a>
+            </div>
+            <div id = "xyz">
                 <ul id = 'ListOfTweets'>
                     <c:forEach var = 'item' items = '${tweetList}'>
                         <!--<li>
