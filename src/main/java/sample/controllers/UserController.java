@@ -130,4 +130,10 @@ public class UserController {
             setViewName("redirect:/");
         }};
     }
+
+    @RequestMapping("/user")
+    ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        return mv;
+    }
 }

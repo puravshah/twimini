@@ -15,15 +15,19 @@
                     data: "tweet=" + document.getElementById("tweetBox").value,
                     success: function(data) {
                         data.firstname = firstname;
-                        prependItem(data);
+                        prependTweet(data);
                     }
                 });
             }
 
-            function prependItem(data) {
+            function prependTweet(data) {
                 var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
                 var tweetItemLi = $(html);
                 $('#ListOfTweets').prepend(tweetItemLi);
+            }
+
+            function prependFollowing(data) {
+
             }
 
             function getTweets() {
@@ -33,16 +37,9 @@
             }
 
             function getFollowing() {
-                $.ajax({
-                    url: "/user/following.json",
-                    type: "POST",
-                    data: "uid=" + <%= session.getAttribute("uid") %>,
-                    success: function(data) {
-                        $('#tweetDiv').hide();
-                        $('#followingDiv').show();
-                        $('#followerDiv').hide();
-                    }
-                });
+                $('#tweetDiv').hide();
+                $('#followingDiv').show();
+                $('#followerDiv').hide();
             }
 
             function getFollowers() {
@@ -94,18 +91,24 @@
                 <ul id = 'ListOfTweets'>
                     <c:forEach var = 'item' items = '${tweetList}'>
                         <script type="text/javascript">
-                            prependItem({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                            prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                         </script>
                     </c:forEach>
                 </ul>
             </div>
 
             <div id = "followingDiv">
-                following's list
+                <ul id = 'ListOfFollowing'>
+                    <c:forEach var = 'item' items = '${followingList}'>
+                        <script type="text/javascript">
+                            prependFollowing({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                        </script>
+                    </c:forEach>
+                </ul>
             </div>
 
             <div id = "followerDiv">
-                follower's list
+                You have no followers.
             </div>
 
             <script type = "text/javascript">
