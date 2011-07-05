@@ -43,6 +43,8 @@
             Welcome <%= session.getAttribute("firstname") %>,
             <a href= "/logout">logout</a>
         </h3>
+         <div>
+         <h3>Followers :</h3>
 
         <div>
             <!--<form action = "/tweet/create.json" method = "post" onsubmit = "createTweet(this); return false;">

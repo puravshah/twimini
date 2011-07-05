@@ -16,6 +16,9 @@ public class FollowModel {
 
         private int uid;
         private String timestamp;
+        private int following;
+        private String start;
+        private String end;
 
         public static final RowMapper<FollowModel> rowMapper = new RowMapper<FollowModel>() {
             @Override
@@ -31,7 +34,7 @@ public class FollowModel {
             //lastName=rs.getString("user.lastName");
           }
 
-        public FollowModel(int pid, int uid, String tweet, String timestamp) {
+        public FollowModel(int folowing, int uid, String end, String start) {
          }
 
 

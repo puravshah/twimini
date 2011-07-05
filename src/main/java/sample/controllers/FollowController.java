@@ -34,42 +34,53 @@ public class FollowController {
 
     @RequestMapping("/user/follower")
     @ResponseBody
-    public Hashtable<String,String> FollowGet(HttpSession session) {
+    public List<UserModel> FollowGet(HttpSession session) {
         String uid = (String)session.getAttribute("uid");
         Hashtable<String, String> ret = new Hashtable<String, String>();
 
-        FollowModel t = null;
-        UserModel Follower=null;
+        List<FollowModel> followList = null;
+
+       List<UserModel> Follower=null;
 
         try {
           //  t = TweetService.addTweet(uid, tweet);
-            t= FollowService.getFollower(uid);
-             Follower=UserService.getUser(t.getUid());
+           Follower= FollowService.getFollower(uid);
+            //for(FollowModel follower :followList)
+             //Follower.add(UserService.getUser(follower.getUid()));
          //   if(t == null) throw new Exception("Inval");
         }
         catch(Exception e) {
             e.printStackTrace();
             return null;
         }
+       return Follower;
+     }
 
 
-        ret.put("uid", "" + t.getUid());
-        ret.put("firstname", Follower.getFirstName());
-        ret.put("lastname", Follower.getLastName());
-        return ret;
 
-        }
-    /*
-    @RequestMapping(value = "/user/follow")
+    @RequestMapping(value = "/user/following")
     @ResponseBody
-    public List<Map<String,Object>> FollowerGet(HttpSession session) {
+    public List<UserModel> FollowerGet(HttpSession session) {
             String uid = (String)session.getAttribute("uid");
+              List<FollowModel> followList = null;
+        List uidName=null;
+       List<UserModel> Following=null;
 
-
-            List <Map<String, Object>> follower = db.queryForList("SELECT * FROM follow inner join user on user.uid=follow.uid  WHERE follow.following = ? and  end is not null", uid);
-
-            return follower;
+        try {
+          //  t = TweetService.addTweet(uid, tweet);
+           Following= FollowService.getFollowing(uid);
+            //for(FollowModel following :followList)
+             //Following.add(UserService.getUser(following.getUid()));
+         //   if(t == null) throw new Exception("Inval");
         }
-      */
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+       return Following;
+
+
+    }
+
 
 }

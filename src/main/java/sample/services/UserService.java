@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.UserModel;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: purav.s
@@ -27,10 +29,11 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public static  UserModel getUser(int Uid) throws  Exception
+    public static UserModel getUser(int Uid) throws  Exception
     {
         return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper,Uid);
     }
+
     public static UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
