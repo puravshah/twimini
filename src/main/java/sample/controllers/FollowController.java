@@ -32,9 +32,8 @@ import java.util.Map;
 @Controller
 public class FollowController {
 
-    @RequestMapping("/user/follower") @ResponseBody
-    public List<UserModel> followGet(HttpSession session) {
-        String uid = (String)session.getAttribute("uid");
+    @RequestMapping("/user/follower.json") @ResponseBody
+    public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
         List <UserModel> ret = null;
 
         try {
@@ -53,9 +52,8 @@ public class FollowController {
      }
 
 
-    @RequestMapping(value = "/user/following") @ResponseBody
-    public List<UserModel> followerGet(HttpSession session) {
-        String uid = (String)session.getAttribute("uid");
+    @RequestMapping(value = "/user/following.json") @ResponseBody
+    public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
         List<UserModel> ret = null;
 
         try {
@@ -74,6 +72,4 @@ public class FollowController {
 
 
     }
-
-
 }

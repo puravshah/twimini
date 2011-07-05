@@ -86,4 +86,20 @@ public class TweetController {
         ret.put("timestamp", t.getTimestamp());
         return ret;
     }
+
+    @RequestMapping("/tweet/getTweetList.json") @ResponseBody
+    List <TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
+        List<TweetModel> ret = null;
+
+        try {
+            ret = TweetService.getTweetList(uid);
+            if(ret == null) throw new Exception("Could not render tweets");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return ret;
+    }
 }

@@ -26,6 +26,38 @@
                 $('#ListOfTweets').prepend(tweetItemLi);
             }
 
+            function getTweets() {
+                $('#tweetDiv').show();
+                $('#followingDiv').hide();
+                $('#followerDiv').hide();
+            }
+
+            function getFollowing() {
+                $.ajax({
+                    url: "/user/following.json",
+                    type: "POST",
+                    data: "uid=" + <%= session.getAttribute("uid") %>,
+                    success: function(data) {
+                        $('#tweetDiv').hide();
+                        $('#followingDiv').show();
+                        $('#followerDiv').hide();
+                    }
+                });
+            }
+
+            function getFollowers() {
+                $.ajax({
+                    url: "/user/follower.json",
+                    type: "POST",
+                    data: "uid=" + <%= session.getAttribute("uid") %>,
+                    success: function(data) {
+                        $('#tweetDiv').hide();
+                        $('#followingDiv').hide();
+                        $('#followerDiv').show();
+                    }
+                });
+            }
+
             function search() {
                 searchText = document.getElementById("searchBox").value;
                 alert(searchText);
@@ -46,34 +78,41 @@
         </div>
 
         <div>
-            <!--<form action = "/tweet/create.json" method = "post" onsubmit = "createTweet(this); return false;">
-                <input type = "text" name = "tweet" />
-                <input type = "submit" value = "Add" />
-            </form>-->
             <input type = "text" name = "tweet" id = "tweetBox" />
             <input type = "button" value = "Add" onclick= "createTweet()" />
         </div>
 
         <div>
+            <br /> <br />
             <div>
-                <a href = "/tweet">Tweet</a>
-                <a href = "/user/following">Following</a>
-                <a href = "/user/follower">Follower</a>
+                <a href = "javascript:getTweets()">Tweet</a>
+                <a href = "javascript:getFollowing()">Following</a>
+                <a href = "javascript:getFollowers()">Followers</a>
             </div>
-            <div id = "xyz">
+
+            <div id = "tweetDiv">
                 <ul id = 'ListOfTweets'>
                     <c:forEach var = 'item' items = '${tweetList}'>
-                        <!--<li>
-                            <a href= '#'>${firstname}</a> <br />
-                            ${item.tweet} <br />
-                            Posted on: ${item.timestamp}
-                        </li>-->
                         <script type="text/javascript">
                             prependItem({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                         </script>
                     </c:forEach>
                 </ul>
             </div>
+
+            <div id = "followingDiv">
+                following's list
+            </div>
+
+            <div id = "followerDiv">
+                follower's list
+            </div>
+
+            <script type = "text/javascript">
+                $('#followingDiv').hide();
+                $('#followerDiv').hide();
+            </script>
+
         </div>
     </body>
 </html>
