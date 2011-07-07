@@ -1,12 +1,9 @@
 package sample.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.UserModel;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,9 +20,9 @@ public class UserService {
     @Autowired
     public UserService(SimpleJdbcTemplate db) {this.db = db;}
 
-    public static UserModel addUser(String firstname, String lastname, String email, String password) throws Exception{
-        db.update("INSERT INTO user(firstname, lastname, email, password, timestamp) " +
-                  "values (?, ?, ?, ?, now())", firstname, lastname, email, password);
+    public static UserModel addUser(String name, String email, String password) throws Exception{
+        db.update("INSERT INTO user(name, , email, password, timestamp) " +
+                  "values (?, ?, ?, ?, now())", name, email, password);
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 

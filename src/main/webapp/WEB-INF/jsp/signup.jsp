@@ -9,29 +9,20 @@
             <form action = "/signup" method = "POST">
                 <table>
                     <tr>
-                        <td>First name</td>
-                        <td><input type = "text" name = "firstname" /></td>
-                        <td>*</td>
-                    </tr>
-                    <tr>
-                        <td>Last name</td>
-                        <td><input type = "text" name = "lastname" /></td>
-                        <td>(Optional)</td>
+                        <td>Full name</td>
+                        <td><input type = "text" name = "name" /></td>
                     </tr>
                     <tr>
                         <td>Email id</td>
                         <td><input type = "text" name = "email" /></td>
-                        <td>*</td>
                     </tr>
                     <tr>
                         <td>Password</td>
                         <td><input type = "password" name = "password" /></td>
-                        <td>*</td>
                     </tr>
                     <tr>
                         <td>Confirm Password</td>
                         <td><input type = "password" name = "cpassword" /></td>
-                        <td>*</td>
                     </tr>
                     <tr>
                         <td><input type = "submit" value = "Signup" /></td>
@@ -40,7 +31,7 @@
                 </table>
                 <div>
                     <p>
-                        All fields marked with * are compulsory
+                        All fields are compulsory
                     </p>
                 </div>
             </form>

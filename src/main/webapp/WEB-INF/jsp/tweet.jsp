@@ -7,13 +7,13 @@
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript">
             function createTweet() {
-                firstname = '<%= session.getAttribute("firstname") %>';
+                name = '<%= session.getAttribute("name") %>';
                 $.ajax({
                     url: "/tweet/create.json",
                     type: "POST",
                     data: "tweet=" + document.getElementById("tweetBox").value,
                     success: function(data) {
-                        data.firstname = firstname;
+                        data.name = name;
                         prependTweet(data);
                     }
                 });
@@ -87,7 +87,7 @@
             <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
             <input type = "text" name = "search" id = "searchBox" />
             <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
-            <a href = "/user?uid=<%= session.getAttribute("uid") %>"><%= session.getAttribute("firstname") %></a>
+            <a href = "/user?uid=<%= session.getAttribute("uid") %>"><%= session.getAttribute("name") %></a>
             <a href= "/logout">logout</a>
             <br /> <br /> <br />
         </div>
@@ -110,7 +110,7 @@
                     <ul id = 'ListOfTweets'>
                         <c:forEach var = 'item' items = '${tweetList}'>
                             <script type="text/javascript">
-                                prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                prependTweet({pid:${item.pid}, uid:${item.uid}, name:'<%= session.getAttribute("name") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                             </script>
                         </c:forEach>
                     </ul>
@@ -120,7 +120,7 @@
                     <ul id = 'ListOfFollowing'>
                         <c:forEach var = 'item' items = '${followingList}'>
                             <script type="text/javascript">
-                                appendFollowing({uid:${item.uid}, firstname:'${item.firstName}', lastname:'${item.lastName}', email:'${item.email}'});
+                                appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
                             </script>
                         </c:forEach>
                     </ul>

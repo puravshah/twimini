@@ -33,4 +33,9 @@ public class TweetService {
         List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
         return l;
     }
+
+    public static List<TweetModel> getFeed(String uid) throws Exception {
+        List <TweetModel> l = db.query("SELECT * FROM post WHERE uid in (SELECT )", TweetModel.rowMapper, uid);
+        return l;
+    }
 }

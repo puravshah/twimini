@@ -34,15 +34,11 @@ public class FollowController {
 
     @RequestMapping("/user/follower.json") @ResponseBody
     public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
-        List <UserModel> ret = null;
 
+        List <UserModel> ret = null;
         try {
-            //t = TweetService.addTweet(uid, tweet);
             ret = FollowService.getFollower(uid);
             if(ret == null) throw new Exception("Could not render followers");
-            //for(FollowModel follower :followList)
-            //Follower.add(UserService.getUser(follower.getUid()));
-            //if(t == null) throw new Exception("Inval");
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -57,19 +53,13 @@ public class FollowController {
         List<UserModel> ret = null;
 
         try {
-            //  t = TweetService.addTweet(uid, tweet);
             ret = FollowService.getFollowing(uid);
             if(ret == null) throw new Exception("Could not render following");
-            //for(FollowModel following :followList)
-            //Following.add(UserService.getUser(following.getUid()));
-            //if(t == null) throw new Exception("Inval");
         }
         catch(Exception e) {
             e.printStackTrace();
             return null;
         }
        return ret;
-
-
     }
 }

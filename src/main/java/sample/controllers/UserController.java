@@ -71,7 +71,7 @@ public class UserController {
         }
 
         session.setAttribute("uid", "" + m.getUid());
-        session.setAttribute("firstname", m.getFirstName());
+        session.setAttribute("name", m.getName());
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
         return mv;
@@ -81,11 +81,10 @@ public class UserController {
     public ModelAndView signupPost(@RequestParam final String email,
                                    @RequestParam final String password,
                                    @RequestParam final String cpassword,
-                                   @RequestParam final String firstname,
-                                   @RequestParam final String lastname,
+                                   @RequestParam final String name,
                                    HttpSession session) {
 
-        if(firstname.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
+        if(name.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
             return new ModelAndView("/index") {{
                 addObject("signupMsg", "Please fill out all the required fields");
             }};
@@ -102,7 +101,7 @@ public class UserController {
 
         UserModel m = null;
         try {
-            m = UserService.addUser(firstname, lastname, email, password);
+            m = UserService.addUser(name, email, password);
             if(m == null) throw new Exception("Unable to register user");
         }
         catch(Exception e) {
@@ -114,7 +113,7 @@ public class UserController {
         }
 
         session.setAttribute("uid", "" + m.getUid());
-        session.setAttribute("firstname", m.getFirstName());
+        session.setAttribute("name", m.getName());
         return new ModelAndView("/index") {{
             setViewName("redirect:/tweet");
         }};
@@ -168,8 +167,7 @@ public class UserController {
         }
 
         mv.addObject("uid", uid);
-        mv.addObject("firstname", u.getFirstName());
-        mv.addObject("lastname", u.getLastName());
+        mv.addObject("name", u.getName());
         mv.addObject("email", u.getEmail());
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);

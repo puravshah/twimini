@@ -12,7 +12,6 @@ import sample.services.TweetService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class TweetController {
         }
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("firstname", (String)session.getAttribute("firstname"));
+        mv.addObject("name", (String)session.getAttribute("name"));
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
         mv.addObject("followersList", followersList);
