@@ -110,7 +110,7 @@
                     <ul id = 'ListOfTweets'>
                         <c:forEach var = 'item' items = '${tweetList}'>
                             <script type="text/javascript">
-                                prependTweet({pid:${item.pid}, uid:${item.uid}, name:'<%= session.getAttribute("name") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                             </script>
                         </c:forEach>
                     </ul>
