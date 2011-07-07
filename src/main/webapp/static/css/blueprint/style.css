@@ -1,0 +1,24 @@
+
+/* reset.css */
+
+.append-05  {padding-right: 5px;}
+.append-010 {padding-right:10px;}
+.addwidth {width:200px; }
+
+ body
+  {
+       color:#555555;
+       font-family: Arial,Calibri,Verdana,Helvetica,sans-serif;
+       font-size:13px;
+  }
+ #titleBar {
+    width:950px;
+    padding:10px;
+    border:5px solid transparent;
+    background-color:#7FFFD4;
+    margin:0px;
+    color:#555555;
+    font-family: Arial,Calibri,Verdana,Helvetica,sans-serif;
+           font-size:13px;
+
+   }
