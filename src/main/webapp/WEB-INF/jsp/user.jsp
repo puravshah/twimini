@@ -92,10 +92,17 @@
             <br /> <br /> <br />
         </div>
 
-        <div id = "leftpart">
-            <div>
-                <input type = "text" name = "tweet" id = "tweetBox" />
-                <input type = "button" value = "Add" onclick= "createTweet()" />
+        <div id = "leftContainer">
+            <div id = "profileInfo">
+                <div id = "photoContainer">
+                    <a href = ""  ><img height = "50" width = "50" src = "" /></a> <br />
+                    <a href = "/user/edit">Edit Your Profile</a>
+                </div>
+
+                <div id = "info">
+                    ${firstname} ${lastname} <br />
+                    ${email}
+                </div>
             </div>
 
             <div>
@@ -110,7 +117,7 @@
                     <ul id = 'ListOfTweets'>
                         <c:forEach var = 'item' items = '${tweetList}'>
                             <script type="text/javascript">
-                                prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'${firstname}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                             </script>
                         </c:forEach>
                     </ul>
