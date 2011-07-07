@@ -1,6 +1,22 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<style type="text/css">
+body
+{
+background-color:#6495ed;
+background-image:url("/static/images/1282.jpg");
+}
+p
+{
+background-color:transparent;
+}
+div
+{
+background-color:transparent;
+}
+</style>
+
 <html>
     <body>
         <h1> Mini Twitter </h1>

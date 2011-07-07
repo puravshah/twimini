@@ -1,6 +1,20 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<style type="text/css">
+body
+{
+background-color:#6495ed;
+background-image:url("/static/images/"
+}
+p
+{
+background-color:#e0ffff;
+}
+div
+{
+background-color:#b0c4de;
+}
+</style>
 <html>
     <head>
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
