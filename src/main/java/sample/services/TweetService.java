@@ -36,10 +36,10 @@ public class TweetService {
     }
 
     public static List<TweetWrapper> getFeed(String uid) throws Exception {
-        List <TweetWrapper> l = db.query("select u.uid, name, pid, tweet, x.timestamp from post x, user u " +
-                "where u.uid = x.uid and x.pid in " +
-                "(select pid from post p where p.uid in " +
-                "(select following from follow f where f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
+        List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+                "WHERE u.uid = x.uid AND x.pid IN " +
+                "(SELECT pid FROM post p WHERE p.uid IN " +
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
         return l;
     }
 }

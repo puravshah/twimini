@@ -5,78 +5,7 @@
     <head>
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script type = "text/javascript">
-            function createTweet() {
-                name = '<%= session.getAttribute("name") %>';
-                $.ajax({
-                    url: "/tweet/create.json",
-                    type: "POST",
-                    data: "tweet=" + document.getElementById("tweetBox").value,
-                    success: function(data) {
-                        data.name = name;
-                        prependTweet(data);
-                    }
-                });
-            }
-
-            function prependTweet(data) {
-                var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
-                var tweetItemLi = $(html);
-                $('#ListOfTweets').prepend(tweetItemLi);
-            }
-
-            function appendFollowing(data) {
-                var html = new EJS({url: 'static/followingItem.ejs'}).render(data);
-                var followingItemLi = $(html);
-                $('#ListOfFollowing').append(followingItemLi);
-            }
-
-            function getFeed() {
-                $('#tweetDiv2').show();
-                $('#followingDiv2').hide();
-                $('#followerDiv2').hide();
-            }
-
-            function getTweets() {
-                $('#tweetDiv').show();
-                $('#followingDiv').hide();
-                $('#followerDiv').hide();
-            }
-
-            function getFollowing() {
-                $('#tweetDiv').hide();
-                $('#followingDiv').show();
-                $('#followerDiv').hide();
-            }
-
-            function getFollowers() {
-                $.ajax({
-                    url: "/user/follower.json",
-                    type: "POST",
-                    data: "uid=" + <%= session.getAttribute("uid") %>,
-                    success: function(data) {
-                        $('#tweetDiv').hide();
-                        $('#followingDiv').hide();
-                        $('#followerDiv').show();
-                    }
-                });
-            }
-
-            function unfollow(id) {
-                $.ajax({
-                    url: "/user/unfollow.json",
-                    type: "POST",
-                    data: "unfollowId=" + id,
-                    success: function(data) {
-                        $('#followingItem_' + id).remove();
-                    }
-                });
-            }
-
-            function search() {
-                searchText = document.getElementById("searchBox").value;
-                alert(searchText);
-            }
+        <script type = "text/javascript" src = "/static/js/external_js_file.js">
 
         </script>
     </head>
@@ -95,7 +24,7 @@
         <div id = "leftpart">
             <div>
                 <input type = "text" name = "tweet" id = "tweetBox" />
-                <input type = "button" value = "Add" onclick= "createTweet()" />
+                <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
             </div>
 
             <div>
@@ -103,7 +32,7 @@
                 <div>
                     <a href = "javascript:getTweets()">Tweet</a>
                     <a href = "javascript:getFollowing()">Following</a>
-                    <a href = "javascript:getFollowers()">Followers</a>
+                    <a href = "javascript:getFollowers(<%= session.getAttribute("uid") %>)">Followers</a>
                 </div>
 
                 <div id = "tweetDiv">

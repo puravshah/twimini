@@ -1,9 +1,6 @@
 package sample.model;
 
 import org.springframework.jdbc.core.RowMapper;
-import sun.java2d.pipe.PixelDrawPipe;
-
-import java.rmi.server.UID;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
