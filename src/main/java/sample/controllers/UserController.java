@@ -5,10 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import sample.model.UserModel;
+import sample.services.FollowService;
 import sample.services.UserService;
 import javax.servlet.http.HttpSession;
+import java.util.Hashtable;
 
 @Controller
 public class UserController {
@@ -134,5 +137,18 @@ public class UserController {
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
         ModelAndView mv = new ModelAndView();
         return mv;
+    }
+
+    @RequestMapping("/user/unfollow.json") @ResponseBody
+    Hashtable <String, String> unFollow(@RequestParam String unfollowId, HttpSession session) {
+        Hashtable <String, String> ret = new Hashtable <String, String> ();
+        try {
+            FollowService.removeFollowing((String)session.getAttribute("uid"), unfollowId);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        ret.put("msg", "sucess");
+        return ret;
     }
 }

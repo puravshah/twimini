@@ -25,10 +25,16 @@
                 $('#ListOfTweets').prepend(tweetItemLi);
             }
 
-            function prependFollowing(data) {
+            function appendFollowing(data) {
                 var html = new EJS({url: 'static/followingItem.ejs'}).render(data);
                 var followingItemLi = $(html);
                 $('#ListOfFollowing').append(followingItemLi);
+            }
+
+            function getFeed() {
+                $('#tweetDiv2').show();
+                $('#followingDiv2').hide();
+                $('#followerDiv2').hide();
             }
 
             function getTweets() {
@@ -56,6 +62,17 @@
                 });
             }
 
+            function unfollow(id) {
+                $.ajax({
+                    url: "/user/unfollow.json",
+                    type: "POST",
+                    data: "unfollowId=" + id,
+                    success: function(data) {
+                        $('#followingItem_' + id).remove();
+                    }
+                });
+            }
+
             function search() {
                 searchText = document.getElementById("searchBox").value;
                 alert(searchText);
@@ -75,48 +92,50 @@
             <br /> <br /> <br />
         </div>
 
-        <div>
-            <input type = "text" name = "tweet" id = "tweetBox" />
-            <input type = "button" value = "Add" onclick= "createTweet()" />
-        </div>
-
-        <div>
-            <br /> <br />
+        <div id = "leftpart">
             <div>
-                <a href = "javascript:getTweets()">Tweet</a>
-                <a href = "javascript:getFollowing()">Following</a>
-                <a href = "javascript:getFollowers()">Followers</a>
+                <input type = "text" name = "tweet" id = "tweetBox" />
+                <input type = "button" value = "Add" onclick= "createTweet()" />
             </div>
 
-            <div id = "tweetDiv">
-                <ul id = 'ListOfTweets'>
-                    <c:forEach var = 'item' items = '${tweetList}'>
-                        <script type="text/javascript">
-                            prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
-                        </script>
-                    </c:forEach>
-                </ul>
+            <div>
+                <br /> <br />
+                <div>
+                    <a href = "javascript:getTweets()">Tweet</a>
+                    <a href = "javascript:getFollowing()">Following</a>
+                    <a href = "javascript:getFollowers()">Followers</a>
+                </div>
+
+                <div id = "tweetDiv">
+                    <ul id = 'ListOfTweets'>
+                        <c:forEach var = 'item' items = '${tweetList}'>
+                            <script type="text/javascript">
+                                prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                            </script>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <div id = "followingDiv">
+                    <ul id = 'ListOfFollowing'>
+                        <c:forEach var = 'item' items = '${followingList}'>
+                            <script type="text/javascript">
+                                appendFollowing({uid:${item.uid}, firstname:'${item.firstName}', lastname:'${item.lastName}', email:'${item.email}'});
+                            </script>
+                        </c:forEach>
+                    </ul>
+                </div>
+
+                <div id = "followerDiv">
+                    You have no followers.
+                </div>
+
+                <script type = "text/javascript">
+                    $('#followingDiv').hide();
+                    $('#followerDiv').hide();
+                </script>
+
             </div>
-
-            <div id = "followingDiv">
-                <ul id = 'ListOfFollowing'>
-                    <c:forEach var = 'item' items = '${followingList}'>
-                        <script type="text/javascript">
-                            prependFollowing({uid:${item.uid}, firstname:'${item.firstName}', lastname:'${item.lastName}', email:'${item.email}'});
-                        </script>
-                    </c:forEach>
-                </ul>
-            </div>
-
-            <div id = "followerDiv">
-                You have no followers.
-            </div>
-
-            <script type = "text/javascript">
-                $('#followingDiv').hide();
-                $('#followerDiv').hide();
-            </script>
-
         </div>
     </body>
 </html>

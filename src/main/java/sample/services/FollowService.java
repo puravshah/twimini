@@ -3,12 +3,10 @@ package sample.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
-import sample.model.FollowModel;
 import sample.model.UserModel;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,19 +22,22 @@ public class FollowService {
     @Autowired
     public FollowService(SimpleJdbcTemplate db) {this.db = db;}
 
-    public static List<UserModel> getFollowing(String uid) throws Exception{
+    public static List<UserModel> getFollowing(String uid) throws Exception {
         List<UserModel> following = db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return following;
     }
 
-    public static List<UserModel> getFollower(String uid) throws Exception{
+    public static List<UserModel> getFollower(String uid) throws Exception {
         List<UserModel> follower = db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return follower;
     }
 
+    public static void removeFollowing(String uid, String id) throws Exception {
+        db.update("UPDATE follow SET end = now() WHERE uid = ? AND following = ? AND end IS NULL", uid, id);
+    }
 
-
-
-
+    public static void addFollowing(String uid, String id) throws Exception {
+        db.update("INSERT INTO follow values(?, ?, now(), NULL)", uid, id);
+    }
 
 }
