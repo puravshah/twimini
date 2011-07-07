@@ -5,10 +5,6 @@
     <head>
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script>
-            alert("TweetList : " + ${tweetList});
-            alert("followingList : " + ${followingList});
-        </script>
         <script type = "text/javascript">
             function createTweet() {
                 firstname = '<%= session.getAttribute("firstname") %>';
@@ -103,13 +99,13 @@
             </div>
 
             <div id = "followingDiv">
-                <!--<ul id = 'ListOfFollowing'>
+                <ul id = 'ListOfFollowing'>
                     <c:forEach var = 'item' items = '${followingList}'>
                         <script type="text/javascript">
-                            prependFollowing({uid:${item.uid}, firstname:${item.firstname}, lastname:'${item.lastname}', email:'${item.email}'});
+                            prependFollowing({uid:${item.uid}, firstname:'${item.firstName}', lastname:'${item.lastName}', email:'${item.email}'});
                         </script>
                     </c:forEach>
-                </ul>-->
+                </ul>
             </div>
 
             <div id = "followerDiv">

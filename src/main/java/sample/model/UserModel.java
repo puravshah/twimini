@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, password, firstname, lastname, timestamp;
+    private String email, password, firstName, lastName, timestamp;
     private int uid;
 
     public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
@@ -40,8 +40,8 @@ public class UserModel {
     public UserModel(ResultSet rs) throws SQLException{
         email = rs.getString("email");
         password = rs.getString("password");
-        firstname = rs.getString("firstname");
-        lastname = rs.getString("lastname");
+        firstName = rs.getString("firstname");
+        lastName = rs.getString("lastname");
         timestamp = rs.getString("timestamp");
         uid = rs.getInt("uid");
     }
@@ -50,8 +50,8 @@ public class UserModel {
         this.uid = uid;
         this.email = email;
         this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstname;
+        this.lastName = lastname;
         this.timestamp = timestamp;
     }
 
@@ -68,11 +68,11 @@ public class UserModel {
     }
 
     public String getFirstName() {
-        return firstname;
+        return firstName;
     }
 
     public String getLastName() {
-        return lastname;
+        return lastName;
     }
 
     public String getTimestamp() {
@@ -92,11 +92,11 @@ public class UserModel {
     }
 
     public void setFirstName(String firstname) {
-        this.firstname = firstname;
+        this.firstName = firstname;
     }
 
     public void setLastName(String lastname) {
-        this.lastname = lastname;
+        this.lastName = lastname;
     }
 
     public void setTimestamp(String timestamp) {

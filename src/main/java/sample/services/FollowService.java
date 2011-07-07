@@ -25,13 +25,12 @@ public class FollowService {
     public FollowService(SimpleJdbcTemplate db) {this.db = db;}
 
     public static List<UserModel> getFollowing(String uid) throws Exception{
-        List<UserModel> following =
-        db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
+        List<UserModel> following = db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return following;
     }
 
     public static List<UserModel> getFollower(String uid) throws Exception{
-        List<UserModel> follower = db.query("SELECT user.uid FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
+        List<UserModel> follower = db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return follower;
     }
 

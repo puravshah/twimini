@@ -40,7 +40,7 @@ public class TweetController {
         try {
             tweetList = TweetService.getTweetList(uid);
             followingList = FollowService.getFollowing(uid);
-            //followersList = FollowService.getFollower(uid);
+            followersList = FollowService.getFollower(uid);
             if(tweetList == null) throw new Exception("Invalid Tweet List");
         }
         catch(Exception e) {
@@ -48,7 +48,7 @@ public class TweetController {
         }
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("firstname", session.getAttribute("firstname").toString());
+        mv.addObject("firstname", (String)session.getAttribute("firstname"));
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
         mv.addObject("followersList", followersList);
