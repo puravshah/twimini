@@ -13,42 +13,60 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class FollowModel {
+    private int uid, following;
+    private String start, end;
 
-        private int uid;
-        private String timestamp;
-        private int following;
-        private String start;
-        private String end;
-
-        public static final RowMapper<FollowModel> rowMapper = new RowMapper<FollowModel>() {
-            @Override
-            public FollowModel mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new FollowModel(resultSet);
-            }
-        };
-
-        public FollowModel(){}
-        public FollowModel(ResultSet rs) throws SQLException {
-            uid = rs.getInt("follow.uid");
-            //firstName=rs.getString("user.firstName");
-            //lastName=rs.getString("user.lastName");
-          }
-
-        public FollowModel(int folowing, int uid, String end, String start) {
-         }
-
-
-        public int getUid() {
-            return uid;
+    public static final RowMapper<FollowModel> rowMapper = new RowMapper<FollowModel>() {
+        @Override
+        public FollowModel mapRow(ResultSet resultSet, int i) throws SQLException {
+            return new FollowModel(resultSet);
         }
+    };
 
-
-        public void setUid(int uid) {
-            this.uid = uid;
-        }
-
-
+    public FollowModel(){}
+    public FollowModel(ResultSet rs) throws SQLException {
+        uid = rs.getInt("follow.uid");
     }
+
+    public FollowModel(int uid, int following, String start, String end) {
+        this.uid = uid;
+        this.following = following;
+        this.start = start;
+        this.end = end;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public int getFollowing() {
+        return following;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public void setFollowing(int following) {
+        this.following = following;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+}
 
 
 

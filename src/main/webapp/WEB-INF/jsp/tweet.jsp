@@ -5,7 +5,10 @@
     <head>
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-
+        <script>
+            alert("TweetList : " + ${tweetList});
+            alert("followingList : " + ${followingList});
+        </script>
         <script type = "text/javascript">
             function createTweet() {
                 firstname = '<%= session.getAttribute("firstname") %>';
@@ -27,7 +30,9 @@
             }
 
             function prependFollowing(data) {
-
+                var html = new EJS({url: 'static/followingItem.ejs'}).render(data);
+                var followingItemLi = $(html);
+                $('#ListOfFollowing').append(followingItemLi);
             }
 
             function getTweets() {
@@ -98,13 +103,13 @@
             </div>
 
             <div id = "followingDiv">
-                <ul id = 'ListOfFollowing'>
+                <!--<ul id = 'ListOfFollowing'>
                     <c:forEach var = 'item' items = '${followingList}'>
                         <script type="text/javascript">
-                            prependFollowing({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                            prependFollowing({uid:${item.uid}, firstname:${item.firstname}, lastname:'${item.lastname}', email:'${item.email}'});
                         </script>
                     </c:forEach>
-                </ul>
+                </ul>-->
             </div>
 
             <div id = "followerDiv">

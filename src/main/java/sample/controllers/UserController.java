@@ -66,7 +66,6 @@ public class UserController {
 
         session.setAttribute("uid", "" + m.getUid());
         session.setAttribute("firstname", m.getFirstName());
-
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
         return mv;

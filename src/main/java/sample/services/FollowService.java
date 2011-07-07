@@ -19,24 +19,21 @@ import java.util.Map;
  */
 @Service
 public class FollowService {
-          private static SimpleJdbcTemplate db;
+    private static SimpleJdbcTemplate db;
 
     @Autowired
     public FollowService(SimpleJdbcTemplate db) {this.db = db;}
 
-    public static List<UserModel> getFollower(String uid) throws Exception{
-
-        List<UserModel> follower = db.query("SELECT user.uid,user.firstname,user.lastname,user.email  FROM follow inner join user on user.uid=follow.following  WHERE follow.uid = ? and  end is not null",UserModel.rowMapper2, uid);
-
-        return follower;
+    public static List<UserModel> getFollowing(String uid) throws Exception{
+        List<UserModel> following =
+        db.query("SELECT user.uid, firstname, lastname, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
+        return following;
     }
 
-    public static List<UserModel> getFollowing(String uid) throws Exception{
-
-            List<UserModel> follower = db.query("SELECT user.uid FROM follow inner join user on user.uid=follow.uid  WHERE follow.following = ? and  end is not null",UserModel.rowMapper2, uid);
-
-            return follower;
-        }
+    public static List<UserModel> getFollower(String uid) throws Exception{
+        List<UserModel> follower = db.query("SELECT user.uid FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
+        return follower;
+    }
 
 
 

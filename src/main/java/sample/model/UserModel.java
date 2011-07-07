@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, password, firstName, lastName, timestamp;
+    private String email, password, firstname, lastname, timestamp;
     private int uid;
 
     public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
@@ -40,18 +40,18 @@ public class UserModel {
     public UserModel(ResultSet rs) throws SQLException{
         email = rs.getString("email");
         password = rs.getString("password");
-        firstName = rs.getString("firstname");
-        lastName = rs.getString("lastname");
+        firstname = rs.getString("firstname");
+        lastname = rs.getString("lastname");
         timestamp = rs.getString("timestamp");
         uid = rs.getInt("uid");
     }
 
-    public UserModel(int uid, String email, String password, String firstName, String lastName, String timestamp) {
+    public UserModel(int uid, String email, String password, String firstname, String lastname, String timestamp) {
         this.uid = uid;
         this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.timestamp = timestamp;
     }
 
@@ -68,11 +68,11 @@ public class UserModel {
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
     public String getTimestamp() {
@@ -91,12 +91,12 @@ public class UserModel {
         this.password = password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
     public void setTimestamp(String timestamp) {

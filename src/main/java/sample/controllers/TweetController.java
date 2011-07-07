@@ -40,7 +40,7 @@ public class TweetController {
         try {
             tweetList = TweetService.getTweetList(uid);
             followingList = FollowService.getFollowing(uid);
-            followersList = FollowService.getFollower(uid);
+            //followersList = FollowService.getFollower(uid);
             if(tweetList == null) throw new Exception("Invalid Tweet List");
         }
         catch(Exception e) {
