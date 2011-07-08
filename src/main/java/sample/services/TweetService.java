@@ -42,4 +42,8 @@ public class TweetService {
                 "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
         return l;
     }
+
+    public static int getTweetCount(String uid) {
+        return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", uid);
+    }
 }

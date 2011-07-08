@@ -156,11 +156,15 @@ public class UserController {
 
         List <TweetModel> tweetList = null;
         List <UserModel> followingList = null, followerList = null;
+        int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
             tweetList = TweetService.getTweetList(uid);
             followingList = FollowService.getFollowing(uid);
             followerList = FollowService.getFollower(uid);
+            tweetCount = TweetService.getTweetCount(uid);
+            followingCount = FollowService.getFollowingCount(uid);
+            followerCount = FollowService.getFollowerCount(uid);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -172,6 +176,9 @@ public class UserController {
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
         mv.addObject("followerList", followerList);
+        mv.addObject("tweetCount", tweetCount);
+        mv.addObject("followingCount",followingCount);
+        mv.addObject("followerCount", followerCount);
 
         return mv;
     }

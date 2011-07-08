@@ -38,4 +38,11 @@ public class FollowService {
         db.update("INSERT INTO follow values(?, ?, now(), NULL)", uid, id);
     }
 
+    public static int getFollowingCount(String uid) {
+        return db.queryForInt("SELECT count(following) FROM follow WHERE uid = ? AND end IS NULL", uid);
+    }
+
+    public static int getFollowerCount(String uid) {
+        return db.queryForInt("SELECT count(uid) FROM follow WHERE following = ? AND end is NULL", uid);
+    }
 }

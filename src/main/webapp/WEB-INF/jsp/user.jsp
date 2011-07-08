@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div>
+            <div id>
                 <br /> <br />
                 <div>
                     <a href = "javascript:getTweets()">Tweet</a>
@@ -71,6 +71,37 @@
                     $('#followerDiv').hide();
                 </script>
 
+            </div>
+        </div>
+
+        <div id = "rightContainer">
+            <div id = "tweetCount">
+                <p>
+                    You have posted
+                    <a href = "javascript: getTweets()">${tweetCount} Tweets</a>
+                </p>
+            </div>
+
+            <div id = "followingCount">
+                <p>
+                    You are Following
+                    <a href = "javascript: getFollowing()">${followingCount} People</a>
+                    <div id = "followingThumbnails">
+
+                    </div>
+                </p>
+            </div>
+
+            <div id = "followerCount">
+                <p>
+                    You have
+                    <a href = "javascript:getFollowers({uid:<%= session.getAttribute("uid") %>})">
+                        ${followerCount} Followers
+                    </a>
+                </p>
+                <div id = "followerThumbnails">
+
+                </div>
             </div>
         </div>
     </body>

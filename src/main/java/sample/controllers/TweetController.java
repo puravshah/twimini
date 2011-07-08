@@ -37,11 +37,16 @@ public class TweetController {
 
         List <TweetWrapper> tweetList = null;
         List <UserModel> followingList = null, followersList = null;
+        int tweetCount = 0, followingCount = 0, followerCount = 0;
+
         try {
             tweetList = TweetService.getFeed(uid);
             followingList = FollowService.getFollowing(uid);
             followersList = FollowService.getFollower(uid);
-            if(tweetList == null) throw new Exception("Invalid Tweet List");
+            tweetCount = TweetService.getTweetCount(uid);
+            followingCount = FollowService.getFollowingCount(uid);
+            followerCount = FollowService.getFollowerCount(uid);
+            //if(tweetList == null) throw new Exception("Invalid Tweet List");
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -53,6 +58,9 @@ public class TweetController {
         mv.addObject("followingList", followingList);
         mv.addObject("followersList", followersList);
         mv.addObject("uid", uid);
+        mv.addObject("tweetCount", tweetCount);
+        mv.addObject("followingCount",followingCount);
+        mv.addObject("followerCount", followerCount);
         return mv;
     }
 

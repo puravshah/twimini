@@ -21,7 +21,7 @@
             <br /> <br /> <br />
         </div>
 
-        <div id = "leftpart">
+        <div id = "leftContainer">
             <div>
                 <input type = "text" name = "tweet" id = "tweetBox" />
                 <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
@@ -64,6 +64,37 @@
                     $('#followerDiv').hide();
                 </script>
 
+            </div>
+        </div>
+
+        <div id = "rightContainer">
+            <div id = "tweetCount">
+                <p>
+                    You have posted
+                    <a href = "/user?uid=<%= session.getAttribute("uid") %>">${tweetCount} Tweets</a>
+                </p>
+            </div>
+
+            <div id = "followingCount">
+                <p>
+                    You are Following
+                    <a href = "javascript: getFollowing()">${followingCount} People</a>
+                    <div id = "followingThumbnails">
+
+                    </div>
+                </p>
+            </div>
+
+            <div id = "followerCount">
+                <p>
+                    You have
+                    <a href = "javascript:getFollowers({uid:<%= session.getAttribute("uid") %>})">
+                        ${followerCount} Followers
+                    </a>
+                </p>
+                <div id = "followerThumbnails">
+
+                </div>
             </div>
         </div>
     </body>
