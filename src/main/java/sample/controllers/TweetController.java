@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import sample.model.TweetModel;
+import sample.model.TweetWrapper;
 import sample.model.UserModel;
 import sample.services.FollowService;
 import sample.services.TweetService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,10 +35,10 @@ public class TweetController {
             }};
         }
 
-        List <TweetModel> tweetList = null;
+        List <TweetWrapper> tweetList = null;
         List <UserModel> followingList = null, followersList = null;
         try {
-            tweetList = TweetService.getTweetList(uid);
+            tweetList = TweetService.getFeed(uid);
             followingList = FollowService.getFollowing(uid);
             followersList = FollowService.getFollower(uid);
             if(tweetList == null) throw new Exception("Invalid Tweet List");
@@ -48,7 +48,7 @@ public class TweetController {
         }
 
         ModelAndView mv = new ModelAndView();
-        mv.addObject("firstname", (String)session.getAttribute("firstname"));
+        mv.addObject("name", session.getAttribute("name"));
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
         mv.addObject("followersList", followersList);

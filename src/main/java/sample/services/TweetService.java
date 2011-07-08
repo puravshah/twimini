@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.TweetModel;
+import sample.model.TweetWrapper;
 import sample.model.UserModel;
 
 import java.util.List;
@@ -31,6 +32,14 @@ public class TweetService {
 
     public static List<TweetModel> getTweetList(String uid) throws Exception {
         List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
+        return l;
+    }
+
+    public static List<TweetWrapper> getFeed(String uid) throws Exception {
+        List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+                "WHERE u.uid = x.uid AND x.pid IN " +
+                "(SELECT pid FROM post p WHERE p.uid IN " +
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
         return l;
     }
 }

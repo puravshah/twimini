@@ -1,8 +1,6 @@
 package sample.model;
 
 import org.springframework.jdbc.core.RowMapper;
-
-import java.security.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +12,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, password, firstName, lastName, timestamp;
+    private String email, password, name, timestamp;
     private int uid;
 
     public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
@@ -28,8 +26,7 @@ public class UserModel {
         @Override
         public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
             UserModel u = new UserModel();
-            u.setFirstName(resultSet.getString("firstname"));
-            u.setLastName(resultSet.getString("lastname"));
+            u.setName(resultSet.getString("name"));
             u.setEmail(resultSet.getString("email"));
             u.setUid(resultSet.getInt("uid"));
             return u;
@@ -40,18 +37,16 @@ public class UserModel {
     public UserModel(ResultSet rs) throws SQLException{
         email = rs.getString("email");
         password = rs.getString("password");
-        firstName = rs.getString("firstname");
-        lastName = rs.getString("lastname");
+        name = rs.getString("name");
         timestamp = rs.getString("timestamp");
         uid = rs.getInt("uid");
     }
 
-    public UserModel(int uid, String email, String password, String firstname, String lastname, String timestamp) {
+    public UserModel(int uid, String email, String password, String name, String timestamp) {
         this.uid = uid;
         this.email = email;
         this.password = password;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.name = name;
         this.timestamp = timestamp;
     }
 
@@ -67,12 +62,8 @@ public class UserModel {
         return password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public String getTimestamp() {
@@ -91,12 +82,8 @@ public class UserModel {
         this.password = password;
     }
 
-    public void setFirstName(String firstname) {
-        this.firstName = firstname;
-    }
-
-    public void setLastName(String lastname) {
-        this.lastName = lastname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setTimestamp(String timestamp) {

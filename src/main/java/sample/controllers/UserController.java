@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sample.model.TweetModel;
 import sample.model.UserModel;
 import sample.services.FollowService;
+import sample.services.TweetService;
 import sample.services.UserService;
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -38,13 +41,13 @@ public class UserController {
                                   HttpSession session) {
 
         if(email.equals(""))
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "Email id field cannot be left blank");
+            return new ModelAndView("/login") {{
+                addObject("msg", "Email id field cannot be left blank");
             }};
 
         if(password.equals(""))
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "Password field cannot be left blank");
+            return new ModelAndView("/login") {{
+                addObject("msg", "Password field cannot be left blank");
             }};
 
         UserModel m = null;
@@ -56,19 +59,19 @@ public class UserController {
         }
         catch(EmptyResultDataAccessException e) {
             e.printStackTrace();
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "Invalid Email id or Password");
+            return new ModelAndView("/login") {{
+                addObject("msg", "Invalid Email id or Password");
             }};
         }
         catch(Exception e) {
             e.printStackTrace();
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "Login failed");
+            return new ModelAndView("/login") {{
+                addObject("msg", "Login failed");
             }};
         }
 
         session.setAttribute("uid", "" + m.getUid());
-        session.setAttribute("firstname", m.getFirstName());
+        session.setAttribute("name", m.getName());
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
         return mv;
@@ -78,11 +81,10 @@ public class UserController {
     public ModelAndView signupPost(@RequestParam final String email,
                                    @RequestParam final String password,
                                    @RequestParam final String cpassword,
-                                   @RequestParam final String firstname,
-                                   @RequestParam final String lastname,
+                                   @RequestParam final String name,
                                    HttpSession session) {
 
-        if(firstname.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
+        if(name.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
             return new ModelAndView("/index") {{
                 addObject("signupMsg", "Please fill out all the required fields");
             }};
@@ -99,7 +101,7 @@ public class UserController {
 
         UserModel m = null;
         try {
-            m = UserService.addUser(firstname, lastname, email, password);
+            m = UserService.addUser(name, email, password);
             if(m == null) throw new Exception("Unable to register user");
         }
         catch(Exception e) {
@@ -111,7 +113,7 @@ public class UserController {
         }
 
         session.setAttribute("uid", "" + m.getUid());
-        session.setAttribute("firstname", m.getFirstName());
+        session.setAttribute("name", m.getName());
         return new ModelAndView("/index") {{
             setViewName("redirect:/tweet");
         }};
@@ -135,7 +137,42 @@ public class UserController {
 
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
+        String UID = (String)session.getAttribute("uid");
+        if(UID == null || UID.equals("")) {
+            return new ModelAndView("/login") {{
+                addObject("msg", "You need to login first");
+            }};
+        }
+
         ModelAndView mv = new ModelAndView();
+        UserModel u = null;
+        try {
+            u = UserService.getUser(Integer.parseInt(uid));
+            if(u == null) throw new Exception("Invalid User");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        List <TweetModel> tweetList = null;
+        List <UserModel> followingList = null, followerList = null;
+
+        try {
+            tweetList = TweetService.getTweetList(uid);
+            followingList = FollowService.getFollowing(uid);
+            followerList = FollowService.getFollower(uid);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        mv.addObject("uid", uid);
+        mv.addObject("name", u.getName());
+        mv.addObject("email", u.getEmail());
+        mv.addObject("tweetList", tweetList);
+        mv.addObject("followingList", followingList);
+        mv.addObject("followerList", followerList);
+
         return mv;
     }
 

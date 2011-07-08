@@ -1,27 +1,10 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style type="text/css">
-body
-{
-background-color:#6495ed;
-background-image:url("/static/images/1282.jpg");
-}
-p
-{
-background-color:transparent;
-}
-div
-{
-background-color:transparent;
-}
-</style>
-
 <html>
     <body>
         <h1> Mini Twitter </h1>
         <div>
-            <p>${loginMsg}</p>
             <form action = "/login" method = "POST">
                 <table>
                     <tr>
@@ -35,6 +18,7 @@ background-color:transparent;
                 </table>
                 <input type = "submit" value = "Login" />
             </form>
+            <p>${loginMsg}</p>
         </div>
 
         <div>
@@ -47,27 +31,18 @@ background-color:transparent;
                         <tr>
                             <td>Email id</td>
                             <td><input type = "text" name = "email" /></td>
-                            <td>*</td>
                         </tr>
                         <tr>
                             <td>Password</td>
                             <td><input type = "password" name = "password" /></td>
-                            <td>*</td>
                         </tr>
                         <tr>
                             <td>Confirm Password</td>
                             <td><input type = "password" name = "cpassword" /></td>
-                            <td>*</td>
                         </tr>
                         <tr>
-                            <td>First name</td>
-                            <td><input type = "text" name = "firstname" /></td>
-                            <td>*</td>
-                        </tr>
-                        <tr>
-                            <td>Last name</td>
-                            <td><input type = "text" name = "lastname" /></td>
-                            <td>(Optional)</td>
+                            <td>Full name</td>
+                            <td><input type = "text" name = "name" /></td>
                         </tr>
                     </table>
                     <td><input type = "submit" value = "Signup" /></td>

@@ -9,6 +9,7 @@
 
 
 
+
              <link rel="stylesheet" href="/static/css/blueprint/screen.css"  type="text/css" media="screen,projection"/>
              <link rel="stylesheet" href="/static/css/blueprint/print.css"  type="text/css" media="print"/>
 
@@ -101,6 +102,10 @@
                 alert(searchText);
             }
 
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
+        <script type = "text/javascript" src = "/static/js/external_js_file.js">
+
         </script>
     </head>
 
@@ -154,11 +159,21 @@
 
 	<!-- main page area -->
 	<div id="constrain" class="corner-round-all">
+    <body>
+        <div id = "navbar">
+            <a href = "/tweet">Home</a>
+            <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
+            <input type = "text" name = "search" id = "searchBox" />
+            <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
+            <a href = "/user?uid=<%= session.getAttribute("uid") %>"><%= session.getAttribute("name") %></a>
+            <a href= "/logout">logout</a>
+            <br /> <br /> <br />
+        </div>
 
         <div  id = "leftpart">
             <div>
                 <input type = "text" name = "tweet" id = "tweetBox" />
-                <input type = "button" value = "Add" onclick= "createTweet()" />
+                <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
             </div>
 
             <div>
@@ -166,14 +181,14 @@
                 <div>
                     <a href = "javascript:getTweets()">Tweet</a>
                     <a href = "javascript:getFollowing()">Following</a>
-                    <a href = "javascript:getFollowers()">Followers</a>
+                    <a href = "javascript:getFollowers(<%= session.getAttribute("uid") %>)">Followers</a>
                 </div>
 
                 <div id = "tweetDiv">
                     <ul id = 'ListOfTweets'>
                         <c:forEach var = 'item' items = '${tweetList}'>
                             <script type="text/javascript">
-                                prependTweet({pid:${item.pid}, uid:${item.uid}, firstname:'<%= session.getAttribute("firstname") %>', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                             </script>
                         </c:forEach>
                     </ul>
@@ -183,7 +198,7 @@
                     <ul id = 'ListOfFollowing'>
                         <c:forEach var = 'item' items = '${followingList}'>
                             <script type="text/javascript">
-                                appendFollowing({uid:${item.uid}, firstname:'${item.firstName}', lastname:'${item.lastName}', email:'${item.email}'});
+                                appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
                             </script>
                         </c:forEach>
                     </ul>
