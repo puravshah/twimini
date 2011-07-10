@@ -63,7 +63,7 @@
                 </div>
 
                 <div id = "followerDiv">
-                    You have no followers.
+
                 </div>
 
                 <script type = "text/javascript">

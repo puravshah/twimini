@@ -77,6 +77,11 @@ public class UserController {
         return mv;
     }
 
+    @RequestMapping("/signup")
+    public ModelAndView signupGet(HttpSession session) {
+        return new ModelAndView();
+    }
+
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView signupPost(@RequestParam final String email,
                                    @RequestParam final String password,

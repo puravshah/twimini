@@ -2,6 +2,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
+    <head>
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
+    </head>
+
     <body>
         <h1> Login Page</h1>
         <div>
@@ -13,11 +18,11 @@
                 <table>
                     <tr>
                         <td>Email id</td>
-                        <td><input type = "text" name = "email" /></td>
+                        <td><input type = "text" placeholder = "Email" name = "email" /></td>
                     </tr>
                     <tr>
                         <td>Password</td>
-                        <td><input type = "password" name = "password" /></td>
+                        <td><input type = "password" placeholder = "Password" name = "password" /></td>
                     </tr>
                 </table>
                 <input type = "submit" value = "Login" />

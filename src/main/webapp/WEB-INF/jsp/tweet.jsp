@@ -3,11 +3,11 @@
 
 <html>
     <head>
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script type = "text/javascript" src = "/static/js/external_js_file.js">
-
-        </script>
+        <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
 
     <body>
@@ -23,8 +23,8 @@
 
         <div id = "leftContainer">
             <div>
-                <input type = "text" name = "tweet" id = "tweetBox" />
-                <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
+                <input type = "text" placeholder = "Share a new Tweet" name = "tweet" id = "tweetBox" />
+                <input type = "button" value = "Share" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
             </div>
 
             <div>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div id = "followerDiv">
-                    You have no followers.
+
                 </div>
 
                 <script type = "text/javascript">
