@@ -10,15 +10,8 @@
 
 
 
-             <link rel="stylesheet" href="/static/css/blueprint/screen.css"  type="text/css" media="screen,projection"/>
-             <link rel="stylesheet" href="/static/css/blueprint/print.css"  type="text/css" media="print"/>
-
-             <!-- [if lt IE 8]>
-             <link rel="stylesheet" href="/static/css/blueprint/ie.css"  type="text/css" media="screen,projection"/>
-             <![endif]-->
 
              <link rel="stylesheet" href="/static/css/blueprint/style.css" type="text/css"/>
-             <link rel="stylesheet" href="/static/css/blueprint/design.css"  type="text/css" />
              <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
              <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
              <script type = "text/javascript">
@@ -102,89 +95,76 @@
                 alert(searchText);
             }
 
-        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script type = "text/javascript" src = "/static/js/external_js_file.js">
+
+         function resize(){
+            //document.body.style.height=document.body.clientHeight;
+            document.getElementById("header").style.width=document.body.clientWidth;
+
+         }
+
+        </script>
+
+
+         <script type = "text/javascript" src = "/static/js/external_js_file.js">
 
         </script>
     </head>
 
-    <body >
+    <body style="background:url(/static/images/bobwood01.jpg)   scroll 0 0 transparent;padding-left:150px">
 
-        <div class= "container ">
+        <div   onload="resize();">
 
-          <div class ="corner-round-all" id="header">
+          <div id="header" class ="corner-round-all" style=" max-width:1024px;"  >
                         <div style="float:right;">
-            				<form action="/search/" method="get" style="display:inline;">
-            				<input type="text" name="search" style="padding:0px;padding:4px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;" id = "searchBox"/>
-            				<input <input type = "button" value = "Search" id = "searchButton" onclick = "search()"  style="padding:0px;padding:4px;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;" />
+            				<form action="/search/" method="get" class ="SearchForm" style="display:inline;">
+
+                			 <input type="text"  size="20";name="search" class="searchField  corner-round-all "; id = "searchBox"/>
+
+            				 <input type = "button" value = "Search" class = " searchButton" id = "searchButton" onclick = "search()"/>
+
             				</form>
                             <span style="font-size:1em;color:#fafafc;">
-                              <a style="font-family:Arial;color:white" href= "/logout">logout</a>
+                            <a style="font-family:Arial;color:#fff" href= "/logout">logout</a>
                             </span>
+                          <br>
                          </div>
 
 
 
              <ul class="navlist" style="font-size:1.2em;">
-				<li><img href=""></li>
-				<li><a href="/tweet">Home</a></li>
-				<li><a href="/user">Profile</a></li>
+
+				<li class="navlist4"><img src="/static/images/1282.jpg" width="50px" heigth="10px"></li>
+				<li class="navlist3"><a href="/tweet">Home</a></li>
+				<li class="navlist3"><a href="/user">Profile</a></li>
 
 			 </ul>
 
-             <ul>
-                <li>
-                  <span style="font-size:1.5em;font-family:Arial;color:white;float:left; padding-left:10px; padding-right:40px;"><a style="color:#000000" href = "/user"><%= session.getAttribute("firstname") %></a>
-                  </span>
-                </li>
-             </ul>
+           </div>
 
-
-                        <div style="float:left;">
-                        HI
-                        </div>
-
-
-
-          </div>
-
-      <!-- notify bar -->
-	  <div id="notebar" class="corner-round-bottom">
-	    <div class="corner-round-bottom-inner">
-		 <div id="notebar-content">Welcome to Want it
-		 </div>
-	    </div>
-	  </div>
-
-	<!-- main page area -->
-	<div id="constrain" class="corner-round-all">
-    <body>
-        <div id = "navbar">
-            <a href = "/tweet">Home</a>
-            <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
-            <input type = "text" name = "search" id = "searchBox" />
-            <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
-            <a href = "/user?uid=<%= session.getAttribute("uid") %>"><%= session.getAttribute("name") %></a>
-            <a href= "/logout">logout</a>
-            <br /> <br /> <br />
+        <div id="notebar" class="corner-round-bottom">
+          welcome
         </div>
 
-        <div  id = "leftpart">
-            <div>
-                <input type = "text" name = "tweet" id = "tweetBox" />
-                <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
-            </div>
 
-            <div>
-                <br /> <br />
-                <div>
+	<!-- main page area -->
+    <div id="page-outer">
+	  <div id="page-container" class="corner-round-all">
+
+        <div>
+            <div class="main-content" style="min-width:282px">
+               <div>
+                  <input type = "text" name = "tweet" id = "tweetBox" />
+                  <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
+               </div>
+
+               <div>
+                  <div>
                     <a href = "javascript:getTweets()">Tweet</a>
                     <a href = "javascript:getFollowing()">Following</a>
                     <a href = "javascript:getFollowers(<%= session.getAttribute("uid") %>)">Followers</a>
-                </div>
+                  </div>
 
-                <div id = "tweetDiv">
+                  <div id = "tweetDiv">
                     <ul id = 'ListOfTweets'>
                         <c:forEach var = 'item' items = '${tweetList}'>
                             <script type="text/javascript">
@@ -192,7 +172,7 @@
                             </script>
                         </c:forEach>
                     </ul>
-                </div>
+                 </div>
 
                 <div id = "followingDiv">
                     <ul id = 'ListOfFollowing'>
@@ -204,18 +184,25 @@
                     </ul>
                 </div>
 
-                <div id = "followerDiv">
+                 <div id = "followerDiv">
                     You have no followers.
-                </div>
+                 </div>
 
                 <script type = "text/javascript">
                     $('#followingDiv').hide();
                     $('#followerDiv').hide();
                 </script>
-
+               </div>
+             </div>
+            </div>
+            <div>
+            <div class="dashboard">
+              <div class="component">
+                 followers
+              </div>
             </div>
         </div>
-      </div>
-    </div>
+    <div>
+   </div>
     </body>
 </html>

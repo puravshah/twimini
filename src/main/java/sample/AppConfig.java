@@ -26,8 +26,7 @@ public class AppConfig {
 
         /*db.update("create table user(" +
                     "uid int primary key auto_increment," +
-                    "firstname varchar(20) not null," +
-                    "lastname varchar(20)," +
+                    "name varchar(20) not null," +
                     "email varchar(30) unique not null," +
                     "password varchar(50) not null," +
                     "timestamp datetime not null )"

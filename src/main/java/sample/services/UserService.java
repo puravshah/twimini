@@ -21,8 +21,8 @@ public class UserService {
     public UserService(SimpleJdbcTemplate db) {this.db = db;}
 
     public static UserModel addUser(String name, String email, String password) throws Exception{
-        db.update("INSERT INTO user(name, , email, password, timestamp) " +
-                  "values (?, ?, ?, ?, now())", name, email, password);
+        db.update("INSERT INTO user(name,email, password, timestamp) " +
+                  "values (?, ?, ?, now())", name, email, password);
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 

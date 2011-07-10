@@ -286,7 +286,7 @@ div.sidebar-object-1 h4.clickable:hover {
 }
 
 .usericon img {
-	background:url(/zen/style/blogster/gfx/box1-bg1.png) bottom left repeat-x;
+	background:url(/static/images/box1-bg1.png) bottom left repeat-x;
 	border:1px solid #85add7;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;

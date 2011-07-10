@@ -2,9 +2,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
-    <body>
+    <head>
+
+    </head>
+    <body >
+
+
+      <style>
+        <!--body{background:url(/static/images/1282.jpg);};-->
+      </style>
         <h1> Mini Twitter </h1>
-        <div>
+        <div >
             <form action = "/login" method = "POST">
                 <table>
                     <tr>
