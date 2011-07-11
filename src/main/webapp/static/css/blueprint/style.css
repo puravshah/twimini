@@ -3,6 +3,19 @@
 
 .header {background:#3B5998;}
 .lowerbody {background:url(/static/images/blueGradient.png);}
+
+#dropdownContainer {
+    cursor: pointer;
+}
+
+#dropdown {
+    clear: both;
+    postition: absolute;
+    right: 0;
+    top: -999px;
+    cursor: pointer;
+}
+
 .add-padding-above-1 {margin-top:1px;}
 .add-padding-above-2 {margin-top:2px;}
 .add-padding-above-5 {margin-top:5px;}

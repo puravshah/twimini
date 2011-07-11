@@ -1,5 +1,12 @@
-<li id = "tweetItem_<%= pid %>" >
-    <a href= '/user?uid=<%= uid %>'><%= name %></a> <br />
-    <%= tweet %> <br />
-    <font size = "1">Posted on: <%= timestamp %></font>
-</li>
+<div id = "tweetItem_<%= pid %>" class = "span-15 add-padding-above-10">
+    <div class = "span-2">
+        <a href = "/user?uid=<%= uid %>">
+            <img src = "" />
+        </a>
+    </div>
+    <div class = "span-13 last">
+        <a href= '/user?uid=<%= uid %>'><%= name %></a> <br />
+        <%= tweet %> <br />
+        <font size = "1">Posted on: <%= timestamp %></font>
+    </div>
+</div>

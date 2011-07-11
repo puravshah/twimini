@@ -30,14 +30,9 @@
                 <ul class="navlist" style="font-size:1.2em;">
                     <li class="navlist4"><img src="/static/images/1282.jpg" width="50px" heigth="10px"></li>
                     <li class="navlist3"><a href="/tweet">Home</a></li>
-                    <li class="navlist3"><a href="/user">Profile</a></li>
+                    <li class="navlist3"><a href="/user?uid=<%= session.getAttribute("uid") %>">Profile</a></li>
                 </ul>
-
            </div>
-
-            <div id="notebar" class="corner-round-bottom">
-                welcome
-            </div>
 
 	        <!-- main page area -->
             <div id="page-outer">

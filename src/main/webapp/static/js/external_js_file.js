@@ -69,3 +69,10 @@ function search() {
 	searchText = document.getElementById("searchBox").value;
     alert(searchText);
 }
+
+function toggleDropdown() {
+    if(document.getElementById("dropdown").style.visibility === 'hidden') {
+        document.getElementById("dropdown").style.visibility === 'visible';
+    }
+    else {document.getElementById("dropdown").style.visibility === 'hidden';}
+}

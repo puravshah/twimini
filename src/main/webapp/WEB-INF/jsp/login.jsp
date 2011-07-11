@@ -5,35 +5,35 @@
     <head>
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
     </head>
 
     <body>
-        <h1> Login Page</h1>
-        <div>
-            <h3> ${msg} </h3>
-        </div>
+        <div class = "container">
+            <div>
+                <h3> ${msg} </h3>
+            </div>
 
-        <div>
-            <form action = "/login" method = "POST">
-                <table>
-                    <tr>
-                        <td>Email id</td>
-                        <td><input type = "text" placeholder = "Email" name = "email" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type = "password" placeholder = "Password" name = "password" /></td>
-                    </tr>
-                </table>
-                <input type = "submit" value = "Login" />
-            </form>
-        </div>
+            <div>
+                <form action = "/login" method = "POST">
+                    <div>
+                        <input type = "text" placeholder = "Email" name = "email" />
+                    </div>
+                        <div>
+                            <input type = "password" placeholder = "Password" name = "password" />
+                        </div>
+                    <div>
+                        <input type = "submit" value = "Login" />
+                    </div>
+                </form>
+            </div>
 
-        <div>
-            <h4>
-                Not a user?
-                <a href = "/signup">Sign up</a>
-            </h4>
+            <div>
+                <h4>
+                    Not a user?
+                    <a href = "/signup">Sign up</a>
+                </h4>
+            </div>
         </div>
     </body>
 </html>
