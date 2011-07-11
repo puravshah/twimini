@@ -2,4 +2,3 @@
 twimini.iml
 target/*
 src/main/java/sample/AppConfig.java
-target/classes/sample/AppConfig.class
