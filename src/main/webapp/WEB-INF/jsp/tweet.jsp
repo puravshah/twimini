@@ -15,7 +15,6 @@
     </head>
 
     <body style="background:url(/static/images/bobwood01.jpg)   scroll 0 0 transparent;padding-left:150px">
-
         <div class = "">
             <div id="header" class ="corner-round-all" style=" max-width:1024px;"  >
                 <div style="float:right;">
