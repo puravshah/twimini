@@ -6,35 +6,88 @@
 
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
+       <!-- <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
+        -->
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
+        <body>
+         <!--<div id="header" class ="topHeader ">
+            <div id="tHMB">
+                <div id="tHMF">
+                    <ol class="tHMFE">
+                        <li class="tHMFTP">
+                        <span class="tHMFTVS" style="color:White">
+                            Welcome <%= session.getAttribute("name") %>
+                            <!--<img  src="/static/images/1282.jpg">-->
+                        </span>
+                        </li>
+                        <li class="tHMFT">
+                            <a class="tHMFTV" href="/tweet">
+                                <span class="tHMFTVS">
+                                    Home
+                                </span>
+                            </a>
+                        </li>
+                        <li class="tHMFT">
+                            <a class="tHMFTV" href="/user">
+                                <span class="tHMFTVS">
+                                    Profile
+                                </span>
+                            </a>
+                        </li>
+                        <li class="tHMFT">
+                            <form id="tHMFTV" action="/search/" method="get">
+                                <span class="tHMFTVS">
+                                    <input  type="text"  name="search" />
+                                </span>
+                                <span class="tHMFTVS">
+                                    <input  type = "button" value = "Search" onclick = "search()"/>
+                                </span>
+                            </form>
+                        </li>
+                    </ol>-->
 
-    <body style="background:url(/static/images/bobwood01.jpg)   scroll 0 0 transparent;padding-left:150px">
-        <div class = "">
-            <div id="header" class ="corner-round-all" style=" max-width:1024px;"  >
-                <div style="float:right;">
-                    <form action="/search/" method="get" class ="SearchForm" style="display:inline;">
-                        <input type="text"  size="20" name="search" class="searchField  corner-round-all " id = "searchBox"/>
-                        <input type = "button" value = "Search" class = " searchButton" id = "searchButton" onclick = "search()"/>
-                    </form>
-                    <span style="font-size:1em;color:#fafafc;">
-                        <a style="font-family:Arial;color:#fff" href= "/logout">logout</a>
-                    </span><br>
                 </div>
 
-                <ul class="navlist" style="font-size:1.2em;">
-                    <li class="navlist4"><img src="/static/images/1282.jpg" width="50px" heigth="10px"></li>
-                    <li class="navlist3"><a href="/tweet">Home</a></li>
-                    <li class="navlist3"><a href="/user?uid=<%= session.getAttribute("uid") %>">Profile</a></li>
-                </ul>
-           </div>
+               <!-- <div id="tHMS">
+                   <ol class="tHMSE">
+                       <li class="tHMST">
+                            <a class="tHMSTV" href= "/logout">
+                                <span class="tHMSTVS">
+                                    logout
+                                </span>
+                            </a>
+                       </li>
+                   </ol>
+                </div>
+
+            </div>
+
+         </div>-->
+
+        <div class = "span-24 last">
+            <div class = "span-3">
+                <img src = "" />
+            </div>
+
+            <div class = "span-3">
+                <a href = "/tweet">Home</a>
+            </div>
+
+            <div class = "span-3">
+                <a href = '/user?uid=<%= session.getAttribute("uid") %>'>">Home</a>
+            </div>
+        </div>
+
+
+
 
 	        <!-- main page area -->
+        <div class = "container">
             <div id="page-outer">
                 <div id="page-container" class="corner-round-all">
                     <div>
