@@ -6,151 +6,133 @@
 
 <html>
     <head>
-       <!-- <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        -->
+
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
-        <body>
-         <!--<div id="header" class ="topHeader ">
-            <div id="tHMB">
-                <div id="tHMF">
-                    <ol class="tHMFE">
-                        <li class="tHMFTP">
-                        <span class="tHMFTVS" style="color:White">
-                            Welcome <%= session.getAttribute("name") %>
-                            <!--<img  src="/static/images/1282.jpg">-->
-                        </span>
-                        </li>
-                        <li class="tHMFT">
-                            <a class="tHMFTV" href="/tweet">
-                                <span class="tHMFTVS">
-                                    Home
-                                </span>
-                            </a>
-                        </li>
-                        <li class="tHMFT">
-                            <a class="tHMFTV" href="/user">
-                                <span class="tHMFTVS">
-                                    Profile
-                                </span>
-                            </a>
-                        </li>
-                        <li class="tHMFT">
-                            <form id="tHMFTV" action="/search/" method="get">
-                                <span class="tHMFTVS">
-                                    <input  type="text"  name="search" />
-                                </span>
-                                <span class="tHMFTVS">
-                                    <input  type = "button" value = "Search" onclick = "search()"/>
-                                </span>
-                            </form>
-                        </li>
-                    </ol>-->
+        <body style="background:url(/static/images/social-network-2.jpg);background-size:950px;">
+            <div id="header" class ="topHeader">
+                <div id="tHMB">
 
                 </div>
-
-               <!-- <div id="tHMS">
-                   <ol class="tHMSE">
-                       <li class="tHMST">
-                            <a class="tHMSTV" href= "/logout">
-                                <span class="tHMSTVS">
-                                    logout
-                                </span>
-                            </a>
-                       </li>
-                   </ol>
-                </div>
-
             </div>
 
-         </div>-->
 
-        <div class = "span-24 last">
-            <div class = "span-3">
-                <img src = "" />
-            </div>
-
-            <div class = "span-3">
-                <a href = "/tweet">Home</a>
-            </div>
-
-            <div class = "span-3">
-                <a href = '/user?uid=<%= session.getAttribute("uid") %>'>">Home</a>
-            </div>
-        </div>
-
-
-
-
-	        <!-- main page area -->
-        <div class = "container">
-            <div id="page-outer">
-                <div id="page-container" class="corner-round-all">
-                    <div>
-                        <div class="main-content" style="min-width:282px">
-                            <div>
-                                <input type = "text" name = "tweet" id = "tweetBox" />
-                                <input type = "button" value = "Add" onclick= "createTweet({name:'<%= session.getAttribute("name") %>'})" />
-                            </div>
-
-                            <div>
-                                <div>
-                                    <a href = "javascript:getTweets()">Tweet</a>
-                                    <a href = "javascript:getFollowing()">Following</a>
-                                    <a href = "javascript:getFollowers(<%= session.getAttribute("uid") %>)">Followers</a>
-                                  </div>
-
-                                <div id = "tweetDiv">
-                                    <ul id = 'ListOfTweets'>
-                                        <c:forEach var = 'item' items = '${tweetList}'>
-                                            <script type="text/javascript">
-                                                prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
-                                            </script>
-                                        </c:forEach>
-                                    </ul>
-                                </div>
-
-                                <div id = "followingDiv">
-                                    <ul id = 'ListOfFollowing'>
-                                        <c:forEach var = 'item' items = '${followingList}'>
-                                            <script type="text/javascript">
-                                                appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
-                                            </script>
-                                        </c:forEach>
-                                    </ul>
-                                </div>
-
-                                <div id = "followerDiv">
-
-                                </div>
-                                <script type = "text/javascript">
-                                    $('#followingDiv').hide();
-                                    $('#followerDiv').hide();
-                                </script>
-                            </div>
-                        </div>
+            <div  class="container showgrid">
+                <div class="span-24 last" style="top:0;position:absolute;">
+                    <div class = "span-3 pull-3 ">
+                        <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                     </div>
 
-                    <div class="dashboard">
-                        <div class="component">
-                            <div id = "tweetCount">
-                                <p>
-                                    You have posted
-                                    <a href = "/user?uid=<%= session.getAttribute("uid") %>">${tweetCount} Tweets</a>
-                                </p>
+                    <div class="span-1.5 push-2" style="margin-top:15px;color:white;margin-right:5px">
+                        <a  href="/tweet">
+                            <span>
+                                Home
+                            </span>
+                        </a>
+                    </div>
+                    <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px">
+                        <a  href="/user">
+                            <span>
+                                Profile
+                            </span>
+                        </a>
+                    </div>
+                    <div>
+                        <form action="/search/" method="get" class="span-8"  style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
+                            <div class="span-8" >
+                                <input style="width:100%;padding-top:2px;" type="text"  name="search" />
+                            </div>
+                            <div class="span-2 pull-2">
+                                <input  style="margin-top:7px;background-color:white;height:20px;border:none;" type = "button" value = "Search" onclick = "search()"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="span-4" style="margin-top:17px;height:20px;border:none;font-size:15px;margin-left:20px;margin-right:10px" >
+                        <span  style="color:blue">
+                            Welcome <%= session.getAttribute("name") %>
+                         </span>
+                    </div>
+                    <div>
+                    <a class="span-3 last push-5" href= "/logout" style="margin-top:17px;height:20px;border:none;font-size:15px;">
+                        <span>
+                            logout
+                        </span>
+                    </a>
+                    </div>
+                </div>
+
+
+                <div id="page-outer" style="padding-top:30px;">
+                    <div id="page-container" class="span-24 last" style="background-color:#2D2D2D;">
+                        <div>
+                            <div class="main-content span-14" style="min-width:282px;background-color:#2D2D2D;">
+                                <div>
+                                    <div style="margin-top:10px;margin-left:5px;">
+                                    <span style="font-style:arial;font-size:22px;color:white;">
+                                       what is happening
+                                    </span>
+                                </div>
+                                   <div class="span-14" style="margin-left:10px;">
+                                        <textarea style="width:480px;height:40px;" name="tweet" id="tweetBox"></textarea>
+                                   </div>
+                                   <div class="span-2 " style="float:right;margin-right:10px;">
+                                      <input value="tweet" onclick="createTweet({name:'a'})" type="button">
+                                   </div>
+                                </div>
+
+                                <div class="span-13 header" style="width:540px;margin-top:60px; background-color:black">
+                                    <div class="span-2" style="margin-left:5px;font-size:22px;text-decoration:none;">
+                                        <a href="javascript:getTweets()">Tweet</a>
+                                    </div>
+                                    <div class="span-2" style="font-size:22px;">
+                                      <a href="javascript:getFollowing()">Following</a>
+                                    </div>
+                                    <div class="span-2" style="margin-left:30px;font-size:22px;">
+                                        <a href="javascript:getFollowers(8)">Followers</a>
+                                    </div>
+                                </div>
+                                    <div id="tweetDiv">
+                                        <ul id="ListOfTweets">
+
+                                        </ul>
+                                    </div>
+
+                                    <div style="display: none;" id="followingDiv">
+                                        <ul id="ListOfFollowing">
+
+                                        </ul>
+                                    </div>
+
+                                    <div style="display: none;" id="followerDiv">
+
+                                    </div>
+                                    <script type="text/javascript">
+                                        $('#followingDiv').hide();
+                                        $('#followerDiv').hide();
+                                    </script>
+                                </div>
                             </div>
 
-                            <div id = "followingCount">
-                                <p>
-                                    You are Following
-                                    <a href = "javascript: getFollowing()">${followingCount} People</a>
-                                </p>
-                                <div id = "followingThumbnails">
 
+                            <div class="dashboard">
+                                <div class="component">
+                                    <div id = "tweetCount">
+                                        <p>
+                                            You have posted
+                                            <a href = "/user?uid=<%= session.getAttribute("uid") %>">${tweetCount} Tweets</a>
+                                        </p>
+                                    </div>
+                                 <div id = "followingCount">
+                                    <p>
+                                        You are Following
+                                        <a href = "javascript: getFollowing()">${followingCount} People</a>
+                                    </p>
+                                <div id = "followingThumbnails">
                                 </div>
                             </div>
 
@@ -161,14 +143,13 @@
                                     ${followerCount} Followers
                                     </a>
                                 </p>
-                                <div id = "followerThumbnails">
-
-                                </div>
+                            </div>
+                            <div id = "followerThumbnails">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </body>
+
+        </body>
 </html>

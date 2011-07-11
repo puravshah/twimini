@@ -8,7 +8,9 @@
 #dropdownContainer {
     cursor: pointer;
 }
-
+   .span-1.5{
+    width:55px;
+   }
 #dropdown {
     clear: both;
     postition: absolute;
@@ -22,7 +24,7 @@
 .add-padding-above-5 {margin-top:5px;}
 .add-padding-above-10 {margin-top:10px;}
 .add-padding-above-20 {margin-top:20px;}
-
+.add-padding-above-50 {margin-top:20px;}
 /* body
   {
        width:950px;
@@ -89,13 +91,13 @@
        #tHMB
        {
            font: 13px/27px Arial,sans-serif;
-           height: 30px;
+           height: 50px;
        }
 
        /*top header menu flow setting */
        #tHMF
        {
-               height: 30px;
+               height: 50px;
                position: absolute;
                top: 0;
                white-space: nowrap;
@@ -109,7 +111,7 @@
        /*top header namesettings setting */
        #tHMS
        {
-               height: 30px;
+               height: 50px;
                position: absolute;
                top: 0;
                white-space: nowrap;
@@ -122,7 +124,7 @@
 
 
        /*top header menu element setting */
-       .tHMFE    ,.tHMSE
+       .tHMFE,.tHMSE
        {
 
             display: block;
@@ -135,7 +137,7 @@
        .tHMFT  ,.tHMST  ,.tHMFTP
        {
             display: inline-block;
-            line-height: 27px;
+            line-height: 35px;
             padding: 0;
             position: relative;
             vertical-align: top;
@@ -147,11 +149,15 @@
        }
 
        /*top header menu element tab view setting */
-       .tHMFTV  ,.tHMSTV
+       .tHMFTV  ,.tHMSTV,.tHMSTVU
        {
           cursor: pointer;
           display: block;
           text-decoration: none !important;
+       }
+
+       {
+        width:80px;
        }
 
        #tHMFTF
