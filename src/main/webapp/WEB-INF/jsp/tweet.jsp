@@ -14,51 +14,49 @@
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
-        <body style="background:url(/static/images/social-network-2.jpg);background-size:950px;">
-            <div id="header" class ="topHeader">
+        <body style="background:url(/static/images/social-networking-sites.jpg);background-size:950px;overflow:scroll;">
+            <div id="header" class="topHeader">
                 <div id="tHMB">
 
                 </div>
             </div>
-
-
-            <div  class="container showgrid">
+            <div class="container">
                 <div class="span-24 last" style="top:0;position:absolute;">
-                    <div class = "span-3 pull-3 ">
-                        <img src = "/static/images/logo.png" alt = "Mini Twitter" />
+                    <div class="span-5">
+                        <img src="/static/images/logo.png" alt="Mini Twitter">
                     </div>
 
-                    <div class="span-1.5 push-2" style="margin-top:15px;color:white;margin-right:5px">
-                        <a  href="/tweet">
+                    <div class="span-1" style="margin-top:15px;color:white;margin-right:5px;text-align:center;padding:3px;">
+                        <a href="/tweet">
                             <span>
                                 Home
                             </span>
                         </a>
                     </div>
-                    <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px">
-                        <a  href="/user">
+                    <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px;text-align:center;padding:3px;">
+                        <a href="/user">
                             <span>
                                 Profile
                             </span>
                         </a>
                     </div>
-                    <div>
-                        <form action="/search/" method="get" class="span-8"  style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
-                            <div class="span-8" >
-                                <input style="width:100%;padding-top:2px;" type="text"  name="search" />
+                    <div class="span-8">
+                        <form action="/search/" method="get" class="span-8" style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
+                            <div class="span-7">
+                                <input style="width:100%;padding-top:2px;" type="text" name="search">
                             </div>
-                            <div class="span-2 pull-2">
-                                <input  style="margin-top:7px;background-color:white;height:20px;border:none;" type = "button" value = "Search" onclick = "search()"/>
+                            <div class="span-1 pull-2">
+                                <input style="margin-top:8px;background:transparent;height:20px;border:none;" type="button" value="Search" onclick="search()">
                             </div>
                         </form>
                     </div>
-                    <div class="span-4" style="margin-top:17px;height:20px;border:none;font-size:15px;margin-left:20px;margin-right:10px" >
-                        <span  style="color:blue">
-                            Welcome <%= session.getAttribute("name") %>
+                    <div class="span-4" style="margin-top:17px;height:20px;border:none;font-size:15px;margin-right:10px">
+                        <span style="color:blue">
+                            Welcome a
                          </span>
                     </div>
                     <div>
-                    <a class="span-3 last push-5" href= "/logout" style="margin-top:17px;height:20px;border:none;font-size:15px;">
+                    <a class="span-2 last " href="/logout" style="margin-top:17px;height:20px;border:none;font-size:15px;">
                         <span>
                             logout
                         </span>
@@ -67,7 +65,7 @@
                 </div>
 
 
-                <div id="page-outer" style="padding-top:30px;">
+                <div id="page-outer" style="padding-top:20px;">
                     <div id="page-container" class="span-24 last" style="background-color:#2D2D2D;">
                         <div>
                             <div class="main-content span-14" style="min-width:282px;background-color:#2D2D2D;">
@@ -98,17 +96,21 @@
                                 </div>
                                     <div id="tweetDiv">
                                         <ul id="ListOfTweets">
+                                            <c:forEach var = 'item' items = '${tweetList}'>
+                                                <script type="text/javascript">
+                                                    prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                                </script>
+                                            </c:forEach>
+                                     </ul>
+                                </div>
 
-                                        </ul>
-                                    </div>
-
-                                    <div style="display: none;" id="followingDiv">
+                                    <div style="display: none; " id="followingDiv">
                                         <ul id="ListOfFollowing">
 
                                         </ul>
                                     </div>
 
-                                    <div style="display: none;" id="followerDiv">
+                                    <div style="display: none; " id="followerDiv">
 
                                     </div>
                                     <script type="text/javascript">
@@ -121,35 +123,35 @@
 
                             <div class="dashboard">
                                 <div class="component">
-                                    <div id = "tweetCount">
+                                    <div id="tweetCount">
                                         <p>
                                             You have posted
-                                            <a href = "/user?uid=<%= session.getAttribute("uid") %>">${tweetCount} Tweets</a>
+                                            <a href="/user?uid=8">1 Tweets</a>
                                         </p>
                                     </div>
-                                 <div id = "followingCount">
+                                 <div id="followingCount">
                                     <p>
                                         You are Following
-                                        <a href = "javascript: getFollowing()">${followingCount} People</a>
+                                        <a href="javascript: getFollowing()">0 People</a>
                                     </p>
-                                <div id = "followingThumbnails">
+                                <div id="followingThumbnails">
                                 </div>
                             </div>
 
-                            <div id = "followerCount">
+                            <div id="followerCount">
                                 <p>
                                     You have
-                                    <a href = "javascript:getFollowers({uid:<%= session.getAttribute("uid") %>})">
-                                    ${followerCount} Followers
+                                    <a href="javascript:getFollowers({uid:8})">
+                                    0 Followers
                                     </a>
                                 </p>
                             </div>
-                            <div id = "followerThumbnails">
+                            <div id="followerThumbnails">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </body>
+        </div>
+    </body>
 </html>

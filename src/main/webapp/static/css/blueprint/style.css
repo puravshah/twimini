@@ -323,7 +323,15 @@
 
 
 
-
+ #page-outer {
+    margin: 0 auto;
+    max-width: 1120px;
+    min-width: 1000px;
+    padding-top: 60px;
+}
+body.narrow #page-outer {
+    max-width: 1000px;
+}
 
 
 
@@ -444,7 +452,6 @@
 
 #front-container, #page-container {
     border-radius: 5px 5px 5px 5px;
-    margin: 0 40px;
     max-width: 1040px;
     min-width: 920px;
     overflow: hidden;
