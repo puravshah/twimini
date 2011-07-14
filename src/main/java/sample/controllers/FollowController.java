@@ -31,13 +31,24 @@ import java.util.Map;
 
 @Controller
 public class FollowController {
+    private  final UserService userService;
+    private  final TweetService tweetService;
+    private  final FollowService  followService;
 
+
+    @Autowired
+    public FollowController(UserService userService,FollowService followService,TweetService tweetService)
+    {
+       this.userService=userService;
+        this.followService=followService;
+        this.tweetService=tweetService;
+    }
     @RequestMapping("/user/follower.json") @ResponseBody
     public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
 
         List <UserModel> ret = null;
         try {
-            ret = FollowService.getFollower(uid);
+            ret = followService.getFollower();
             if(ret == null) throw new Exception("Could not render followers");
         }
         catch(Exception e) {
@@ -53,7 +64,7 @@ public class FollowController {
         List<UserModel> ret = null;
 
         try {
-            ret = FollowService.getFollowing(uid);
+            ret = followService.getFollowing();
             if(ret == null) throw new Exception("Could not render following");
         }
         catch(Exception e) {

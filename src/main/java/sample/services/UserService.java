@@ -1,6 +1,7 @@
 package sample.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.UserModel;
@@ -15,23 +16,27 @@ import sample.model.UserModel;
 
 @Service
 public class UserService {
+    private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public UserService(SimpleJdbcTemplate db) {this.db = db;}
+    public UserService(@Qualifier("userID") ThreadLocal<Long> userID ,SimpleJdbcTemplate db) {
+        this.db = db;
+        this.userID=userID;
+    }
 
-    public static UserModel addUser(String name, String email, String password) throws Exception{
+    public UserModel addUser(String name, String email, String password) throws Exception{
         db.update("INSERT INTO user(name,email, password, timestamp) " +
                   "values (?, ?, ?, now())", name, email, password);
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public static UserModel getUser(int Uid) throws  Exception
+    public  UserModel getUser() throws  Exception
     {
-        return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper,Uid);
+        return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper,userID.get());
     }
 
-    public static UserModel getUser(String email, String password) throws Exception {
+    public  UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
 }

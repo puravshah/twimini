@@ -1,5 +1,6 @@
 package sample.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,21 +18,34 @@ import java.util.Hashtable;
 import java.util.List;
 
 @Controller
-public class UserController {
 
+public class UserController {
+    private  final UserService userService;
+    private  final TweetService tweetService;
+    private  final FollowService  followService;
+
+
+    @Autowired
+    public UserController(UserService userService,FollowService followService,TweetService tweetService)
+    {
+       this.userService=userService;
+        this.followService=followService;
+        this.tweetService=tweetService;
+    }
     @RequestMapping("/")
-    public ModelAndView index(HttpSession session) {
-        String uid = (String)session.getAttribute("uid");
+    public ModelAndView index() {
+
         ModelAndView mv = new ModelAndView("/index");
-        if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+       // if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
         return mv;
     }
 
     @RequestMapping("/login")
-    public ModelAndView loginGet(HttpSession session) {
-         String uid = (String)session.getAttribute("uid");
+    public ModelAndView loginGet() {
+
          ModelAndView mv = new ModelAndView();
-         if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+
+        System.out.print("this");
          return mv;
     }
 
@@ -52,7 +66,7 @@ public class UserController {
 
         UserModel m = null;
         try {
-            m = UserService.getUser(email, password);
+            m = userService.getUser(email, password);
             if(m == null) {
                 throw new Exception("Invalid Email id or Password");
             }
@@ -70,7 +84,7 @@ public class UserController {
             }};
         }
 
-        session.setAttribute("uid", "" + m.getUid());
+        session.setAttribute("uid", "" +(Integer)m.getUid());
         session.setAttribute("name", m.getName());
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
@@ -78,7 +92,7 @@ public class UserController {
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signupGet(HttpSession session) {
+    public ModelAndView signupGet() {
         return new ModelAndView();
     }
 
@@ -106,7 +120,7 @@ public class UserController {
 
         UserModel m = null;
         try {
-            m = UserService.addUser(name, email, password);
+            m = userService.addUser(name, email, password);
             if(m == null) throw new Exception("Unable to register user");
         }
         catch(Exception e) {
@@ -117,7 +131,7 @@ public class UserController {
             }};
         }
 
-        session.setAttribute("uid", "" + m.getUid());
+        session.setAttribute("uid", "" + (Integer)m.getUid());
         session.setAttribute("name", m.getName());
         return new ModelAndView() {{
             setViewName("redirect:/tweet");
@@ -126,15 +140,7 @@ public class UserController {
 
     @RequestMapping("/logout")
     ModelAndView logoutMethod(HttpSession session) {
-        String uid = (String)session.getAttribute("uid");
-        if(uid == null) {
-            return new ModelAndView("/login") {{
-                addObject("msg", "You need to login first!");
-            }};
-        }
-
-        session.removeAttribute("uid");
-        session.removeAttribute("username");
+       session.invalidate();
         return new ModelAndView(){{
             setViewName("redirect:/");
         }};
@@ -142,17 +148,10 @@ public class UserController {
 
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
-        String UID = (String)session.getAttribute("uid");
-        if(UID == null || UID.equals("")) {
-            return new ModelAndView("/login") {{
-                addObject("msg", "You need to login first");
-            }};
-        }
-
         ModelAndView mv = new ModelAndView();
         UserModel u = null;
         try {
-            u = UserService.getUser(Integer.parseInt(uid));
+            u = userService.getUser();
             if(u == null) throw new Exception("Invalid User");
         }
         catch(Exception e) {
@@ -161,15 +160,16 @@ public class UserController {
 
         List <TweetModel> tweetList = null;
         List <UserModel> followingList = null, followerList = null;
+
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            tweetList = TweetService.getTweetList(uid);
-            followingList = FollowService.getFollowing(uid);
-            followerList = FollowService.getFollower(uid);
-            tweetCount = TweetService.getTweetCount(uid);
-            followingCount = FollowService.getFollowingCount(uid);
-            followerCount = FollowService.getFollowerCount(uid);
+            tweetList = tweetService.getTweetList(uid);
+            followingList = followService.getFollowing(uid);
+            followerList = followService.getFollower(uid);
+            tweetCount = tweetService.getTweetCount(uid);
+            followingCount = followService.getFollowingCount(uid);
+            followerCount = followService.getFollowerCount(uid);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -192,7 +192,7 @@ public class UserController {
     Hashtable <String, String> unFollow(@RequestParam String unfollowId, HttpSession session) {
         Hashtable <String, String> ret = new Hashtable <String, String> ();
         try {
-            FollowService.removeFollowing((String)session.getAttribute("uid"), unfollowId);
+            followService.removeFollowing(unfollowId);
         }
         catch(Exception e) {
             e.printStackTrace();
