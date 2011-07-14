@@ -71,8 +71,9 @@ function search() {
 }
 
 function toggleDropdown() {
-    if(document.getElementById("dropdown").style.visibility === 'hidden') {
-        document.getElementById("dropdown").style.visibility === 'visible';
-    }
-    else {document.getElementById("dropdown").style.visibility === 'hidden';}
+    $("#dropdown").toggle();
+}
+
+function toggleLoginDropdown() {
+    $("#login-dropdown").toggle();
 }
