@@ -40,40 +40,42 @@
                 </script>
             </div>
 
-            <div id = "signup-left" class = "span-5">
-                <h1>New to Twitter?</h1>
-                <h3>Create a new account here.</h3>
-            </div>
-            <div class = "span-19 last">
-                <div id = "signup-errors">
-                    <h3>${msg}</h3>
+            <div id = "signup-body" class = "span-24 last">
+                <div id = "signup-left" class = "span-6">
+                    <h1>New to Twitter?</h1>
+                    <h3>Create a new <br />account here.</h3>
                 </div>
+                <div class = "span-17 last">
+                    <div id = "signup-errors">
+                        <h3>${msg}</h3>
+                    </div>
 
-                <div class = "span-19">
-                    <form id = "signupForm" action = "/signup" method = "POST">
-                        <div class = "span-10 last">
-                            <input type = "text" placeholder = "Full Name" name = "name" /></td>
-                        </div>
-                        <div class = "span-10 last">
-                            <input type = "text" placeholder = "Email" name = "email" /></td>
-                        </div>
-                        <div class = "span-10 last">
-                            <input type = "password" placeholder = "Password" name = "password" /></td>
-                        </div>
-                        <div class = "span-10 last">
-                            <input type = "password" placeholder = "Confirm Password" name = "cpassword" /></td>
-                        </div>
-                        <div class = "span-10 last">
-                            <input type = "submit" value = "Signup" class = "span-3"/></td>
-                            <a href = "/login">Cancel</a>
-                        </div>
-                    </form>
-                </div>
+                    <div class = "span-17 last">
+                        <form id = "signupForm" action = "/signup" method = "POST">
+                            <div class = "span-10 last">
+                                <input type = "text" placeholder = "Full Name" name = "name" class = "span-7" />
+                            </div>
+                            <div class = "span-10 last">
+                                <input type = "text" placeholder = "Email" name = "email" class = "span-7" />
+                            </div>
+                            <div class = "span-10 last">
+                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
+                            </div>
+                            <div class = "span-10 last">
+                                <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
+                            </div>
+                            <div class = "span-10 last">
+                                <input type = "submit" value = "Create Account" class = "span-7" />
+                            </div>
+                        </form>
+                    </div>
 
-                <div>
-                    <p>All fields are compulsory</p>
+                    <div id = "compulsory-notifier" class = "span-17 last">
+                        <strong>* All fields are compulsory</strong>
+                    </div>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

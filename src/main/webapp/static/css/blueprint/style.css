@@ -1,6 +1,11 @@
 
 /* reset.css */
 
+body {
+    background: url(/static/images/blueGradient.png) !important;
+    background-repeat: repeat-y;
+}
+
 .header {
     background: #3B5998;
     color: white !important;
@@ -40,6 +45,7 @@
 
 #signup-left {
     margin-top: 20px;
+    padding-left: 20px;
 }
 
 #login-text {
@@ -74,6 +80,16 @@ div#login-text: hover {
     border-bottom-left-radius: 10px;
     min-width: 160px;
     max-height: 350px;
+}
+
+
+#compulsory-notifier {
+    color: red;
+    margin-top: 10px;
+}
+
+#signup-body {
+    background: url(/static/images/blueGradient.png);
 }
 
 input[type=text], input[type=password], input[type=email] {
