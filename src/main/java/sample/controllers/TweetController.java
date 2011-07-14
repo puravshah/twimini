@@ -1,5 +1,6 @@
 package sample.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import sample.model.TweetWrapper;
 import sample.model.UserModel;
 import sample.services.FollowService;
 import sample.services.TweetService;
+import sample.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
@@ -24,8 +26,20 @@ import java.util.List;
  */
 
 @Controller
-public class TweetController {
 
+public class TweetController {
+                      private  final UserService userService;
+    private  final TweetService tweetService;
+    private  final FollowService  followService;
+
+
+    @Autowired
+    public TweetController(UserService userService,FollowService followService,TweetService tweetService)
+    {
+       this.userService=userService;
+        this.followService=followService;
+        this.tweetService=tweetService;
+    }
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
         String uid = (String)session.getAttribute("uid");
@@ -40,12 +54,14 @@ public class TweetController {
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            tweetList = TweetService.getFeed(uid);
-            followingList = FollowService.getFollowing(uid);
-            followersList = FollowService.getFollower(uid);
-            tweetCount = TweetService.getTweetCount(uid);
-            followingCount = FollowService.getFollowingCount(uid);
-            followerCount = FollowService.getFollowerCount(uid);
+            tweetList = tweetService.getFeed();
+            for(int x=0;x<tweetList.size();x++)
+            System.out.println(tweetList.get(x).getTweet());
+            followingList = followService.getFollowing();
+            followersList = followService.getFollower();
+            tweetCount = tweetService.getTweetCount();
+            followingCount = followService.getFollowingCount();
+            followerCount = followService.getFollowerCount();
             //if(tweetList == null) throw new Exception("Invalid Tweet List");
         }
         catch(Exception e) {
@@ -87,7 +103,7 @@ public class TweetController {
 
         TweetModel t = null;
         try {
-            t = TweetService.addTweet(uid, tweet);
+            t = tweetService.addTweet(tweet);
             if(t == null) throw new Exception("Invalid tweet");
         }
         catch(Exception e) {
@@ -107,7 +123,7 @@ public class TweetController {
         List<TweetModel> ret = null;
 
         try {
-            ret = TweetService.getTweetList(uid);
+            ret = tweetService.getTweetList();
             if(ret == null) throw new Exception("Could not render tweets");
         }
         catch(Exception e) {

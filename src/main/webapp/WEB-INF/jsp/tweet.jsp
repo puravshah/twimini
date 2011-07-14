@@ -63,12 +63,12 @@
                     </a>
                     </div>
                 </div>
-
-
-                <div id="page-outer" style="padding-top:20px;">
-                    <div id="page-container" class="span-24 last" style="background-color:#2D2D2D;">
-                        <div>
-                            <div class="main-content span-14" style="min-width:282px;background-color:#2D2D2D;">
+                <div id="titleBar" class="corner-round-all corner-round-bottom " style="Background-color:#2D2D2b;margin-top:px">
+                </div>
+                <div id="page-outer" style="padding-top:1px;padding-left:15px">
+                    <div id="page-container" class="span-24 last" style="background-color:#00FFFF;">
+                       <div>
+                           <div class="main-content span-14" style="min-width:282px;background-color:#00FFFF;">
                                 <div>
                                     <div style="margin-top:10px;margin-left:5px;">
                                     <span style="font-style:arial;font-size:22px;color:white;">
