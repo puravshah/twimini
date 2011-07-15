@@ -16,6 +16,15 @@ body {
     margin-top: 30px;
 }
 
+
+.topHeader
+       {
+
+             background-color:#2D2D2D;
+             min-width:960px;
+
+       }
+
 #dropdownText {
     cursor: pointer;
     display: inline-block;
@@ -180,6 +189,151 @@ div#login-text img, div#dropdownText img {
     outline: 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+  body {
+              background-color: #FFFFFF;
+              font: 13px arial,sans-serif;
+              height: 100%;
+              margin: 0;
+              overflow-y: scroll;
+              visibility: visible;
+            }
+
+        .topHeader
+         {
+
+               background-color:#2D2D2D;
+               min-width:960px;
+
+         }
+
+         /*top header menu background setting*/
+         #tHMB
+         {
+             font: 13px/27px Arial,sans-serif;
+             height: 50px;
+         }
+
+         /*top header menu flow setting */
+         #tHMF
+         {
+                 height: 50px;
+                 position: absolute;
+                 top: 0;
+                 white-space: nowrap;
+                 z-index: 1000;
+                 left:0;
+                 padding-left:4px;
+
+
+         }
+
+         /*top header namesettings setting */
+         #tHMS
+         {
+                 height: 50px;
+                 position: absolute;
+                 top: 0;
+                 white-space: nowrap;
+                 z-index: 1000;
+                 padding-right:5px;
+                 right:0;
+                 left:0;
+                 color:#CCCCCC !important;
+         }
+
+
+         /*top header menu element setting */
+         .tHMFE,.tHMSE
+         {
+
+              display: block;
+              list-style: none outside none;
+              margin: 0;
+              padding: 0;
+         }
+
+         /*top header menu element tab setting  */
+         .tHMFT  ,.tHMST  ,.tHMFTP
+         {
+              display: inline-block;
+              line-height: 35px;
+              padding: 0;
+              position: relative;
+              vertical-align: top;
+         }
+
+         .tHMFTP
+         {
+                padding-left:30px
+         }
+
+         /*top header menu element tab view setting */
+         .tHMFTV  ,.tHMSTV,.tHMSTVU
+         {
+            cursor: pointer;
+            display: block;
+            text-decoration: none !important;
+         }
+
+         {
+          width:80px;
+         }
+
+         #tHMFTF
+         {
+            float :left;
+            cursor: pointer;
+            display: block;
+            text-decoration: none !important;
+         }
+         .tHMFTVS ,.tHMFTVS
+             {
+                  border-left: 1px solid transparent;
+                  border-right: 1px solid transparent;
+                  display: block;
+                  padding: 0 5px;
+                  position: relative;
+                  z-index: 1000;
+
+
+
+
+                  color: #3366CC;
+
+
+
+
+                  font-weight: bold;
+             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       .corner-round-all-inner {
       	-webkit-border-radius:6px;
       	-moz-border-radius:6px;
@@ -243,12 +397,6 @@ div#login-text img, div#dropdownText img {
 
 
 
- #header
-  {
-	background:url(/static/images/tblack1.png);
-	margin:0px 0px 0px 0px;
-	padding:10px;
- }
 
 
 
@@ -561,7 +709,7 @@ body.ja .component h2 {
 
 
 
-//------------------------------------------------------------------------------
+
 
 
 .t-section:after {

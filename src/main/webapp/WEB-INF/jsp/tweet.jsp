@@ -8,9 +8,7 @@
     <head>
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
-        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
@@ -67,7 +65,7 @@
                 </div>
                 <div id="page-outer" style="padding-top:1px;padding-left:15px">
                     <div id="page-container" class="span-24 last" style="background-color:#00FFFF;">
-                       <div>
+                       <div style="height:140px;">
                            <div class="main-content span-14" style="min-width:282px;background-color:#00FFFF;">
                                 <div>
                                     <div style="margin-top:10px;margin-left:5px;">
@@ -75,7 +73,7 @@
                                        what is happening
                                     </span>
                                 </div>
-                                   <div class="span-14" style="margin-left:10px;">
+                                   <div class="span-13" style="margin-left:10px;">
                                         <textarea style="width:480px;height:40px;" name="tweet" id="tweetBox"></textarea>
                                    </div>
                                    <div class="span-2 " style="float:right;margin-right:10px;">
@@ -83,7 +81,7 @@
                                    </div>
                                 </div>
 
-                                <div class="span-13 header" style="width:540px;margin-top:60px; background-color:black">
+                                <div class="span-13 header" style="width:540px;margin-top:20px; background-color:black">
                                     <div class="span-2" style="margin-left:5px;font-size:22px;text-decoration:none;">
                                         <a href="javascript:getTweets()">Tweet</a>
                                     </div>

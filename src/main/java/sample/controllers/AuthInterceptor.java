@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-/*
 
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
@@ -45,4 +44,4 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 }
-*/
+
