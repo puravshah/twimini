@@ -1,37 +1,149 @@
 
 /* reset.css */
 
-
-.header {background:#3B5998;}
-.lowerbody {background:url(/static/images/blueGradient.png);}
-
-#dropdownContainer {
-    cursor: pointer;
+body {
+    background: url(/static/images/blueGradient.png) !important;
+    background-repeat: repeat-y;
 }
-   .span-1.5{
-    width:55px;
-   }
+
+.header {
+    background: #3B5998;
+    color: white !important;
+}
+.lowerbody {
+    background:url(/static/images/blueGradient.png);
+    height: 700px;
+    margin-top: 30px;
+}
+
+#dropdownText {
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: underline;
+    padding: 10px 0px 10px 10px;
+    margin-top: -10px;
+}
+
 #dropdown {
-    clear: both;
-    postition: absolute;
-    right: 0;
-    top: -999px;
+    position: absolute;
+    right: 327px;
+    top: 50px;
+    z-index: 2;
     cursor: pointer;
+    background-color: black;
+    width: 80px;
+    padding: 20px;
 }
 
-.add-padding-above-1 {margin-top:1px;}
-.add-padding-above-2 {margin-top:2px;}
-.add-padding-above-5 {margin-top:5px;}
-.add-padding-above-10 {margin-top:10px;}
-.add-padding-above-20 {margin-top:20px;}
-.add-padding-above-50 {margin-top:20px;}
-/* body
-  {
-       width:950px;
-       color:#555555;
-       font-family: Arial,Calibri,Verdana,Helvetica,sans-serif;
-       font-size:13px;
->>>>>>> Stashed changes
+#twitter-logo {
+    padding: 20px 0px 10px 20px;
+}
+
+#login-handler {
+    padding: 20px 0px 10px 20px;
+}
+
+#signup-left {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+#login-text {
+    cursor: pointer;
+    position: relative;
+    right: 0;
+    padding: 20px 0px 20px 0px;
+    margin-left: 20px;
+}
+
+div#login-text: hover {
+    background: #3B5970;
+}
+
+#login-dropdown {
+    clear: both;
+    position: absolute;
+    right: 317px;
+    top: 59px;
+    z-index: 2;
+    padding: 10px 0px 10px 20px;
+    background: #3B5970;
+    /*-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    zoom: 1;*/
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    min-width: 160px;
+    max-height: 350px;
+}
+
+
+#compulsory-notifier {
+    color: red;
+    margin-top: 10px;
+}
+
+#signup-body {
+    background: url(/static/images/blueGradient.png);
+}
+
+input[type=text], input[type=password], input[type=email] {
+    -webkit-border-radius: 20px !important;
+    -moz-border-radius: 20px !important;
+    border-radius: 20px !important;
+    padding: 5px;
+}
+
+input[type=submit] {
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    border-radius: 10px !important;
+    padding: 5px;
+    background: url(/static/images/bg-yellow.jpg);
+}
+
+form#signupForm input {
+    font-size: 15px !important;
+    padding: 10px !important;
+}
+
+div#login-text img, div#dropdownText img {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    left: 4px;
+    top: -1px;
+}
+
+#user-nav-head {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.search-box {
+    position:relative;
+    top: -10px;
+}
+
+.add-margin-above-1 {margin-top:1px;}
+.add-margin-above-2 {margin-top:2px;}
+.add-margin-above-5 {margin-top:5px;}
+.add-margin-above-10 {margin-top:10px;}
+.add-margin-above-20 {margin-top:20px;}
+
+.add-padding-above-1 {padding-top:1px;}
+.add-padding-above-2 {padding-top:2px;}
+.add-padding-above-5 {padding-top:5px;}
+.add-padding-above-10 {padding-top:10px;}
+.add-padding-above-20 {padding-top:20px;}
+.add-padding-10 {padding-top: 10px; padding-bottom: 10px;}
 
 .buttons {
     border-top: 1px solid #96d1f8;
@@ -42,7 +154,6 @@
 
     padding: 5px 10px;
 
-<<<<<<< Updated upstream
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
@@ -68,126 +179,6 @@
     background: #1b435e;
     outline: 0;
 }
-=======
-  */
-          body {
-            background-color: #FFFFFF;
-            font: 13px arial,sans-serif;
-            height: 100%;
-            margin: 0;
-            overflow-y: scroll;
-            visibility: visible;
-          }
-
-      .topHeader
-       {
-
-             background-color:#2D2D2D;
-             min-width:960px;
-
-       }
-
-       /*top header menu background setting*/
-       #tHMB
-       {
-           font: 13px/27px Arial,sans-serif;
-           height: 50px;
-       }
-
-       /*top header menu flow setting */
-       #tHMF
-       {
-               height: 50px;
-               position: absolute;
-               top: 0;
-               white-space: nowrap;
-               z-index: 1000;
-               left:0;
-               padding-left:4px;
-
-
-       }
-
-       /*top header namesettings setting */
-       #tHMS
-       {
-               height: 50px;
-               position: absolute;
-               top: 0;
-               white-space: nowrap;
-               z-index: 1000;
-               padding-right:5px;
-               right:0;
-               left:0;
-               color:#CCCCCC !important;
-       }
-
-
-       /*top header menu element setting */
-       .tHMFE,.tHMSE
-       {
-
-            display: block;
-            list-style: none outside none;
-            margin: 0;
-            padding: 0;
-       }
-
-       /*top header menu element tab setting  */
-       .tHMFT  ,.tHMST  ,.tHMFTP
-       {
-            display: inline-block;
-            line-height: 35px;
-            padding: 0;
-            position: relative;
-            vertical-align: top;
-       }
-
-       .tHMFTP
-       {
-              padding-left:30px
-       }
-
-       /*top header menu element tab view setting */
-       .tHMFTV  ,.tHMSTV,.tHMSTVU
-       {
-          cursor: pointer;
-          display: block;
-          text-decoration: none !important;
-       }
-
-       {
-        width:80px;
-       }
-
-       #tHMFTF
-       {
-          float :left;
-          cursor: pointer;
-          display: block;
-          text-decoration: none !important;
-       }
-       .tHMFTVS ,.tHMFTVS
-           {
-                border-left: 1px solid transparent;
-                border-right: 1px solid transparent;
-                display: block;
-                padding: 0 5px;
-                position: relative;
-                z-index: 1000;
-
-
-
-
-                color: #3366CC;
-
-
-
-
-                font-weight: bold;
-           }
-
-
 
       .corner-round-all-inner {
       	-webkit-border-radius:6px;
@@ -251,6 +242,13 @@
 
 
 
+
+ #header
+  {
+	background:url(/static/images/tblack1.png);
+	margin:0px 0px 0px 0px;
+	padding:10px;
+ }
 
 
 
@@ -323,15 +321,7 @@
 
 
 
- #page-outer {
-    margin: 0 auto;
-    max-width: 1120px;
-    min-width: 1000px;
-    padding-top: 60px;
-}
-body.narrow #page-outer {
-    max-width: 1000px;
-}
+
 
 
 
@@ -452,6 +442,7 @@ body.narrow #page-outer {
 
 #front-container, #page-container {
     border-radius: 5px 5px 5px 5px;
+    margin: 0 40px;
     max-width: 1040px;
     min-width: 920px;
     overflow: hidden;
@@ -570,7 +561,8 @@ body.ja .component h2 {
 
 
 
-/*
+//------------------------------------------------------------------------------
+
 
 .t-section:after {
     clear: both;
@@ -11204,7 +11196,7 @@ a.media-thumbnail {
 }
 
 
-   */
+
 
 
 
@@ -11228,5 +11220,5 @@ a.media-thumbnail {
     overflow: hidden;
     padding: 12px 20px;
     position: relative;
-    font-color:black;
+    background-color:#123456;
 }

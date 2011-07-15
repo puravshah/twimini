@@ -20,9 +20,9 @@ import java.util.List;
 @Controller
 
 public class UserController {
-    private  final UserService userService;
-    private  final TweetService tweetService;
-    private  final FollowService  followService;
+    private final UserService userService;
+    private final TweetService tweetService;
+    private final FollowService  followService;
 
 
     @Autowired
@@ -104,18 +104,18 @@ public class UserController {
                                    HttpSession session) {
 
         if(name.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
-            return new ModelAndView("/index") {{
-                addObject("signupMsg", "Please fill out all the required fields");
+            return new ModelAndView("/signup") {{
+                addObject("msg", "Please fill out all the required fields");
             }};
 
         if(!cpassword.equals(password))
-            return new ModelAndView("/index") {{
-                addObject("signupMsg", "The passwords don't match");
+            return new ModelAndView("/signup") {{
+                addObject("msg", "The passwords don't match");
             }};
 
         /*if(password.length() < 6)
             return new ModelAndView("/signup") {{
-                addObject("signupMsg", "The passwords is too short");
+                addObject("msg", "The passwords is too short");
             }};*/
 
         UserModel m = null;
@@ -126,14 +126,14 @@ public class UserController {
         catch(Exception e) {
             e.printStackTrace();
             final String E = e.toString();
-            return new ModelAndView("/index") {{
-                addObject("signupMsg", "Unable to Signup" + E);
+            return new ModelAndView("/signup") {{
+                addObject("msg", "Unable to Signup" + E);
             }};
         }
 
         session.setAttribute("uid", "" + (Integer)m.getUid());
         session.setAttribute("name", m.getName());
-        return new ModelAndView("/index") {{
+        return new ModelAndView() {{
             setViewName("redirect:/tweet");
         }};
     }

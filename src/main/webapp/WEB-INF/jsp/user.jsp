@@ -13,30 +13,52 @@
 
     <body>
         <div class = "container">
-            <div id = "navigationBar" class = "span-24 last">
-                <a href = "/tweet">Home</a>
-                <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
-                <input type = "text" name = "search" id = "searchBox" />
-                <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
-                <a href = "/user?uid=<%= session.getAttribute("uid") %>"><%= session.getAttribute("name") %></a>
-                <a href= "/logout">logout</a>
+            <div id = "navigationBar" class = "span-24 last header">
+                <div id = "twitter-logo" class = "span-6">
+                    <img src = "/static/images/logo.png" alt = "Mini Twitter" />
+                </div>
 
-                <!--<div id = "dropdown">
+                <div id = "user-nav-head" class span = "18 last">
+                    <div class = "span-2">
+                        <a href = "/tweet">Home</a>
+                    </div>
+
+                    <div class = "span-2">
+                        <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
+                    </div>
+
+                    <div class = "span-9 search-box">
+                        <input type = "text" name = "search" id = "searchBox" />
+                        <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
+                    </div>
+
+                    <div id = "dropdownText" class = "span-2" onclick = "toggleDropdown()">
+                        <span><%= session.getAttribute("name") %></span>
+                        <img src = "/static/images/icon_dropdown_1.png" />
+                    </div>
+                </div>
+                <div id = "dropdown">
                     <ul>
                         <li><a href = "/user/edit?uid=${uid}">Edit Profile</a></li>
                         <li><a href = "/logout">Logout</a></li>
                     </ul>
-                </div>-->
+                </div>
+                <script type = "text/javascript">
+                    var p = $("#dropdownText");
+                    var offset = p.offset();
+                    $('#dropdown').offset({ top: offset.bottom, right: offset.right});
+                    $('#dropdown').hide();
+                </script>
             </div>
 
-            <div class = "add-padding-above-20 span-15">
+            <div class = "add-padding-above-20 span-24">
                 <div id = "leftContainer" class = "span-15">
                     <div id = "profileInfo" class = "span-15 last">
-                        <div id = "photoContainer" class = "span-5">
-                            <a href = ""><img height = "50" width = "50" src = "" /></a>
+                        <div id = "photoContainer" class = "span-3">
+                            <a href = ""><img height = "50" width = "50" src = "/static/images/default-profile-picture.gif" /></a>
                         </div>
 
-                        <div id = "info" class = "span-9 last">
+                        <div id = "info" class = "span-12 last">
                             ${name} <br />
                             ${email}
                         </div>
