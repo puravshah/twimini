@@ -20,9 +20,9 @@ import java.util.List;
 @Controller
 
 public class UserController {
-    private  final UserService userService;
-    private  final TweetService tweetService;
-    private  final FollowService  followService;
+    private final UserService userService;
+    private final TweetService tweetService;
+    private final FollowService  followService;
 
 
     @Autowired

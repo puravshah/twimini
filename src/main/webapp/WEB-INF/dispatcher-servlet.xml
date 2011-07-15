@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:annotation-driven/>
-
+     <!--
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/user/*"/>
@@ -21,7 +21,7 @@
             <bean class="sample.controllers.AuthInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-
+       -->
     <context:component-scan base-package="sample"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
