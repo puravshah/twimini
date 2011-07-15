@@ -45,7 +45,7 @@ public class UserController {
 
          ModelAndView mv = new ModelAndView();
 
-        System.out.print("this");
+
          return mv;
     }
 
@@ -152,6 +152,9 @@ public class UserController {
         UserModel u = null;
         try {
             u = userService.getUser();
+
+            System.out.print(u.getUid());
+
             if(u == null) throw new Exception("Invalid User");
         }
         catch(Exception e) {
@@ -174,7 +177,7 @@ public class UserController {
         catch(Exception e) {
             e.printStackTrace();
         }
-
+          try{
         mv.addObject("uid", uid);
         mv.addObject("name", u.getName());
         mv.addObject("email", u.getEmail());
@@ -184,7 +187,11 @@ public class UserController {
         mv.addObject("tweetCount", tweetCount);
         mv.addObject("followingCount",followingCount);
         mv.addObject("followerCount", followerCount);
-
+          }
+          catch(Exception e)
+          {
+              e.printStackTrace();
+          }
         return mv;
     }
 

@@ -91,7 +91,7 @@
                                       <a href="javascript:getFollowing()">Following</a>
                                     </div>
                                     <div class="span-2" style="margin-left:30px;font-size:22px;">
-                                        <a href="javascript:getFollowers(8)">Followers</a>
+                                        <a href="javascript:getFollowers(${uid})">Followers</a>
                                     </div>
                                 </div>
                                     <div id="tweetDiv">
@@ -106,12 +106,20 @@
 
                                     <div style="display: none; " id="followingDiv">
                                         <ul id="ListOfFollowing">
-
+                                               <c:forEach var = 'item' items = '${followingList}'>
+                                                    <script type="text/javascript">
+                                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                                    </script>
+                                                </c:forEach>
                                         </ul>
                                     </div>
 
                                     <div style="display: none; " id="followerDiv">
-
+                                                <c:forEach var = 'item' items = '${followerList}'>
+                                                    <script type="text/javascript">
+                                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                                    </script>
+                                                </c:forEach>
                                     </div>
                                     <script type="text/javascript">
                                         $('#followingDiv').hide();
@@ -126,13 +134,13 @@
                                     <div id="tweetCount">
                                         <p>
                                             You have posted
-                                            <a href="/user?uid=8">1 Tweets</a>
+                                            <a href="/user?uid=${uid}">${tweetCount} Tweets</a>
                                         </p>
                                     </div>
                                  <div id="followingCount">
                                     <p>
                                         You are Following
-                                        <a href="javascript: getFollowing()">0 People</a>
+                                        <a href="javascript: getFollowing()"> ${followingCount} People</a>
                                     </p>
                                 <div id="followingThumbnails">
                                 </div>
@@ -141,8 +149,8 @@
                             <div id="followerCount">
                                 <p>
                                     You have
-                                    <a href="javascript:getFollowers({uid:8})">
-                                    0 Followers
+                                    <a href="javascript:getFollowers({uid:${uid})">
+                                    ${followerCount} Followers
                                     </a>
                                 </p>
                             </div>
