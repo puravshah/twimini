@@ -5,18 +5,19 @@
     <head>
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
         <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
     </head>
-        <body style="background:url(/static/images/social-networking-sites.jpg);background-size:950px;overflow:scroll;">
+        <body id="bodyStyle">
             <div id="header" class="topHeader">
                 <div id="tHMB">
 
                 </div>
             </div>
             <div class="container">
-                <div class="span-24 last" style="top:0;position:absolute;">
+                <div class="span-24 last" id="containerStyle">
                     <div class="span-5">
                         <img src="/static/images/logo.png" alt="Mini Twitter">
                     </div>
@@ -60,40 +61,52 @@
                 </div>
                 <div id="titleBar" class="corner-round-all corner-round-bottom " style="Background-color:#2D2D2b;margin-top:px">
                 </div>
-                <div id="page-outer" style="padding-top:1px;padding-left:15px">
-                    <div id="page-container" class="span-24 last" style="background-color:#00FFFF;">
-                       <div style="height:140px;">
+                <div id="page-outer" style="padding-top:1px;">
+                    <div id="" class="span-24 last" style="background-color:#00FFFF;margin-left:11px;">
+                       <div style="">
                            <div class="main-content span-14" style="min-width:282px;background-color:#00FFFF;">
-                                <div>
+                                <div class="corner-round-bottom" style="height:140px;background-color:#292929;;position:relative;top:0;padding:5px;" >
                                     <div style="margin-top:10px;margin-left:5px;">
-                                    <span style="font-style:arial;font-size:22px;color:white;">
-                                       what is happening
-                                    </span>
-                                </div>
+                                        <span style="height:40px;font-style:arial;font-size:22px;color:white;">
+                                           what is happening
+                                        </span>
+                                    </div>
                                    <div class="span-13" style="margin-left:10px;">
                                         <textarea style="width:480px;height:40px;" name="tweet" id="tweetBox"></textarea>
                                    </div>
                                    <div class="span-2 " style="float:right;margin-right:10px;">
-                                      <input value="tweet" onclick="createTweet({name:'a'})" type="button">
+                                      <input value="tweet" onclick="createTweet({name:${uid}})" type="button">
                                    </div>
                                 </div>
 
-                                <div class="span-13 header" style="width:540px;margin-top:20px; background-color:black">
-                                    <div class="span-2" style="margin-left:5px;font-size:22px;text-decoration:none;">
-                                        <a href="javascript:getTweets()">Tweet</a>
+                                <div class="span-13 corner-round-all " style="height:80px;padding:1px;width:539px;margin-top:5px; background-color:#333232;text-align:center;">
+                                    <div class="span-4" style="height:80px;margin-left:5px;font-size:22px;text-decoration:none;">
+                                        <a href="javascript:getTweets()" style="text-decoration:none;">
+                                            <span style="text-align:center">
+                                                Tweet
+                                            </span>
+                                        </a>
                                     </div>
-                                    <div class="span-2" style="font-size:22px;">
-                                      <a href="javascript:getFollowing()">Following</a>
+                                    <div class="span-4" style="font-size:22px;height:80px;">
+                                      <a href="javascript:getFollowing()" style="text-decoration:none;">
+                                        <span style="text-align:center">
+                                            Following
+                                        </span>
+                                      </a>
                                     </div>
-                                    <div class="span-2" style="margin-left:30px;font-size:22px;">
-                                        <a href="javascript:getFollowers({uid:${uid}})">Followers</a>
+                                    <div class="span-4" style="margin-left:30px;font-size:22px;height:80px;">
+                                        <a href="javascript:getFollowers({uid:${uid}})" style="text-decoration:none;">
+                                            <span style="text-align:center">
+                                                Followers
+                                            </span>
+                                        </a>
                                     </div>
                                 </div>
                                     <div id="tweetDiv">
                                         <ul id="ListOfTweets">
                                             <c:forEach var = 'item' items = '${tweetList}'>
                                                 <script type="text/javascript">
-                                                    prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                                     prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                                                 </script>
                                             </c:forEach>
                                      </ul>

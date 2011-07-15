@@ -2,10 +2,21 @@
 /* reset.css */
 
 body {
-    background: url(/static/images/blueGradient.png) !important;
+    background: url(/static/images/PlainBlue.jpg) !important;
     background-repeat: repeat-y;
-}
 
+}
+ #bodyStyle
+ {
+    background-size:950px;
+    overflow:scroll;
+ }
+
+#containerStyle
+{
+    top:0;
+    position:absolute;
+}
 .header {
     background: #3B5998;
     color: white !important;
