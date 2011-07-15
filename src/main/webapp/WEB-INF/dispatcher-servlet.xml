@@ -17,6 +17,7 @@
             <mvc:mapping path="/user/*"/>
             <mvc:mapping path="/tweet"/>
              <mvc:mapping path="/tweet/*"/>
+            <mvc:mapping path="/user"/>
 
             <bean class="sample.controllers.AuthInterceptor"/>
         </mvc:interceptor>

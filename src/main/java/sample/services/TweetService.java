@@ -34,11 +34,6 @@ public class TweetService {
         return t;
     }
 
-    public List<TweetModel> getTweetList() throws Exception {
-        List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, userID.get());
-        return l;
-    }
-
     public  List<TweetWrapper> getFeed() throws Exception {
         List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
@@ -47,15 +42,22 @@ public class TweetService {
         return l;
     }
 
-    public  int getTweetCount() {
-        return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", userID.get());
-    }
-    public List<TweetModel> getTweetList(String uid) throws Exception {
+    public List<TweetModel> getTweetList() throws Exception {
         List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, userID.get());
         return l;
     }
+
+    public List<TweetModel> getTweetList(String uid) throws Exception {
+        List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
+        return l;
+    }
+
+    public  int getTweetCount() {
+        return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", userID.get());
+    }
+
     public  int getTweetCount(String uid) {
-            return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", userID.get());
+            return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", uid);
         }
 
 }

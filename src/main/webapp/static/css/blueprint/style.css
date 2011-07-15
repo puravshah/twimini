@@ -11,8 +11,8 @@ body {
     color: white !important;
 }
 .lowerbody {
-    background:url(/static/images/blueGradient.png);
-    height: 700px;
+    /*background:url(/static/images/blueGradient.png);
+    height: 700px;*/
     margin-top: 30px;
 }
 
@@ -25,7 +25,7 @@ body {
 
        }
 
-#dropdownText {
+#dropdown-text {
     cursor: pointer;
     display: inline-block;
     text-decoration: underline;
@@ -35,12 +35,11 @@ body {
 
 #dropdown {
     position: absolute;
-    right: 327px;
+    right: 437px;
     top: 50px;
     z-index: 2;
     cursor: pointer;
     background-color: black;
-    width: 80px;
     padding: 20px;
 }
 
@@ -53,7 +52,7 @@ body {
 }
 
 #signup-left {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     padding-left: 20px;
 }
 
@@ -97,15 +96,20 @@ div#login-text: hover {
     margin-top: 10px;
 }
 
-#signup-body {
-    background: url(/static/images/blueGradient.png);
+#body-container {
+    /*background: url(/static/images/blueGradient.png);*/
+    margin-top: 20px;
+}
+
+#error-box {
+    margin-bottom: 20px;
 }
 
 input[type=text], input[type=password], input[type=email] {
     -webkit-border-radius: 20px !important;
     -moz-border-radius: 20px !important;
     border-radius: 20px !important;
-    padding: 5px;
+    padding: 5px 10px 5px 10px;
 }
 
 input[type=submit] {
@@ -113,15 +117,39 @@ input[type=submit] {
     -moz-border-radius: 10px !important;
     border-radius: 10px !important;
     padding: 5px;
-    background: url(/static/images/bg-yellow.jpg);
+    background: #FA2 url(/static/images/bg-btn-signup.png);
 }
 
-form#signupForm input {
-    font-size: 15px !important;
-    padding: 10px !important;
+form#signup-form input {
+    font-size: 17px !important;
 }
 
-div#login-text img, div#dropdownText img {
+form#form-container input {
+    font-size: 20px !important;
+}
+
+#profile-info {
+    background: #CCCCCC;
+}
+
+#left-container {
+    background: url(/static/images/bg-light-yellow.jpg);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+#right-container {
+    background: url(/static/images/bg-light-yellow.jpg);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+
+div#login-text img, div#dropdown-text img {
     width: 17px;
     height: 17px;
     display: inline-block;
@@ -140,6 +168,8 @@ div#login-text img, div#dropdownText img {
     position:relative;
     top: -10px;
 }
+
+h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
 
 .add-margin-above-1 {margin-top:1px;}
 .add-margin-above-2 {margin-top:2px;}

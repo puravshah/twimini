@@ -28,10 +28,9 @@ import java.util.List;
 @Controller
 
 public class TweetController {
-                      private  final UserService userService;
+    private  final UserService userService;
     private  final TweetService tweetService;
     private  final FollowService  followService;
-
 
     @Autowired
     public TweetController(UserService userService,FollowService followService,TweetService tweetService)
@@ -40,6 +39,7 @@ public class TweetController {
         this.followService=followService;
         this.tweetService=tweetService;
     }
+
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
         String uid = (String)session.getAttribute("uid");

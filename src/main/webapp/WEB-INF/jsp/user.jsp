@@ -13,7 +13,7 @@
 
     <body>
         <div class = "container">
-            <div id = "navigationBar" class = "span-24 last header">
+            <div id = "navigation-bar" class = "span-24 last header">
                 <div id = "twitter-logo" class = "span-6">
                     <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                 </div>
@@ -28,51 +28,50 @@
                     </div>
 
                     <div class = "span-9 search-box">
-                        <input type = "text" name = "search" id = "searchBox" />
-                        <input type = "button" value = "Search" id = "searchButton" onclick = "search()" />
+                        <input type = "text" name = "search" id = "search-box" />
+                        <input type = "button" value = "Search" id = "search-button" onclick = "search()" />
                     </div>
 
-                    <div id = "dropdownText" class = "span-2" onclick = "toggleDropdown()">
+                    <div id = "dropdown-text" class = "span-2" onclick = "toggleDropdown()">
                         <span><%= session.getAttribute("name") %></span>
                         <img src = "/static/images/icon_dropdown_1.png" />
                     </div>
                 </div>
-                <div id = "dropdown">
-                    <ul>
-                        <li><a href = "/user/edit?uid=${uid}">Edit Profile</a></li>
-                        <li><a href = "/logout">Logout</a></li>
-                    </ul>
+                <div id = "dropdown" class = "span-2">
+                    <div class = "span-2 last">
+                        <a href = "/user/edit?uid=${uid}">Edit Profile</a>
+                    </div>
+                    <div class = "span-2 last add-margin-above-20">
+                        <a href = "/logout">Logout</a>
+                    </div>
                 </div>
                 <script type = "text/javascript">
-                    var p = $("#dropdownText");
-                    var offset = p.offset();
-                    $('#dropdown').offset({ top: offset.bottom, right: offset.right});
                     $('#dropdown').hide();
                 </script>
             </div>
 
-            <div class = "add-padding-above-20 span-24">
-                <div id = "leftContainer" class = "span-15">
-                    <div id = "profileInfo" class = "span-15 last">
-                        <div id = "photoContainer" class = "span-3">
-                            <a href = ""><img height = "50" width = "50" src = "/static/images/default-profile-picture.gif" /></a>
+            <div class = "add-margin-above-20 span-24">
+                <div id = "left-container" class = "span-14">
+                    <div id = "profile-info" class = "span-14 last">
+                        <div id = "photo-container" class = "span-4">
+                            <a href = ""><img height = "100" width = "125" src = "/static/images/default-profile-picture.gif" /></a>
                         </div>
 
-                        <div id = "info" class = "span-12 last">
+                        <div id = "info" class = "span-10 last">
                             ${name} <br />
                             ${email}
                         </div>
-
-                        <div class = "span-15 last add-padding-above-5">
-                            <% if( session.getAttribute("uid").equals(request.getAttribute("uid")) ) { %>
-                                <a href = "/user/edit?uid=${uid}">Edit Profile</a>
-                            <% } else { %>
-                                <a href = "/user/follow">Follow</a>
-                            <% } %>
-                        </div>
                     </div>
 
-                    <div class = "span-15 last add-padding-above-20">
+                    <div class = "span-14 last add-padding-above-5">
+                        <% if( session.getAttribute("uid").equals(request.getAttribute("uid")) ) { %>
+                            <a href = "/user/edit?uid=${uid}">Edit Profile</a>
+                        <% } else { %>
+                            <a href = "/user/follow">Follow</a>
+                        <% } %>
+                    </div>
+
+                    <div class = "span-14 last add-padding-above-20">
                         <div class = "span-4">
                             <a href = "javascript:getTweets()">Tweet</a>
                         </div>
@@ -84,8 +83,8 @@
                         </div>
                     </div>
 
-                    <div class = "span-15 last">
-                        <div id = "tweetDiv" class = "span-15 last add-padding-above-20">
+                    <div class = "span-14 last">
+                        <div id = "tweetDiv" class = "span-14 last add-padding-above-20">
                             <div id = 'ListOfTweets'>
                                 <c:forEach var = 'item' items = '${tweetList}'>
                                     <script type="text/javascript">
@@ -95,7 +94,7 @@
                             </div>
                         </div>
 
-                        <div id = "followingDiv" class = "span-15 last add-padding-above-20">
+                        <div id = "followingDiv" class = "span-14 last add-padding-above-20">
                             <ul id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
@@ -105,7 +104,7 @@
                             </ul>
                         </div>
 
-                        <div id = "followerDiv" class = "span-15 last add-padding-above-20">
+                        <div id = "followerDiv" class = "span-14 last add-padding-above-20">
 
                         </div>
 
@@ -117,7 +116,7 @@
                     </div>
                 </div>
 
-                <div id = "rightContainer" class = "span-9 last">
+                <div id = "right-container" class = "span-8 last">
                     <div id = "tweetCount">
                         <p>
                             You have posted

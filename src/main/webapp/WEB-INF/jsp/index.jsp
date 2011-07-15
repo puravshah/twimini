@@ -31,17 +31,16 @@
 
             <div class = "span-24 last lowerbody">
                 <div class = "span-14">
-                    <img src = "/static/images/" height = "250" width = "550" alt = "image here" />
+                    <img src = "/static/images/social-network-2.jpg" height = "325" width = "500" alt = "image here" />
                 </div>
 
                 <div class = "span-7 last">
                     <h3>
-                        Not a user? <em>Sign up here</em>
+                        New user? <em>Sign up here</em>
                     </h3>
                     <hr>
                     <div class = "span-7 last">
-                        <h5>${signupMsg}</h5>
-                        <form id = "signupForm" action = "/signup" method = "POST">
+                        <form id = "signup-form" action = "/signup" method = "POST">
                             <div class = "span-7 last">
                                 <input type = "text" placeholder = "Full Name" name = "name" class = "span-7" />
                             </div>
@@ -54,7 +53,7 @@
                             <div class = "span-7 last">
                                 <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
                             </div>
-                            <div class = "span-7 last">
+                            <div class = "span-7 last add-margin-above-10">
                                 <input type = "submit" value = "Signup" />
                             </div>
                         </form>

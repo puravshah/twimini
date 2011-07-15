@@ -31,12 +31,12 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public  UserModel getUser() throws  Exception
+    public UserModel getUser(String uid) throws  Exception
     {
-        return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper,userID.get());
+        return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper, uid);
     }
 
-    public  UserModel getUser(String email, String password) throws Exception {
+    public UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
 }

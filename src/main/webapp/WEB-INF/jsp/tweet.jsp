@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -32,7 +29,7 @@
                         </a>
                     </div>
                     <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px;text-align:center;padding:3px;">
-                        <a href="/user">
+                        <a href="/user?uid=<%= session.getAttribute("uid") %>">
                             <span>
                                 Profile
                             </span>
@@ -89,14 +86,14 @@
                                       <a href="javascript:getFollowing()">Following</a>
                                     </div>
                                     <div class="span-2" style="margin-left:30px;font-size:22px;">
-                                        <a href="javascript:getFollowers(${uid})">Followers</a>
+                                        <a href="javascript:getFollowers({uid:${uid}})">Followers</a>
                                     </div>
                                 </div>
                                     <div id="tweetDiv">
                                         <ul id="ListOfTweets">
                                             <c:forEach var = 'item' items = '${tweetList}'>
                                                 <script type="text/javascript">
-                                                    prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                                    prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                                                 </script>
                                             </c:forEach>
                                      </ul>
@@ -115,7 +112,7 @@
                                     <div style="display: none; " id="followerDiv">
                                                 <c:forEach var = 'item' items = '${followerList}'>
                                                     <script type="text/javascript">
-                                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
                                                     </script>
                                                 </c:forEach>
                                     </div>
@@ -147,7 +144,7 @@
                             <div id="followerCount">
                                 <p>
                                     You have
-                                    <a href="javascript:getFollowers({uid:${uid})">
+                                    <a href="javascript:getFollowers({uid:${uid}})">
                                     ${followerCount} Followers
                                     </a>
                                 </p>
