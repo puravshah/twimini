@@ -15,7 +15,7 @@
                     <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                 </div>
 
-                <div id = "login-text" class = "span-5">
+                <div id = "login-text" class = "span-5 login-text">
                     <span>New User? <b>Sign up!</b></span>
                 </div>
             </div>

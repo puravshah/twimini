@@ -50,7 +50,7 @@
                 </script>
             </div>
 
-            <div class = "add-margin-above-20 span-24">
+            <div id = "left-right-container" class = "add-margin-above-20 span-24">
                 <div id = "left-container" class = "span-14">
                     <div id = "profile-info" class = "span-14 last">
                         <div id = "photo-container" class = "span-4">
@@ -58,12 +58,12 @@
                         </div>
 
                         <div id = "info" class = "span-10 last">
-                            ${name} <br />
-                            ${email}
+                            <h2>${name} </h2>
+                            <span>${email}</span>
                         </div>
                     </div>
 
-                    <div class = "span-14 last add-padding-above-5">
+                    <div id = "user-edit-follow" class = "span-13 last">
                         <% if( session.getAttribute("uid").equals(request.getAttribute("uid")) ) { %>
                             <a href = "/user/edit?uid=${uid}">Edit Profile</a>
                         <% } else { %>
@@ -71,14 +71,17 @@
                         <% } %>
                     </div>
 
-                    <div class = "span-14 last add-padding-above-20">
-                        <div class = "span-4">
+                    <div id = "tab-container" class = "span-14 last">
+                        <a>
+                            <span class = "span-2 tab">Tweet</span>
+                        </a>
+                        <div class = "span-3 tab">
                             <a href = "javascript:getTweets()">Tweet</a>
                         </div>
-                        <div class = span-4>
+                        <div class = "span-3 tab">
                             <a href = "javascript:getFollowing()">Following</a>
                         </div>
-                        <div class = "span-4 last">
+                        <div class = "span-3 tab last">
                             <a href = "javascript:getFollowers({uid:${uid}})">Followers</a>
                         </div>
                     </div>
@@ -117,6 +120,8 @@
                 </div>
 
                 <div id = "right-container" class = "span-8 last">
+
+
                     <div id = "tweetCount">
                         <p>
                             You have posted

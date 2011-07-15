@@ -75,10 +75,6 @@ body {
     margin-left: 20px;
 }
 
-div#login-text: hover {
-    background: #3B5970;
-}
-
 #login-dropdown {
     clear: both;
     position: absolute;
@@ -140,11 +136,27 @@ form#form-container input {
 }
 
 #profile-info {
-    background: #CCCCCC;
+    /*background: #CFCFCF;*/
+}
+
+#user-edit-follow {
+    background: #F4F4F4;
+    margin-top: 10px;
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#left-right-container {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background: #CFCFCF url(/static/images/bg-light-yellow.jpg);;
 }
 
 #left-container {
-    background: url(/static/images/bg-light-yellow.jpg);
+    background: white;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
@@ -152,13 +164,8 @@ form#form-container input {
 }
 
 #right-container {
-    background: url(/static/images/bg-light-yellow.jpg);
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
     padding: 20px;
 }
-
 
 div#login-text img, div#dropdown-text img {
     width: 17px;
@@ -180,6 +187,30 @@ div#login-text img, div#dropdown-text img {
     top: -10px;
 }
 
+#tab-container {
+    margin-top: 10px;
+    border-bottom: 1px solid;
+}
+
+.tab {
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.tab:hover {
+    cursor: pointer;
+    background: #E0E0E0 !important;
+}
+
+.tweet-row {
+    margin-top: 5px;
+    border-bottom: 1px solid;
+    padding-bottom: 5px;
+}
+
 h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
 
 .add-margin-above-1 {margin-top:1px;}
@@ -197,11 +228,9 @@ h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
 
 .buttons {
     border-top: 1px solid #96d1f8;
-
     background: #3e779d;
     background: -webkit-gradient(linear, left top, left bottom, from(#65a9d7), to(#3e779d));
     background: -moz-linear-gradient(top,  #65a9d7,  #3e779d);
-
     padding: 5px 10px;
 
     -webkit-border-radius: 20px;
@@ -219,44 +248,32 @@ h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
     text-decoration: none;
     vertical-align: middle;
 }
+
 .button:hover {
     border-top-color: #28597a;
     background: #28597a;
     color: #ccc;
 }
+
 .button:active {
     border-top-color: #1b435e;
     background: #1b435e;
     outline: 0;
 }
 
+body {
+    background-color: #FFFFFF;
+    font: 13px arial,sans-serif;
+    height: 100%;
+    margin: 0;
+    overflow-y: scroll;
+    visibility: visible;
+}
 
-
-
-
-
-
-
-
-
-
-
-  body {
-              background-color: #FFFFFF;
-              font: 13px arial,sans-serif;
-              height: 100%;
-              margin: 0;
-              overflow-y: scroll;
-              visibility: visible;
-            }
-
-        .topHeader
-         {
-
-               background-color:#2D2D2D;
-               min-width:960px;
-
-         }
+.topHeader {
+    background-color:#2D2D2D;
+    min-width:960px;
+}
 
          /*top header menu background setting*/
          #tHMB
