@@ -39,7 +39,7 @@
                     <div class="span-8">
                         <form action="/search/" method="get" class="span-8" style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
                             <div class="span-7">
-                                <input style="width:100%;padding-top:2px;" type="text" name="search">
+                                <input style="width:100%;padding-top:2px;" type="text" name="q" id = "search-box">
                             </div>
                             <div class="span-1 pull-2">
                                 <input style="margin-top:8px;background:transparent;height:20px;border:none;" type="button" value="Search" onclick="search()">

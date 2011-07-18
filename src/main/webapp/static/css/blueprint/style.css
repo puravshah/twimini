@@ -1,40 +1,37 @@
-
-/* reset.css */
-
 body {
     background: url(/static/images/PlainBlue.jpg) !important;
     background-repeat: repeat-y;
 
 }
- #bodyStyle
- {
+
+#bodyStyle
+{
     background-size:950px;
     overflow:scroll;
- }
+}
 
 #containerStyle
 {
     top:0;
     position:absolute;
 }
+
 .header {
     background: #3B5998;
     color: white !important;
 }
+
 .lowerbody {
     /*background:url(/static/images/blueGradient.png);
     height: 700px;*/
     margin-top: 30px;
 }
 
+.topHeader{
 
-.topHeader
-       {
-
-             background-color:#2D2D2D;
-             min-width:960px;
-
-       }
+    background-color:#2D2D2D;
+    min-width:960px;
+}
 
 #dropdown-text {
     cursor: pointer;
@@ -52,6 +49,14 @@ body {
     cursor: pointer;
     background-color: black;
     padding: 20px;
+}
+
+#dropdown-text:hover {
+    background: black;
+}
+
+#dropdown-text:active {
+    background: #333333;
 }
 
 #twitter-logo {
@@ -73,6 +78,14 @@ body {
     right: 0;
     padding: 20px 0px 20px 0px;
     margin-left: 20px;
+}
+
+#login-text:hover {
+    background: black;
+}
+
+#login-text:active {
+    background: #333333;
 }
 
 #login-dropdown {
@@ -119,12 +132,17 @@ input[type=text], input[type=password], input[type=email] {
     padding: 5px 10px 5px 10px;
 }
 
-input[type=submit] {
+input[type=submit], input[type=button] {
     -webkit-border-radius: 10px !important;
     -moz-border-radius: 10px !important;
     border-radius: 10px !important;
     padding: 5px;
     background: #FA2 url(/static/images/bg-btn-signup.png);
+    cursor: pointer;
+}
+
+.follow-button {
+    padding: 10px;
 }
 
 form#signup-form input {
@@ -189,26 +207,34 @@ div#login-text img, div#dropdown-text img {
 
 #tab-container {
     margin-top: 10px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #F8F8F8;
 }
 
 .tab {
     padding: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
     cursor: pointer;
+    text-align: center;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    -webkit-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .tab:hover {
     cursor: pointer;
-    background: #E0E0E0 !important;
+    background: #F8F8F8 !important;
 }
 
-.tweet-row {
+.item-row {
     margin-top: 5px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+}
+
+.item-row:hover {
+    background: #F0F0F0;
 }
 
 h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}

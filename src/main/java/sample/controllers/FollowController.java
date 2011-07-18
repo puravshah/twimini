@@ -35,7 +35,6 @@ public class FollowController {
     private  final TweetService tweetService;
     private  final FollowService  followService;
 
-
     @Autowired
     public FollowController(UserService userService,FollowService followService,TweetService tweetService)
     {
@@ -43,6 +42,7 @@ public class FollowController {
         this.followService=followService;
         this.tweetService=tweetService;
     }
+
     @RequestMapping("/user/follower.json") @ResponseBody
     public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
 
@@ -56,8 +56,7 @@ public class FollowController {
             return null;
         }
         return ret;
-     }
-
+    }
 
     @RequestMapping(value = "/user/following.json") @ResponseBody
     public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {

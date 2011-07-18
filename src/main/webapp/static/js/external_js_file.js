@@ -66,8 +66,9 @@ function unfollow(id) {
 }
 
 function search() {
-	searchText = document.getElementById("searchBox").value;
+	searchText = document.getElementById("search-box").value;
     alert(searchText);
+
 }
 
 function toggleDropdown() {

@@ -24,7 +24,6 @@ public class UserController {
     private final TweetService tweetService;
     private final FollowService  followService;
 
-
     @Autowired
     public UserController(UserService userService,FollowService followService,TweetService tweetService)
     {
@@ -32,6 +31,7 @@ public class UserController {
         this.followService=followService;
         this.tweetService=tweetService;
     }
+
     @RequestMapping("/")
     public ModelAndView index() {
 
@@ -42,11 +42,7 @@ public class UserController {
 
     @RequestMapping("/login")
     public ModelAndView loginGet() {
-
-         ModelAndView mv = new ModelAndView();
-
-
-         return mv;
+         return new ModelAndView();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -175,21 +171,21 @@ public class UserController {
         catch(Exception e) {
             e.printStackTrace();
         }
-          try{
-        mv.addObject("uid", uid);
-        mv.addObject("name", u.getName());
-        mv.addObject("email", u.getEmail());
-        mv.addObject("tweetList", tweetList);
-        mv.addObject("followingList", followingList);
-        mv.addObject("followerList", followerList);
-        mv.addObject("tweetCount", tweetCount);
-        mv.addObject("followingCount",followingCount);
-        mv.addObject("followerCount", followerCount);
-          }
-          catch(Exception e)
-          {
-              e.printStackTrace();
-          }
+
+        try {
+            mv.addObject("uid", uid);
+            mv.addObject("name", u.getName());
+            mv.addObject("email", u.getEmail());
+            mv.addObject("tweetList", tweetList);
+            mv.addObject("followingList", followingList);
+            mv.addObject("followerList", followerList);
+            mv.addObject("tweetCount", tweetCount);
+            mv.addObject("followingCount",followingCount);
+            mv.addObject("followerCount", followerCount);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         return mv;
     }
 
@@ -203,6 +199,20 @@ public class UserController {
             e.printStackTrace();
         }
         ret.put("msg", "sucess");
+        return ret;
+    }
+
+    @RequestMapping("/search") @ResponseBody
+    List <UserModel> search(@RequestParam String q, HttpSession session) {
+        List <UserModel> ret = null;
+        try {
+            ret = userService.getSearch(q);
+            if(ret == null) throw new Exception("Null returned in search");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
         return ret;
     }
 }

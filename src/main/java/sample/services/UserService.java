@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.UserModel;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: purav.s
@@ -38,5 +40,9 @@ public class UserService {
 
     public UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
+    }
+
+    public List<UserModel> getSearch(String query) throws Exception {
+        return db.query("SELECT DISTINCT * FROM user WHERE name = %?% or email = %?%", UserModel.rowMapper, query, query);
     }
 }
