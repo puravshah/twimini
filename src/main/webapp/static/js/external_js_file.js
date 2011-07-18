@@ -30,9 +30,15 @@ function appendFollower(data) {
 }
 
 function getFeed() {
-	$('#tweetDiv2').show();
-    $('#followingDiv2').hide();
-    $('#followerDiv2').hide();
+	$('#tweetDiv').show();
+    $('#followingDiv').hide();
+    $('#followerDiv').hide();
+
+    var divs = document.getElementById("tab-container").getElementsByTagName("div");
+    var newClass = "span-2 tab tab-active";
+    divs[0].setAttribute("class", newClass);
+    divs[1].setAttribute("class", "span-2 tab");
+    divs[2].setAttribute("class", "span-2 tab last");
 }
 
 function getTweets() {

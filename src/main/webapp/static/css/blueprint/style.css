@@ -3,6 +3,12 @@ body {
     background-repeat: repeat-y;
 }
 
+textarea {
+    width: 450px !important;
+    height: 70px !important;
+    padding: 10px !important;
+}
+
 #bodyStyle
 {
     background-size:950px;

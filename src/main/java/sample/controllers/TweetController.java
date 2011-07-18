@@ -50,28 +50,27 @@ public class TweetController {
         }
 
         List <TweetWrapper> tweetList = null;
-        List <UserModel> followingList = null, followersList = null;
+        List <UserModel> followingList = null, followerList = null;
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            tweetList  = tweetService.getFeed();
+            tweetList = tweetService.getFeed();
             followingList = followService.getFollowing();
-            followersList = followService.getFollower();
+            followerList = followService.getFollower();
             tweetCount = tweetService.getTweetCount();
             followingCount = followService.getFollowingCount();
             followerCount = followService.getFollowerCount();
-            //if(tweetList == null) throw new Exception("Invalid Tweet List");
         }
         catch(Exception e) {
             e.printStackTrace();
         }
 
         ModelAndView mv = new ModelAndView();
+        mv.addObject("uid", uid);
         mv.addObject("name", session.getAttribute("name"));
         mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
-        mv.addObject("followersList", followersList);
-        mv.addObject("uid", uid);
+        mv.addObject("followerList", followerList);
         mv.addObject("tweetCount", tweetCount);
         mv.addObject("followingCount",followingCount);
         mv.addObject("followerCount", followerCount);

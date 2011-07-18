@@ -1,3 +1,4 @@
+
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -9,165 +10,169 @@
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
     </head>
-        <body id="bodyStyle">
-            <div id="header" class="topHeader">
-                <div id="tHMB">
 
+    <body>
+        <div class = "container">
+            <div id = "navigation-bar" class = "span-24 last header">
+                <div id = "twitter-logo" class = "span-6">
+                    <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                 </div>
+
+                <div id = "user-nav-head" class span = "18 last">
+                    <div class = "span-2">
+                        <a href = "/tweet">Home</a>
+                    </div>
+
+                    <div class = "span-2">
+                        <a href = "/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
+                    </div>
+
+                    <div class = "span-9 search-box">
+                        <input type = "text" name = "q" id = "search-box" />
+                        <input type = "button" value = "Search" id = "search-button" onclick = "search()" />
+                    </div>
+
+                    <div id = "dropdown-text" class = "span-2" onclick = "toggleDropdown()">
+                        <a href = "#"><%= session.getAttribute("name") %></a>
+                        <img src = "/static/images/icon_dropdown_1.png" />
+                    </div>
+                </div>
+
+                <div id = "dropdown" class = "span-2">
+                    <div class = "span-2 last">
+                        <a href = "/user/edit?uid=${uid}">Edit Profile</a>
+                    </div>
+                    <div class = "span-2 last add-margin-above-20">
+                        <a href = "/logout">Logout</a>
+                    </div>
+                </div>
+                <script type = "text/javascript">
+                    $('#dropdown').hide();
+                </script>
             </div>
-            <div class="container">
-                <div class="span-24 last" id="containerStyle">
-                    <div class="span-5">
-                        <img src="/static/images/logo.png" alt="Mini Twitter">
+
+            <div id = "left-right-container" class = "add-margin-above-20 span-24">
+                <div id = "left-container" class = "span-14">
+                    <div class = "span-14 last">
+                        <div class = "span-14 last">
+                            <h3>Post a tweet</h3>
+                        </div>
+
+                        <div class = "span-12">
+                            <textarea name="tweet" id = "tweetBox" height = '20' width = '70'></textarea>
+                        </div>
+
+                        <div class="span-2 last add-margin-above-20">
+                            <input value = "Tweet" onclick = "createTweet({name:${uid}})" type="button" />
+                        </div>
                     </div>
 
-                    <div class="span-1" style="margin-top:15px;color:white;margin-right:5px;text-align:center;padding:3px;">
-                        <a href="/tweet">
-                            <span>
-                                Home
-                            </span>
-                        </a>
+                    <div id = "tab-container" class = "span-14 last">
+                        <div class = "span-2 tab tab-active" onclick = "getFeed();">
+                            <span>Feed</span>
+                        </div>
+                        <div class = "span-2 tab" onclick = "getFollowing();">
+                            <span>Following</span>
+                        </div>
+                        <div class = "span-2 tab last" onclick = "getFollowers();">
+                            <span>Followers</span>
+                        </div>
                     </div>
-                    <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px;text-align:center;padding:3px;">
-                        <a href="/user?uid=<%= session.getAttribute("uid") %>">
-                            <span>
-                                Profile
-                            </span>
-                        </a>
-                    </div>
-                    <div class="span-8">
-                        <form action="/search/" method="get" class="span-8" style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
-                            <div class="span-7">
-                                <input style="width:100%;padding-top:2px;" type="text" name="q" id = "search-box">
-                            </div>
-                            <div class="span-1 pull-2">
-                                <input style="margin-top:8px;background:transparent;height:20px;border:none;" type="button" value="Search" onclick="search()">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="span-4" style="margin-top:17px;height:20px;border:none;font-size:15px;margin-right:10px">
-                        <span style="color:blue">
-                            Welcome a
-                         </span>
-                    </div>
-                    <div>
-                    <a class="span-2 last " href="/logout" style="margin-top:17px;height:20px;border:none;font-size:15px;">
-                        <span>
-                            logout
-                        </span>
-                    </a>
-                    </div>
-                </div>
-                <div id="titleBar" class="corner-round-all corner-round-bottom " style="Background-color:#2D2D2b;margin-top:px">
-                </div>
-                <div id="page-outer" style="padding-top:1px;">
-                    <div id="" class="span-24 last" style="background-color:#00FFFF;margin-left:11px;">
-                       <div style="">
-                           <div class="main-content span-14" style="min-width:282px;background-color:#00FFFF;">
-                                <div class="corner-round-bottom" style="height:140px;background-color:#292929;;position:relative;top:0;padding:5px;" >
-                                    <div style="margin-top:10px;margin-left:5px;">
-                                        <span style="height:40px;font-style:arial;font-size:22px;color:white;">
-                                           what is happening
-                                        </span>
-                                    </div>
-                                   <div class="span-13" style="margin-left:10px;">
-                                        <textarea style="width:480px;height:40px;" name="tweet" id="tweetBox"></textarea>
-                                   </div>
-                                   <div class="span-2 " style="float:right;margin-right:10px;">
-                                      <input value="tweet" onclick="createTweet({name:${uid}})" type="button">
-                                   </div>
-                                </div>
 
-                                <div class="span-13 corner-round-all " style="height:80px;padding:1px;width:539px;margin-top:5px; background-color:#333232;text-align:center;">
-                                    <div class="span-4" style="height:80px;margin-left:5px;font-size:22px;text-decoration:none;">
-                                        <a href="javascript:getTweets()" style="text-decoration:none;">
-                                            <span style="text-align:center">
-                                                Tweet
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="span-4" style="font-size:22px;height:80px;">
-                                      <a href="javascript:getFollowing()" style="text-decoration:none;">
-                                        <span style="text-align:center">
-                                            Following
-                                        </span>
-                                      </a>
-                                    </div>
-                                    <div class="span-4" style="margin-left:30px;font-size:22px;height:80px;">
-                                        <a href="javascript:getFollowers({uid:${uid}})" style="text-decoration:none;">
-                                            <span style="text-align:center">
-                                                Followers
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                                    <div id="tweetDiv">
-                                        <ul id="ListOfTweets">
-                                            <c:forEach var = 'item' items = '${tweetList}'>
-                                                <script type="text/javascript">
-                                                     prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
-                                                </script>
-                                            </c:forEach>
-                                     </ul>
-                                </div>
-
-                                    <div style="display: none; " id="followingDiv">
-                                        <ul id="ListOfFollowing">
-                                               <c:forEach var = 'item' items = '${followingList}'>
-                                                    <script type="text/javascript">
-                                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
-                                                    </script>
-                                                </c:forEach>
-                                        </ul>
-                                    </div>
-
-                                    <div style="display: none; " id="followerDiv">
-                                                <c:forEach var = 'item' items = '${followerList}'>
-                                                    <script type="text/javascript">
-                                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
-                                                    </script>
-                                                </c:forEach>
-                                    </div>
+                    <div class = "span-14 last">
+                        <div id = "tweetDiv" class = "span-14 last add-padding-above-20">
+                            <div id = 'ListOfTweets'>
+                                <c:forEach var = 'item' items = '${tweetList}'>
                                     <script type="text/javascript">
-                                        $('#followingDiv').hide();
-                                        $('#followerDiv').hide();
+                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
                                     </script>
-                                </div>
+                                </c:forEach>
                             </div>
+                        </div>
 
+                        <div id = "followingDiv" class = "span-14 last add-padding-above-20">
+                            <div id = 'ListOfFollowing'>
+                                <c:forEach var = 'item' items = '${followingList}'>
+                                    <script type="text/javascript">
+                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                    </script>
+                                </c:forEach>
+                            </div>
+                        </div>
 
-                            <div class="dashboard">
-                                <div class="component">
-                                    <div id="tweetCount">
-                                        <p>
-                                            You have posted
-                                            <a href="/user?uid=${uid}">${tweetCount} Tweets</a>
-                                        </p>
-                                    </div>
-                                 <div id="followingCount">
-                                    <p>
-                                        You are Following
-                                        <a href="javascript: getFollowing()"> ${followingCount} People</a>
-                                    </p>
-                                <div id="followingThumbnails">
-                                </div>
+                        <div id = "followerDiv" class = "span-14 last add-padding-above-20">
+                            <div id = 'ListOfFollower'>
+                                <c:forEach var = 'item' items = '${followerList}'>
+                                    <script type="text/javascript">
+                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                    </script>
+                                </c:forEach>
                             </div>
+                        </div>
 
-                            <div id="followerCount">
-                                <p>
-                                    You have
-                                    <a href="javascript:getFollowers({uid:${uid}})">
-                                    ${followerCount} Followers
-                                    </a>
-                                </p>
-                            </div>
-                            <div id="followerThumbnails">
-                            </div>
+                        <script type = "text/javascript">
+                            $('#followingDiv').hide();
+                            $('#followerDiv').hide();
+                        </script>
+
+                    </div>
+                </div>
+
+                <div id = "right-container" class = "span-8 last">
+                    <div class = "span-8 last">
+                        <h2>About You</h2>
+                    </div>
+
+                    <div class = "span-8 last add-margin-above-20">
+                        <div class = "span-2 colborder">
+                            <a href = "/user?uid=${uid}">Tweets<br />${tweetCount}</a>
+                        </div>
+
+                        <div class = "span-2 colborder">
+                            <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
+                        </div>
+
+                        <div class = "span-2 last">
+                            <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
+                        </div>
+                    </div>
+
+                    <div id = "follower-thumbs" class = "span-8 last">
+                        <div class = "span-8 last">
+                            <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
+                        </div>
+
+                        <div class = "span-8 last">
+                            <ul id = "following-thumbs-container">
+                                <c:forEach var = 'item' items = '${followerList}'>
+                                    <script type = "text/javascript">
+                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}} );
+                                        var thumbLi = $(html);
+                                        $('#following-thumbs-container').append(thumbLi);
+                                    </script>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
+
+                     <div id = "following-thumbs" class = "span-8 last">
+                        <div class = "span-8 last">
+                            <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
+                        </div>
+
+                        <div class = "span-8 last">
+                            <ul id = "follower-thumbs-container">
+                                <script type = "text/javascript">
+
+                                </script>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </body>
 </html>

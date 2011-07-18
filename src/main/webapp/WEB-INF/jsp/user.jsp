@@ -153,9 +153,13 @@
 
                         <div class = "span-8 last">
                             <ul id = "following-thumbs-container">
-                                <script type = "text/javascript">
-
-                                </script>
+                                <c:forEach var = 'item' items = '${followerList}'>
+                                    <script type = "text/javascript">
+                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}} );
+                                        var thumbLi = $(html);
+                                        $('#following-thumbs-container').append(thumbLi);
+                                    </script>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -173,36 +177,6 @@
                             </ul>
                         </div>
                     </div>
-
-                    <!--
-                    <div id = "tweetCount">
-                        <p>
-                            You have posted
-                            <a href = "javascript: getTweets()">${tweetCount} Tweets</a>
-                        </p>
-                    </div>
-
-                    <div id = "followingCount">
-                        <p>
-                            You are Following
-                            <a href = "javascript: getFollowing()">${followingCount} People</a>
-                            <div id = "followingThumbnails">
-
-                            </div>
-                        </p>
-                    </div>
-
-                    <div id = "followerCount">
-                        <p>
-                            You have
-                            <a href = "javascript:getFollowers({uid:<%= session.getAttribute("uid") %>})">
-                                ${followerCount} Followers
-                            </a>
-                        </p>
-                        <div id = "followerThumbnails">
-
-                        </div>
-                    </div>-->
                 </div>
             </div>
 
