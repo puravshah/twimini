@@ -153,9 +153,9 @@
 
                         <div class = "span-8 last">
                             <ul id = "following-thumbs-container">
-                                <c:forEach var = 'item' items = '${followerList}'>
+                                <c:forEach var = 'item' items = '${followingList}'>
                                     <script type = "text/javascript">
-                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}} );
+                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
                                         var thumbLi = $(html);
                                         $('#following-thumbs-container').append(thumbLi);
                                     </script>
@@ -171,9 +171,13 @@
 
                         <div class = "span-8 last">
                             <ul id = "follower-thumbs-container">
-                                <script type = "text/javascript">
-
-                                </script>
+                                <c:forEach var = 'item' items = '${followerList}'>
+                                    <script type = "text/javascript">
+                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
+                                        var thumbLi = $(html);
+                                        $('#follower-thumbs-container').append(thumbLi);
+                                    </script>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
