@@ -1,25 +1,17 @@
 package sample.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import sample.model.FollowModel;
-import sample.model.TweetModel;
 import sample.model.UserModel;
 import sample.services.FollowService;
 import sample.services.TweetService;
 import sample.services.UserService;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.http.HTTPBinding;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,7 +30,7 @@ public class FollowController {
     @Autowired
     public FollowController(UserService userService,FollowService followService,TweetService tweetService)
     {
-       this.userService=userService;
+        this.userService=userService;
         this.followService=followService;
         this.tweetService=tweetService;
     }

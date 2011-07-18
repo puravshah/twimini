@@ -34,10 +34,11 @@
                     </div>
 
                     <div id = "dropdown-text" class = "span-2" onclick = "toggleDropdown()">
-                        <span><%= session.getAttribute("name") %></span>
+                        <a href = "#"><%= session.getAttribute("name") %></a>
                         <img src = "/static/images/icon_dropdown_1.png" />
                     </div>
                 </div>
+
                 <div id = "dropdown" class = "span-2">
                     <div class = "span-2 last">
                         <a href = "/user/edit?uid=${uid}">Edit Profile</a>
@@ -73,14 +74,14 @@
                     </div>
 
                     <div id = "tab-container" class = "span-14 last">
-                        <div class = "span-2 tab">
-                            <a href = "javascript:getTweets()">Tweet</a>
+                        <div class = "span-2 tab tab-active" onclick = "getTweets();">
+                            <span>Tweet</span>
                         </div>
-                        <div class = "span-2 tab" >
-                            <a href = "javascript:getFollowing()">Following</a>
+                        <div class = "span-2 tab" onclick = "getFollowing();">
+                            <span>Following</span>
                         </div>
-                        <div class = "span-2 tab last">
-                            <a href = "javascript:getFollowers({uid:${uid}})">Followers</a>
+                        <div class = "span-2 tab last" onclick = "getFollowers();">
+                            <span>Followers</span>
                         </div>
                     </div>
 
@@ -106,7 +107,13 @@
                         </div>
 
                         <div id = "followerDiv" class = "span-14 last add-padding-above-20">
-
+                            <div id = 'ListOfFollower'>
+                                <c:forEach var = 'item' items = '${followerList}'>
+                                    <script type="text/javascript">
+                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                    </script>
+                                </c:forEach>
+                            </div>
                         </div>
 
                         <script type = "text/javascript">
@@ -118,12 +125,56 @@
                 </div>
 
                 <div id = "right-container" class = "span-8 last">
-                    <div>
-                        <span>
-
-                        </span>
+                    <div class = "span-8 last">
+                        <h2>
+                            About
+                            <% out.println(session.getAttribute("uid").equals(request.getAttribute("uid")) ? "You" : request.getAttribute("name").toString()); %>
+                        </h2>
                     </div>
 
+                    <div class = "span-8 last add-margin-above-20">
+                        <div class = "span-2 colborder">
+                            <a href = "javascript:getTweets()">Tweets<br />${tweetCount}</a>
+                        </div>
+
+                        <div class = "span-2 colborder">
+                            <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
+                        </div>
+
+                        <div class = "span-2 last">
+                            <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
+                        </div>
+                    </div>
+
+                    <div id = "follower-thumbs" class = "span-8 last">
+                        <div class = "span-8 last">
+                            <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
+                        </div>
+
+                        <div class = "span-8 last">
+                            <ul id = "following-thumbs-container">
+                                <script type = "text/javascript">
+
+                                </script>
+                            </ul>
+                        </div>
+                    </div>
+
+                     <div id = "following-thumbs" class = "span-8 last">
+                        <div class = "span-8 last">
+                            <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
+                        </div>
+
+                        <div class = "span-8 last">
+                            <ul id = "follower-thumbs-container">
+                                <script type = "text/javascript">
+
+                                </script>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--
                     <div id = "tweetCount">
                         <p>
                             You have posted
@@ -151,7 +202,7 @@
                         <div id = "followerThumbnails">
 
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
