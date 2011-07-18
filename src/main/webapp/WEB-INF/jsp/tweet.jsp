@@ -22,22 +22,22 @@
                         <img src="/static/images/logo.png" alt="Mini Twitter">
                     </div>
 
-                    <div class="span-1" style="margin-top:15px;color:white;margin-right:5px;text-align:center;padding:3px;">
+                    <div id="homeDiv" class="span-1" >
                         <a href="/tweet">
                             <span>
                                 Home
                             </span>
                         </a>
                     </div>
-                    <div class="span-1" style="margin-top:15px;color:white;margin-left:10px;margin-right:10px;text-align:center;padding:3px;">
+                    <div id="profileDiv" class="span-1" >
                         <a href="/user?uid=<%= session.getAttribute("uid") %>">
                             <span>
                                 Profile
                             </span>
                         </a>
                     </div>
-                    <div class="span-8">
-                        <form action="/search/" method="get" class="span-8" style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
+                    <div id="formDiv" class="span-8">
+                        <form id="formTab" action="/search/" method="get" class="span-8" style="margin-top:8px;color:white;margin-left:20px;margin-right:10px">
                             <div class="span-7">
                                 <input style="width:100%;padding-top:2px;" type="text" name="search">
                             </div>
