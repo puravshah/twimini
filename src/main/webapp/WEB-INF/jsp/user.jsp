@@ -133,25 +133,25 @@
                     </div>
 
                     <div class = "span-8 last add-margin-above-20">
-                        <div class = "span-2 colborder">
+                        <div class = "span-2 colborder center-text">
                             <a href = "javascript:getTweets()">Tweets<br />${tweetCount}</a>
                         </div>
 
-                        <div class = "span-2 colborder">
+                        <div class = "span-2 colborder center-text">
                             <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
                         </div>
 
-                        <div class = "span-2 last">
+                        <div class = "span-2 last center-text">
                             <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
                         </div>
                     </div>
 
-                    <div id = "follower-thumbs" class = "span-8 last">
+                    <div id = "following-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
                             <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
                         </div>
 
-                        <div class = "span-8 last">
+                        <div class = "span-8 last add-margin-above-10">
                             <ul id = "following-thumbs-container">
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type = "text/javascript">
@@ -164,12 +164,12 @@
                         </div>
                     </div>
 
-                     <div id = "following-thumbs" class = "span-8 last">
+                     <div id = "follower-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
                             <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
                         </div>
 
-                        <div class = "span-8 last">
+                        <div class = "span-8 last add-margin-above-10">
                             <ul id = "follower-thumbs-container">
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type = "text/javascript">

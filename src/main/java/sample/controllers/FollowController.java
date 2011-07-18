@@ -25,7 +25,7 @@ import java.util.List;
 public class FollowController {
     private  final UserService userService;
     private  final TweetService tweetService;
-    private  final FollowService  followService;
+    private  final FollowService followService;
 
     @Autowired
     public FollowController(UserService userService,FollowService followService,TweetService tweetService)

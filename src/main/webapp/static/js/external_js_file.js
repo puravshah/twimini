@@ -1,9 +1,10 @@
 function createTweet(datas) {
 	name = datas.name;
+    alert("here");
     $.ajax({
 		url: "/tweet/create.json",
         type: "POST",
-        data: "tweet=" + document.getElementById("tweetBox").value,
+        data: "tweet=" + document.getElementById("tweet-box").value,
         success: function(data) {
 			data.name = name;
             prependTweet(data);
@@ -109,4 +110,20 @@ function toggleDropdown() {
 
 function toggleLoginDropdown() {
     $("#login-dropdown").toggle();
+}
+
+function validate(data) {
+    var valid = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-.";
+    for(var i = data.length() - 1; i >= 0; i--)
+    {
+        var ok = 0;
+        for(var j = valid.length() - 1; j >= 0; j--)
+            if(valid[j] == data[i]) {
+                ok = 1;
+                break;
+            }
+        if(ok == 0) return false;
+    }
+
+    return true;
 }

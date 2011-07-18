@@ -61,11 +61,11 @@
                         </div>
 
                         <div class = "span-12">
-                            <textarea name="tweet" id = "tweetBox" height = '20' width = '70'></textarea>
+                            <textarea name="tweet" id = "tweet-box" height = '20' width = '70'></textarea>
                         </div>
 
                         <div class="span-2 last add-margin-above-20">
-                            <input value = "Tweet" onclick = "createTweet({name:${uid}})" type="button" />
+                            <input value = "Tweet" onclick = "createTweet({name:${name}})" type="button" />
                         </div>
                     </div>
 
@@ -139,12 +139,12 @@
                         </div>
                     </div>
 
-                    <div id = "follower-thumbs" class = "span-8 last">
+                    <div id = "following-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
                             <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
                         </div>
 
-                        <div class = "span-8 last">
+                        <div class = "span-8 last add-margin-above-10">
                             <ul id = "following-thumbs-container">
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type = "text/javascript">
@@ -157,7 +157,7 @@
                         </div>
                     </div>
 
-                     <div id = "following-thumbs" class = "span-8 last">
+                     <div id = "follower-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
                             <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
                         </div>
