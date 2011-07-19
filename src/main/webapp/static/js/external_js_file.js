@@ -10,8 +10,14 @@ function createTweet(datas) {
                 data.name = name;
                 prependTweet(data);
             }
-		}
-	});
+
+			data.name = name;
+            document.getElementById("tweetBox").value="";
+            prependTweet(data);
+			}
+
+		});
+
 }
 
 function prependTweet(data) {

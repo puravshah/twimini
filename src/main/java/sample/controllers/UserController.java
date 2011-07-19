@@ -147,7 +147,7 @@ public class UserController {
         UserModel u = null;
         try {
             u = userService.getUser(uid);
-            System.out.print(u.getUid());
+
             if(u == null) throw new Exception("Invalid User");
         }
         catch(Exception e) {

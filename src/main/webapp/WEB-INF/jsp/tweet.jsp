@@ -14,6 +14,8 @@
     </head>
 
     <body>
+        <div class="TopHeader">
+        </div>
         <div class = "container">
             <div id = "navigation-bar" class = "span-24 last header">
                 <div id = "twitter-logo" class = "span-6">
