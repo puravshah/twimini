@@ -209,14 +209,17 @@ div#dropdown div:hover {
 
 #login-text {
     cursor: pointer;
-    position: relative;
-    right: 0;
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0px 20px 20px;
     margin-left: 20px;
 }
 
 #login-text:hover {
     background: #292929;
+}
+
+#login-text a {
+    text-decoration: none !important;
+    color: white !important;
 }
 
 #login-dropdown {

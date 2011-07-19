@@ -54,12 +54,12 @@ public class TweetController {
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            tweetList = tweetService.getFeed();
-            followingList = followService.getFollowing();
-            followerList = followService.getFollower();
-            tweetCount = tweetService.getTweetCount();
-            followingCount = followService.getFollowingCount();
-            followerCount = followService.getFollowerCount();
+            tweetList = tweetService.getFeed(uid);
+            followingList = followService.getFollowing(uid);
+            followerList = followService.getFollower(uid);
+            tweetCount = tweetService.getTweetCount(uid);
+            followingCount = followService.getFollowingCount(uid);
+            followerCount = followService.getFollowerCount(uid);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -77,34 +77,45 @@ public class TweetController {
         return mv;
     }
 
-    /*@RequestMapping(value = "/tweet", method = RequestMethod.POST)
-    public ModelAndView tweetPost(@RequestParam String tweet, HttpSession session) {
+    /* REST API for creating a tweet */
+    @RequestMapping("/tweet/create") @ResponseBody
+    Hashtable <String, String>  createTweet(@RequestParam final String tweet, HttpSession session) {
+        Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String)session.getAttribute("uid");
-        if(uid == null) {
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "You need to login first!");
-            }};
+        TweetModel t = null;
+
+        try {
+            t = tweetService.addTweet(uid, tweet);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            ret.put("status", "0");
+            ret.put("errorMsg", e.toString());
+            return ret;
         }
 
-        db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", uid, tweet);
+        ret.put("pid", "" + t.getPid());
+        ret.put("uid", "" + t.getUid());
+        ret.put("tweet", t.getTweet());
+        ret.put("timestamp", t.getTimestamp());
+        ret.put("status", "1");
+        return ret;
+    }
 
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("redirect:/tweet");
-        return mv;
-    }*/
-
-    @RequestMapping("/tweet/create.json") @ResponseBody
-    Hashtable <String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
+    @RequestMapping("/tweet/getTweetDetails") @ResponseBody
+    Hashtable <String, String>  getTweetDetails(@RequestParam final String pid, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String)session.getAttribute("uid");
 
         TweetModel t = null;
         try {
-            t = tweetService.addTweet(tweet);
+            t = tweetService.getTweetDetails(pid);
             if(t == null) throw new Exception("Invalid tweet");
         }
         catch(Exception e) {
             e.printStackTrace();
+            ret.put("status", "0");
+            ret.put("errorMsg", e.toString());
             return null;
         }
 
@@ -112,15 +123,34 @@ public class TweetController {
         ret.put("uid", "" + t.getUid());
         ret.put("tweet", t.getTweet());
         ret.put("timestamp", t.getTimestamp());
+        ret.put("status", "1");
         return ret;
     }
 
-    @RequestMapping("/tweet/getTweetList.json") @ResponseBody
+    /* REST API for getting tweet list of a user */
+    @RequestMapping("/tweet/getTweetList") @ResponseBody
     List <TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
         List<TweetModel> ret = null;
 
         try {
-            ret = tweetService.getTweetList();
+            ret = tweetService.getTweetList(uid);
+            if(ret == null) throw new Exception("Could not render tweets");
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return ret;
+    }
+
+    /* REST API for getting tweet feed of a user */
+    @RequestMapping("/tweet/getFeed") @ResponseBody
+    List <TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
+        List<TweetWrapper> ret = null;
+
+        try {
+            ret = tweetService.getFeed(uid);
             if(ret == null) throw new Exception("Could not render tweets");
         }
         catch(Exception e) {

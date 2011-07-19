@@ -65,7 +65,7 @@
                         </div>
 
                         <div class="span-2 last add-margin-above-20">
-                            <input value = "Tweet" onclick = "createTweet({name:${name}})" type="button" />
+                            <input value = "Tweet" onclick = "createTweet({name:'${name}'})" type="button" />
                         </div>
                     </div>
 

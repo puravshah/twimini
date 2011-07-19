@@ -28,10 +28,18 @@ public class TweetService {
         this.userID=userID;
     }
 
-    public  TweetModel addTweet(String tweet) throws Exception {
+    public TweetModel addTweet(String tweet) throws Exception {
         db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", userID.get(), tweet);
-        TweetModel t = db.queryForObject("SELECT * FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
-        return t;
+        return db.queryForObject("SELECT * FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
+    }
+
+    public TweetModel addTweet(String uid, String tweet) throws Exception {
+        db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", uid, tweet);
+        return db.queryForObject("SELECT * FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
+    }
+
+    public TweetModel getTweetDetails(String pid) throws Exception {
+        return db.queryForObject("SELECT * FROM post WHERE pid = ?", TweetModel.rowMapper, pid);
     }
 
     public  List<TweetWrapper> getFeed() throws Exception {
@@ -39,6 +47,14 @@ public class TweetService {
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.uid IN " +
                 "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, userID.get(),userID.get());
+        return l;
+    }
+
+    public  List<TweetWrapper> getFeed(String uid) throws Exception {
+        List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+                "WHERE u.uid = x.uid AND x.pid IN " +
+                "(SELECT pid FROM post p WHERE p.uid IN " +
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
         return l;
     }
 
@@ -57,7 +73,6 @@ public class TweetService {
     }
 
     public  int getTweetCount(String uid) {
-            return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", uid);
-        }
-
+        return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", uid);
+    }
 }

@@ -24,18 +24,16 @@ public class UserService {
     @Autowired
     public UserService(@Qualifier("userID") ThreadLocal<Long> userID ,SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID=userID;
+        this.userID = userID;
     }
 
-    public UserModel addUser(String name, String email, String password) throws Exception{
-        db.update("INSERT INTO user(name,email, password, timestamp) " +
-                  "values (?, ?, ?, now())", name, email, password);
+    public UserModel addUser(String name, String email, String password) throws Exception {
+        db.update("INSERT INTO user(name,email, password, timestamp) values (?, ?, ?, now())", name, email, password);
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public UserModel getUser(String uid) throws  Exception
-    {
-        return db.queryForObject("SELECT * FROM user where uid= ?", UserModel.rowMapper, uid);
+    public UserModel getUser(String uid) throws  Exception {
+        return db.queryForObject("SELECT * FROM user where uid = ?", UserModel.rowMapper, uid);
     }
 
     public UserModel getUser(String email, String password) throws Exception {

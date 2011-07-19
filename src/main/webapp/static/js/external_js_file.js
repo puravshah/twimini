@@ -1,15 +1,17 @@
 function createTweet(datas) {
 	name = datas.name;
-    alert("here");
     $.ajax({
-		url: "/tweet/create.json",
+		url: "/tweet/create",
         type: "POST",
         data: "tweet=" + document.getElementById("tweet-box").value,
         success: function(data) {
-			data.name = name;
-            prependTweet(data);
-			}
-		});
+			if(data.status === "0") alert("Unable to add tweet: " + data.errorMsg);
+            else {
+                data.name = name;
+                prependTweet(data);
+            }
+		}
+	});
 }
 
 function prependTweet(data) {
@@ -90,11 +92,24 @@ function getFollowers(datas) {
 
 function unfollow(id) {
 	$.ajax({
-    url: "/user/unfollow.json",
+    url: "/user/unfollow",
     type: "POST",
-    data: "unfollowId=" + id,
+    data: "id=" + id,
     success: function(data) {
-		$('#followingItem_' + id).remove();
+		    if(data.status === "1") $('#followingItem_' + id).remove();
+            else alert(data.errorMsg);
+        }
+	});
+}
+
+function follow(id) {
+	$.ajax({
+    url: "/user/follow",
+    type: "POST",
+    data: "id=" + id,
+    success: function(data) {
+		    if(data.status === "1") appendFollowing(data);
+            else alert(data.errorMsg);
         }
 	});
 }

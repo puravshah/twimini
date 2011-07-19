@@ -36,7 +36,7 @@ public class UserController {
     public ModelAndView index() {
 
         ModelAndView mv = new ModelAndView("/index");
-       // if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+        //if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
         return mv;
     }
 
@@ -68,7 +68,6 @@ public class UserController {
             }
         }
         catch(EmptyResultDataAccessException e) {
-            e.printStackTrace();
             return new ModelAndView("/login") {{
                 addObject("msg", "Invalid Email id or Password");
             }};
@@ -187,19 +186,6 @@ public class UserController {
             e.printStackTrace();
         }
         return mv;
-    }
-
-    @RequestMapping("/user/unfollow.json") @ResponseBody
-    Hashtable <String, String> unFollow(@RequestParam String unfollowId, HttpSession session) {
-        Hashtable <String, String> ret = new Hashtable <String, String> ();
-        try {
-            followService.removeFollowing(unfollowId);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        ret.put("msg", "sucess");
-        return ret;
     }
 
     @RequestMapping("/search") @ResponseBody

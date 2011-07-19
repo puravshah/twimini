@@ -15,8 +15,8 @@
                     <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                 </div>
 
-                <div id = "login-text" class = "span-5 login-text">
-                    <span>New User? <b>Sign up!</b></span>
+                <div id = "login-text" class = "span-4">
+                    <a href = "/signup">New User? <b>Sign up!</b></a>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@
                 <div class = "span-14 last">
                     <form id = "form-container" action = "/login" method = "POST">
                         <div class = "span-14 last">
-                            <input type = "text" placeholder = "Email" name = "email" class = "span-7" />
+                            <input type = "email" placeholder = "Email" name = "email" class = "span-7" />
                         </div>
                             <div class = "span-14 last">
                                 <input type = "password" placeholder = "Password" name = "password" class = "span-7" />

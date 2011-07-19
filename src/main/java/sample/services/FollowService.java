@@ -23,33 +23,18 @@ public class FollowService {
     public FollowService(@Qualifier("userID") ThreadLocal<Long> userID,SimpleJdbcTemplate db) {
         this.db = db;
         this.userID= userID;
-     }
-
-    public  List<UserModel> getFollowing() throws Exception {
-        List<UserModel> following = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, userID.get());
-        return following;
     }
 
-    public  List<UserModel> getFollower() throws Exception {
-        List<UserModel> follower = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, userID.get());
-        return follower;
+    public int removeFollowing(String uid, String id) throws Exception {
+        return db.update("UPDATE follow SET end = now() WHERE uid = ? AND following = ? AND end IS NULL", uid, id);
     }
 
-    public  void removeFollowing(String id) throws Exception {
-        db.update("UPDATE follow SET end = now() WHERE uid = ? AND following = ? AND end IS NULL", userID.get(), id);
+    public UserModel addFollowing(String uid, String id) throws Exception {
+        UserModel ret = db.queryForObject("SELECT uid, name, email FROM user WHERE uid = ?", UserModel.rowMapper2, id);
+        db.update("INSERT INTO follow values(?, ?, now(), NULL)", uid, id);
+        return ret;
     }
 
-    public void addFollowing(String id) throws Exception {
-        db.update("INSERT INTO follow values(?, ?, now(), NULL)", userID.get(), id);
-    }
-
-    public  int getFollowingCount() {
-        return db.queryForInt("SELECT count(following) FROM follow WHERE uid = ? AND end IS NULL", userID.get());
-    }
-
-    public  int getFollowerCount() {
-        return db.queryForInt("SELECT count(uid) FROM follow WHERE following = ? AND end is NULL", userID.get());
-    }
     public  List<UserModel> getFollowing(String uid) throws Exception {
         List<UserModel> following = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return following;
