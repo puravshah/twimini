@@ -144,7 +144,9 @@ public class UserController {
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
         ModelAndView mv = new ModelAndView();
+        String user = (String)session.getAttribute("uid");
         UserModel u = null;
+
         try {
             u = userService.getUser(uid);
 
@@ -161,8 +163,8 @@ public class UserController {
 
         try {
             tweetList = tweetService.getTweetList(uid);
-            followingList = followService.getFollowing(uid);
-            followerList = followService.getFollower(uid);
+            followingList = followService.getFollowing2(uid, user);
+            followerList = followService.getFollower2(uid, user);
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);

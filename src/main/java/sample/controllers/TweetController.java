@@ -55,8 +55,8 @@ public class TweetController {
 
         try {
             tweetList = tweetService.getFeed(uid);
-            followingList = followService.getFollowing(uid);
-            followerList = followService.getFollower(uid);
+            followingList = followService.getFollowing2(uid, uid);
+            followerList = followService.getFollower2(uid, uid);
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);

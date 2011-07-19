@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class UserModel {
     private String email, password, name, timestamp;
-    private int uid;
+    private int uid, status;
 
     public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
         @Override
@@ -29,6 +29,18 @@ public class UserModel {
             u.setName(resultSet.getString("name"));
             u.setEmail(resultSet.getString("email"));
             u.setUid(resultSet.getInt("uid"));
+            return u;
+        }
+    };
+
+    public static final RowMapper <UserModel> rowMapper3 = new RowMapper<UserModel>() {
+        @Override
+        public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
+            UserModel u = new UserModel();
+            u.setName(resultSet.getString("name"));
+            u.setEmail(resultSet.getString("email"));
+            u.setUid(resultSet.getInt("uid"));
+            u.setStatus(resultSet.getInt("status"));
             return u;
         }
     };
@@ -68,6 +80,14 @@ public class UserModel {
 
     public String getTimestamp() {
         return timestamp;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setUid(int uid) {

@@ -9,6 +9,16 @@
         <h6><%= email %></h5>
     </div>
     <div class = "span-2 last follow-button">
-        <input type = "button" value = "unfollow" onclick = "unfollow(<%= uid %>);" />
+        <script type = "text/javascript">
+            alert(${uid} + " " + ${user});
+        </script>
+        <% if( !user.equals(uid) ) {
+                if(status == 1) { %>
+                    <input type = "button" value = "unfollow" onclick = "unfollow(<%= uid %>);" />
+            <%  }
+                else { %>
+                    <input type = "button" value = "follow" onclick = "follow(<%= uid %>);" />
+            <% }
+        } %>
     </div>
 </div>

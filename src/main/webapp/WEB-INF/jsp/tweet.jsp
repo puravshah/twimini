@@ -98,7 +98,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                        appendFollowing({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'<%= session.getAttribute("uid") %>', status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -108,7 +108,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                        appendFollower({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'<%= session.getAttribute("uid") %>', status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -128,15 +128,15 @@
                     </div>
 
                     <div class = "span-8 last add-margin-above-20">
-                        <div class = "span-2 colborder">
+                        <div class = "span-2 colborder center-text">
                             <a href = "/user?uid=${uid}">Tweets<br />${tweetCount}</a>
                         </div>
 
-                        <div class = "span-2 colborder">
+                        <div class = "span-2 colborder center-text">
                             <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
                         </div>
 
-                        <div class = "span-2 last">
+                        <div class = "span-2 last center-text">
                             <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
                         </div>
                     </div>

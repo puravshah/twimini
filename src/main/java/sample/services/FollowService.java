@@ -40,6 +40,18 @@ public class FollowService {
         return following;
     }
 
+    public  List<UserModel> getFollowing2(String uid, String user) throws Exception {
+        List<UserModel> following = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND following IN (SELECT following FROM follow WHERE uid = ?)) UNION " +
+                                             "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND following NOT IN (SELECT following FROM follow WHERE uid = ?))", UserModel.rowMapper3, uid, user, uid, user);
+        return following;
+    }
+
+    public  List<UserModel> getFollower2(String uid, String user) throws Exception {
+        List<UserModel> follower = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND uid in (SELECT following FROM follow WHERE uid = ?)) UNION " +
+                                            "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND uid NOT IN (SELECT following FROM follow WHERE uid = ?))", UserModel.rowMapper3, uid, user, uid, user);
+        return follower;
+    }
+
     public  List<UserModel> getFollower(String uid) throws Exception {
         List<UserModel> follower = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return follower;

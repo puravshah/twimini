@@ -11,6 +11,16 @@ textarea {
 
 h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
 
+.lowerbody {
+    margin-top: 50px;
+}
+
+.wordwrap {
+    /*white-space: pre-wrap;*/      /* CSS3 */
+    white-space: -moz-pre-wrap; /* Firefox */
+    word-wrap: break-word;      /* IE */
+}
+
 .add-margin-above-1 {margin-top:1px;}
 .add-margin-above-2 {margin-top:2px;}
 .add-margin-above-5 {margin-top:5px;}

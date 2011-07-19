@@ -89,9 +89,11 @@ public class FollowController {
 
     @RequestMapping("/user/getFollower") @ResponseBody
     public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
+        String user = (String)session.getAttribute("uid");
         List <UserModel> ret = null;
+
         try {
-            ret = followService.getFollower(uid);
+            ret = followService.getFollower2(uid, user);
             if(ret == null) throw new Exception("Could not render followers list");
         }
         catch(Exception e) {
@@ -103,9 +105,11 @@ public class FollowController {
 
     @RequestMapping(value = "/user/getFollowing") @ResponseBody
     public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
+        String user = (String)session.getAttribute("uid");
         List<UserModel> ret = null;
+
         try {
-            ret = followService.getFollowing(uid);
+            ret = followService.getFollowing2(uid, user);
             if(ret == null) throw new Exception("Could not render following list");
         }
         catch(Exception e) {

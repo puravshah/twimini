@@ -100,7 +100,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                        appendFollowing({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -110,7 +110,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}'});
+                                        appendFollower({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>

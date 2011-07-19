@@ -1,14 +1,25 @@
+function filter(str) {
+    str = str.replace(/[&]/g,'&amp;');
+    str = str.replace(/[<]/g,'&lt;');
+    str = str.replace(/[>]/g,'&gt;');
+    str = str.replace(/[\n]/g,'<br>');
+    return str;
+}
+
 function createTweet(datas) {
 	name = datas.name;
+    var str = filter( document.getElementById("tweet-box").value );
+
     $.ajax({
 		url: "/tweet/create",
         type: "POST",
-        data: "tweet=" + document.getElementById("tweet-box").value,
+        data: {'tweet': str},
         success: function(data) {
 			if(data.status === "0") alert("Unable to add tweet: " + data.errorMsg);
             else {
                 data.name = name;
                 prependTweet(data);
+                document.getElementById("tweet-box").value = "";
             }
 
 			data.name = name;
