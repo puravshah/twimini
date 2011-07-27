@@ -73,38 +73,74 @@ function getTweets() {
     divs[2].setAttribute("class", "span-2 tab last");
 }
 
-function getFollowing() {
-    $('#tweetDiv').hide();
-    $('#followingDiv').show();
-    $('#followerDiv').hide();
+function getFollowing(datas) {
+    $.ajax({
+        url: "/user/getFollowing",
+        type: "POST",
+        data: "uid=" + datas.uid,
+        success: function(data) {
+            $('#tweetDiv').hide();
+            $('#followingDiv').show();
+            $('#followerDiv').hide();
 
-    var divs = document.getElementById("tab-container").getElementsByTagName("div");
-    var newClass = "span-2 tab tab-active";
-    divs[0].setAttribute("class", "span-2 tab");
-    divs[1].setAttribute("class", newClass);
-    divs[2].setAttribute("class", "span-2 tab last");
+            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var newClass = "span-2 tab tab-active";
+            divs[0].setAttribute("class", "span-2 tab");
+            divs[1].setAttribute("class", newClass);
+            divs[2].setAttribute("class", "span-2 tab last");
+
+            $('#ListOfFollowing').empty();
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollowing({uid:datas.uid, id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
+            }
+        }
+    });
+    /*
+     $('#tweetDiv').hide();
+     $('#followingDiv').show();
+     $('#followerDiv').hide();
+
+     var divs = document.getElementById("tab-container").getElementsByTagName("div");
+     var newClass = "span-2 tab tab-active";
+     divs[0].setAttribute("class", "span-2 tab");
+     divs[1].setAttribute("class", newClass);
+     divs[2].setAttribute("class", "span-2 tab last");
+     */
 }
 
 function getFollowers(datas) {
-    /*$.ajax({
-     url: "/user/follower.json",
-     type: "POST",
-     data: "uid=" + datas.uid,
-     success: function(data) {
-     $('#tweetDiv').hide();
+    $.ajax({
+        url: "/user/getFollower",
+        type: "POST",
+        data: "uid=" + datas.uid,
+        success: function(data) {
+            $('#tweetDiv').hide();
+            $('#followingDiv').hide();
+            $('#followerDiv').show();
+
+            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var newClass = "span-2 tab last tab-active";
+            divs[0].setAttribute("class", "span-2 tab");
+            divs[1].setAttribute("class", "span-2 tab");
+            divs[2].setAttribute("class", newClass);
+
+            $('#ListOfFollower').empty();
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollower({uid:datas.uid, id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
+            }
+        }
+    });
+    /*$('#tweetDiv').hide();
      $('#followingDiv').hide();
      $('#followerDiv').show();
-     }
-     });*/
-    $('#tweetDiv').hide();
-    $('#followingDiv').hide();
-    $('#followerDiv').show();
 
-    var divs = document.getElementById("tab-container").getElementsByTagName("div");
-    var newClass = "span-2 tab last tab-active";
-    divs[0].setAttribute("class", "span-2 tab");
-    divs[1].setAttribute("class", "span-2 tab");
-    divs[2].setAttribute("class", newClass);
+     var divs = document.getElementById("tab-container").getElementsByTagName("div");
+     var newClass = "span-2 tab last tab-active";
+     divs[0].setAttribute("class", "span-2 tab");
+     divs[1].setAttribute("class", "span-2 tab");
+     divs[2].setAttribute("class", newClass);*/
 }
 
 function userAction(button, user, uid, id) {
@@ -122,11 +158,11 @@ function unfollow(button, user, uid, id) {
         type: "POST",
         data: "id=" + id,
         success: function(data) {
-            if(data.status === "1") {
-                if(uid == user) $('#followingItem_' + id).remove();
+            if (data.status === "1") {
+                /*if (uid == user) $('#followingItem_' + id).remove();
 
-                var element = document.getElementById('followerItem_' + id);
-                if(element) element.getElementsByTagName("input")[0].value = "follow";
+                 var element = document.getElementById('followerItem_' + id);
+                 if (element) element.getElementsByTagName("input")[0].value = "follow";*/
                 button.value = "follow";
             }
             else alert(data.errorMsg);
@@ -140,15 +176,15 @@ function follow(button, user, uid, id) {
         type: "POST",
         data: "id=" + id,
         success: function(data) {
-            if(data.status === "1") {
-                if(user == uid) {
-                    data.user = user;
-                    data.id = id;
-                    appendFollowing(data);
-                }
+            if (data.status === "1") {
+                /*if (user == uid) {
+                 data.user = user;
+                 data.id = id;
+                 appendFollowing(data);
+                 }
 
-                var element = document.getElementById('followerItem_' + id);
-                if(element) element.getElementsByTagName("input")[0].value = "unfollow";
+                 var element = document.getElementById('followerItem_' + id);
+                 if (element) element.getElementsByTagName("input")[0].value = "unfollow";*/
                 button.value = "unfollow";
             }
             else alert(data.errorMsg);

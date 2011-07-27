@@ -149,7 +149,7 @@ public class UserController {
     ModelAndView activateAccount(@RequestParam String uid)
     {
         userService.setIsActivated(uid);
-        ModelAndView mv= new ModelAndView("redirect:/") ;
+        ModelAndView mv = new ModelAndView("redirect:/") ;
         return   mv;
     }
 

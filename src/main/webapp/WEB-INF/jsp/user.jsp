@@ -71,9 +71,11 @@
                             <a href = "/user/edit?uid=${uid}">Edit Profile</a>
                         <% } else {
                             if((Integer)request.getAttribute("status") == 0) { %>
-                                <a href = "/user/follow?id=${uid}">follow</a>
+                                <input type = "button" value = "follow" onclick = "userAction(this, <%= session.getAttribute("uid") %>, ${uid}, ${uid})" />
+                                <!--<a href = "/user/follow?id=${uid}">follow</a>-->
                             <% } else { %>
-                                <a href = "/user/unfollow?id=${uid}">unfollow</a>
+                                <!--<a href = "/user/unfollow?id=${uid}">unfollow</a>-->
+                                <input type = "button" value = "unfollow" onclick = "userAction(this, <%= session.getAttribute("uid") %>, ${uid}, ${uid})" />
                             <% } %>
                         <% } %>
                     </div>
@@ -82,10 +84,10 @@
                         <div class = "span-2 tab tab-active" onclick = "getTweets();">
                             <span>Tweet</span>
                         </div>
-                        <div class = "span-2 tab" onclick = "getFollowing();">
+                        <div class = "span-2 tab" onclick = "getFollowing( {uid:${uid}, user:<%= session.getAttribute("uid") %>} );">
                             <span>Following</span>
                         </div>
-                        <div class = "span-2 tab last" onclick = "getFollowers();">
+                        <div class = "span-2 tab last" onclick = "getFollowers( {uid:${uid}, user:<%= session.getAttribute("uid") %>} );">
                             <span>Followers</span>
                         </div>
                     </div>
@@ -143,17 +145,17 @@
                         </div>
 
                         <div class = "span-2 colborder center-text">
-                            <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
+                            <a href = "javascript:getFollowing( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">Following<br />${followingCount}</a>
                         </div>
 
                         <div class = "span-2 last center-text">
-                            <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
+                            <a href = "javascript:getFollowers( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">Followers<br />${followerCount}</a>
                         </div>
                     </div>
 
                     <div id = "following-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
-                            <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
+                            <h5>Following. <a href = "javascript:getFollowing( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">view all</a></h5>
                         </div>
 
                         <div class = "span-8 last add-margin-above-10">
@@ -171,7 +173,7 @@
 
                      <div id = "follower-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
-                            <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
+                            <h5>Followers. <a href = "javascript:getFollowers( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">view all</a></h5>
                         </div>
 
                         <div class = "span-8 last add-margin-above-10">

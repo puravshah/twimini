@@ -14,8 +14,6 @@
     </head>
 
     <body>
-        <div class="TopHeader">
-        </div>
         <div class = "container">
             <div id = "navigation-bar" class = "span-24 last header">
                 <div id = "twitter-logo" class = "span-6">
@@ -75,10 +73,10 @@
                         <div class = "span-2 tab tab-active" onclick = "getFeed();">
                             <span>Feed</span>
                         </div>
-                        <div id = "tabid" class = "span-2 tab" onclick = "getFollowing();">
+                        <div id = "tabid" class = "span-2 tab" onclick = "getFollowing( {uid:${uid}, user:${uid}} );">
                             <span>Following</span>
                         </div>
-                        <div class = "span-2 tab last" onclick = "getFollowers();">
+                        <div class = "span-2 tab last" onclick = "getFollowers(  {uid:${uid}, user:${uid}}  );">
                             <span>Followers</span>
                         </div>
                     </div>
@@ -133,17 +131,17 @@
                         </div>
 
                         <div class = "span-2 colborder center-text">
-                            <a href = "javascript:getFollowing()">Following<br />${followingCount}</a>
+                            <a href = "javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">Following<br />${followingCount}</a>
                         </div>
 
                         <div class = "span-2 last center-text">
-                            <a href = "javascript:getFollowers()">Followers<br />${followerCount}</a>
+                            <a href = "javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">Followers<br />${followerCount}</a>
                         </div>
                     </div>
 
                     <div id = "following-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
-                            <h5>Following. <a href = "javascript:getFollowing()">view all</a></h5>
+                            <h5>Following. <a href = "javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">view all</a></h5>
                         </div>
 
                         <div class = "span-8 last add-margin-above-10">
@@ -161,7 +159,7 @@
 
                      <div id = "follower-thumbs" class = "span-8 last add-margin-above-20">
                         <div class = "span-8 last">
-                            <h5>Followers. <a href = "javascript:getFollowers()">view all</a></h5>
+                            <h5>Followers. <a href = "javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">view all</a></h5>
                         </div>
 
                         <div class = "span-8 last">

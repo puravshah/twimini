@@ -22,7 +22,7 @@ public class UserService {
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public UserService(@Qualifier("userID") ThreadLocal<Long> userID ,SimpleJdbcTemplate db) {
+    public UserService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
         this.db = db;
         this.userID = userID;
     }
@@ -32,14 +32,13 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public UserModel getUser(String uid) throws  Exception {
+    public UserModel getUser(String uid) throws Exception {
         int status;
 
         try {
             int temporaryUid = db.queryForInt("SELECT uid FROM follow WHERE uid = ? and following = ? AND end IS NULL", userID.get(), uid);
             status = 1;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             status = 0;
         }
         return db.queryForObject("SELECT *, ? AS status FROM user WHERE uid = ?", UserModel.rowMapper3, status, uid);
@@ -55,18 +54,18 @@ public class UserService {
         return db.query("SELECT DISTINCT * FROM user WHERE name like ? or email like ?", UserModel.rowMapper, query, query);
     }
 
-    public static List<UserModel> getInactiveUser() throws  Exception {
+    public static List<UserModel> getInactiveUser() throws Exception {
         db.update("UPDATE user SET  isActivated=3 Where isActivated=0");
         return db.query("SELECT * FROM user where isActivated=3", UserModel.rowMapper);
     }
 
-    public static void  setToPartialState() {
+    public static void setToPartialState() {
         //To change body of created methods use File | Settings | File Templates.
         db.update("UPDATE user SET  isActivated=2 Where isActivated=3");
     }
 
     public void setIsActivated(String uid) {
         //To change body of created methods use File | Settings | File Templates.
-        db.update("UPDATE  user SET iSActivated=1 WHERE uid=?",uid);
+        db.update("UPDATE  user SET iSActivated = 1 WHERE uid = ?", uid);
     }
 }
