@@ -36,11 +36,27 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user where uid = ?", UserModel.rowMapper, uid);
     }
 
+
     public UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
 
     public List<UserModel> getSearch(String query) throws Exception {
         return db.query("SELECT DISTINCT * FROM user WHERE name = %?% or email = %?%", UserModel.rowMapper, query, query);
+    }
+
+    public static List<UserModel> getInactiveUser() throws  Exception {
+        db.update("UPDATE user SET  isActivated=3 Where isActivated=0");
+        return db.query("SELECT * FROM user where isActivated=3", UserModel.rowMapper);
+    }
+
+    public static void  setToPartialState() {
+        //To change body of created methods use File | Settings | File Templates.
+        db.update("UPDATE user SET  isActivated=2 Where isActivated=3");
+    }
+
+    public void setIsActivated(String uid) {
+        //To change body of created methods use File | Settings | File Templates.
+        db.update("UPDATE  user SET iSActivated=1 WHERE uid=?",uid);
     }
 }

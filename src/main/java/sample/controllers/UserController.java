@@ -13,8 +13,8 @@ import sample.model.UserModel;
 import sample.services.FollowService;
 import sample.services.TweetService;
 import sample.services.UserService;
+
 import javax.servlet.http.HttpSession;
-import java.util.Hashtable;
 import java.util.List;
 
 @Controller
@@ -23,8 +23,9 @@ public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
     private final FollowService  followService;
-
     @Autowired
+
+
     public UserController(UserService userService,FollowService followService,TweetService tweetService)
     {
        this.userService=userService;
@@ -117,6 +118,8 @@ public class UserController {
         try {
             m = userService.addUser(name, email, password);
             if(m == null) throw new Exception("Unable to register user");
+            //Mail mail=new Mail();
+
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -139,6 +142,15 @@ public class UserController {
         return new ModelAndView(){{
             setViewName("redirect:/");
         }};
+    }
+
+
+    @RequestMapping("/activate")
+    ModelAndView activateAccount(@RequestParam String uid)
+    {
+        userService.setIsActivated(uid);
+        ModelAndView mv= new ModelAndView("redirect:/") ;
+        return   mv;
     }
 
     @RequestMapping("/user")
@@ -204,3 +216,8 @@ public class UserController {
         return ret;
     }
 }
+
+
+
+
+
