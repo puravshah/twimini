@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
     background: #EAEAEA;
 }
 
-.tab:hover {
+div.tab:hover {
     cursor: pointer;
     background: #EAEAEA !important;
 }
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {margin-bottom: 0px !important;}
     padding-bottom: 5px;
 }
 
-.item-row:hover {
+div.item-row:hover {
     background: #F0F0F0;
 }
 
@@ -166,6 +166,10 @@ div#user-nav-head a {
     margin-top: -10px;
 }
 
+#dropdown-text:hover {
+    background: #2F2F2F;
+}
+
 #dropdown {
     position: absolute;
     right: 437px;
@@ -195,14 +199,6 @@ div#dropdown div:hover {
 div#dropdown div:hover {
     color: white;
     cursor: pointer;
-}
-
-#dropdown-text:hover {
-    background: #2F2F2F;
-}
-
-#dropdown-text:active {
-    background: #2F2F2F;
 }
 
 #twitter-logo {

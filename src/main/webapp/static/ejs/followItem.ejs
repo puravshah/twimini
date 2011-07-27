@@ -1,4 +1,4 @@
-<div id = "followingItem_<%= uid %>" class = "span-14 item-row">
+<div class = "span-14 item-row">
     <div class = "span-2">
         <a href = "/user?uid=<%= uid %>">
             <img src = "/static/images/default-profile-picture.gif" height = 50 width = 60/>
@@ -9,16 +9,13 @@
         <h6><%= email %></h5>
     </div>
     <div class = "span-2 last follow-button">
-        <script type = "text/javascript">
-            alert(${uid} + " " + ${user});
-        </script>
-        <% if( !user.equals(uid) ) {
+        <% if( uid != user ) {
                 if(status == 1) { %>
                     <input type = "button" value = "unfollow" onclick = "unfollow(<%= uid %>);" />
             <%  }
-                else { %>
+                else if(status == 0) { %>
                     <input type = "button" value = "follow" onclick = "follow(<%= uid %>);" />
-            <% }
+            <%  }
         } %>
     </div>
 </div>

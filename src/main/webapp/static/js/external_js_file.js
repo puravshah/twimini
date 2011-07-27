@@ -2,7 +2,10 @@ function filter(str) {
     str = str.replace(/[&]/g,'&amp;');
     str = str.replace(/[<]/g,'&lt;');
     str = str.replace(/[>]/g,'&gt;');
+    str = str.replace(/[']/g, '&#39;');
+    str = str.replace(/["]/g, '&quot;');
     str = str.replace(/[\n]/g,'<br>');
+    str = str.replace(/[ ]/g, '&nbsp;');
     return str;
 }
 
@@ -21,30 +24,25 @@ function createTweet(datas) {
                 prependTweet(data);
                 document.getElementById("tweet-box").value = "";
             }
-
-			data.name = name;
-            document.getElementById("tweetBox").value="";
-            prependTweet(data);
-			}
-
-		});
+		}
+	});
 
 }
 
 function prependTweet(data) {
-	var html = new EJS({url: '/static/tweetItem.ejs'}).render(data);
+	var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
     var tweetItemLi = $(html);
     $('#ListOfTweets').prepend(tweetItemLi);
 }
 
 function appendFollowing(data) {
-	var html = new EJS({url: 'static/followingItem.ejs'}).render(data);
+	var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     var followingItemLi = $(html);
     $('#ListOfFollowing').append(followingItemLi);
 }
 
 function appendFollower(data) {
-	var html = new EJS({url: 'static/followerItem.ejs'}).render(data);
+	var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     var followerItemLi = $(html);
     $('#ListOfFollower').append(followerItemLi);
 }
@@ -120,12 +118,14 @@ function unfollow(id) {
 }
 
 function follow(id) {
-	$.ajax({
+    $.ajax({
     url: "/user/follow",
     type: "POST",
     data: "id=" + id,
     success: function(data) {
-		    if(data.status === "1") appendFollowing(data);
+		    if(data.status === "1") {
+                appendFollowing(data);
+            }
             else alert(data.errorMsg);
         }
 	});

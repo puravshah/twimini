@@ -100,7 +100,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});
+                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -110,7 +110,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:'${item.uid}', name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});
+                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -155,7 +155,7 @@
                             <ul id = "following-thumbs-container">
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type = "text/javascript">
-                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
+                                        var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
                                         var thumbLi = $(html);
                                         $('#following-thumbs-container').append(thumbLi);
                                     </script>
@@ -173,7 +173,7 @@
                             <ul id = "follower-thumbs-container">
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type = "text/javascript">
-                                        var html = new EJS({url: '/static/js/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
+                                        var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render( {uid: ${item.uid}, name: '${item.name}'} );
                                         var thumbLi = $(html);
                                         $('#follower-thumbs-container').append(thumbLi);
                                     </script>
