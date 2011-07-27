@@ -1,3 +1,4 @@
+<%@ page import="javax.net.ssl.SSLEngineResult" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -68,8 +69,12 @@
                     <div id = "user-edit-follow" class = "span-13 last">
                         <% if( session.getAttribute("uid").equals(request.getAttribute("uid")) ) { %>
                             <a href = "/user/edit?uid=${uid}">Edit Profile</a>
-                        <% } else { %>
-                            <a href = "/user/follow">Follow</a>
+                        <% } else {
+                            if((Integer)request.getAttribute("status") == 0) { %>
+                                <a href = "/user/follow?id=${uid}">follow</a>
+                            <% } else { %>
+                                <a href = "/user/unfollow?id=${uid}">unfollow</a>
+                            <% } %>
                         <% } %>
                     </div>
 
@@ -100,7 +105,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollowing({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -110,7 +115,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollower({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>

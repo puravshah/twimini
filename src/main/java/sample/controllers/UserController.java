@@ -189,6 +189,7 @@ public class UserController {
             mv.addObject("uid", uid);
             mv.addObject("name", u.getName());
             mv.addObject("email", u.getEmail());
+            mv.addObject("status", u.getStatus());
             mv.addObject("tweetList", tweetList);
             mv.addObject("followingList", followingList);
             mv.addObject("followerList", followerList);

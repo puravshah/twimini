@@ -1,54 +1,56 @@
 function filter(str) {
-    str = str.replace(/[&]/g,'&amp;');
-    str = str.replace(/[<]/g,'&lt;');
-    str = str.replace(/[>]/g,'&gt;');
+    str = str.replace(/[&]/g, '&amp;');
+    str = str.replace(/[<]/g, '&lt;');
+    str = str.replace(/[>]/g, '&gt;');
     str = str.replace(/[']/g, '&#39;');
     str = str.replace(/["]/g, '&quot;');
-    str = str.replace(/[\n]/g,'<br>');
+    str = str.replace(/[\n]/g, '<br>');
     str = str.replace(/[ ]/g, '&nbsp;');
     return str;
 }
 
 function createTweet(datas) {
-	name = datas.name;
-    var str = filter( document.getElementById("tweet-box").value );
+    name = datas.name;
+    var str = filter(document.getElementById("tweet-box").value);
 
     $.ajax({
-		url: "/tweet/create",
+        url: "/tweet/create",
         type: "POST",
         data: {'tweet': str},
         success: function(data) {
-			if(data.status === "0") alert("Unable to add tweet: " + data.errorMsg);
+            if (data.status === "0") alert("Unable to add tweet: " + data.errorMsg);
             else {
                 data.name = name;
                 prependTweet(data);
                 document.getElementById("tweet-box").value = "";
             }
-		}
-	});
+        }
+    });
 
 }
 
 function prependTweet(data) {
-	var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
+    var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
     var tweetItemLi = $(html);
     $('#ListOfTweets').prepend(tweetItemLi);
 }
 
 function appendFollowing(data) {
-	var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
+    data.divId = 'followingItem_' + data.id;
+    var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     var followingItemLi = $(html);
     $('#ListOfFollowing').append(followingItemLi);
 }
 
 function appendFollower(data) {
-	var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
+    data.divId = 'followerItem_' + data.id;
+    var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     var followerItemLi = $(html);
     $('#ListOfFollower').append(followerItemLi);
 }
 
 function getFeed() {
-	$('#tweetDiv').show();
+    $('#tweetDiv').show();
     $('#followingDiv').hide();
     $('#followerDiv').hide();
 
@@ -60,9 +62,9 @@ function getFeed() {
 }
 
 function getTweets() {
-	$('#tweetDiv').show();
-	$('#followingDiv').hide();
-	$('#followerDiv').hide();
+    $('#tweetDiv').show();
+    $('#followingDiv').hide();
+    $('#followerDiv').hide();
 
     var divs = document.getElementById("tab-container").getElementsByTagName("div");
     var newClass = "span-2 tab tab-active";
@@ -72,9 +74,9 @@ function getTweets() {
 }
 
 function getFollowing() {
-	$('#tweetDiv').hide();
-	$('#followingDiv').show();
-	$('#followerDiv').hide();
+    $('#tweetDiv').hide();
+    $('#followingDiv').show();
+    $('#followerDiv').hide();
 
     var divs = document.getElementById("tab-container").getElementsByTagName("div");
     var newClass = "span-2 tab tab-active";
@@ -84,16 +86,16 @@ function getFollowing() {
 }
 
 function getFollowers(datas) {
-	/*$.ajax({
-    url: "/user/follower.json",
-    type: "POST",
-    data: "uid=" + datas.uid,
-    success: function(data) {
-		$('#tweetDiv').hide();
-		$('#followingDiv').hide();
-		$('#followerDiv').show();
-		}
-	});*/
+    /*$.ajax({
+     url: "/user/follower.json",
+     type: "POST",
+     data: "uid=" + datas.uid,
+     success: function(data) {
+     $('#tweetDiv').hide();
+     $('#followingDiv').hide();
+     $('#followerDiv').show();
+     }
+     });*/
     $('#tweetDiv').hide();
     $('#followingDiv').hide();
     $('#followerDiv').show();
@@ -105,34 +107,57 @@ function getFollowers(datas) {
     divs[2].setAttribute("class", newClass);
 }
 
-function unfollow(id) {
-	$.ajax({
-    url: "/user/unfollow",
-    type: "POST",
-    data: "id=" + id,
-    success: function(data) {
-		    if(data.status === "1") $('#followingItem_' + id).remove();
-            else alert(data.errorMsg);
-        }
-	});
+function userAction(button, user, uid, id) {
+    if (button.value === 'follow') {
+        follow(button, user, uid, id);
+    }
+    else {
+        unfollow(button, user, uid, id);
+    }
 }
 
-function follow(id) {
+function unfollow(button, user, uid, id) {
     $.ajax({
-    url: "/user/follow",
-    type: "POST",
-    data: "id=" + id,
-    success: function(data) {
-		    if(data.status === "1") {
-                appendFollowing(data);
+        url: "/user/unfollow",
+        type: "POST",
+        data: "id=" + id,
+        success: function(data) {
+            if(data.status === "1") {
+                if(uid == user) $('#followingItem_' + id).remove();
+
+                var element = document.getElementById('followerItem_' + id);
+                if(element) element.getElementsByTagName("input")[0].value = "follow";
+                button.value = "follow";
             }
             else alert(data.errorMsg);
         }
-	});
+    });
+}
+
+function follow(button, user, uid, id) {
+    $.ajax({
+        url: "/user/follow",
+        type: "POST",
+        data: "id=" + id,
+        success: function(data) {
+            if(data.status === "1") {
+                if(user == uid) {
+                    data.user = user;
+                    data.id = id;
+                    appendFollowing(data);
+                }
+
+                var element = document.getElementById('followerItem_' + id);
+                if(element) element.getElementsByTagName("input")[0].value = "unfollow";
+                button.value = "unfollow";
+            }
+            else alert(data.errorMsg);
+        }
+    });
 }
 
 function search() {
-	searchText = document.getElementById("search-box").value;
+    searchText = document.getElementById("search-box").value;
     alert(searchText);
 }
 
@@ -146,15 +171,14 @@ function toggleLoginDropdown() {
 
 function validate(data) {
     var valid = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-.";
-    for(var i = data.length() - 1; i >= 0; i--)
-    {
+    for (var i = data.length() - 1; i >= 0; i--) {
         var ok = 0;
-        for(var j = valid.length() - 1; j >= 0; j--)
-            if(valid[j] == data[i]) {
+        for (var j = valid.length() - 1; j >= 0; j--)
+            if (valid[j] == data[i]) {
                 ok = 1;
                 break;
             }
-        if(ok == 0) return false;
+        if (ok == 0) return false;
     }
 
     return true;

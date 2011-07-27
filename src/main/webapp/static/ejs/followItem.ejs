@@ -1,20 +1,20 @@
-<div class = "span-14 item-row">
+<div id = <%= divId %> class = "span-14 item-row">
     <div class = "span-2">
-        <a href = "/user?uid=<%= uid %>">
+        <a href = "/user?uid=<%= id %>">
             <img src = "/static/images/default-profile-picture.gif" height = 50 width = 60/>
         </a>
     </div>
     <div class = "span-9">
-        <h3><a href= '/user?uid=<%= uid %>'><%= name %></a> </h2>
+        <h3><a href= '/user?uid=<%= id %>'><%= name %></a> </h2>
         <h6><%= email %></h5>
     </div>
     <div class = "span-2 last follow-button">
-        <% if( uid != user ) {
+        <% if( id != user ) {
                 if(status == 1) { %>
-                    <input type = "button" value = "unfollow" onclick = "unfollow(<%= uid %>);" />
+                    <input type = "button" value = "unfollow" onclick = "userAction(this, <%= user %>, <%= uid %>, <%= id %>);" />
             <%  }
                 else if(status == 0) { %>
-                    <input type = "button" value = "follow" onclick = "follow(<%= uid %>);" />
+                    <input type = "button" value = "follow" onclick = "userAction(this, <%= user %>, <%= uid %>, <%= id %>);" />
             <%  }
         } %>
     </div>

@@ -98,7 +98,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollowing({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -108,7 +108,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollower({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>

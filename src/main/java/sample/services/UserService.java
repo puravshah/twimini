@@ -33,7 +33,16 @@ public class UserService {
     }
 
     public UserModel getUser(String uid) throws  Exception {
-        return db.queryForObject("SELECT * FROM user where uid = ?", UserModel.rowMapper, uid);
+        int status;
+
+        try {
+            int temporaryUid = db.queryForInt("SELECT uid FROM follow WHERE uid = ? and following = ? AND end IS NULL", userID.get(), uid);
+            status = 1;
+        }
+        catch (Exception e) {
+            status = 0;
+        }
+        return db.queryForObject("SELECT *, ? AS status FROM user WHERE uid = ?", UserModel.rowMapper3, status, uid);
     }
 
 
@@ -42,7 +51,8 @@ public class UserService {
     }
 
     public List<UserModel> getSearch(String query) throws Exception {
-        return db.query("SELECT DISTINCT * FROM user WHERE name = %?% or email = %?%", UserModel.rowMapper, query, query);
+        query = "%" + query + "%";
+        return db.query("SELECT DISTINCT * FROM user WHERE name like ? or email like ?", UserModel.rowMapper, query, query);
     }
 
     public static List<UserModel> getInactiveUser() throws  Exception {
