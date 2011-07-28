@@ -45,10 +45,10 @@
                                 <input type = "text" placeholder = "Full Name" name = "name" class = "span-7" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "email" placeholder = "Email" name = "email" class = "span-7" />
+                                <input type = "email" placeholder = "Email" name = "email" class = "span-7" autocomplete="off" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
+                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" autocomplete="off" />
                             </div>
                             <div class = "span-7 last">
                                 <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />

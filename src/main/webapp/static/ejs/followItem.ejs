@@ -1,4 +1,4 @@
-<div id = <%= divId %> class = "span-14 item-row">
+<div class = "span-14 item-row">
     <div class = "span-2">
         <a href = "/user?uid=<%= id %>">
             <img src = "/static/images/default-profile-picture.gif" height = 50 width = 60/>
@@ -11,10 +11,10 @@
     <div class = "span-2 last follow-button">
         <% if( id != user ) {
                 if(status == 1) { %>
-                    <input type = "button" value = "unfollow" onclick = "userAction(this, <%= user %>, <%= uid %>, <%= id %>);" />
+                    <input type = "button" value = "unfollow" onclick = "userAction(this, <%= id %>);" />
             <%  }
                 else if(status == 0) { %>
-                    <input type = "button" value = "follow" onclick = "userAction(this, <%= user %>, <%= uid %>, <%= id %>);" />
+                    <input type = "button" value = "follow" onclick = "userAction(this, <%= id %>);" />
             <%  }
         } %>
     </div>

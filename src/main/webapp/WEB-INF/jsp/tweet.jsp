@@ -61,22 +61,27 @@
                         </div>
 
                         <div class = "span-12">
-                            <textarea name="tweet" id = "tweet-box" height = '20' width = '70'></textarea>
+                            <textarea name="tweet" id = "tweet-box" height = '20' width = '70' onkeyup = "javascript:checkCharacterLimit(this)" onkeydown = "javascript:checkCharacterLimit(this)"></textarea>
                         </div>
 
                         <div class="span-2 last add-margin-above-20">
                             <input value = "Tweet" onclick = "createTweet({name:'${name}'})" type="button" />
                         </div>
+
+                        <div id = "char-count" class = "span-2 last">
+                            <span id = "tweet-char-left">140</span>
+                            <span>left</span>
+                        </div>
                     </div>
 
                     <div id = "tab-container" class = "span-14 last">
-                        <div class = "span-2 tab tab-active" onclick = "getFeed();">
+                        <div class = "span-2 tab tab-active" onclick = "getFeed( {uid:${uid}} );">
                             <span>Feed</span>
                         </div>
                         <div id = "tabid" class = "span-2 tab" onclick = "getFollowing( {uid:${uid}, user:${uid}} );">
                             <span>Following</span>
                         </div>
-                        <div class = "span-2 tab last" onclick = "getFollowers(  {uid:${uid}, user:${uid}}  );">
+                        <div class = "span-2 tab last" onclick = "getFollowers( {uid:${uid}, user:${uid}} );">
                             <span>Followers</span>
                         </div>
                     </div>
@@ -86,7 +91,8 @@
                             <div id = 'ListOfTweets'>
                                 <c:forEach var = 'item' items = '${tweetList}'>
                                     <script type="text/javascript">
-                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                        var tweet = filter('${item.tweet}');
+                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:tweet, timestamp:'${item.timestamp}'});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -96,7 +102,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollowing({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -106,7 +112,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollower({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -127,15 +133,24 @@
 
                     <div class = "span-8 last add-margin-above-20">
                         <div class = "span-2 colborder center-text">
-                            <a href = "/user?uid=${uid}">Tweets<br />${tweetCount}</a>
+                            <a href = "/user?uid=${uid}">
+                                Tweets<br />
+                                <span id = "tweet-count">${tweetCount}</span>
+                            </a>
                         </div>
 
                         <div class = "span-2 colborder center-text">
-                            <a href = "javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">Following<br />${followingCount}</a>
+                            <a href = "javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">
+                                Following<br />
+                                <span id = "following-count">${followingCount}</span>
+                            </a>
                         </div>
 
                         <div class = "span-2 last center-text">
-                            <a href = "javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">Followers<br />${followerCount}</a>
+                            <a href = "javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">
+                                Followers<br />
+                                <span id = "follower-count">${followerCount}</span>
+                            </a>
                         </div>
                     </div>
 

@@ -71,11 +71,11 @@
                             <a href = "/user/edit?uid=${uid}">Edit Profile</a>
                         <% } else {
                             if((Integer)request.getAttribute("status") == 0) { %>
-                                <input type = "button" value = "follow" onclick = "userAction(this, <%= session.getAttribute("uid") %>, ${uid}, ${uid})" />
+                                <input type = "button" value = "follow" onclick = "userAction(this, ${uid})" />
                                 <!--<a href = "/user/follow?id=${uid}">follow</a>-->
                             <% } else { %>
                                 <!--<a href = "/user/unfollow?id=${uid}">unfollow</a>-->
-                                <input type = "button" value = "unfollow" onclick = "userAction(this, <%= session.getAttribute("uid") %>, ${uid}, ${uid})" />
+                                <input type = "button" value = "unfollow" onclick = "userAction(this, ${uid})" />
                             <% } %>
                         <% } %>
                     </div>
@@ -97,7 +97,8 @@
                             <div id = 'ListOfTweets'>
                                 <c:forEach var = 'item' items = '${tweetList}'>
                                     <script type="text/javascript">
-                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${name}', tweet:'${item.tweet}', timestamp:'${item.timestamp}'});
+                                        var tweet = filter('${item.tweet}');
+                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name:'${name}', tweet:tweet, timestamp:'${item.timestamp}'});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -107,7 +108,7 @@
                             <div id = 'ListOfFollowing'>
                                 <c:forEach var = 'item' items = '${followingList}'>
                                     <script type="text/javascript">
-                                        appendFollowing({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollowing({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -117,7 +118,7 @@
                             <div id = 'ListOfFollower'>
                                 <c:forEach var = 'item' items = '${followerList}'>
                                     <script type="text/javascript">
-                                        appendFollower({uid:${uid}, id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
+                                        appendFollower({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
                                     </script>
                                 </c:forEach>
                             </div>
@@ -141,15 +142,24 @@
 
                     <div class = "span-8 last add-margin-above-20">
                         <div class = "span-2 colborder center-text">
-                            <a href = "javascript:getTweets()">Tweets<br />${tweetCount}</a>
+                            <a href = "javascript:getTweets()">
+                                Tweets<br />
+                                <span id = "tweet-count">${tweetCount}</span>
+                            </a>
                         </div>
 
                         <div class = "span-2 colborder center-text">
-                            <a href = "javascript:getFollowing( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">Following<br />${followingCount}</a>
+                            <a href = "javascript:getFollowing( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">
+                                Following<br />
+                                <span id = "following-count">${followingCount}</span>
+                            </a>
                         </div>
 
                         <div class = "span-2 last center-text">
-                            <a href = "javascript:getFollowers( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">Followers<br />${followerCount}</a>
+                            <a href = "javascript:getFollowers( {uid:${uid}, user:<%= session.getAttribute("uid") %>} )">
+                                Followers<br />
+                                <span id = "follower-count">${followerCount}</span>
+                            </a>
                         </div>
                     </div>
 

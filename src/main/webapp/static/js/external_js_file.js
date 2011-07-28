@@ -9,24 +9,38 @@ function filter(str) {
     return str;
 }
 
+function checkCharacterLimit(field) {
+    if(field.value.length > 140) {
+        field.value = field.value.substring(0, 140);
+    }
+    document.getElementById("tweet-char-left").innerText = 140 - field.value.length;
+}
+
 function createTweet(datas) {
     name = datas.name;
-    var str = filter(document.getElementById("tweet-box").value);
+    alert("before");
+    var str = document.getElementById("tweet-box").value;
+    alert(str);
 
-    $.ajax({
+    dojo.xhrPost({
         url: "/tweet/create",
-        type: "POST",
-        data: {'tweet': str},
-        success: function(data) {
+        handleAs: "json",
+        content: {'tweet': str},
+        load: function(data) {
             if (data.status === "0") alert("Unable to add tweet: " + data.errorMsg);
             else {
                 data.name = name;
+                data.tweet = filter(data.tweet);
                 prependTweet(data);
                 document.getElementById("tweet-box").value = "";
+                document.getElementById("tweet-char-left").innerText = 140;
+                document.getElementById("tweet-count").innerText = parseInt(document.getElementById("tweet-count").innerText) + 1;
             }
+        },
+        error: function(error) {
+            alert(error);
         }
     });
-
 }
 
 function prependTweet(data) {
@@ -49,7 +63,30 @@ function appendFollower(data) {
     $('#ListOfFollower').append(followerItemLi);
 }
 
-function getFeed() {
+function getFeed(datas) {
+    $.ajax({
+        url: "/tweet/getFeed",
+        type: "POST",
+        data: "uid=" + datas.uid,
+        success: function(data) {
+            $('#tweetDiv').show();
+            $('#followingDiv').hide();
+            $('#followerDiv').hide();
+
+            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var newClass = "span-2 tab tab-active";
+            divs[0].setAttribute("class", newClass);
+            divs[1].setAttribute("class", "span-2 tab");
+            divs[2].setAttribute("class", "span-2 tab last");
+
+            $('#ListOfTweets').empty();
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                prependTweet({pid:item.pid, uid:item.uid, name: item.name, tweet:item.tweet, timestamp:item.timestamp});
+            }
+        }
+    });
+
     $('#tweetDiv').show();
     $('#followingDiv').hide();
     $('#followerDiv').hide();
@@ -92,21 +129,11 @@ function getFollowing(datas) {
             $('#ListOfFollowing').empty();
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
-                appendFollowing({uid:datas.uid, id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
+                appendFollowing({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
+            document.getElementById("following-count").innerText = data.length;
         }
     });
-    /*
-     $('#tweetDiv').hide();
-     $('#followingDiv').show();
-     $('#followerDiv').hide();
-
-     var divs = document.getElementById("tab-container").getElementsByTagName("div");
-     var newClass = "span-2 tab tab-active";
-     divs[0].setAttribute("class", "span-2 tab");
-     divs[1].setAttribute("class", newClass);
-     divs[2].setAttribute("class", "span-2 tab last");
-     */
 }
 
 function getFollowers(datas) {
@@ -128,65 +155,37 @@ function getFollowers(datas) {
             $('#ListOfFollower').empty();
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
-                appendFollower({uid:datas.uid, id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
+                appendFollower({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
+            document.getElementById("follower-count").innerText = data.length;
         }
     });
-    /*$('#tweetDiv').hide();
-     $('#followingDiv').hide();
-     $('#followerDiv').show();
-
-     var divs = document.getElementById("tab-container").getElementsByTagName("div");
-     var newClass = "span-2 tab last tab-active";
-     divs[0].setAttribute("class", "span-2 tab");
-     divs[1].setAttribute("class", "span-2 tab");
-     divs[2].setAttribute("class", newClass);*/
 }
 
-function userAction(button, user, uid, id) {
-    if (button.value === 'follow') {
-        follow(button, user, uid, id);
-    }
-    else {
-        unfollow(button, user, uid, id);
-    }
+function userAction(button, id) {
+    if (button.value === 'follow') follow(button, id);
+    else unfollow(button, id);
 }
 
-function unfollow(button, user, uid, id) {
+function unfollow(button, id) {
     $.ajax({
         url: "/user/unfollow",
         type: "POST",
         data: "id=" + id,
         success: function(data) {
-            if (data.status === "1") {
-                /*if (uid == user) $('#followingItem_' + id).remove();
-
-                 var element = document.getElementById('followerItem_' + id);
-                 if (element) element.getElementsByTagName("input")[0].value = "follow";*/
-                button.value = "follow";
-            }
+            if (data.status === "1") button.value = "follow";
             else alert(data.errorMsg);
         }
     });
 }
 
-function follow(button, user, uid, id) {
+function follow(button, id) {
     $.ajax({
         url: "/user/follow",
         type: "POST",
         data: "id=" + id,
         success: function(data) {
-            if (data.status === "1") {
-                /*if (user == uid) {
-                 data.user = user;
-                 data.id = id;
-                 appendFollowing(data);
-                 }
-
-                 var element = document.getElementById('followerItem_' + id);
-                 if (element) element.getElementsByTagName("input")[0].value = "unfollow";*/
-                button.value = "unfollow";
-            }
+            if (data.status === "1") button.value = "unfollow";
             else alert(data.errorMsg);
         }
     });

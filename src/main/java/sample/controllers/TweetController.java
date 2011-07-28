@@ -40,6 +40,11 @@ public class TweetController {
         this.tweetService=tweetService;
     }
 
+    @RequestMapping("/test")
+    public ModelAndView test() {
+        return new ModelAndView();
+    }
+
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
         String uid = (String)session.getAttribute("uid");
