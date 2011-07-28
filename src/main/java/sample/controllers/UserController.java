@@ -153,6 +153,23 @@ public class UserController {
         return   mv;
     }
 
+    @RequestMapping("/forgot")
+    ModelAndView getResetPassword(@RequestParam String email)
+    {
+
+        ModelAndView mv = new ModelAndView("redirect:/") ;
+        return   mv;
+    }
+
+    @RequestMapping(value="/forgot",method=RequestMethod.POST)
+        ModelAndView postResetPassword(@RequestParam String email)
+        {
+
+            ModelAndView mv = new ModelAndView("redirect:/") ;
+            return   mv;
+        }
+
+
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
         ModelAndView mv = new ModelAndView();

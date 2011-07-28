@@ -21,51 +21,143 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 
-public class Mail extends Thread
+public abstract class Mail extends Thread
 {
     private static final String SMTP_HOST_NAME = "smtp.gmail.com";
     private static final String SMTP_PORT = "465";
-    private static       String emailMsg= "Hello";
-    private static       String emailContent="This is a activation mail .Please click on the below given link to activate your account\n";
-    private static final String emailMsgTxt = "http://localhost:8080/activate";
-    private static final String emailSubjectTxt = "Confirmation Email";
     private static final String emailFromAddress = "rakesh.sentmailid@gmail.com";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+    private              String emailSubjectTxt = "Confirmation Email";
 
     private  String[] sendTo ;
-    private final SimpleJdbcTemplate db;
+    private  SimpleJdbcTemplate db;
     List<UserModel> user;
     UserService userService;
     List<String> EmailList;
     String[] messageText;
-
+    String email;
     @Autowired
-    Mail(SimpleJdbcTemplate db)
+    public Mail(SimpleJdbcTemplate db)
     {
         this.db=db;
     }
 
+    @Autowired
+    public Mail(String email)
+    {
+      this.email=email;
+    }
+
+
+
+
+
+    public void setSendTo(String[] sendTo) {
+        this.sendTo = sendTo;
+    }
+
+    public void setDb(SimpleJdbcTemplate db) {
+        this.db = db;
+    }
+
+    public void setUser(List<UserModel> user) {
+        this.user = user;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setEmailList(List<String> emailList) {
+        EmailList = emailList;
+    }
+
+    public void setMessageText(String[] messageText) {
+        this.messageText = messageText;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public static String getSmtpHostName() {
+
+        return SMTP_HOST_NAME;
+    }
+
+    public static String getSmtpPort() {
+        return SMTP_PORT;
+    }
+
+
+    public static String getEmailFromAddress() {
+        return emailFromAddress;
+    }
+
+    public static String getSslFactory() {
+        return SSL_FACTORY;
+    }
+
+    public String[] getSendTo() {
+        return sendTo;
+    }
+
+    public SimpleJdbcTemplate getDb() {
+        return db;
+    }
+
+    public List<UserModel> getUser() {
+        return user;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public List<String> getEmailList() {
+        return EmailList;
+    }
+
+    public String[] getMessageText() {
+        return messageText;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+
+
+
+
+
+
+
+
+
     @Async
-    public  void RunMail()
+    public  void runMultipleMail()
     {
         try
         {
 
-            user= UserService.getInactiveUser();
-
-            sendTo=new String[user.size()];
-            messageText=new String[user.size()];
-            for(int index=0;index<user.size();index++)
-            {
-
-                sendTo[index]=user.get(index).getEmail();
-                messageText[index]="Hello "+user.get(index).getName()+"\n" +
-                                    emailContent+"\n"
-                                    +emailMsgTxt+"?"+"uid"+"="+user.get(index).getUid()+
-                                     "\n\n\n\n Regards\n"+
-                                     "Rakesh Kumar";
-
-            }
+            userInfo();
+//            user= UserService.getInactiveUser();
+//
+//            sendTo=new String[user.size()];
+//            messageText=new String[user.size()];
+//            for(int index=0;index<user.size();index++)
+//            {
+//
+//                sendTo[index]=user.get(index).getEmail();
+//                messageText[index]="Hello "+user.get(index).getName()+"\n" +
+//                                    emailContent+"\n"
+//                                    + emailActivationMsgTxt +"?"+"uid"+"="+user.get(index).getUid()+
+//                                     "\n\n\n\n Regards\n"+
+//                                     "Rakesh Kumar";
+//
+//            }
 
             if(sendTo.length>0)
             {
@@ -85,6 +177,8 @@ public class Mail extends Thread
         }
 
     }
+
+    public abstract void userInfo() throws Exception;
 
     public void sendSSLMessage(String recipients[], String subject,String[] message, String from) throws MessagingException
         {
@@ -137,7 +231,7 @@ public class Mail extends Thread
             while(true)
             {
 
-                RunMail();
+                runMultipleMail();
                 sleep(150000);
             }
         }
