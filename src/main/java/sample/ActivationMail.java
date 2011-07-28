@@ -1,6 +1,7 @@
 package sample;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import sample.model.UserModel;
 import sample.services.UserService;
 
 /**
@@ -70,5 +71,28 @@ public class ActivationMail extends Mail {
             }
 
 
+
     }
+
+    @Override
+    public void run() {
+        //To change body of implemented methods use File | Settings | File Templates.
+      {
+        try
+        {
+            while(true)
+            {
+
+                runMultipleMail();
+                sleep(150000);
+            }
+        }
+        catch (Exception e1)
+        {
+          e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+      }
+    }
+
 }

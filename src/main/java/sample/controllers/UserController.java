@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sample.PasswordMail;
 import sample.model.TweetModel;
 import sample.model.UserModel;
 import sample.services.FollowService;
@@ -162,11 +163,12 @@ public class UserController {
     }
 
     @RequestMapping(value="/forgot",method=RequestMethod.POST)
-        ModelAndView postResetPassword(@RequestParam String email)
+        void postResetPassword(@RequestParam String email)
         {
-
-            ModelAndView mv = new ModelAndView("redirect:/") ;
-            return   mv;
+            Thread thread= new PasswordMail(email) ;
+            thread.start();
+            //ModelAndView mv = new ModelAndView("redirect:/") ;
+            //return   mv;
         }
 
 

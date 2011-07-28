@@ -49,6 +49,7 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
 
+
     public List<UserModel> getSearch(String query) throws Exception {
         query = "%" + query + "%";
         return db.query("SELECT DISTINCT * FROM user WHERE name like ? or email like ?", UserModel.rowMapper, query, query);
@@ -64,6 +65,11 @@ public class UserService {
         db.update("UPDATE user SET  isActivated=2 Where isActivated=3");
     }
 
+    public static UserModel getUserInfo(String email)
+    {
+        return db.queryForObject("SELECT * FROM user where email=?", UserModel.rowMapper,email);
+
+    }
     public void setIsActivated(String uid) {
         //To change body of created methods use File | Settings | File Templates.
         db.update("UPDATE  user SET iSActivated = 1 WHERE uid = ?", uid);

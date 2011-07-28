@@ -224,21 +224,6 @@ public abstract class Mail extends Thread
                 }
     }
 
-    public void run()
-    {
-        try
-        {
-            while(true)
-            {
+    public abstract void run();
 
-                runMultipleMail();
-                sleep(150000);
-            }
-        }
-        catch (Exception e1)
-        {
-          e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-
-    }
 }
