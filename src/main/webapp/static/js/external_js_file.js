@@ -18,9 +18,7 @@ function checkCharacterLimit(field) {
 
 function createTweet(datas) {
     name = datas.name;
-    alert("before");
     var str = document.getElementById("tweet-box").value;
-    alert(str);
 
     dojo.xhrPost({
         url: "/tweet/create",
@@ -64,11 +62,11 @@ function appendFollower(data) {
 }
 
 function getFeed(datas) {
-    $.ajax({
+    dojo.xhrPost({
         url: "/tweet/getFeed",
-        type: "POST",
-        data: "uid=" + datas.uid,
-        success: function(data) {
+        handleAs: "json",
+        content: {uid:datas.uid},
+        load: function(data) {
             $('#tweetDiv').show();
             $('#followingDiv').hide();
             $('#followerDiv').hide();
@@ -84,6 +82,9 @@ function getFeed(datas) {
                 item = data[i];
                 prependTweet({pid:item.pid, uid:item.uid, name: item.name, tweet:item.tweet, timestamp:item.timestamp});
             }
+        },
+        error: function(error) {
+            alert(error);
         }
     });
 
@@ -111,11 +112,11 @@ function getTweets() {
 }
 
 function getFollowing(datas) {
-    $.ajax({
+    dojo.xhrPost({
         url: "/user/getFollowing",
-        type: "POST",
-        data: "uid=" + datas.uid,
-        success: function(data) {
+        handleAs: "json",
+        content: {uid:datas.uid},
+        load: function(data) {
             $('#tweetDiv').hide();
             $('#followingDiv').show();
             $('#followerDiv').hide();
@@ -132,16 +133,19 @@ function getFollowing(datas) {
                 appendFollowing({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
             document.getElementById("following-count").innerText = data.length;
+        },
+        error: function(error) {
+            alert(error);
         }
     });
 }
 
 function getFollowers(datas) {
-    $.ajax({
+    dojo.xhrPost({
         url: "/user/getFollower",
-        type: "POST",
-        data: "uid=" + datas.uid,
-        success: function(data) {
+        handleAs: "json",
+        content: {uid:datas.uid},
+        load: function(data) {
             $('#tweetDiv').hide();
             $('#followingDiv').hide();
             $('#followerDiv').show();
@@ -158,6 +162,9 @@ function getFollowers(datas) {
                 appendFollower({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
             document.getElementById("follower-count").innerText = data.length;
+        },
+        error: function(error) {
+            alert(error);
         }
     });
 }
@@ -168,25 +175,31 @@ function userAction(button, id) {
 }
 
 function unfollow(button, id) {
-    $.ajax({
+    dojo.xhrPost({
         url: "/user/unfollow",
-        type: "POST",
-        data: "id=" + id,
-        success: function(data) {
+        handleAs: "json",
+        content: {id:id},
+        load: function(data) {
             if (data.status === "1") button.value = "follow";
             else alert(data.errorMsg);
+        },
+        error: function(error) {
+            alert(error);
         }
     });
 }
 
 function follow(button, id) {
-    $.ajax({
+    dojo.xhrPost({
         url: "/user/follow",
-        type: "POST",
-        data: "id=" + id,
-        success: function(data) {
+        handleAs: "json",
+        content: {id:id},
+        load: function(data) {
             if (data.status === "1") button.value = "unfollow";
             else alert(data.errorMsg);
+        },
+        error: function(error) {
+            alert(error);
         }
     });
 }
@@ -215,6 +228,5 @@ function validate(data) {
             }
         if (ok == 0) return false;
     }
-
     return true;
 }
