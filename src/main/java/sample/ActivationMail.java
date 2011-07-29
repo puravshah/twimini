@@ -52,12 +52,10 @@ public class ActivationMail extends Mail {
 
     @Override
     public void userInfo() throws Exception {
-        //To change body of implemented methods use File | Settings | File Templates.
-
         user = UserService.getInactiveUser();
-
         setSendTo(new String[user.size()]);
         setMessageText(new String[user.size()]);
+
         for (int index = 0; index < user.size(); index++) {
 
             getSendTo()[index] = user.get(index).getEmail();
@@ -67,27 +65,21 @@ public class ActivationMail extends Mail {
                     + getEmailActivationMsgTxt() + "?" + "uid" + "=" + user.get(index).getUid() +
                     "\n\n\n\n Regards\n" +
                     "Rakesh Kumar";
-
         }
-
-
     }
 
     @Override
     public void run() {
-        //To change body of implemented methods use File | Settings | File Templates.
-        {
-            try {
-                while (true) {
+        try {
+            while (true) {
 
-                    runMultipleMail();
-                    sleep(150000);
-                }
-            } catch (Exception e1) {
-                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                runMultipleMail();
+                sleep(150000);
             }
-
+        } catch (Exception e1) {
+            e1.printStackTrace();
         }
+
     }
 
 }

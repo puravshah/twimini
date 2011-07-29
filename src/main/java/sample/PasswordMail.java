@@ -1,6 +1,7 @@
 package sample;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 import sample.model.UserModel;
 import sample.services.UserService;
 
@@ -15,51 +16,40 @@ public class PasswordMail extends Mail {
     private UserService service;
 
     String name;
-
     private String emailMsg = "Hello";
-    private static final String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
+    private static final String emailContent = "";
     private String emailPasswordMsgTxt = "http://localhost:8080/forgotPassword";
     private String emailSubjectTxt = "Forgot password Email";
+    private String uuid;
 
     public PasswordMail(SimpleJdbcTemplate db) {
         super(db);
     }
 
-    public PasswordMail(String email) {
+    public PasswordMail(String email, String uuid) {
         super(email);
-
+        this.uuid = uuid;
     }
 
     @Override
     public void userInfo() throws Exception {
-        //To change body of implemented methods use File | Settings | File Templates.
         //setEmail(getemail);
-        String[] email = new String[1];
-        setSendTo(email);
-        UserModel user = UserService.getUserInfo(email[0]);
+        String[] emails = new String[1];
+        emails[0] = email;
+        setSendTo(emails);
+        UserModel user = UserService.getUserInfo(emails[0]);
 
-        getMessageText()[0] = "Hello " + user.getName() + "\n" +
-                emailContent + "\n"
-                + emailPasswordMsgTxt +
-                "\n\n\n\n Regards\n" +
-                "Rakesh Kumar";
+        getMessageText()[0] = String.format("Hello %s,\n\nThe code to reset your password is given below. Using this code, you can reset your password.\nReset code: %s\n\nNote: This token can be used only once.\n\nRegards, \nTwimini.\n\nThis email was sent because someone requested to reset the password associated with this account. If you did not ask to reset your password, then kindly ignore this email.", user.getName(), uuid);
     }
 
     @Override
     public void run() {
-        //To change body of implemented methods use File | Settings | File Templates.
-        {
-            try {
-
-                runMultipleMail();
-                //sleep(150000);
-
-            } catch (Exception e1) {
-                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-
+        try {
+            runMultipleMail();
+            //sleep(150000);
+        } catch (Exception e1) {
+            e1.printStackTrace();
         }
-
     }
 }
 

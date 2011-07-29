@@ -239,6 +239,10 @@ function toggleLoginDropdown() {
     $("#login-dropdown").toggle();
 }
 
+function showResetFields() {
+    $('#reset-fields-container').show();
+}
+
 function changeButtonText(button) {
     setInnerText(button, "Unfollow");
 }

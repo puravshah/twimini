@@ -18,6 +18,7 @@ import sample.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 
@@ -188,23 +189,30 @@ public class UserController {
     }
 
     @RequestMapping("/forgot")
-    ModelAndView getResetPassword(@RequestParam String email) {
-
-        ModelAndView mv = new ModelAndView("redirect:/");
-        return mv;
+    ModelAndView getForgotLink() {
+        return new ModelAndView();
     }
 
-    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
-    void postForgotLink(@RequestParam String email) {
-        Thread thread = new PasswordMail(email);
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST) @ResponseBody
+    boolean postForgotLink(@RequestParam String email) {
+        boolean status = true;
+        Thread thread = new PasswordMail(email, UUID.randomUUID().toString());
         thread.start();
-        //ModelAndView mv = new ModelAndView("redirect:/") ;
-        //return   mv;
+        return status;
     }
 
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
-    void postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
-
+    ModelAndView postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
+        ModelAndView mv = new ModelAndView("/"), error = new ModelAndView();
+        if(password.equals("") || cpassword.equals("") || token.equals("")) {
+            error.addObject("msg", "Please fill out all the fields");
+            return error;
+        }
+        if(password.equals(cpassword)) {
+            error.addObject("msg", "Passwords dont match");
+            return error;
+        }
+        return mv;
     }
 
     @RequestMapping("/user")

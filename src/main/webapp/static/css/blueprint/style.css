@@ -401,3 +401,11 @@ ul#following-thumbs-container li, ul#follower-thumbs-container li {
 ul#following-thumbs-container a, ul#follower-thumbs-container a {
     text-decoration: none;
 }
+
+#reset-container {
+    margin-top: 30px;
+    margin-left: 50px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}

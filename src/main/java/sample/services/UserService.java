@@ -61,17 +61,15 @@ public class UserService {
     }
 
     public static void setToPartialState() {
-        //To change body of created methods use File | Settings | File Templates.
         db.update("UPDATE user SET isActivated=2 Where isActivated=3");
     }
 
-    public static UserModel getUserInfo(String email)
-    {
-        return db.queryForObject("SELECT * FROM user where email=?", UserModel.rowMapper,email);
-
+    public static UserModel getUserInfo(String email) {
+        System.out.println("Email : " + email);
+        return db.queryForObject("SELECT * FROM user where email = ?", UserModel.rowMapper, email);
     }
+
     public void setIsActivated(String uid) {
-        //To change body of created methods use File | Settings | File Templates.
         db.update("UPDATE user SET iSActivated = 1 WHERE uid = ?", uid);
     }
 }
