@@ -44,18 +44,16 @@ public class UserService {
         return db.queryForObject("SELECT *, ? AS status FROM user WHERE uid = ?", UserModel.rowMapper3, status, uid);
     }
 
-
     public UserModel getUser(String email, String password) throws Exception {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
-
 
     public List<UserModel> getSearch(String query) throws Exception {
         query = "%" + query + "%";
         return db.query("SELECT DISTINCT * FROM user WHERE name like ? or email like ?", UserModel.rowMapper, query, query);
     }
 
-    public static List<UserModel> getInactiveUser() throws Exception {
+    public static List<UserModel> getInactiveUser() {
         db.update("UPDATE user SET isActivated=3 Where isActivated=0");
         return db.query("SELECT * FROM user where isActivated=3", UserModel.rowMapper);
     }
@@ -65,11 +63,26 @@ public class UserService {
     }
 
     public static UserModel getUserInfo(String email) {
-        System.out.println("Email : " + email);
         return db.queryForObject("SELECT * FROM user where email = ?", UserModel.rowMapper, email);
     }
 
     public void setIsActivated(String uid) {
         db.update("UPDATE user SET iSActivated = 1 WHERE uid = ?", uid);
+    }
+
+    public static void addToken(String token, int uid) throws Exception {
+        db.update("INSERT INTO forgot_token values(?, ?, now())", token, uid);
+    }
+
+    public static int getUidFromForgotToken(String token) throws Exception {
+        return db.queryForInt("SELECT uid FROM forgot_token WHERE token = ?", token);
+    }
+
+    public static void removeForgotToken(String token) throws Exception {
+        db.update("DELETE FROM forgot_token WHERE token = ?", token);
+    }
+
+    public static void changePassword(String uid, String password) throws Exception {
+        db.update("UPDATE user SET password = ? WHERE uid = ?", password, uid);
     }
 }

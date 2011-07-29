@@ -9,39 +9,30 @@
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
         <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
         <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
     </head>
 
     <body>
         <div class = "container">
             <jsp:include page = "indexHeader.jsp"></jsp:include>
 
-            <div id = "body-container" class = "span-24 last">
-                <div id = "reset-container" class = "span-5">
-                    <div class = "span-5">
-                        <form method = "POST" action = "/forgot">
-                            <input type = "email" name = "email" placeholder = "Email" />
-                            <input type = "submit" value = "Submit" />
-                        </form>
-                    </div>
+            <div id = "body-container" class = "container">
+                <div class = "prepend-5 span-15 append-4 last">
+                    <div id = "reset-container" class = "span-15">
+                        <div id = "msg-container" class = "span-15 last">
+                            <span>
+                                <h5>Forgot your password? Just enter your Email id here, and we'll send you a reset code. Use that reset code to change your password.</h5>
+                            </span>
+                        </div>
 
-                    <div id = "reset-fields-container" class = "span-5">
-                        <form method = "POST" action = "/reset">
-                            <input type = "text" name = "token" placeholder = "Reset Code" />
-                            <input type = "password" name = "password" placeholder = "New Password" />
-                            <input type = "password" name = "cpassword" placeholder = "Confirm Password" />
-                            <input type = "submit" value = "Submit" />
-                        </form>
-                    </div>
+                        <div class = "span-5 append-10 add-margin-above-20 last">
+                            <input id = "email" type = "email" name = "email" placeholder = "Email" />
+                            <input type = "button" value = "Submit" onclick = "doForgot();" />
+                        </div>
 
-                    <script type = "text/javascript">
-                        $('#reset-fields-container').hide();
-                    </script>
-
-                    <div class = "span-2">
-                        <span>
-                            Already have the reset code?
-                            <a href = "javascript:showResetFields();">Click Here</a>
-                        </span>
+                        <div id = "forgot-msg" class = "span-15 forgot-msg last add-margin-above-20">
+                            ${msg}
+                        </div>
                     </div>
                 </div>
             </div>

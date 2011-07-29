@@ -193,35 +193,50 @@ public class UserController {
         return new ModelAndView();
     }
 
-    @RequestMapping(value = "/forgot", method = RequestMethod.POST) @ResponseBody
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
+    @ResponseBody
     boolean postForgotLink(@RequestParam String email) {
-        boolean status = true;
-        UserModel userModel = new UserModel();
-        try
-        {
-            userModel=UserService.getUserInfo(email);
-            Thread thread = new PasswordMail(userModel, UUID.randomUUID().toString());
+
+        UserModel userModel;
+        try {
+            userModel = UserService.getUserInfo(email);
+            String token = UUID.randomUUID().toString();
+            Thread thread = new PasswordMail(userModel, token);
             thread.start();
+            UserService.addToken(token, userModel.getUid());
+        } catch (Exception e) {
+            return false;
         }
-        catch(Exception e)
-        {
-             return status=false;
+        return true;
+    }
+
+    @RequestMapping("/reset")
+    ModelAndView getResetPassword(String token) {
+        final int uid;
+        try {
+            uid = UserService.getUidFromForgotToken(token);
+            UserService.removeForgotToken(token);
+        } catch(Exception e) {
+            return new ModelAndView("/forgot") {{
+                addObject("msg", "Reset Token is invalid");
+            }};
         }
-    return status;
+
+        return new ModelAndView() {{
+            addObject("uid", uid);
+        }};
     }
 
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
-    ModelAndView postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
-        ModelAndView mv = new ModelAndView("/"), error = new ModelAndView();
-        if(password.equals("") || cpassword.equals("") || token.equals("")) {
-            error.addObject("msg", "Please fill out all the fields");
-            return error;
+    @ResponseBody
+    boolean postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String uid) {
+
+        try {
+            UserService.changePassword(uid, password);
+        } catch (Exception e) {
+            return false;
         }
-        if(password.equals(cpassword)) {
-            error.addObject("msg", "Passwords dont match");
-            return error;
-        }
-        return mv;
+        return true;
     }
 
     @RequestMapping("/user")

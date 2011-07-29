@@ -126,6 +126,10 @@ div.item-row:hover {
     vertical-align: middle;
 }
 
+div.forgot-msg {
+    color: red !important;
+}
+
 .follow-button, .follow-unfollow-button {
     padding: 10px;
 }
@@ -404,8 +408,9 @@ ul#following-thumbs-container a, ul#follower-thumbs-container a {
 
 #reset-container {
     margin-top: 30px;
-    margin-left: 50px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
+    background: white;
+    padding: 20px;
 }

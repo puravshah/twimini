@@ -226,6 +226,69 @@ function follow(button, id) {
     });
 }
 
+function doForgot() {
+    var email = dojo.byId("email").value;
+    if(email === "") {
+        dojo.byId("forgot-msg").innerHTML = "<span>Please enter your email id</span>";
+        return;
+    }
+
+    dojo.xhrPost({
+        url: "/forgot",
+        handleAs: "json",
+        content: {email: email},
+        load: function(data) {
+            if(data == true) {
+                dojo.byId("msg-container").innerHTML = "<span><h5>An email has been sent to you, which contains the instructions to reset your password</h5></span>";
+                dojo.byId("forgot-msg").innerHTML = "<span></span>";
+            }
+            else {
+                dojo.byId("forgot-msg").innerHTML = "<span>Invalid email. We do not have a record of your email id</span>";
+            }
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function doReset() {
+    var password = dojo.byId("password").value;
+    var cpassword = dojo.byId("cpassword").value;
+    var uid = dojo.byId("uid").value;
+
+    if(password === "" || cpassword === "") {
+        dojo.byId("forgot-msg").innerHTML = "<span>Please fill out all the fields</span>";
+        return false;
+    }
+    if(password !== cpassword) {
+        dojo.byId("forgot-msg").innerHTML = "<span>The passwords don't match</span>";
+        return false;
+    }
+
+    dojo.xhrPost({
+        url: "/reset",
+        handleAs: "json",
+        content: {password: password, cpassword: cpassword, uid: uid},
+        load: function(data) {
+            if(data == true) {
+                dojo.byId("msg-container").innerHTML = "<span><h5>Password successfully changed.</h5></span>";
+                dojo.byId("forgot-msg").innerHTML = "<span></span>";
+            }
+            else {
+                dojo.byId("forgot-msg").innerHTML = "<span>Unable to change your password</span>";
+            }
+
+            dojo.byId("password").value = "";
+            dojo.byId("cpassword").value = "";
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+    return false;
+}
+
 function search() {
     searchText = dojo.byId("search-box").value;
     alert(searchText);
@@ -241,6 +304,7 @@ function toggleLoginDropdown() {
 
 function showResetFields() {
     $('#reset-fields-container').show();
+    $('#reset-show-text').hide();
 }
 
 function changeButtonText(button) {
