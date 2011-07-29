@@ -196,9 +196,18 @@ public class UserController {
     @RequestMapping(value = "/forgot", method = RequestMethod.POST) @ResponseBody
     boolean postForgotLink(@RequestParam String email) {
         boolean status = true;
-        Thread thread = new PasswordMail(email, UUID.randomUUID().toString());
-        thread.start();
-        return status;
+        UserModel userModel = new UserModel();
+        try
+        {
+            userModel=UserService.getUserInfo(email);
+            Thread thread = new PasswordMail(userModel, UUID.randomUUID().toString());
+            thread.start();
+        }
+        catch(Exception e)
+        {
+             return status=false;
+        }
+    return status;
     }
 
     @RequestMapping(value = "/reset", method = RequestMethod.POST)

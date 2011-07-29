@@ -1,7 +1,6 @@
 package sample;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 import sample.model.UserModel;
 import sample.services.UserService;
 
@@ -14,7 +13,7 @@ import sample.services.UserService;
  */
 public class PasswordMail extends Mail {
     private UserService service;
-
+    private UserModel userModel;
     String name;
     private String emailMsg = "Hello";
     private static final String emailContent = "";
@@ -26,20 +25,19 @@ public class PasswordMail extends Mail {
         super(db);
     }
 
-    public PasswordMail(String email, String uuid) {
-        super(email);
+    public PasswordMail(UserModel userModel, String uuid) {
+        super(userModel.getEmail());
+        this.userModel=userModel;
         this.uuid = uuid;
     }
 
     @Override
     public void userInfo() throws Exception {
-        //setEmail(getemail);
-        String[] emails = new String[1];
-        emails[0] = email;
-        setSendTo(emails);
-        UserModel user = UserService.getUserInfo(emails[0]);
-
-        getMessageText()[0] = String.format("Hello %s,\n\nThe code to reset your password is given below. Using this code, you can reset your password.\nReset code: %s\n\nNote: This token can be used only once.\n\nRegards, \nTwimini.\n\nThis email was sent because someone requested to reset the password associated with this account. If you did not ask to reset your password, then kindly ignore this email.", user.getName(), uuid);
+        //setEmail(getemail)
+        String[] email = new String[1];
+        email[0]=getEmail();
+        setSendTo(email);
+        setMessageText(String.format("Hello %s,\n\nThe code to reset your password is given below. Using this code, you can reset your password.\nReset code: %s\n\nNote: This token can be used only once.\n\nRegards, \nTwimini.\n\nThis email was sent because someone requested to reset the password associated with this account. If you did not ask to reset your password, then kindly ignore this email.",userModel.getName(), uuid));
     }
 
     @Override

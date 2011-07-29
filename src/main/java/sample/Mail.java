@@ -74,6 +74,10 @@ public abstract class Mail extends Thread {
         this.messageText = messageText;
     }
 
+    public void setMessageText(String messageText) {
+        this.messageText=new String[1];
+        this.messageText[0] = messageText;
+    }
     public void setEmail(String email) {
         this.email = email;
     }
@@ -126,15 +130,18 @@ public abstract class Mail extends Thread {
 
     @Async
     public void runMultipleMail() {
-        try {
-            userInfo();
-
-            if (sendTo.length > 0) {
-                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-                sendSSLMessage(sendTo, emailSubjectTxt, messageText, emailFromAddress);
-                UserService.setToPartialState();
-            }
-        } catch (Exception e) {
+        String userMessage;
+        try
+        {
+                userInfo();
+                if (sendTo.length > 0) {
+                    Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+                    sendSSLMessage(sendTo, emailSubjectTxt, messageText, emailFromAddress);
+                    UserService.setToPartialState();
+                }
+        }
+        catch (Exception e)
+        {
             System.out.println("" + e);
         }
     }
@@ -162,7 +169,7 @@ public abstract class Mail extends Thread {
                         }
                 );
 
-        session.setDebug(debug);
+        //session.setDebug(debug);
 
         Message msg = new MimeMessage(session);
         InternetAddress addressFrom = new InternetAddress(from);
