@@ -1,0 +1,36 @@
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<html>
+    <head>
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
+        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
+        <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
+    </head>
+
+    <body>
+        <div class = "container">
+            <jsp:include page = "indexHeader.jsp"></jsp:include>
+
+            <div id = "body-container" class = "span-24 last">
+                <div class = "span-5 last">
+                    <form method = "POST" action = "/forgot">
+                        <input type = "email" name = "email" placeholder = "email" />
+                        <input type = "submit" value = "Submit" />
+                    </form>
+                </div>
+
+                <div id = "reset-fields-container" class = "span-5 last">
+                    <form method = "POST" action = "/forgot">
+                        <input type = "email" name = "email" placeholder = "email" />
+                        <input type = "submit" value = "Submit" />
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

@@ -13,12 +13,12 @@ import sample.services.UserService;
  */
 public class ActivationMail extends Mail {
 
-        private              String emailMsg= "Hello";
-        private              String emailContent="This is a activation mail .Please click on the below given link to activate your account\n";
-        private              String emailActivationMsgTxt = "http://localhost:8080/activate";
-        private              String emailSubjectTxt = "Confirmation Email";
+    private String emailMsg = "Hello";
+    private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
+    private String emailActivationMsgTxt = "http://localhost:8080/activate";
+    private String emailSubjectTxt = "Confirmation Email";
 
-    public  String getEmailSubjectTxt() {
+    public String getEmailSubjectTxt() {
         return emailSubjectTxt;
     }
 
@@ -54,22 +54,21 @@ public class ActivationMail extends Mail {
     public void userInfo() throws Exception {
         //To change body of implemented methods use File | Settings | File Templates.
 
-        user= UserService.getInactiveUser();
+        user = UserService.getInactiveUser();
 
-            setSendTo(new String[user.size()]);
-            setMessageText(new String[user.size()]);
-            for(int index=0;index<user.size();index++)
-            {
+        setSendTo(new String[user.size()]);
+        setMessageText(new String[user.size()]);
+        for (int index = 0; index < user.size(); index++) {
 
-                getSendTo()[index]=user.get(index).getEmail();
-                getMessageText()[index]="Hello "+user.get(index).getName()+"\n" +
-                                    getEmailContent()+"\n"
-                                    + getEmailActivationMsgTxt() +"?"+"uid"+"="+user.get(index).getUid()+
-                                     "\n\n\n\n Regards\n"+
-                                     "Rakesh Kumar";
+            getSendTo()[index] = user.get(index).getEmail();
+            //messageText[index] = String.format("Hello %s,\n\n%s\n%s?uid=%d\n\nRegards,\nTwimini\n\n%s", user.get(index).getName(), emailContent, emailMsgTxt, user.get(index).getUid(), notYou);
+            getMessageText()[index] = "Hello " + user.get(index).getName() + "\n" +
+                    getEmailContent() + "\n"
+                    + getEmailActivationMsgTxt() + "?" + "uid" + "=" + user.get(index).getUid() +
+                    "\n\n\n\n Regards\n" +
+                    "Rakesh Kumar";
 
-            }
-
+        }
 
 
     }
@@ -77,22 +76,18 @@ public class ActivationMail extends Mail {
     @Override
     public void run() {
         //To change body of implemented methods use File | Settings | File Templates.
-      {
-        try
         {
-            while(true)
-            {
+            try {
+                while (true) {
 
-                runMultipleMail();
-                sleep(150000);
+                    runMultipleMail();
+                    sleep(150000);
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
-        catch (Exception e1)
-        {
-          e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 
-      }
+        }
     }
 
 }

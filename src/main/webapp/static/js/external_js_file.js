@@ -1,3 +1,13 @@
+function setInnerText(element, text) {
+    if(document.all) element.innerText = text;
+    else element.textContent = text;
+}
+
+function getInnerText(element) {
+    if(document.all) return element.innerText;
+    return element.textContent;
+}
+
 function filter(str) {
     str = str.replace(/[&]/g, '&amp;');
     str = str.replace(/[<]/g, '&lt;');
@@ -10,15 +20,15 @@ function filter(str) {
 }
 
 function checkCharacterLimit(field) {
-    if(field.value.length > 140) {
+    if (field.value.length > 140) {
         field.value = field.value.substring(0, 140);
     }
-    document.getElementById("tweet-char-left").innerText = 140 - field.value.length;
+    setInnerText(dojo.byId("tweet-char-left"), 140 - field.value.length);
 }
 
 function createTweet(datas) {
     name = datas.name;
-    var str = document.getElementById("tweet-box").value;
+    var str = dojo.byId("tweet-box").value;
 
     dojo.xhrPost({
         url: "/tweet/create",
@@ -30,9 +40,9 @@ function createTweet(datas) {
                 data.name = name;
                 data.tweet = filter(data.tweet);
                 prependTweet(data);
-                document.getElementById("tweet-box").value = "";
-                document.getElementById("tweet-char-left").innerText = 140;
-                document.getElementById("tweet-count").innerText = parseInt(document.getElementById("tweet-count").innerText) + 1;
+                dojo.byId("tweet-box").value = "";
+                setInnerText(dojo.byId("tweet-char-left"), 140);
+                setInnerText(dojo.byId("tweet-count"), parseInt(getInnerText(dojo.byId("tweet-count"))) + 1);
             }
         },
         error: function(error) {
@@ -71,7 +81,7 @@ function getFeed(datas) {
             $('#followingDiv').hide();
             $('#followerDiv').hide();
 
-            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var divs = dojo.byId("tab-container").getElementsByTagName("div");
             var newClass = "span-2 tab tab-active";
             divs[0].setAttribute("class", newClass);
             divs[1].setAttribute("class", "span-2 tab");
@@ -92,7 +102,7 @@ function getFeed(datas) {
     $('#followingDiv').hide();
     $('#followerDiv').hide();
 
-    var divs = document.getElementById("tab-container").getElementsByTagName("div");
+    var divs = dojo.byId("tab-container").getElementsByTagName("div");
     var newClass = "span-2 tab tab-active";
     divs[0].setAttribute("class", newClass);
     divs[1].setAttribute("class", "span-2 tab");
@@ -104,7 +114,7 @@ function getTweets() {
     $('#followingDiv').hide();
     $('#followerDiv').hide();
 
-    var divs = document.getElementById("tab-container").getElementsByTagName("div");
+    var divs = dojo.byId("tab-container").getElementsByTagName("div");
     var newClass = "span-2 tab tab-active";
     divs[0].setAttribute("class", newClass);
     divs[1].setAttribute("class", "span-2 tab");
@@ -121,7 +131,7 @@ function getFollowing(datas) {
             $('#followingDiv').show();
             $('#followerDiv').hide();
 
-            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var divs = dojo.byId("tab-container").getElementsByTagName("div");
             var newClass = "span-2 tab tab-active";
             divs[0].setAttribute("class", "span-2 tab");
             divs[1].setAttribute("class", newClass);
@@ -132,7 +142,7 @@ function getFollowing(datas) {
                 item = data[i];
                 appendFollowing({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
-            document.getElementById("following-count").innerText = data.length;
+            setInnerText(dojo.byId("following-count"), data.length);
         },
         error: function(error) {
             alert(error);
@@ -150,7 +160,7 @@ function getFollowers(datas) {
             $('#followingDiv').hide();
             $('#followerDiv').show();
 
-            var divs = document.getElementById("tab-container").getElementsByTagName("div");
+            var divs = dojo.byId("tab-container").getElementsByTagName("div");
             var newClass = "span-2 tab last tab-active";
             divs[0].setAttribute("class", "span-2 tab");
             divs[1].setAttribute("class", "span-2 tab");
@@ -161,7 +171,7 @@ function getFollowers(datas) {
                 item = data[i];
                 appendFollower({id:item.uid, name:item.name, email:item.email, user:datas.user, status:item.status});
             }
-            document.getElementById("follower-count").innerText = data.length;
+            setInnerText(dojo.byId("follower-count"), data.length);
         },
         error: function(error) {
             alert(error);
@@ -170,7 +180,7 @@ function getFollowers(datas) {
 }
 
 function userAction(button, id) {
-    if (button.value === 'follow') follow(button, id);
+    if (getInnerText(button) === 'Follow') follow(button, id);
     else unfollow(button, id);
 }
 
@@ -180,7 +190,13 @@ function unfollow(button, id) {
         handleAs: "json",
         content: {id:id},
         load: function(data) {
-            if (data.status === "1") button.value = "follow";
+            if (data.status === "1") {
+                setInnerText(button, "Follow");
+                dojo.removeClass(button, "follow-unfollow-button");
+                dojo.addClass(button, "follow-button");
+                button.removeAttribute("onmouseover");
+                button.removeAttribute("onmouseout");
+            }
             else alert(data.errorMsg);
         },
         error: function(error) {
@@ -195,7 +211,13 @@ function follow(button, id) {
         handleAs: "json",
         content: {id:id},
         load: function(data) {
-            if (data.status === "1") button.value = "unfollow";
+            if (data.status === "1") {
+                setInnerText(button, "Following");
+                dojo.removeClass(button, "follow-button");
+                dojo.addClass(button, "follow-unfollow-button");
+                button.setAttribute("onmouseover", "changeButtonText(" + button + ");");
+                button.setAttribute("onmouseout", "restoreOriginal(" + button + ");");
+            }
             else alert(data.errorMsg);
         },
         error: function(error) {
@@ -205,7 +227,7 @@ function follow(button, id) {
 }
 
 function search() {
-    searchText = document.getElementById("search-box").value;
+    searchText = dojo.byId("search-box").value;
     alert(searchText);
 }
 
@@ -215,6 +237,14 @@ function toggleDropdown() {
 
 function toggleLoginDropdown() {
     $("#login-dropdown").toggle();
+}
+
+function changeButtonText(button) {
+    setInnerText(button, "Unfollow");
+}
+
+function restoreOriginal(button) {
+    setInnerText(button, "Following");
 }
 
 function validate(data) {

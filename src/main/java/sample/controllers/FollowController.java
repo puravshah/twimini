@@ -25,32 +25,30 @@ import java.util.List;
 
 @Controller
 public class FollowController {
-    private  final UserService userService;
-    private  final TweetService tweetService;
-    private  final FollowService followService;
+    private final UserService userService;
+    private final TweetService tweetService;
+    private final FollowService followService;
 
     @Autowired
-    public FollowController(UserService userService, FollowService followService, TweetService tweetService)
-    {
-        this.userService=userService;
-        this.followService=followService;
-        this.tweetService=tweetService;
+    public FollowController(UserService userService, FollowService followService, TweetService tweetService) {
+        this.userService = userService;
+        this.followService = followService;
+        this.tweetService = tweetService;
     }
 
-    @RequestMapping("/user/unfollow") @ResponseBody
+    @RequestMapping("/user/unfollow")
+    @ResponseBody
     Hashtable<String, String> unFollow(@RequestParam String id, HttpSession session) {
-        Hashtable <String, String> ret = new Hashtable <String, String> ();
-        String uid = (String)session.getAttribute("uid");
+        Hashtable<String, String> ret = new Hashtable<String, String>();
+        String uid = (String) session.getAttribute("uid");
 
         try {
             int rows = followService.removeFollowing(uid, id);
-            if(rows == 0) {
+            if (rows == 0) {
                 ret.put("status", "0");
                 ret.put("errorMsg", "You are not following this user");
-            }
-            else ret.put("status", "1");
-        }
-        catch(Exception e) {
+            } else ret.put("status", "1");
+        } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
             ret.put("errorMsg", e.toString());
@@ -59,21 +57,20 @@ public class FollowController {
         return ret;
     }
 
-    @RequestMapping("/user/follow") @ResponseBody
-    Hashtable <String, String> follow(@RequestParam String id, HttpSession session) {
-        Hashtable <String, String> ret = new Hashtable <String, String> ();
-        String uid = (String)session.getAttribute("uid");
+    @RequestMapping("/user/follow")
+    @ResponseBody
+    Hashtable<String, String> follow(@RequestParam String id, HttpSession session) {
+        Hashtable<String, String> ret = new Hashtable<String, String>();
+        String uid = (String) session.getAttribute("uid");
         UserModel u = null;
 
         try {
             u = followService.addFollowing(uid, id);
-        }
-        catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
             ret.put("errorMsg", "Invalid user id");
             return ret;
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
             ret.put("errorMsg", e.toString());
@@ -87,35 +84,35 @@ public class FollowController {
         return ret;
     }
 
-    @RequestMapping("/user/getFollower") @ResponseBody
+    @RequestMapping("/user/getFollower")
+    @ResponseBody
     public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
-        String user = (String)session.getAttribute("uid");
-        List <UserModel> ret = null;
+        String user = (String) session.getAttribute("uid");
+        List<UserModel> ret = null;
 
         try {
             ret = followService.getFollower2(uid, user);
-            if(ret == null) throw new Exception("Could not render followers list");
-        }
-        catch(Exception e) {
+            if (ret == null) throw new Exception("Could not render followers list");
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
         return ret;
     }
 
-    @RequestMapping(value = "/user/getFollowing") @ResponseBody
+    @RequestMapping(value = "/user/getFollowing")
+    @ResponseBody
     public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
-        String user = (String)session.getAttribute("uid");
+        String user = (String) session.getAttribute("uid");
         List<UserModel> ret = null;
 
         try {
             ret = followService.getFollowing2(uid, user);
-            if(ret == null) throw new Exception("Could not render following list");
-        }
-        catch(Exception e) {
+            if (ret == null) throw new Exception("Could not render following list");
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-       return ret;
+        return ret;
     }
 }

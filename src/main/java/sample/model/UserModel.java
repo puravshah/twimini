@@ -1,6 +1,7 @@
 package sample.model;
 
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,14 +16,14 @@ public class UserModel {
     private String email, password, name, timestamp;
     private int uid, status;
 
-    public static final RowMapper <UserModel> rowMapper = new RowMapper<UserModel>() {
+    public static final RowMapper<UserModel> rowMapper = new RowMapper<UserModel>() {
         @Override
         public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
             return new UserModel(resultSet);
         }
     };
 
-    public static final RowMapper <UserModel> rowMapper2 = new RowMapper<UserModel>() {
+    public static final RowMapper<UserModel> rowMapper2 = new RowMapper<UserModel>() {
         @Override
         public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
             UserModel u = new UserModel();
@@ -33,7 +34,7 @@ public class UserModel {
         }
     };
 
-    public static final RowMapper <UserModel> rowMapper3 = new RowMapper<UserModel>() {
+    public static final RowMapper<UserModel> rowMapper3 = new RowMapper<UserModel>() {
         @Override
         public UserModel mapRow(ResultSet resultSet, int i) throws SQLException {
             UserModel u = new UserModel();
@@ -45,8 +46,10 @@ public class UserModel {
         }
     };
 
-    public UserModel(){}
-    public UserModel(ResultSet rs) throws SQLException{
+    public UserModel() {
+    }
+
+    public UserModel(ResultSet rs) throws SQLException {
         email = rs.getString("email");
         password = rs.getString("password");
         name = rs.getString("name");

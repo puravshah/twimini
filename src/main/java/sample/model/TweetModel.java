@@ -16,14 +16,16 @@ public class TweetModel {
     private int pid, uid;
     private String tweet, timestamp;
 
-    public static final RowMapper <TweetModel> rowMapper = new RowMapper<TweetModel>() {
+    public static final RowMapper<TweetModel> rowMapper = new RowMapper<TweetModel>() {
         @Override
         public TweetModel mapRow(ResultSet resultSet, int i) throws SQLException {
             return new TweetModel(resultSet);
         }
     };
 
-    public TweetModel(){}
+    public TweetModel() {
+    }
+
     public TweetModel(ResultSet rs) throws SQLException {
         pid = rs.getInt("pid");
         uid = rs.getInt("uid");

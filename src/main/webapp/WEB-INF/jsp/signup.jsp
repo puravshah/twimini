@@ -42,7 +42,7 @@
 
             <div id = "body-container" class = "span-24 last">
                 <div id = "signup-left" class = "span-6">
-                    <h1>New to Twitter?</h1>
+                    <h1>New to Twitter?</h1><br />
                     <h3>Create a new <br />account here.</h3>
                 </div>
                 <div class = "span-17 last">
@@ -50,24 +50,31 @@
                         <h3>${msg}</h3>
                     </div>
 
-                    <div class = "span-17 last">
+                    <div class = "span-8 last">
                         <form id = "form-container" action = "/signup" method = "POST">
-                            <div class = "span-10 last">
-                                <input type = "text" placeholder = "Full Name" name = "name" class = "span-7" />
+                            <div class = "span-8 last">
+                                <input type = "text" placeholder = "Full Name" name = "name" value = "${name}" class = "span-7" />
                             </div>
-                            <div class = "span-10 last">
-                                <input type = "text" placeholder = "Email" name = "email" class = "span-7" />
+                            <div class = "span-8 last">
+                                <input type = "email" placeholder = "Email" name = "email" value = "${email}" class = "span-7" />
                             </div>
-                            <div class = "span-10 last">
+                            <div class = "span-8 last">
                                 <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
                             </div>
-                            <div class = "span-10 last">
+                            <div class = "span-8 last">
                                 <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
                             </div>
-                            <div class = "span-10 last">
+                            <div class = "span-8 last">
                                 <input type = "submit" value = "Create Account" class = "span-7" />
                             </div>
                         </form>
+                    </div>
+
+                    <div class = "span-5 last error-container">
+                        <div class = "span-5 error-msg">${nameMsg}</div>
+                        <div class = "span-5 error-msg">${emailMsg}</div>
+                        <div class = "span-5 error-msg">${passwordMsg}</div>
+                        <div class = "span-5 error-msg">${cpasswordMsg}</div>
                     </div>
 
                     <div id = "compulsory-notifier" class = "span-17 last">

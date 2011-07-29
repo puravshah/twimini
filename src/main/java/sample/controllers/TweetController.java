@@ -26,18 +26,16 @@ import java.util.List;
  */
 
 @Controller
-
 public class TweetController {
-    private  final UserService userService;
-    private  final TweetService tweetService;
-    private  final FollowService  followService;
+    private final UserService userService;
+    private final TweetService tweetService;
+    private final FollowService followService;
 
     @Autowired
-    public TweetController(UserService userService,FollowService followService,TweetService tweetService)
-    {
-       this.userService=userService;
-        this.followService=followService;
-        this.tweetService=tweetService;
+    public TweetController(UserService userService, FollowService followService, TweetService tweetService) {
+        this.userService = userService;
+        this.followService = followService;
+        this.tweetService = tweetService;
     }
 
     @RequestMapping("/test")
@@ -47,15 +45,15 @@ public class TweetController {
 
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
-        String uid = (String)session.getAttribute("uid");
-        if(uid == null) {
+        String uid = (String) session.getAttribute("uid");
+        if (uid == null) {
             return new ModelAndView("/index") {{
                 addObject("loginMsg", "You need to login first!");
             }};
         }
 
-        List <TweetWrapper> tweetList = null;
-        List <UserModel> followingList = null, followerList = null;
+        List<TweetWrapper> tweetList = null;
+        List<UserModel> followingList = null, followerList = null;
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
@@ -65,8 +63,7 @@ public class TweetController {
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -77,22 +74,22 @@ public class TweetController {
         mv.addObject("followingList", followingList);
         mv.addObject("followerList", followerList);
         mv.addObject("tweetCount", tweetCount);
-        mv.addObject("followingCount",followingCount);
+        mv.addObject("followingCount", followingCount);
         mv.addObject("followerCount", followerCount);
         return mv;
     }
 
     /* REST API for creating a tweet */
-    @RequestMapping("/tweet/create") @ResponseBody
-    Hashtable <String, String>  createTweet(@RequestParam final String tweet, HttpSession session) {
+    @RequestMapping("/tweet/create")
+    @ResponseBody
+    Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
-        String uid = (String)session.getAttribute("uid");
+        String uid = (String) session.getAttribute("uid");
         TweetModel t = null;
 
         try {
             t = tweetService.addTweet(uid, tweet);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
             ret.put("errorMsg", e.toString());
@@ -107,17 +104,17 @@ public class TweetController {
         return ret;
     }
 
-    @RequestMapping("/tweet/getTweetDetails") @ResponseBody
-    Hashtable <String, String>  getTweetDetails(@RequestParam final String pid, HttpSession session) {
+    @RequestMapping("/tweet/getTweetDetails")
+    @ResponseBody
+    Hashtable<String, String> getTweetDetails(@RequestParam final String pid, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
-        String uid = (String)session.getAttribute("uid");
+        String uid = (String) session.getAttribute("uid");
 
         TweetModel t = null;
         try {
             t = tweetService.getTweetDetails(pid);
-            if(t == null) throw new Exception("Invalid tweet");
-        }
-        catch(Exception e) {
+            if (t == null) throw new Exception("Invalid tweet");
+        } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
             ret.put("errorMsg", e.toString());
@@ -133,15 +130,15 @@ public class TweetController {
     }
 
     /* REST API for getting tweet list of a user */
-    @RequestMapping("/tweet/getTweetList") @ResponseBody
-    List <TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
+    @RequestMapping("/tweet/getTweetList")
+    @ResponseBody
+    List<TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
         List<TweetModel> ret = null;
 
         try {
             ret = tweetService.getTweetList(uid);
-            if(ret == null) throw new Exception("Could not render tweets");
-        }
-        catch(Exception e) {
+            if (ret == null) throw new Exception("Could not render tweets");
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -150,15 +147,15 @@ public class TweetController {
     }
 
     /* REST API for getting tweet feed of a user */
-    @RequestMapping("/tweet/getFeed") @ResponseBody
-    List <TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
+    @RequestMapping("/tweet/getFeed")
+    @ResponseBody
+    List<TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
         List<TweetWrapper> ret = null;
 
         try {
             ret = tweetService.getFeed(uid);
-            if(ret == null) throw new Exception("Could not render tweets");
-        }
-        catch(Exception e) {
+            if (ret == null) throw new Exception("Could not render tweets");
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

@@ -22,10 +22,11 @@ import java.util.List;
 public class TweetService {
     private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
+
     @Autowired
-    public TweetService(@Qualifier("userID") ThreadLocal<Long> userID,SimpleJdbcTemplate db) {
+    public TweetService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID=userID;
+        this.userID = userID;
     }
 
     public TweetModel addTweet(String tweet) throws Exception {
@@ -42,16 +43,16 @@ public class TweetService {
         return db.queryForObject("SELECT * FROM post WHERE pid = ?", TweetModel.rowMapper, pid);
     }
 
-    public  List<TweetWrapper> getFeed() throws Exception {
-        List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+    public List<TweetWrapper> getFeed() throws Exception {
+        List<TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.uid IN " +
-                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, userID.get(),userID.get());
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, userID.get(), userID.get());
         return l;
     }
 
-    public  List<TweetWrapper> getFeed(String uid) throws Exception {
-        List <TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+    public List<TweetWrapper> getFeed(String uid) throws Exception {
+        List<TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.uid IN " +
                 "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
@@ -59,20 +60,20 @@ public class TweetService {
     }
 
     public List<TweetModel> getTweetList() throws Exception {
-        List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, userID.get());
+        List<TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, userID.get());
         return l;
     }
 
     public List<TweetModel> getTweetList(String uid) throws Exception {
-        List <TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
+        List<TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
         return l;
     }
 
-    public  int getTweetCount() {
+    public int getTweetCount() {
         return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", userID.get());
     }
 
-    public  int getTweetCount(String uid) {
+    public int getTweetCount(String uid) {
         return db.queryForInt("SELECT count(pid) FROM post WHERE uid = ?", uid);
     }
 }

@@ -23,7 +23,9 @@ public class FollowModel {
         }
     };
 
-    public FollowModel(){}
+    public FollowModel() {
+    }
+
     public FollowModel(ResultSet rs) throws SQLException {
         uid = rs.getInt("follow.uid");
     }

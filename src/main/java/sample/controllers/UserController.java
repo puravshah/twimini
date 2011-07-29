@@ -1,6 +1,7 @@
 package sample.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,15 +24,15 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
-    private final FollowService  followService;
+    private final FollowService followService;
+
     @Autowired
 
 
-    public UserController(UserService userService,FollowService followService,TweetService tweetService)
-    {
-       this.userService=userService;
-        this.followService=followService;
-        this.tweetService=tweetService;
+    public UserController(UserService userService, FollowService followService, TweetService tweetService) {
+        this.userService = userService;
+        this.followService = followService;
+        this.tweetService = tweetService;
     }
 
     @RequestMapping("/")
@@ -44,7 +45,7 @@ public class UserController {
 
     @RequestMapping("/login")
     public ModelAndView loginGet() {
-         return new ModelAndView();
+        return new ModelAndView();
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -52,12 +53,12 @@ public class UserController {
                                   @RequestParam final String password,
                                   HttpSession session) {
 
-        if(email.equals(""))
+        if (email.equals(""))
             return new ModelAndView("/login") {{
                 addObject("msg", "Email id field cannot be left blank");
             }};
 
-        if(password.equals(""))
+        if (password.equals(""))
             return new ModelAndView("/login") {{
                 addObject("msg", "Password field cannot be left blank");
             }};
@@ -65,23 +66,21 @@ public class UserController {
         UserModel m = null;
         try {
             m = userService.getUser(email, password);
-            if(m == null) {
+            if (m == null) {
                 throw new Exception("Invalid Email id or Password");
             }
-        }
-        catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return new ModelAndView("/login") {{
                 addObject("msg", "Invalid Email id or Password");
             }};
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new ModelAndView("/login") {{
                 addObject("msg", "Login failed");
             }};
         }
 
-        session.setAttribute("uid", "" +(Integer)m.getUid());
+        session.setAttribute("uid", "" + (Integer) m.getUid());
         session.setAttribute("name", m.getName());
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
@@ -90,7 +89,11 @@ public class UserController {
 
     @RequestMapping("/signup")
     public ModelAndView signupGet() {
-        return new ModelAndView();
+        return new ModelAndView() {{
+            String errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
+            for (int i = 0; i < 4; i++)
+                addObject(errorName[i], "&nbsp;");
+        }};
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -100,15 +103,43 @@ public class UserController {
                                    @RequestParam final String name,
                                    HttpSession session) {
 
-        if(name.equals("") || email.equals("") || password.equals("") || cpassword.equals(""))
-            return new ModelAndView("/signup") {{
-                addObject("msg", "Please fill out all the required fields");
-            }};
+        boolean invalid = false;
+        String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
+        for (int i = 0; i < 4; i++) errorMsg[i] = "&nbsp;";
 
-        if(!cpassword.equals(password))
-            return new ModelAndView("/signup") {{
-                addObject("msg", "The passwords don't match");
-            }};
+        if (name.equals("")) {
+            invalid = true;
+            errorMsg[0] = "*";
+        }
+
+        if (email.equals("")) {
+            invalid = true;
+            errorMsg[1] = "*";
+        }
+
+        if (password.equals("")) {
+            invalid = true;
+            errorMsg[2] = "*";
+        }
+
+        if (cpassword.equals("")) {
+            invalid = true;
+            errorMsg[3] = "*";
+        }
+
+        if (!cpassword.equals(password)) {
+            invalid = true;
+            errorMsg[2] = "Passwords do not match";
+        }
+
+        if (invalid) {
+            ModelAndView emptyError = new ModelAndView("/signup");
+            emptyError.addObject("msg", "Please fill out all fields");
+            emptyError.addObject("name", name);
+            emptyError.addObject("email", email);
+            for (int i = 0; i < 4; i++) emptyError.addObject(errorName[i], errorMsg[i]);
+            return emptyError;
+        }
 
         /*if(password.length() < 6)
             return new ModelAndView("/signup") {{
@@ -118,19 +149,22 @@ public class UserController {
         UserModel m = null;
         try {
             m = userService.addUser(name, email, password);
-            if(m == null) throw new Exception("Unable to register user");
-            //Mail mail=new Mail();
-
-        }
-        catch(Exception e) {
+            if (m == null) throw new Exception("Unable to register user");
+        } catch (DuplicateKeyException e) {
+            ModelAndView errorDuplicate = new ModelAndView("/signup");
+            errorMsg[1] = "Please choose another Email id";
+            for (int i = 0; i < 4; i++) errorDuplicate.addObject(errorName[i], errorMsg[i]);
+            errorDuplicate.addObject("msg", "Email id already exists");
+            return errorDuplicate;
+        } catch (Exception e) {
             e.printStackTrace();
             final String E = e.toString();
             return new ModelAndView("/signup") {{
-                addObject("msg", "Unable to Signup" + E);
+                addObject("msg", "Unable to Signup: " + E);
             }};
         }
 
-        session.setAttribute("uid", "" + (Integer)m.getUid());
+        session.setAttribute("uid", "" + (Integer) m.getUid());
         session.setAttribute("name", m.getName());
         return new ModelAndView() {{
             setViewName("redirect:/tweet");
@@ -139,56 +173,56 @@ public class UserController {
 
     @RequestMapping("/logout")
     ModelAndView logoutMethod(HttpSession session) {
-       session.invalidate();
-        return new ModelAndView(){{
+        session.invalidate();
+        return new ModelAndView() {{
             setViewName("redirect:/");
         }};
     }
 
 
     @RequestMapping("/activate")
-    ModelAndView activateAccount(@RequestParam String uid)
-    {
+    ModelAndView activateAccount(@RequestParam String uid) {
         userService.setIsActivated(uid);
-        ModelAndView mv = new ModelAndView("redirect:/") ;
-        return   mv;
+        ModelAndView mv = new ModelAndView("redirect:/");
+        return mv;
     }
 
     @RequestMapping("/forgot")
-    ModelAndView getResetPassword(@RequestParam String email)
-    {
+    ModelAndView getResetPassword(@RequestParam String email) {
 
-        ModelAndView mv = new ModelAndView("redirect:/") ;
-        return   mv;
+        ModelAndView mv = new ModelAndView("redirect:/");
+        return mv;
     }
 
-    @RequestMapping(value="/forgot",method=RequestMethod.POST)
-        void postResetPassword(@RequestParam String email)
-        {
-            Thread thread= new PasswordMail(email) ;
-            thread.start();
-            //ModelAndView mv = new ModelAndView("redirect:/") ;
-            //return   mv;
-        }
+    @RequestMapping(value = "/forgot", method = RequestMethod.POST)
+    void postForgotLink(@RequestParam String email) {
+        Thread thread = new PasswordMail(email);
+        thread.start();
+        //ModelAndView mv = new ModelAndView("redirect:/") ;
+        //return   mv;
+    }
 
+    @RequestMapping(value = "/reset", method = RequestMethod.POST)
+    void postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
+
+    }
 
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        String user = (String)session.getAttribute("uid");
+        String user = (String) session.getAttribute("uid");
         UserModel u = null;
 
         try {
             u = userService.getUser(uid);
 
-            if(u == null) throw new Exception("Invalid User");
-        }
-        catch(Exception e) {
+            if (u == null) throw new Exception("Invalid User");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        List <TweetModel> tweetList = null;
-        List <UserModel> followingList = null, followerList = null;
+        List<TweetModel> tweetList = null;
+        List<UserModel> followingList = null, followerList = null;
 
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
@@ -199,8 +233,7 @@ public class UserController {
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -213,31 +246,25 @@ public class UserController {
             mv.addObject("followingList", followingList);
             mv.addObject("followerList", followerList);
             mv.addObject("tweetCount", tweetCount);
-            mv.addObject("followingCount",followingCount);
+            mv.addObject("followingCount", followingCount);
             mv.addObject("followerCount", followerCount);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return mv;
     }
 
-    @RequestMapping("/search") @ResponseBody
-    List <UserModel> search(@RequestParam String q, HttpSession session) {
-        List <UserModel> ret = null;
+    @RequestMapping("/search")
+    @ResponseBody
+    List<UserModel> search(@RequestParam String q, HttpSession session) {
+        List<UserModel> ret = null;
         try {
             ret = userService.getSearch(q);
-            if(ret == null) throw new Exception("Null returned in search");
-        }
-        catch(Exception e) {
+            if (ret == null) throw new Exception("Null returned in search");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return ret;
     }
 }
-
-
-
-
-

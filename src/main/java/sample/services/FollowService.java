@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sample.model.UserModel;
+
 import java.util.List;
 
 /**
@@ -20,9 +21,9 @@ public class FollowService {
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public FollowService(@Qualifier("userID") ThreadLocal<Long> userID,SimpleJdbcTemplate db) {
+    public FollowService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID= userID;
+        this.userID = userID;
     }
 
     public int removeFollowing(String uid, String id) throws Exception {
@@ -35,33 +36,33 @@ public class FollowService {
         return ret;
     }
 
-    public  List<UserModel> getFollowing(String uid) throws Exception {
+    public List<UserModel> getFollowing(String uid) throws Exception {
         List<UserModel> following = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return following;
     }
 
-    public  List<UserModel> getFollowing2(String uid, String user) throws Exception {
+    public List<UserModel> getFollowing2(String uid, String user) throws Exception {
         List<UserModel> following = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) UNION " +
-                                             "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
+                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
         return following;
     }
 
-    public  List<UserModel> getFollower2(String uid, String user) throws Exception {
+    public List<UserModel> getFollower2(String uid, String user) throws Exception {
         List<UserModel> follower = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid in (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) UNION " +
-                                            "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
+                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
         return follower;
     }
 
-    public  List<UserModel> getFollower(String uid) throws Exception {
+    public List<UserModel> getFollower(String uid) throws Exception {
         List<UserModel> follower = db.query("SELECT user.uid, name, email FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper2, uid);
         return follower;
     }
 
-    public  int getFollowingCount(String uid) {
+    public int getFollowingCount(String uid) {
         return db.queryForInt("SELECT count(following) FROM follow WHERE uid = ? AND end IS NULL", uid);
     }
 
-    public  int getFollowerCount(String uid) {
+    public int getFollowerCount(String uid) {
         return db.queryForInt("SELECT count(uid) FROM follow WHERE following = ? AND end is NULL", uid);
     }
 }

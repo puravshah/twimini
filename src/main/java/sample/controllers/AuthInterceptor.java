@@ -24,7 +24,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         this.userID = userID;
     }
 
-    @Override public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
         HttpSession session = request.getSession(false);
@@ -32,7 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             String userName = (String) session.getAttribute("name");
 
             if (userName != null) {
-                userID.set((Long.parseLong((String)session.getAttribute("uid"))));
+                userID.set((Long.parseLong((String) session.getAttribute("uid"))));
                 return true;
             }
         }

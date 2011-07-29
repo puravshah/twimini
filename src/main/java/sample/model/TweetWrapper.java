@@ -17,14 +17,16 @@ public class TweetWrapper {
     private String name, tweet, timestamp;
     private int pid, uid;
 
-    public static RowMapper <TweetWrapper> rowMapper = new RowMapper<TweetWrapper>() {
+    public static RowMapper<TweetWrapper> rowMapper = new RowMapper<TweetWrapper>() {
         @Override
         public TweetWrapper mapRow(ResultSet resultSet, int i) throws SQLException {
             return new TweetWrapper(resultSet);
         }
     };
 
-    TweetWrapper(){}
+    TweetWrapper() {
+    }
+
     TweetWrapper(ResultSet rs) throws SQLException {
         pid = rs.getInt("pid");
         uid = rs.getInt("uid");

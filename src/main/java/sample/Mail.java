@@ -21,35 +21,33 @@ import java.util.Properties;
  * To change this template use File | Settings | File Templates.
  */
 
-public abstract class Mail extends Thread
-{
+public abstract class Mail extends Thread {
     private static final String SMTP_HOST_NAME = "smtp.gmail.com";
     private static final String SMTP_PORT = "465";
-    private static final String emailFromAddress = "rakesh.sentmailid@gmail.com";
+    //private static final String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
+    //private static final String emailMsgTxt = "http://localhost:8080/activate";
+    //private static final String emailSubjectTxt = "Activation Link";
+    private static final String emailFromAddress = "twimini.activate@gmail.com";
+    private static final String notYou = "This email was sent because someone asked to register an account from this address. If you didn't do this, then kindly ignore this email";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
-    private              String emailSubjectTxt = "Confirmation Email";
-
-    private  String[] sendTo ;
-    private  SimpleJdbcTemplate db;
+    private String emailSubjectTxt = "Confirmation Email";
+    private String[] sendTo;
+    private SimpleJdbcTemplate db;
     List<UserModel> user;
     UserService userService;
     List<String> EmailList;
     String[] messageText;
     String email;
+
     @Autowired
-    public Mail(SimpleJdbcTemplate db)
-    {
-        this.db=db;
+    public Mail(SimpleJdbcTemplate db) {
+        this.db = db;
     }
 
     @Autowired
-    public Mail(String email)
-    {
-      this.email=email;
+    public Mail(String email) {
+        this.email = email;
     }
-
-
-
 
 
     public void setSendTo(String[] sendTo) {
@@ -126,104 +124,59 @@ public abstract class Mail extends Thread
         return email;
     }
 
-
-
-
-
-
-
-
-
-
-
     @Async
-    public  void runMultipleMail()
-    {
-        try
-        {
-
+    public void runMultipleMail() {
+        try {
             userInfo();
-//            user= UserService.getInactiveUser();
-//
-//            sendTo=new String[user.size()];
-//            messageText=new String[user.size()];
-//            for(int index=0;index<user.size();index++)
-//            {
-//
-//                sendTo[index]=user.get(index).getEmail();
-//                messageText[index]="Hello "+user.get(index).getName()+"\n" +
-//                                    emailContent+"\n"
-//                                    + emailActivationMsgTxt +"?"+"uid"+"="+user.get(index).getUid()+
-//                                     "\n\n\n\n Regards\n"+
-//                                     "Rakesh Kumar";
-//
-//            }
 
-            if(sendTo.length>0)
-            {
+            if (sendTo.length > 0) {
                 Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-
-                sendSSLMessage(sendTo, emailSubjectTxt,
-                        messageText, emailFromAddress);
+                sendSSLMessage(sendTo, emailSubjectTxt, messageText, emailFromAddress);
                 UserService.setToPartialState();
             }
-
-
+        } catch (Exception e) {
+            System.out.println("" + e);
         }
-        catch(Exception e)
-        {
-
-            System.out.println(""+e);
-        }
-
     }
 
     public abstract void userInfo() throws Exception;
-
-    public void sendSSLMessage(String recipients[], String subject,String[] message, String from) throws MessagingException
-        {
-            boolean debug = true;
-            Properties props = new Properties();
-            props.put("mail.smtp.host", SMTP_HOST_NAME);
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.debug", "true");
-            props.put("mail.smtp.port", SMTP_PORT);
-            props.put("mail.smtp.socketFactory.port", SMTP_PORT);
-            props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
-            props.put("mail.smtp.socketFactory.fallback", "false");
-            Session session = Session.getDefaultInstance
-                                    (
-                                        props,
-                                        new javax.mail.Authenticator()
-                                            {
-                                                protected PasswordAuthentication getPasswordAuthentication()
-                                                {
-                                                    return new PasswordAuthentication("rakesh.sentmailid", "shivamjun");
-                                                }
-                                            }
-                                    );
-
-           // session.setDebug(debug);
-
-            Message msg = new MimeMessage(session);
-            InternetAddress addressFrom = new InternetAddress(from);
-            msg.setFrom(addressFrom);
-
-            InternetAddress[] addressTo = new InternetAddress[recipients.length];
-            for (int i = 0; i < recipients.length; i++)
-            {
-                addressTo[i] = new InternetAddress(recipients[i]);
-
-                msg.setRecipient(Message.RecipientType.TO, addressTo[i]);
-
-                // Setting the Subject and Content Type
-                msg.setSubject(subject);
-
-                msg.setContent(message[i], "text/plain");
-                Transport.send(msg);
-                }
-    }
-
     public abstract void run();
 
+    public void sendSSLMessage(String recipients[], String subject, String[] message, String from) throws MessagingException {
+        boolean debug = true;
+        Properties props = new Properties();
+        props.put("mail.smtp.host", SMTP_HOST_NAME);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+        props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        Session session = Session.getDefaultInstance
+                (
+                        props,
+                        new javax.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication("twimini.activate", "qwedsa12");
+                            }
+                        }
+                );
+
+        session.setDebug(debug);
+
+        Message msg = new MimeMessage(session);
+        InternetAddress addressFrom = new InternetAddress(from);
+        msg.setFrom(addressFrom);
+
+        InternetAddress[] addressTo = new InternetAddress[recipients.length];
+        for (int i = 0; i < recipients.length; i++) {
+            addressTo[i] = new InternetAddress(recipients[i]);
+            msg.setRecipient(Message.RecipientType.TO, addressTo[i]);
+
+            // Setting the Subject and Content Type
+            msg.setSubject(subject);
+            msg.setContent(message[i], "text/plain");
+            Transport.send(msg);
+        }
+    }
 }

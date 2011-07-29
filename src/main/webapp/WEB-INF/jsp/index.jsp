@@ -10,25 +10,7 @@
 
     <body>
         <div class = "container">
-            <div class = "span-24 last header">
-                <div id = "twitter-logo" class = "span-13">
-                    <img src = "/static/images/logo.png" alt = "Mini Twitter" />
-                </div>
-                <div id = "login-handler" class = "span-10 last">
-                    <form action = "/login" method = "POST">
-                        <div class = "span-4">
-                            <input type = "email" placeholder = "Email" name = "email" class = "span-4" />
-                        </div>
-                        <div class = "span-4">
-                            <input type = "password" placeholder = "Password" name = "password" class = "span-4" />
-                        </div>
-                        <div class = "span-2 last add-padding-above-5">
-                            <input type = "submit" value = "Login" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+            <jsp:include page = "indexHeader.jsp"></jsp:include>
             <div class = "span-24 last lowerbody">
                 <div class = "span-14">
                     <img src = "/static/images/social-network-2.jpg" height = "325" width = "500" alt = "image here" />

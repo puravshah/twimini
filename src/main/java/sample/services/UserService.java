@@ -56,13 +56,13 @@ public class UserService {
     }
 
     public static List<UserModel> getInactiveUser() throws Exception {
-        db.update("UPDATE user SET  isActivated=3 Where isActivated=0");
+        db.update("UPDATE user SET isActivated=3 Where isActivated=0");
         return db.query("SELECT * FROM user where isActivated=3", UserModel.rowMapper);
     }
 
     public static void setToPartialState() {
         //To change body of created methods use File | Settings | File Templates.
-        db.update("UPDATE user SET  isActivated=2 Where isActivated=3");
+        db.update("UPDATE user SET isActivated=2 Where isActivated=3");
     }
 
     public static UserModel getUserInfo(String email)
@@ -72,6 +72,6 @@ public class UserService {
     }
     public void setIsActivated(String uid) {
         //To change body of created methods use File | Settings | File Templates.
-        db.update("UPDATE  user SET iSActivated = 1 WHERE uid = ?", uid);
+        db.update("UPDATE user SET iSActivated = 1 WHERE uid = ?", uid);
     }
 }
