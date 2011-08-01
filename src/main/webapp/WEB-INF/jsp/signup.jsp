@@ -3,12 +3,7 @@
 
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
-        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
@@ -30,8 +25,10 @@
                         <div class = "span-4">
                             <input type = "password" placeholder = "Password" name = "password" class = "span-4" />
                         </div>
-                        <div class = "span-2 last add-padding-above-5">
-                            <input type = "submit" value = "Login" />
+                        <div class = "span-4 last add-padding-above-5">
+                            <div>
+                                <input type = "submit" value = "Login" />
+                            </div>
                         </div>
                     </form>
                 </div>

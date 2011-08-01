@@ -3,13 +3,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/screen.css"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/print.css"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/style.css"/>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/static/js/ejs_production.js"></script>
-        <script type="text/javascript" src="/static/js/external_js_file.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
@@ -34,8 +28,7 @@
                     </div>
 
                     <div id="dropdown-text" class="span-2" onclick="toggleDropdown()">
-                        <a href="#"><%= session.getAttribute("name") %>
-                        </a>
+                        <a href="javascript:void(0);"><%= session.getAttribute("name") %></a>
                         <img src="/static/images/icon_dropdown_1.png"/>
                     </div>
                 </div>
@@ -61,13 +54,11 @@
                         </div>
 
                         <div class="span-12">
-                            <textarea name="tweet" id="tweet-box" height='20' width='70'
-                                      onkeyup="javascript:checkCharacterLimit(this)"
-                                      onkeydown="javascript:checkCharacterLimit(this)"></textarea>
+                            <textarea name="tweet" id="tweet-box" height='20' width='70' onkeyup="javascript:checkCharacterLimit(this)" onkeydown="javascript:checkCharacterLimit(this)"></textarea>
                         </div>
 
                         <div class="span-2 last add-margin-above-20">
-                            <input value="Tweet" onclick="createTweet({name:'${name}'})" type="button"/>
+                            <input id = "tweet-button" value="Tweet" onclick="createTweet({name:'${name}'})" type="button" disabled = "disabled"/>
                         </div>
 
                         <div id="char-count" class="span-2 last">

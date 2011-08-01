@@ -2,7 +2,6 @@ package sample.model;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import javax.mail.internet.HeaderTokenizer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -3,9 +3,7 @@
 
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
@@ -20,8 +18,8 @@
                 </div>
             </div>
 
-            <div id = "body-container" class = "span-24 last push-5">
-                <div id = "error-box" class = "span-24 last">
+            <div class = "prepend-5 span-14 append-5 last add-margin-above-20">
+                <div id = "error-box" class = "span-14 last">
                     <h3> ${msg} </h3>
                 </div>
 
@@ -33,13 +31,18 @@
                             <div class = "span-14 last">
                                 <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
                             </div>
-                        <div class = "span-14 last">
-                            <input type = "submit" value = "Login" />
+                        <div class = "span-7 append-7 last">
+                            <div class = "span-3">
+                                <input type = "submit" value = "Login" />
+                            </div>
+                            <div class = "span-4 last add-margin-above-10">
+                                <a href = "/forgot">Forgot Password?</a>
+                            </div>
                         </div>
                     </form>
                 </div>
 
-                <div class = span-14 last>
+                <div class = "span-14 last add-margin-above-20">
                     <h4>
                         New user?
                         <a href = "/signup">Sign up</a>

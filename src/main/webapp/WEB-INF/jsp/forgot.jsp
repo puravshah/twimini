@@ -3,18 +3,14 @@
 
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
-        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type = "text/javascript" src = "/static/js/ejs_production.js"></script>
-        <script type = "text/javascript" src = "/static/js/external_js_file.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
         <div class = "container">
-            <jsp:include page = "indexHeader.jsp"></jsp:include>
+            <jsp:include page = "indexHeader.jsp">
+                <jsp:param name="url" value="/"></jsp:param>
+            </jsp:include>
 
             <div id = "body-container" class = "container">
                 <div class = "prepend-5 span-15 append-4 last">

@@ -1,7 +1,6 @@
 package sample;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import sample.model.UserModel;
 import sample.services.UserService;
 
 /**

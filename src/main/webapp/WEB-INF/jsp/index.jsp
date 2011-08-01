@@ -3,14 +3,14 @@
 
 <html>
     <head>
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/screen.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/print.css" />
-        <link rel = "stylesheet" type = "text/css" href = "/static/css/blueprint/style.css" />
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
         <div class = "container">
-            <jsp:include page = "indexHeader.jsp"></jsp:include>
+            <jsp:include page = "indexHeader.jsp">
+                <jsp:param name="url" value="javascript:void(0);"></jsp:param>
+            </jsp:include>
             <div class = "span-24 last lowerbody">
                 <div class = "span-14">
                     <img src = "/static/images/social-network-2.jpg" height = "325" width = "500" alt = "image here" />

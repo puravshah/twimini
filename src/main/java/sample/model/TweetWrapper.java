@@ -2,7 +2,6 @@ package sample.model;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import java.awt.event.ItemEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

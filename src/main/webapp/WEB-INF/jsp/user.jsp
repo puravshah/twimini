@@ -4,13 +4,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/screen.css"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/print.css"/>
-        <link rel="stylesheet" type="text/css" href="/static/css/blueprint/style.css"/>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/static/js/ejs_production.js"></script>
-        <script type="text/javascript" src="/static/js/external_js_file.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
+        <%@include file="head include.txt"%>
     </head>
 
     <body>
@@ -35,8 +29,7 @@
                     </div>
 
                     <div id="dropdown-text" class="span-2" onclick="toggleDropdown()">
-                        <a href="#"><%= session.getAttribute("name") %>
-                        </a>
+                        <a href="javascript:void(0);"><%= session.getAttribute("name") %></a>
                         <img src="/static/images/icon_dropdown_1.png"/>
                     </div>
                 </div>
@@ -73,10 +66,12 @@
                         <% }
                         else {
                             if ((Integer) request.getAttribute("status") == 0) { %>
-                                <input type="button" value="follow" onclick="userAction(this, ${uid})" />
+                                <span class = "follow-button" onclick = "userAction(this, ${uid});">Follow</span>
+                                <!--<input type="button" value="follow" onclick="userAction(this, ${uid})" />-->
                             <% }
                             else { %>
-                                <input type="button" value="unfollow" onclick="userAction(this, ${uid})" />
+                                <span class = "follow-unfollow-button" onMouseover = "changeButtonText(this)" onmouseout = "restoreOriginal(this)" onclick = "userAction(this, ${uid});">Following</span>
+                                <!--<input type="button" value="unfollow" onclick="userAction(this, ${uid})" />-->
                             <% } %>
                         <% } %>
                     </div>

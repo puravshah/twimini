@@ -211,7 +211,7 @@ public class UserController {
     }
 
     @RequestMapping("/reset")
-    ModelAndView getResetPassword(String token) {
+    ModelAndView getResetPassword(@RequestParam String token) {
         final int uid;
         try {
             uid = UserService.getUidFromForgotToken(token);
