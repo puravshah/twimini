@@ -36,7 +36,7 @@
 
                 <div id="dropdown" class="span-2">
                     <div class="span-2 last">
-                        <a href="/user/edit?uid=${uid}">Edit Profile</a>
+                        <a href="/user/editProfile?uid=${uid}">Edit Profile</a>
                     </div>
                     <div class="span-2 last add-margin-above-20">
                         <a href="/logout">Logout</a>
@@ -51,7 +51,7 @@
                 <div id="left-container" class="span-14">
                     <div id="profile-info" class="span-14 last">
                         <div id="photo-container" class="span-4">
-                            <a href=""><img height="100" width="125" src="/static/images/default-profile-picture.gif"/></a>
+                            <a href=""><img height="100" width="125" src="/image/${uid}.jpg"/></a>
                         </div>
 
                         <div id="info" class="span-10 last">
@@ -62,7 +62,7 @@
 
                     <div id="user-edit-follow" class="span-13 last">
                         <% if (session.getAttribute("uid").equals(request.getAttribute("uid"))) { %>
-                            <a href="/user/edit?uid=${uid}">Edit Profile</a>
+                            <a href="/user/editProfile?uid=${uid}">Edit Profile</a>
                         <% }
                         else {
                             if ((Integer) request.getAttribute("status") == 0) { %>

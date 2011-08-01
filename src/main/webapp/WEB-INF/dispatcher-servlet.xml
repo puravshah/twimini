@@ -18,7 +18,7 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/user/*"/>
+            <!--mvc:mapping path="/user/*"/-->
             <mvc:mapping path="/tweet"/>
              <mvc:mapping path="/tweet/*"/>
             <mvc:mapping path="/user"/>
@@ -34,5 +34,12 @@
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="1000000"/>
+    </bean>
+
+    <!--<bean id="commonsFileUploadServlet" class="sample.services.CommonsFileUploadServlet"/>-->
 
 </beans>

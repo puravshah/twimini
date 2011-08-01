@@ -22,5 +22,21 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+     <servlet>
+        <servlet-name>imageServlet</servlet-name>
+        <servlet-class>sample.ImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>imageServlet</servlet-name>
+        <url-pattern>/image/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>imageCropper</servlet-name>
+        <servlet-class>sample.ImageCropper</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>imageCropper</servlet-name>
+        <url-pattern>/crop</url-pattern>
+    </servlet-mapping>
 
 </web-app>

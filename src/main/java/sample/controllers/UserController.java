@@ -196,7 +196,6 @@ public class UserController {
     @RequestMapping(value = "/forgot", method = RequestMethod.POST)
     @ResponseBody
     boolean postForgotLink(@RequestParam String email) {
-
         UserModel userModel;
         try {
             userModel = UserService.getUserInfo(email);
@@ -238,6 +237,8 @@ public class UserController {
         }
         return true;
     }
+
+
 
     @RequestMapping("/user")
     ModelAndView getUserProfile(@RequestParam String uid, HttpSession session) {

@@ -52,6 +52,25 @@ function createTweet(datas) {
     });
 }
 
+function getAccount(){
+         $("#accountDiv").show();
+         $("#passwordDiv").hide();
+         $("#imageDiv").hide();
+}
+
+function getPassword(){
+        $("#accountDiv").hide();
+        $("#passwordDiv").show();
+        $("#imageDiv").hide();
+}
+
+function getImage(){
+        $("#accountDiv").hide();
+        $("#passwordDiv").hide();
+        $("#imageDiv").show();
+}
+
+
 function prependTweet(data) {
     var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
     //var tweetItemLi = $(html);
