@@ -37,8 +37,10 @@ public class ImageServlet extends HttpServlet {
         File image = new File(imageCopyPath+imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
 
         if (!image.exists()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
-            return;
+            requestedImage="default-profile-picture.gif";
+            image=new File(imageCopyPath+imagePath,URLDecoder.decode(requestedImage,"UTF-8"));
+            //response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
+            //return;
         }
 
         String contentType = getServletContext().getMimeType(image.getName());
