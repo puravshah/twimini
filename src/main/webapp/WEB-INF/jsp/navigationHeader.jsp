@@ -1,0 +1,37 @@
+            <div id="navigation-bar" class="span-24 last header">
+                <div id="twitter-logo" class="span-6">
+                    <img src="/static/images/logo.png" alt="Mini Twitter"/>
+                </div>
+
+                <div id="user-nav-head" class span="18 last">
+                    <div class="span-2">
+                        <a href="/tweet">Home</a>
+                    </div>
+
+                    <div class="span-2">
+                        <a href="/user?uid=${sessionScope.uid}">Profile</a>
+                    </div>
+
+                    <div class="span-9 search-box">
+                        <input type="text" name="q" id="search-box"/>
+                        <input type="button" value="Search" id="search-button" onclick="search()"/>
+                    </div>
+
+                    <div id="dropdown-text" class="span-2 append-3 last" onclick="toggleDropdown()">
+                        <a href="javascript:void(0);">${sessionScope.name}</a>
+                        <img src="/static/images/icon_dropdown_1.png"/>
+                    </div>
+                </div>
+
+                <div id="dropdown" class="span-2">
+                    <div class="span-2 last">
+                        <a href="/user/edit">Edit Profile</a>
+                    </div>
+                    <div class="span-2 last add-margin-above-20">
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $('#dropdown').hide();
+                </script>
+            </div>
