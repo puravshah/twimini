@@ -1,4 +1,4 @@
-package sample;
+package twimini;
 
 /**
  * Created by IntelliJ IDEA.

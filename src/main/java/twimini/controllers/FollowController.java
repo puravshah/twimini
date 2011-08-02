@@ -1,4 +1,4 @@
-package sample.controllers;
+package twimini.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sample.model.UserModel;
-import sample.services.FollowService;
-import sample.services.TweetService;
-import sample.services.UserService;
+import twimini.model.UserModel;
+import twimini.services.FollowService;
+import twimini.services.TweetService;
+import twimini.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;

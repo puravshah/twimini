@@ -113,7 +113,7 @@ Available Configuration Parameters:
 
 	mouseOver config:
 		targetProps - the properties whose values will be reported for each target from
-				a mouse over sample.  defaults to ["id","className","localName","href", "spellcheck", "lang", "textContent", "value" ]
+				a mouse over twimini.  defaults to ["id","className","localName","href", "spellcheck", "lang", "textContent", "value" ]
 
 		sampleDelay - the delay in ms between mouseover samples. Defaults to 2500
 

@@ -1,10 +1,10 @@
-package sample;
+package twimini;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
-import sample.model.UserModel;
-import sample.services.UserService;
+import twimini.model.UserModel;
+import twimini.services.UserService;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

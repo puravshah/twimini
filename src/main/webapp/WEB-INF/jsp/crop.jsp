@@ -63,6 +63,7 @@
 		<input type="hidden" name="width" id="width"/>
 		<input type="hidden" name="height" id="height"/>
 	    <input type="hidden" name="file" value="${uid}"  id="uid"/>
+
 	    <input type="submit" name ="submit" value="submit" />
     </form>
 </body>

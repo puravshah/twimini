@@ -1,4 +1,4 @@
-package sample.model;
+package twimini.model;
 
 import org.springframework.jdbc.core.RowMapper;
 

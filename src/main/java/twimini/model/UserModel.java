@@ -1,4 +1,4 @@
-package sample.model;
+package twimini.model;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -22,6 +22,14 @@ public class UserModel {
             return new UserModel(resultSet);
         }
     };
+
+    public static final RowMapper<String> rowMapper4= new RowMapper<String>() {
+        @Override
+        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getString("password");  //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
+
 
     public static final RowMapper<UserModel> rowMapper2 = new RowMapper<UserModel>() {
         @Override

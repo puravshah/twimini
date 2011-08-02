@@ -43,7 +43,7 @@ Dependencies:
 	dojox.data store implementations apply)
 
 	ThumbNailPicker: dojo core, dojo.fx and dojo.data. Combined
-	with a SlideShow, creates a sample Gallery app.
+	with a SlideShow, creates a twimini Gallery app.
 
 	Gallery: core, dojox.image.SlideShow, dojox.image.ThumbNailPicker
 

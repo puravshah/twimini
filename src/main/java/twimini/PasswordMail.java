@@ -1,8 +1,8 @@
-package sample;
+package twimini;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import sample.model.UserModel;
-import sample.services.UserService;
+import twimini.model.UserModel;
+import twimini.services.UserService;
 
 /**
  * Created by IntelliJ IDEA.

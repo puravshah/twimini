@@ -1,10 +1,10 @@
-package sample.services;
+package twimini.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
-import sample.model.UserModel;
+import twimini.model.UserModel;
 
 import java.util.List;
 
@@ -25,6 +25,10 @@ public class UserService {
     public UserService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
         this.db = db;
         this.userID = userID;
+    }
+
+    public static String getPassword(String uid) {
+       return  (String)db.queryForObject("SELECT password FROM user WHERE uid=?",UserModel.rowMapper4,uid);
     }
 
     public UserModel addUser(String name, String email, String password) throws Exception {
@@ -84,5 +88,15 @@ public class UserService {
 
     public static void changePassword(String uid, String password) throws Exception {
         db.update("UPDATE user SET password = ? WHERE uid = ?", password, uid);
+    }
+
+    public static void setAccountInfo(String name, String email,String uid) {
+        //To change body of created methods use File | Settings | File Templates.
+        db.update("update user SET name=? ,email=? WHERE uid=? ",name,email,uid);
+    }
+
+    public static void setPassword(CharSequence newPassword,String uid) {
+
+        db.update("update user SET password=? WHERE uid=? ",newPassword,uid);
     }
 }

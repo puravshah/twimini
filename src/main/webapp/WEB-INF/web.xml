@@ -24,7 +24,7 @@
     </servlet-mapping>
      <servlet>
         <servlet-name>imageServlet</servlet-name>
-        <servlet-class>sample.ImageServlet</servlet-class>
+        <servlet-class>twimini.ImageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>imageServlet</servlet-name>
@@ -32,7 +32,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>imageCropper</servlet-name>
-        <servlet-class>sample.ImageCropper</servlet-class>
+        <servlet-class>twimini.ImageCropper</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>imageCropper</servlet-name>

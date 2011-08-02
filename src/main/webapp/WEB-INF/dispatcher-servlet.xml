@@ -23,11 +23,11 @@
              <mvc:mapping path="/tweet/*"/>
             <mvc:mapping path="/user"/>
 
-            <bean class="sample.controllers.AuthInterceptor"/>
+            <bean class="twimini.controllers.AuthInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <context:component-scan base-package="sample"/>
+    <context:component-scan base-package="twimini"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -40,6 +40,6 @@
         <property name="maxUploadSize" value="1000000"/>
     </bean>
 
-    <!--<bean id="commonsFileUploadServlet" class="sample.services.CommonsFileUploadServlet"/>-->
+    <!--<bean id="commonsFileUploadServlet" class="twimini.services.CommonsFileUploadServlet"/>-->
 
 </beans>

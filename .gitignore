@@ -1,4 +1,4 @@
 .idea/*
 twimini.iml
 target/*
-src/main/java/sample/AppConfig.java
+src/main/java/twimini/AppConfig.java

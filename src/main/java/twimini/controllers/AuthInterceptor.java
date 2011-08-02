@@ -1,4 +1,4 @@
-package sample.controllers;
+package twimini.controllers;
 
 /**
  * Created by IntelliJ IDEA.

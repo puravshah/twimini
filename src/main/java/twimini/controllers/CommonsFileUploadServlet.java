@@ -1,4 +1,4 @@
-package sample.controllers;
+package twimini.controllers;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import twimini.services.UserService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
@@ -42,15 +43,15 @@ public class CommonsFileUploadServlet extends HttpServlet {
 //	}
 
     @RequestMapping("/user/editProfile")
-    ModelAndView getEditProfile( @RequestParam String uid,HttpSession session)
+    ModelAndView getEditProfile(HttpSession session)
     {
         ModelAndView mv= new ModelAndView("/editProfile");
-        mv.addObject(uid);
+        mv.addObject((String)session.getAttribute("uid"));
         return mv;
     }
 
-    @RequestMapping(value="/user/editProfile" ,method = RequestMethod.POST)
-    public ModelAndView handleFormUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
+    @RequestMapping(value="/user/imageInfo" ,method = RequestMethod.POST)
+    public ModelAndView handleImageUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
     {
         String path="/home/rakesh/IdeaProjects/image/";
         try
@@ -69,20 +70,73 @@ public class CommonsFileUploadServlet extends HttpServlet {
                 fileOutputStream.write(bytes);
                 fileOutputStream.close();
                 ModelAndView mv= new ModelAndView("/crop");
+                System.out.println("crop");
                 mv.addObject(uid);
                 return mv;
             }
             else
             {
-                return new ModelAndView("/editProfile");
+                return new ModelAndView("redirect:/user/editProfile");
             }
 
         }catch(Exception e)
         {
-            return new ModelAndView("/editProfile");
+            System.out.println("exception handled");
+            return new ModelAndView("redirect:/user/editProfile");
         }
 
     }
+
+    @RequestMapping(value="/user/accountInfo" ,method = RequestMethod.POST)
+        public ModelAndView handleAccountUpload(@RequestParam("name")String name,@RequestParam("email") String email,HttpSession session)
+        {
+            try
+            {
+                UserService.setAccountInfo(name,email,(String)session.getAttribute("uid"));
+               // UserService.setAccountInfo(name,email,(String)session.getAttribute("uid"));
+                return  new ModelAndView("redirect:/user/editProfile");
+            }catch(Exception e)
+            {
+                return new ModelAndView("/user/editProfile");
+            }
+
+        }
+
+    @RequestMapping(value="/user/passwordInfo" ,method = RequestMethod.POST)
+        public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword,@RequestParam("new_password") String newPassword,HttpSession session)
+        {
+            try
+            {
+                String uid = (String)session.getAttribute("uid");
+                if(oldPassword.equals((String) UserService.getPassword(uid)))
+                {
+                    UserService.setPassword(newPassword, uid);
+
+                   return new ModelAndView("/editProfile");
+                }
+                else
+                {
+                      ModelAndView mv = new ModelAndView("/editProfile");
+
+                      mv.addObject("wrongPassword","password is wrong please try again");
+                    return  mv;
+                }
+
+            }catch(Exception e)
+            {
+                return new ModelAndView("/editProfile");
+            }
+
+        }
+
+
+
+
+
+
+
+
+
 
 
 

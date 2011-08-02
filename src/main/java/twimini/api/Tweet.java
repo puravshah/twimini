@@ -1,4 +1,4 @@
-package sample.api;
+package twimini.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sample.model.TweetModel;
-import sample.services.APIKEYService;
-import sample.services.FollowService;
-import sample.services.TweetService;
-import sample.services.UserService;
+import twimini.model.TweetModel;
+import twimini.services.APIKEYService;
+import twimini.services.FollowService;
+import twimini.services.TweetService;
+import twimini.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;

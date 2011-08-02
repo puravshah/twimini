@@ -1,11 +1,11 @@
-package sample.services;
+package twimini.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
-import sample.model.TweetModel;
-import sample.model.TweetWrapper;
+import twimini.model.TweetModel;
+import twimini.model.TweetWrapper;
 
 import java.util.List;
 

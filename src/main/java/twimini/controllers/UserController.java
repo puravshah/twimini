@@ -1,4 +1,4 @@
-package sample.controllers;
+package twimini.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import sample.PasswordMail;
-import sample.model.TweetModel;
-import sample.model.UserModel;
-import sample.services.FollowService;
-import sample.services.TweetService;
-import sample.services.UserService;
+import twimini.PasswordMail;
+import twimini.model.TweetModel;
+import twimini.model.UserModel;
+import twimini.services.FollowService;
+import twimini.services.TweetService;
+import twimini.services.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;

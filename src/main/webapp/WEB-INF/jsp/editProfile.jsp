@@ -82,15 +82,16 @@
                     <div class="span-15 last">
                         <div class="span-15 last">
                             <h3>Edit your Settings</h3>
+                            <h3>${wrongPassword}</h3>
                             <br>
                         </div>
                     </div>
 
                     <div id="tab-container" class="span-15 last">
-                        <div class="span-2 tab tab-active" onclick="javascript:getAccount();">
+                        <div class="span-2 tab " onclick="javascript:getAccount();">
                             <span>Account</span>
                         </div>
-                        <div id="tabid" class="span-2 tab" onclick="javascript:getPassword();">
+                        <div id="tabid" class="span-2 tab tab-active" onclick="javascript:getPassword();">
                             <span>Password</span>
                         </div>
                         <div class="span-2 tab last" onclick="javascript:getImage();">
@@ -101,7 +102,7 @@
                         <div id="accountDiv" class="span-15 last add-padding-above-20">
                             <div id='accountInfo'>
                                 <br>
-                                <form action="/user/editProfile" id=account_settings_form" method="post">
+                                <form action="/user/accountInfo" id=account_settings_form" method="post">
                                     <div>
                                         <label for="name">Name:</label>
                                         <input type="text" name="name" id="name"  value="${name}"size="30" />
@@ -121,19 +122,19 @@
 
                         <div id="passwordDiv" class="span-15 last add-padding-above-20">
                             <div id='passwordInfo'>
-                              <form action="/user/editProfile"  id=account_settings_form" method="post">
+                              <form action="/user/passwordInfo"  id=account_settings_form" method="post">
                                     <div>
-                                        <label for="Old_Password">Old Password</label>
+                                        <label for="old_Password">Old Password</label>
                                         <input type="text" name="old_password" id="old_password"  value="" size="30" />
                                         <br>
                                     </div>
                                     <div>
-                                        <label for="new Password">New Password</label>
+                                        <label for="new_Password">New Password</label>
                                         <input type="password" name="new_password" id="new_password" value='' size="30"/>
                                         <br>
                                     </div>
                                     <div>
-                                        <label for="confirm new Password">confirm New Password</label>
+                                        <label for="confirm_new_Password">confirm New Password</label>
                                         <input type="password" name="confirm_new_password" id="confirm_new_password" value='' size="30"/>
                                     </div>
                                     <div>
@@ -146,12 +147,13 @@
 
                         <div id="imageDiv" class="span-15 last add-padding-above-20">
                             <div id='imageInfo'>
-                                <form target="_blank action="/user/editProfile" enctype="multipart/form-data" method="POST">
+                                <form target="_blank" action="/user/imageInfo" enctype="multipart/form-data" method="POST">
                                     <input type="hidden" name="uid" value="${uid}">
                                     <div>
                                         <input type="file" name="file"><br>
                                     </div>
                                     <div>
+                                        <br>
                                         <input type="Submit" value="Upload File"><br>
 		                            </div>
 		                        </form>
@@ -159,7 +161,7 @@
                         </div>
 
                         <script type="text/javascript">
-                            $('#passwordDiv').hide();
+                            $('#accountDiv').hide();
                             $('#imageDiv').hide();
                         </script>
                     </div>

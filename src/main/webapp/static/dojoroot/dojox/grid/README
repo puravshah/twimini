@@ -98,7 +98,7 @@ http://docs.dojocampus.org/dojox/grid/EnhancedGrid
 -------------------------------------------------------------------------------
 Installation instructions
 
-Same as dojox.grid, for detail sample usages, please refer to /dojox/grid/tests/enhanced/*.html
+Same as dojox.grid, for detail twimini usages, please refer to /dojox/grid/tests/enhanced/*.html
 -------------------------------------------------------------------------------
 Known issues
 
@@ -138,7 +138,7 @@ http://docs.dojocampus.org/dojox/grid/LazyTreeGrid
 -------------------------------------------------------------------------------
 Installation instructions
 
-Same as dojox.grid, for detail sample usages, please refer to /dojox/grid/tests/test_treegrid_lazyloading.html
+Same as dojox.grid, for detail twimini usages, please refer to /dojox/grid/tests/test_treegrid_lazyloading.html
 -------------------------------------------------------------------------------
 Known issues
 

@@ -1,10 +1,10 @@
-package sample.services;
+package twimini.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
-import sample.model.UserModel;
+import twimini.model.UserModel;
 
 import java.util.List;
 
