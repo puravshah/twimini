@@ -16,8 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import twimini.services.UserService;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -27,6 +30,8 @@ public class CommonsFileUploadServlet extends HttpServlet {
 	private File tmpDir;
 	private static final String DESTINATION_DIR_PATH ="/files";
 	private File destinationDir;
+    public static final int WIDTH  = 800;
+    public static final int HEIGHT = 600;
 
 //	public void CommonsFileUploadServlet(ServletConfig config) throws ServletException {
 //		super.init(config);
@@ -69,8 +74,14 @@ public class CommonsFileUploadServlet extends HttpServlet {
                 FileOutputStream fileOutputStream= new FileOutputStream(picture);
                 fileOutputStream.write(bytes);
                 fileOutputStream.close();
+                BufferedImage originalImage = ImageIO.read(picture);
+                int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+
+                BufferedImage resizeImageJpg = resizeImage(originalImage, type);
+                picture.delete();
+                ImageIO.write(resizeImageJpg, "jpg",picture);
+
                 ModelAndView mv= new ModelAndView("/crop");
-                System.out.println("crop");
                 mv.addObject(uid);
                 return mv;
             }
@@ -85,6 +96,21 @@ public class CommonsFileUploadServlet extends HttpServlet {
             return new ModelAndView("redirect:/user/editProfile");
         }
 
+    }
+
+    private BufferedImage resizeImage(BufferedImage originalImage, int type) {
+        BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, WIDTH,HEIGHT,null);
+        g.dispose();
+        g.setComposite(AlphaComposite.Src);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,
+        RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	    RenderingHints.VALUE_ANTIALIAS_ON);
+    return resizedImage;
     }
 
     @RequestMapping(value="/user/accountInfo" ,method = RequestMethod.POST)

@@ -19,6 +19,8 @@ public class ImageServlet extends HttpServlet {
 
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
     private String imagePath;
+    public static final int WIDTH  = 800;
+    public static final int HEIGHT = 600;
 
     public void init() throws ServletException {
 
@@ -66,6 +68,8 @@ public class ImageServlet extends HttpServlet {
             while ((length = input.read(buffer)) > 0) {
                 output.write(buffer, 0, length);
             }
+
+
         } finally {
             close(output);
             close(input);
@@ -81,6 +85,5 @@ public class ImageServlet extends HttpServlet {
             }
         }
     }
-
 }
 

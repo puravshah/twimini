@@ -53,9 +53,9 @@
 </head>
 <body>
 	<div id="testWrap">
-		<img src="/image/${uid}.jpg" alt="test image" id="testImage" width="500" height="333" />
+		<img src="/image/${uid}.jpg" alt="test image" id="testImage" width="800" height="600" />
 	</div>
-	<form  id="photoCrapper" action="/crop" onsubmit="self.close();" >
+	<form  id="photoCrapper" action="/crop">
     	<input type="hidden" name="x1" id="x1"/>
 		<input type="hidden" name="y1" id="y1"/>
 		<input type="hidden" name="x2" id="x2"/>
