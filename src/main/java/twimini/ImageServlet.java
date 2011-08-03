@@ -36,12 +36,12 @@ public class ImageServlet extends HttpServlet {
             return;
         }
 
-        //String imageCopyPath="/home/rakesh/IdeaProjects/";
-        String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
+        String imageCopyPath="/home/rakesh/IdeaProjects/";
+        //String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
         File image = new File(imageCopyPath+imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
 
         if (!image.exists()) {
-            requestedImage="default-profile-picture.gif";
+            requestedImage="default-profile-picture.png";
             image=new File(imageCopyPath+imagePath,URLDecoder.decode(requestedImage,"UTF-8"));
             //response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
             //return;

@@ -8,6 +8,7 @@ package twimini.controllers;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.sun.imageio.plugins.common.ImageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,13 +41,13 @@ public class CommonsFileUploadServlet extends HttpServlet {
         return mv;
     }
 
-    @RequestMapping(value = "/user/imageInfo", method = RequestMethod.POST)
-    public ModelAndView handleImageUpload(@RequestParam("uid") String uid, @RequestParam("file") MultipartFile file) {
-        //String path = "/home/purav/IdeaProjects/image/";
-        String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
-        try {
-            File picture = new File(path + uid + ".jpg");
-
+    @RequestMapping(value="/user/imageInfo" ,method = RequestMethod.POST)
+    public ModelAndView handleImageUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
+    {
+        String path="/home/rakesh/IdeaProjects/image/";
+        try
+        {
+            File picture= new File(path+uid+".png");
             if (picture.exists()) {
                 picture.delete();
             }
@@ -62,8 +63,7 @@ public class CommonsFileUploadServlet extends HttpServlet {
 
                 BufferedImage resizeImageJpg = resizeImage(originalImage, type);
                 picture.delete();
-                ImageIO.write(resizeImageJpg, "jpg", picture);
-
+                ImageIO.write(resizeImageJpg, "png", picture);
                 ModelAndView mv = new ModelAndView("/crop");
                 mv.addObject(uid);
                 return mv;

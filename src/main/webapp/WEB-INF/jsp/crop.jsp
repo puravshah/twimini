@@ -53,7 +53,7 @@
 </head>
 <body>
 	<div id="testWrap">
-		<img src="/image/${uid}.jpg" alt="test image" id="testImage" width="800" height="600" />
+		<img src="/image/${uid}.png" alt="test image" id="testImage" width="800" height="600" />
 	</div>
 	<form  id="photoCrapper" action="/crop">
     	<input type="hidden" name="x1" id="x1"/>

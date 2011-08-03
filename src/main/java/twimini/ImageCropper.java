@@ -55,14 +55,12 @@ public class ImageCropper extends HttpServlet {
             h = HEIGHT;
         }
 
-        String file = request.getParameter("file");
-        String serverPath = "/home/rakesh/IdeaProjects/image/";
-        //String serverPath = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
-        String sourceFile = serverPath + file + ".jpg";
-        System.out.println(sourceFile);
-        BufferedImage image = ImageIO.read(new File(sourceFile));
+        String file=request.getParameter("file");
+        String serverPath="/home/rakesh/IdeaProjects/image/";
+        String sourceFile=serverPath+file+".png";
+        BufferedImage image=ImageIO.read(new File(sourceFile));
         System.out.println(image);
-        BufferedImage out = image.getSubimage(x1, y1, w, h);
-        ImageIO.write(out, "jpg", new File(serverPath + file + ".jpg"));
-    }
+        BufferedImage out=image.getSubimage(x1,y1,w,h);
+        ImageIO.write(out,"png",new File(serverPath+file+".png"));
+  }
 }

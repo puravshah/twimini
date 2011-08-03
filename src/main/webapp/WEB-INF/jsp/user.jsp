@@ -15,7 +15,7 @@
                 <div id="left-container" class="span-14">
                     <div id="profile-info" class="span-14 last">
                         <div id="photo-container" class="span-4">
-                            <a href=""><img height="100" width="125" src="/image/${uid}.jpg"/></a>
+                            <a href=""><img height="100" width="125" src="/image/${uid}.png"/></a>
                         </div>
 
                         <div id="info" class="span-10 last">

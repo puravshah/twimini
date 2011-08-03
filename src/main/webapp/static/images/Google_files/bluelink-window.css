@@ -1,0 +1,366 @@
+/* bluelink-window.css
+   created by: Michael Cosentino
+   last modified: 09 Apr 2007
+*/
+
+.adb_smartlinks_reset * {
+background: none;
+border: none;
+cursor: default;
+color: #000;
+float: none;
+font-family: "Lucida Grande", Arial, sans-serif;
+font-size: 12px;
+font-size-adjust: none;
+font-stretch: normal;
+font-style: normal;
+font-variant: normal;
+font-weight: normal;
+height: auto;
+letter-spacing: normal;
+line-height: normal;
+margin: 0;
+max-height: none;
+max-width: none;
+min-height: 0;
+min-width: 0;
+overflow: visible;
+padding: 0;
+position: static;
+text-align: left;
+text-decoration: none;
+text-indent: 0;
+text-transform: none;
+width: auto;
+list-style: none;
+}
+
+.adb_smartlinks_reset a, .adb_smartlinks_reset span, .adb_smartlinks_reset strong, .adb_smartlinks_reset em, .adb_smartlinks_reset img, .adb_smartlinks_reset br {
+display: inline;
+}
+
+.adb_smartlinks_reset div, .adb_smartlinks_reset h1, .adb_smartlinks_reset h2, .adb_smartlinks_reset h3, .adb_smartlinks_reset h4, .adb_smartlinks_reset h5, .adb_smartlinks_reset h6, .adb_smartlinks_reset p, .adb_smartlinks_reset ul, .adb_smartlinks_reset li, .adb_smartlinks_reset blockquote {
+display: block;
+}
+
+
+/* start navigator */
+#adb_smartlinks_navigator{
+    background-image: url(http://s3.amazonaws.com/blueorganizer/images/widget/gluepane.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 1410065406;
+    display: none;
+    height:465px;
+    width:437px;
+    padding:8px 7px 33px;
+}
+
+#adb_smartlinks_navigator_iframe{
+    width: 437px;
+    height: 465px;
+    overflow: hidden;
+}
+
+#adb_smartlinks_navigator_close{
+    position: absolute;
+    top: 16px;
+    display:none;
+    right: 15px;
+    cursor:pointer;
+    width:23px;
+    height:21px;
+}
+/* end navigator */
+
+
+
+#bl-window, #bm-window {
+    background-image: url(../images/window/frame.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 100000;
+    font-family: Arial, Helvetica, sans-serif;
+    display: none;
+}
+
+#bl-popup-window{
+    background-image: url(../images/window/frame-no-close.gif);
+    background-repeat: no-repeat;
+}
+
+#wm-popup-window{
+    background-image: url(../images/window/widgetmenu-no-close.gif);
+    background-repeat: no-repeat;
+}
+
+.popup-window{
+    width:512px;
+    height:438px;
+    margin-left:-10px;
+    margin-top:-8px;
+}
+
+.ab_nowrap {
+    white-space:nowrap !important;
+}
+
+#bm-bg {
+    background-repeat: no-repeat;
+    background: none;
+    width: 500px;
+    height: 430px;
+    z-index: 100000;
+
+}
+#bl-closebutton, #bm-closebutton {
+    position: absolute;
+    left : 468px;
+    top : 11px;
+    width : 27px;
+    height: 23px;
+    background-repeat : no-repeat;
+    cursor: pointer;
+    background: none;
+}
+
+.bluepane-iframe {
+	position: absolute;
+    left: 9px;
+    top: 48px;
+    width: 482px !important;
+}
+
+#bl-bglayer, #bm-bglayer {
+    position : absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: .25;               /* firefox */
+    filter: alpha(opacity=25);  /* ie */
+    z-index: 99999;
+    display: none;
+}
+
+.blue-icon-launcher {
+    cursor: pointer;
+    border-width: 0px !important;
+    padding:0px !important;
+    margin: 0 4px 0 4px !important;
+    float: none !important;
+    position: static !important;
+    display: inline !important;
+    width: 14px !important;
+    height: 14px !important;
+    vertical-align: baseline;
+}
+
+.blue-icon-launcher.blue-icon-12 {
+    width: 12px !important;
+    height: 11px !important;
+}
+
+.blue-img-launcher {
+    cursor: pointer;
+    border-width: 0px !important;
+    padding:0px !important;
+    margin: 0px !important;
+}
+
+#bl-title, #bluepane-title {
+    width: 290px;
+    height: 24px;
+    position: absolute;
+    left: 45px;
+    top: 9px;
+    cursor: pointer;
+    background: url(../images/title/generic-smartlinks.png);
+    _background: url(../images/title/generic-smartlinks.gif); /* ie 6 */
+    background-repeat: no-repeat;
+}
+
+#bm-title {
+    width: 280px;
+    height: 24px;
+    position: absolute;
+    left: 45px;
+    top: 9px;
+    cursor: pointer;
+    background: url(../images/title/generic-smartlinks.png);
+    background-repeat: no-repeat;
+}
+
+#bluepane-popup-title{
+    width:94px;
+    height: 25px;
+    position: absolute;
+    left: 45px;
+    top: 9px;
+    cursor: pointer;
+}
+
+#powered-by-link {
+    position: absolute;
+    width: 115px;
+    height: 24px;
+    right: 40px;
+    top:9px;
+    cursor: pointer;
+    background: none;
+}
+
+#bl-hover{
+  z-index: 1410065407;
+  position: absolute;
+  display:none;
+  margin: 0px;
+  padding:0px;
+}
+
+
+#bl-newtip {
+	z-index: 1410065407;
+	position: absolute;
+	display:none;
+	margin: 0px;
+	padding:0 0 0 5px;
+	background: transparent url(http://s3.amazonaws.com/blueorganizer/images/tooltip/bg3.png) no-repeat 0 0;
+	width: 365px;
+	height: 454px;
+}
+
+#bl-newtip #bl-newtip-close {
+    background: transparent url(http://s3.amazonaws.com/glueimg/tooltip/close.png) no-repeat 0 0;
+    height: 40px;
+    width: 42px;
+    position: absolute;
+    top: 0;
+    right: -6px;
+    z-index: 1002;
+    display: none;
+}
+    #bl-newtip #bl-newtip-close:hover {
+        background-position: 0 -42px;
+        cursor: pointer;
+    }
+    #bl-newtip.pinned #bl-newtip-close {
+        display: block;
+    }
+
+#bl-newtip a.widgetPromo {
+    position: absolute;
+    width: 375px;
+    height: 19px;
+    left: 0;
+    bottom: 12px;
+    cursor: pointer;
+	background: transparent url(http://s3.amazonaws.com/blueorganizer/images/tooltip/promo.png) no-repeat center 0;
+}
+
+#bl-newtip a.widgetPromo:hover {
+    background-position: center -19px;
+}
+
+#bl-newtip div.caret
+{
+    position: absolute;
+    width: 12px;
+    height: 48px;
+    top:  193px;
+    left: 0;
+    background: url(http://s3.amazonaws.com/blueorganizer/images/tooltip/caretLeft2.png) no-repeat 0 0;
+}
+
+
+#bl-newtip div.caret.right
+{
+    background: url(http://s3.amazonaws.com/blueorganizer/images/tooltip/caretRight2.png) no-repeat 0 0;
+    left: auto;
+    right: -5px;
+}
+
+div div.loadingSpinner
+{
+    background:white url(http://s3.amazonaws.com/blueorganizer/images/tooltip/gloading.gif) no-repeat scroll center center;
+    display:none;
+    height:343px;
+    left:12px;
+    position:absolute;
+    top:21px;
+    width:351px;
+    z-index:1000;
+}
+
+div.loading div.loadingSpinner
+{
+    display: block;
+}
+
+
+#bl-newtip iframe {
+    width: 335px;
+    max-width: 335px;
+    min-width: 335px;
+    height: 392px;
+    border: 0;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+	background-color: transparent;
+    z-index: 1000;
+}
+
+
+#bl-caret{
+   background-image: url(http://s3.amazonaws.com/blueorganizer/images/shared/tooltip_caret.gif);
+   background-repeat: no-repeat;
+   margin-left:50px;
+   height:12px;
+   width:24px;
+ }
+
+#adb_tooltip_summary:hover, #adb_tooltip_actions:hover {
+   background-color: #208EC6 !important;
+   color: #FFF !important;
+}
+
+#adb_tooltip_faceroll:hover {
+   background-color: #EAEAEA !important;
+}
+
+#promo_thumb{
+    float:left;
+    margin-right: 10px;
+    width: 100px;
+    padding: 5px;
+    text-align:center;
+    border: 0;
+    height: 100px !important;
+    overflow: hidden;
+    position: relative;
+}
+
+#promo_thumb_img{
+    top: -10px;
+    left: -10px;
+    min-height:120px !important;
+    min-width: 120px !important;
+    max-height:200px !important;
+    max-width: 200px !important;
+    position: absolute;
+}
+
+#promoBack
+{
+    font-size: 12pt;
+    color: #346699;
+    text-align: center;
+    cursor: pointer;
+}
+
+#promoBack:hover
+{
+    text-decoration: underline;
+}
