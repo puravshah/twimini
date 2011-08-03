@@ -9,7 +9,7 @@
             @import "/static/css/blueprint/print.css";
             @import "/static/css/blueprint/style.css";
             @import "/static/dojoroot/dijit/themes/tundra/tundra.css";
-            @import "/static/dojoroot/dojo/resources/dojo.css"
+            @import "/static/dojoroot/dojo/resources/dojo.css";
         </style>
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
@@ -122,6 +122,7 @@
 
                         <div id="passwordDiv" class="span-15 last add-padding-above-20">
                             <div id='passwordInfo'>
+
                               <form action="/user/passwordInfo"  id=account_settings_form" method="post">
                                     <div>
                                         <label for="old_Password">Old Password</label>

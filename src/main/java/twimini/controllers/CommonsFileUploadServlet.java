@@ -26,74 +26,55 @@ import java.io.FileOutputStream;
 
 @Controller
 public class CommonsFileUploadServlet extends HttpServlet {
-	private static final String TMP_DIR_PATH = "c:\\tmp";
-	private File tmpDir;
-	private static final String DESTINATION_DIR_PATH ="/files";
-	private File destinationDir;
-    public static final int WIDTH  = 800;
+    private static final String TMP_DIR_PATH = "c:\\tmp";
+    private File tmpDir;
+    private static final String DESTINATION_DIR_PATH = "/files";
+    private File destinationDir;
+    public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
 
-//	public void CommonsFileUploadServlet(ServletConfig config) throws ServletException {
-//		super.init(config);
-//		tmpDir = new File(TMP_DIR_PATH);
-//		if(!tmpDir.isDirectory()) {
-//			throw new ServletException(TMP_DIR_PATH + " is not a directory");
-//		}
-//		String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
-//		destinationDir = new File(realPath);
-//		if(!destinationDir.isDirectory()) {
-//			throw new ServletException(DESTINATION_DIR_PATH+" is not a directory");
-//		}
-//
-//	}
-
-    @RequestMapping("/user/editProfile")
-    ModelAndView getEditProfile(HttpSession session)
-    {
-        ModelAndView mv= new ModelAndView("/editProfile");
-        mv.addObject((String)session.getAttribute("uid"));
+    @RequestMapping("/user/edit")
+    ModelAndView getedit(HttpSession session) {
+        ModelAndView mv = new ModelAndView("/edit");
+        mv.addObject((String) session.getAttribute("uid"));
         return mv;
     }
 
-    @RequestMapping(value="/user/imageInfo" ,method = RequestMethod.POST)
-    public ModelAndView handleImageUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
-    {
-        String path="/home/rakesh/IdeaProjects/image/";
-        try
-        {
-            File picture= new File(path+uid+".jpg");
+    @RequestMapping(value = "/user/imageInfo", method = RequestMethod.POST)
+    public ModelAndView handleImageUpload(@RequestParam("uid") String uid, @RequestParam("file") MultipartFile file) {
+        //String path = "/home/purav/IdeaProjects/image/";
+        String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
+        try {
+            File picture = new File(path + uid + ".jpg");
 
-            if(picture.exists())
-            {
+            if (picture.exists()) {
                 picture.delete();
             }
             picture.createNewFile();
-            if (!file.isEmpty())
-            {
+            if (!file.isEmpty()) {
                 byte[] bytes = file.getBytes();
-                FileOutputStream fileOutputStream= new FileOutputStream(picture);
+                FileOutputStream fileOutputStream = new FileOutputStream(picture);
                 fileOutputStream.write(bytes);
                 fileOutputStream.close();
+
                 BufferedImage originalImage = ImageIO.read(picture);
-                int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+                int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
 
                 BufferedImage resizeImageJpg = resizeImage(originalImage, type);
                 picture.delete();
-                ImageIO.write(resizeImageJpg, "jpg",picture);
+                ImageIO.write(resizeImageJpg, "jpg", picture);
 
-                ModelAndView mv= new ModelAndView("/crop");
+                ModelAndView mv = new ModelAndView("/crop");
                 mv.addObject(uid);
                 return mv;
-            }
-            else
-            {
-                return new ModelAndView("redirect:/user/editProfile");
+            } else {
+                return new ModelAndView("redirect:/user/edit");
             }
 
-        }catch(Exception e)
-        {
+        } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("exception handled");
-            return new ModelAndView("redirect:/user/editProfile");
+            return new ModelAndView("redirect:/user/edit");
         }
 
     }
@@ -101,69 +82,49 @@ public class CommonsFileUploadServlet extends HttpServlet {
     private BufferedImage resizeImage(BufferedImage originalImage, int type) {
         BufferedImage resizedImage = new BufferedImage(WIDTH, HEIGHT, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, WIDTH,HEIGHT,null);
+        g.drawImage(originalImage, 0, 0, WIDTH, HEIGHT, null);
         g.dispose();
         g.setComposite(AlphaComposite.Src);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-        RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.setRenderingHint(RenderingHints.KEY_RENDERING,
-        RenderingHints.VALUE_RENDER_QUALITY);
+                RenderingHints.VALUE_RENDER_QUALITY);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	    RenderingHints.VALUE_ANTIALIAS_ON);
-    return resizedImage;
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        return resizedImage;
     }
 
-    @RequestMapping(value="/user/accountInfo" ,method = RequestMethod.POST)
-        public ModelAndView handleAccountUpload(@RequestParam("name")String name,@RequestParam("email") String email,HttpSession session)
-        {
-            try
-            {
-                UserService.setAccountInfo(name,email,(String)session.getAttribute("uid"));
-               // UserService.setAccountInfo(name,email,(String)session.getAttribute("uid"));
-                return  new ModelAndView("redirect:/user/editProfile");
-            }catch(Exception e)
-            {
-                return new ModelAndView("/user/editProfile");
-            }
-
+    @RequestMapping(value = "/user/accountInfo", method = RequestMethod.POST)
+    public ModelAndView handleAccountUpload(@RequestParam("name") String name, @RequestParam("email") String email, HttpSession session) {
+        try {
+            UserService.setAccountInfo(name, email, (String) session.getAttribute("uid"));
+            return new ModelAndView("redirect:/user/edit");
+        } catch (Exception e) {
+            return new ModelAndView("/user/edit");
         }
 
-    @RequestMapping(value="/user/passwordInfo" ,method = RequestMethod.POST)
-        public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword,@RequestParam("new_password") String newPassword,HttpSession session)
-        {
-            try
-            {
-                String uid = (String)session.getAttribute("uid");
-                if(oldPassword.equals((String) UserService.getPassword(uid)))
-                {
-                    UserService.setPassword(newPassword, uid);
+    }
 
-                   return new ModelAndView("/editProfile");
-                }
-                else
-                {
-                      ModelAndView mv = new ModelAndView("/editProfile");
+    @RequestMapping(value = "/user/passwordInfo", method = RequestMethod.POST)
+    public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword, @RequestParam("new_password") String newPassword, HttpSession session) {
+        try {
+            String uid = (String) session.getAttribute("uid");
+            if (oldPassword.equals((String) UserService.getPassword(uid))) {
+                UserService.setPassword(newPassword, uid);
 
-                      mv.addObject("wrongPassword","password is wrong please try again");
-                    return  mv;
-                }
+                return new ModelAndView("/edit");
+            } else {
+                ModelAndView mv = new ModelAndView("/edit");
 
-            }catch(Exception e)
-            {
-                return new ModelAndView("/editProfile");
+                mv.addObject("wrongPassword", "password is wrong please try again");
+                return mv;
             }
 
+        } catch (Exception e) {
+            return new ModelAndView("/edit");
         }
 
-
-
-
-
-
-
-
-
-
+    }
 
 
 }

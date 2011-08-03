@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import twimini.PasswordMail;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
+import twimini.services.APIKEYService;
 import twimini.services.FollowService;
 import twimini.services.TweetService;
 import twimini.services.UserService;
@@ -83,6 +84,7 @@ public class UserController {
 
         session.setAttribute("uid", "" + (Integer) m.getUid());
         session.setAttribute("name", m.getName());
+        session.setAttribute("apikey", APIKEYService.getAPIKEY(m.getUid()));
         ModelAndView mv = new ModelAndView("/tweet");
         mv.setViewName("redirect:/tweet");
         return mv;
@@ -248,7 +250,6 @@ public class UserController {
 
         try {
             u = userService.getUser(uid);
-
             if (u == null) throw new Exception("Invalid User");
         } catch (Exception e) {
             e.printStackTrace();
@@ -256,7 +257,6 @@ public class UserController {
 
         List<TweetModel> tweetList = null;
         List<UserModel> followingList = null, followerList = null;
-
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {

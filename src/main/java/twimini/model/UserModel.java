@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, password, name, timestamp;
+    private String email, name;//, password, timestamp;
     private int uid, status;
 
     public static final RowMapper<UserModel> rowMapper = new RowMapper<UserModel>() {
@@ -26,7 +26,7 @@ public class UserModel {
     public static final RowMapper<String> rowMapper4= new RowMapper<String>() {
         @Override
         public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return rs.getString("password");  //To change body of implemented methods use File | Settings | File Templates.
+            return rs.getString("password");
         }
     };
 
@@ -59,18 +59,10 @@ public class UserModel {
 
     public UserModel(ResultSet rs) throws SQLException {
         email = rs.getString("email");
-        password = rs.getString("password");
         name = rs.getString("name");
-        timestamp = rs.getString("timestamp");
         uid = rs.getInt("uid");
-    }
-
-    public UserModel(int uid, String email, String password, String name, String timestamp) {
-        this.uid = uid;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.timestamp = timestamp;
+        /*password = rs.getString("password");
+        timestamp = rs.getString("timestamp");*/
     }
 
     public int getUid() {
@@ -81,21 +73,14 @@ public class UserModel {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
     }
 
     public int getStatus() {
         return status;
     }
+
 
     public void setStatus(int status) {
         this.status = status;
@@ -109,15 +94,23 @@ public class UserModel {
         this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
+    /*public String getPassword() {
+        return password;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-    }
+    }*/
 }

@@ -18,10 +18,8 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <!--mvc:mapping path="/user/*"/-->
             <mvc:mapping path="/tweet"/>
-             <mvc:mapping path="/tweet/*"/>
-            <mvc:mapping path="/user"/>
+            <mvc:mapping path="/tweet/*"/>
 
             <bean class="twimini.controllers.AuthInterceptor"/>
         </mvc:interceptor>

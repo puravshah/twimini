@@ -143,15 +143,15 @@ div.forgot-msg {
     background: -ms-linear-gradient(top, #27f535, #12c91e);
     background: -o-linear-gradient(top, #27f535, #12c91e);
     padding: 5px 10px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
     -webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     -moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
     color: white;
-    font-size: 14px;
+    /*font-size: 14px;*/
     text-decoration: none;
     vertical-align: middle;
     padding: 10px;
@@ -177,16 +177,16 @@ span.follow-unfollow-button:active {
     background: -ms-linear-gradient(top, #969696, #969696);
     background: -o-linear-gradient(top, #969696, #969696);
     padding: 5px 10px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
     -webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     -moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
     color: #ffffff;
-    font-size: 14px;
-    font-family: Georgia, serif;
+    /*font-size: 14px;
+    font-family: Georgia, serif;*/
     text-decoration: none;
     vertical-align: middle;
     cursor: pointer;
@@ -209,8 +209,8 @@ input[type=text], input[type=password], input[type=email] {
     padding: 5px 10px 5px 10px;
 }
 
-form#signup-form input[type=submit], form#form-container input[type=submit] {
-    background: #FA2 url(/static/images/bg-btn-signup.png);
+.yellow-button {
+    background: #FA2 url(/static/images/bg-btn-signup.png) !important;
 }
 
 input[type=submit], input[type=button] {

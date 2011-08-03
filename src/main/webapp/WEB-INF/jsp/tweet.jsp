@@ -8,43 +8,7 @@
 
     <body>
         <div class="container">
-            <div id="navigation-bar" class="span-24 last header">
-                <div id="twitter-logo" class="span-6">
-                    <img src="/static/images/logo.png" alt="Mini Twitter"/>
-                </div>
-
-                <div id="user-nav-head" class span="18 last">
-                    <div class="span-2">
-                        <a href="/tweet">Home</a>
-                    </div>
-
-                    <div class="span-2">
-                        <a href="/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
-                    </div>
-
-                    <div class="span-9 search-box">
-                        <input type="text" name="q" id="search-box"/>
-                        <input type="button" value="Search" id="search-button" onclick="search()"/>
-                    </div>
-
-                    <div id="dropdown-text" class="span-2" onclick="toggleDropdown()">
-                        <a href="javascript:void(0);"><%= session.getAttribute("name") %></a>
-                        <img src="/static/images/icon_dropdown_1.png"/>
-                    </div>
-                </div>
-
-                <div id="dropdown" class="span-2">
-                    <div class="span-2 last">
-                        <a href="/user/edit?uid=${uid}">Edit Profile</a>
-                    </div>
-                    <div class="span-2 last add-margin-above-20">
-                        <a href="/logout">Logout</a>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $('#dropdown').hide();
-                </script>
-            </div>
+            <jsp:include page="navigationHeader.jsp"></jsp:include>
 
             <div id="left-right-container" class="add-margin-above-20 span-24">
                 <div id="left-container" class="span-14">
@@ -67,122 +31,16 @@
                         </div>
                     </div>
 
-                    <div id="tab-container" class="span-14 last">
-                        <div class="span-2 tab tab-active" onclick="getFeed( {uid:${uid}} );">
-                            <span>Feed</span>
-                        </div>
-                        <div id="tabid" class="span-2 tab" onclick="getFollowing( {uid:${uid}, user:${uid}} );">
-                            <span>Following</span>
-                        </div>
-                        <div class="span-2 tab last" onclick="getFollowers( {uid:${uid}, user:${uid}} );">
-                            <span>Followers</span>
-                        </div>
-                    </div>
-
-                    <div class="span-14 last">
-                        <div id="tweetDiv" class="span-14 last add-padding-above-20">
-                            <div id='ListOfTweets'>
-                                <c:forEach var='item' items='${tweetList}'>
-                                    <script type="text/javascript">
-                                        var tweet = filter('${item.tweet}');
-                                        prependTweet({pid:${item.pid}, uid:${item.uid}, name: '${item.name}', tweet:tweet, timestamp:'${item.timestamp}'});
-                                    </script>
-                                </c:forEach>
-                            </div>
-                        </div>
-
-                        <div id="followingDiv" class="span-14 last add-padding-above-20">
-                            <div id='ListOfFollowing'>
-                                <c:forEach var='item' items='${followingList}'>
-                                    <script type="text/javascript">
-                                        appendFollowing({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
-                                    </script>
-                                </c:forEach>
-                            </div>
-                        </div>
-
-                        <div id="followerDiv" class="span-14 last add-padding-above-20">
-                            <div id='ListOfFollower'>
-                                <c:forEach var='item' items='${followerList}'>
-                                    <script type="text/javascript">
-                                        appendFollower({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:<%= session.getAttribute("uid") %>, status:${item.status}});
-                                    </script>
-                                </c:forEach>
-                            </div>
-                        </div>
-
-                        <script type="text/javascript">
-                            $('#followingDiv').hide();
-                            $('#followerDiv').hide();
-                        </script>
-
-                    </div>
+                    <jsp:include page="leftContainerBody.jsp">
+                        <jsp:param name="firstTabName" value="Feed"></jsp:param>
+                        <jsp:param name="firstTabUrl" value="getFeed({uid:${uid}})"></jsp:param>
+                    </jsp:include>
                 </div>
 
-                <div id="right-container" class="span-8 last">
-                    <div class="span-8 last">
-                        <h2>About You</h2>
-                    </div>
+              <jsp:include page="rightContainer.jsp">
+                  <jsp:param name="tweetUrl" value="/user?uid=${uid}"></jsp:param>
+              </jsp:include>
 
-                    <div class="span-8 last add-margin-above-20">
-                        <div class="span-2 colborder center-text">
-                            <a href="/user?uid=${uid}">
-                                Tweets<br/>
-                                <span id="tweet-count">${tweetCount}</span>
-                            </a>
-                        </div>
-
-                        <div class="span-2 colborder center-text">
-                            <a href="javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">
-                                Following<br/>
-                                <span id="following-count">${followingCount}</span>
-                            </a>
-                        </div>
-
-                        <div class="span-2 last center-text">
-                            <a href="javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">
-                                Followers<br/>
-                                <span id="follower-count">${followerCount}</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div id="following-thumbs" class="span-8 last add-margin-above-20">
-                        <div class="span-8 last">
-                            <h5>Following. <a href="javascript:getFollowing(  {uid:${uid}, user:${uid}}  )">view all</a></h5>
-                        </div>
-
-                        <div class="span-8 last add-margin-above-10">
-                            <ul id="following-thumbs-container">
-                                <c:forEach var='item' items='${followingList}'>
-                                    <script type="text/javascript">
-                                        var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render({uid: ${item.uid}, name: '${item.name}'});
-                                        var thumbLi = $(html);
-                                        $('#following-thumbs-container').append(thumbLi);
-                                    </script>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div id="follower-thumbs" class="span-8 last add-margin-above-20">
-                        <div class="span-8 last">
-                            <h5>Followers. <a href="javascript:getFollowers(  {uid:${uid}, user:${uid}}  )">view all</a></h5>
-                        </div>
-
-                        <div class="span-8 last">
-                            <ul id="follower-thumbs-container">
-                                <c:forEach var='item' items='${followerList}'>
-                                    <script type="text/javascript">
-                                        var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render({uid: ${item.uid}, name: '${item.name}'});
-                                        var thumbLi = $(html);
-                                        $('#follower-thumbs-container').append(thumbLi);
-                                    </script>
-                                </c:forEach>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

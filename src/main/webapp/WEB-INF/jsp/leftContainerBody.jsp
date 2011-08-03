@@ -5,11 +5,11 @@
                             <span>${param.firstTabName}</span>
                         </div>
                         <div class="span-2 tab"
-                             onclick="getFollowing( {uid:${uid}, user:${sessionScope.uid}} );">
+                             onclick="getFollowing( {uid:'${uid}', user:'${sessionScope.uid}'} );">
                             <span>Following</span>
                         </div>
                         <div class="span-2 tab last"
-                             onclick="getFollowers( {uid:${uid}, user:${sessionScope.uid}} );">
+                             onclick="getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} );">
                             <span>Followers</span>
                         </div>
                     </div>

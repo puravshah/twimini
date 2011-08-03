@@ -4,6 +4,9 @@
 <html>
     <head>
         <%@include file="head include.txt"%>
+        <script>
+            history.forward();
+        </script>
     </head>
 
     <body>
@@ -36,7 +39,7 @@
                                 <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
                             </div>
                             <div class = "span-7 last add-margin-above-10">
-                                <input type = "submit" value = "Signup" />
+                                <input type = "submit" class = "yellow-button" value = "Signup" />
                             </div>
                         </form>
                     </div>

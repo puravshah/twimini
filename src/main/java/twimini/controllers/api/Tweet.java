@@ -1,4 +1,4 @@
-package twimini.api;
+package twimini.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import twimini.model.TweetModel;
-import twimini.services.APIKEYService;
 import twimini.services.FollowService;
 import twimini.services.TweetService;
 import twimini.services.UserService;
@@ -38,59 +37,60 @@ public class Tweet {
     }
 
     /* REST API for creating a tweet */
-    @RequestMapping("/api/{APIKEY}/tweet/create")
+    @RequestMapping("/api/tweet/create")
     @ResponseBody
-    Hashtable<String, String> createTweet(@PathVariable String APIKEY, @RequestParam final String tweet, HttpSession session) {
+    Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         TweetModel t = null;
 
         try {
-            String uid = APIKEYService.getUid(APIKEY);
+            String uid = (String)session.getAttribute("uid");//APIKEYService.getUid(APIKEY);
             t = tweetService.addTweet(uid, tweet);
-            ret.put("pid", "" + t.getPid());
             ret.put("status", "1");
+            ret.put("pid", "" + t.getPid());
         } catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
-            ret.put("errorMsg", "Invalid APIKEY");
+            ret.put("errorMessage", "Invalid APIKEY");
         } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
+            ret.put("errorMessage", e.toString());
         }
         return ret;
     }
 
-    @RequestMapping("/api/{APIKEY}/tweet/getTweetDetails/{pid}")
+    @RequestMapping("/api/tweet/{pid}/getTweetDetails")
     @ResponseBody
-    Hashtable<String, String> getTweetDetails(@PathVariable String APIKEY, @PathVariable String pid, HttpSession session) {
-        Hashtable<String, String> ret = new Hashtable<String, String>();
+    Hashtable<String, Object> getTweetDetails(@PathVariable String pid, HttpSession session) {
+        Hashtable<String, Object> ret = new Hashtable<String, Object>();
 
         try {
-            String uid = APIKEYService.getUid(APIKEY);
+            String uid = (String)session.getAttribute("uid");//APIKEYService.getUid(APIKEY);
         }
         catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
-            ret.put("errorMsg", "Invalid APIKEY");
+            ret.put("errorMessage", "Invalid APIKEY");
         }
         catch (Exception e) {
             ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
+            ret.put("errorMessage", e.toString());
         }
 
         try {
             TweetModel t = tweetService.getTweetDetails(pid);
-            ret.put("pid", "" + t.getPid());
+            /*ret.put("pid", "" + t.getPid());
             ret.put("uid", "" + t.getUid());
             ret.put("tweet", t.getTweet());
-            ret.put("timestamp", t.getTimestamp());
+            ret.put("timestamp", t.getTimestamp());*/
             ret.put("status", "1");
+            ret.put("tweetDetails", t);
         } catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
-            ret.put("errorMsg", "Invalid Tweet ID");
+            ret.put("errorMessage", "Invalid Tweet ID");
         } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
+            ret.put("errorMessage", e.toString());
         }
         return ret;
     }

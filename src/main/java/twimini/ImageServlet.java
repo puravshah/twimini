@@ -25,6 +25,7 @@ public class ImageServlet extends HttpServlet {
     public void init() throws ServletException {
 
         this.imagePath = "/image";
+        //this.imagePath = "\\image";
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -35,7 +36,8 @@ public class ImageServlet extends HttpServlet {
             return;
         }
 
-        String imageCopyPath="/home/rakesh/IdeaProjects/";
+        //String imageCopyPath="/home/rakesh/IdeaProjects/";
+        String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
         File image = new File(imageCopyPath+imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
 
         if (!image.exists()) {

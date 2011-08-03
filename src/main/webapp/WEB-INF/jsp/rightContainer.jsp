@@ -1,28 +1,44 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
                 <div id="right-container" class="span-8 last">
                     <div class="span-8 last">
                         <h2>
                             About
-                            <% out.println(session.getAttribute("uid").equals(request.getAttribute("uid")) ? "You" : request.getAttribute("name").toString()); %>
+                            <%--<script type = "text/javascript">
+                                var sessionId = '${sessionScope.uid}';
+                                var requestId = '${uid}';
+                                var name = '${name}';
+                                document.write( (sessionId == requestId) ? "You" : name );
+                            </script>--%>
+
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.uid && sessionscope.uid == requestscope.uid}">
+                                    <c:out value="You"></c:out>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${requestScope.name}"></c:out>
+                                </c:otherwise>
+                            </c:choose>
                         </h2>
                     </div>
 
                     <div class="span-8 last add-margin-above-20">
                         <div class="span-2 colborder center-text">
-                            <a href="javascript:getTweets()">
+                            <a href="${param.tweetUrl}">
                                 Tweets<br/>
                                 <span id="tweet-count">${tweetCount}</span>
                             </a>
                         </div>
 
                         <div class="span-2 colborder center-text">
-                            <a href="javascript:getFollowing( {uid:${uid}, user:<%= request.getParameter("user") %>} )">
+                            <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'} )">
                                 Following<br/>
                                 <span id="following-count">${followingCount}</span>
                             </a>
                         </div>
 
                         <div class="span-2 last center-text">
-                            <a href="javascript:getFollowers( {uid:${uid}, user:<%= request.getParameter("user") %>} )">
+                            <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} )">
                                 Followers<br/>
                                 <span id="follower-count">${followerCount}</span>
                             </a>
@@ -31,7 +47,7 @@
 
                     <div id="following-thumbs" class="span-8 last add-margin-above-20">
                         <div class="span-8 last">
-                            <h5>Following. <a href="javascript:getFollowing( {uid:${uid}, user:<%= request.getParameter("user") %>} )">view all</a></h5>
+                            <h5>Following. <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
                         </div>
 
                         <div class="span-8 last add-margin-above-10">
@@ -39,8 +55,6 @@
                                 <c:forEach var='item' items='${followingList}'>
                                     <script type="text/javascript">
                                         var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render({uid: ${item.uid}, name: '${item.name}'});
-                                        //var thumbLi = $(html);
-                                        //$('#following-thumbs-container').append(thumbLi);
                                         dojo.place(html, "following-thumbs-container", "last");
                                     </script>
                                 </c:forEach>
@@ -50,7 +64,7 @@
 
                     <div id="follower-thumbs" class="span-8 last add-margin-above-20">
                         <div class="span-8 last">
-                            <h5>Followers. <a href="javascript:getFollowers( {uid:${uid}, user:<%= request.getParameter("user") %>} )">view all</a></h5>
+                            <h5>Followers. <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
                         </div>
 
                         <div class="span-8 last add-margin-above-10">
@@ -58,8 +72,6 @@
                                 <c:forEach var='item' items='${followerList}'>
                                     <script type="text/javascript">
                                         var html = new EJS({url: '/static/ejs/thumbs.ejs'}).render({uid: ${item.uid}, name: '${item.name}'});
-                                        //var thumbLi = $(html);
-                                        //$('#follower-thumbs-container').append(thumbLi);
                                         dojo.place(html, "follower-thumbs-container", "last");
                                     </script>
                                 </c:forEach>

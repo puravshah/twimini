@@ -62,7 +62,7 @@
                                 <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
                             </div>
                             <div class = "span-8 last">
-                                <input type = "submit" value = "Create Account" class = "span-7" />
+                                <input type = "submit" value = "Create Account" class = "span-7 yellow-button" />
                             </div>
                         </form>
                     </div>

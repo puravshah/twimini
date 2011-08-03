@@ -151,7 +151,6 @@ public class TweetController {
     @ResponseBody
     List<TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
         List<TweetWrapper> ret = null;
-
         try {
             ret = tweetService.getFeed(uid);
             if (ret == null) throw new Exception("Could not render tweets");

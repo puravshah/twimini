@@ -65,4 +65,12 @@ public class FollowService {
     public int getFollowerCount(String uid) {
         return db.queryForInt("SELECT count(uid) FROM follow WHERE following = ? AND end is NULL", uid);
     }
+
+    public static List<UserModel> getFollowerWithoutLogin(String uid) {
+        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper3, uid);
+    }
+
+    public static List<UserModel> getFollowingWithoutLogin(String uid) {
+        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper3, uid);
+    }
 }
