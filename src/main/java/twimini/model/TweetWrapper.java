@@ -13,8 +13,9 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class TweetWrapper {
-    private String name, tweet, timestamp;
-    private int pid, uid;
+    private String name;//, tweet, timestamp;
+    //private int pid, uid;
+    private TweetModel tweet;
 
     public static RowMapper<TweetWrapper> rowMapper = new RowMapper<TweetWrapper>() {
         @Override
@@ -27,14 +28,11 @@ public class TweetWrapper {
     }
 
     TweetWrapper(ResultSet rs) throws SQLException {
-        pid = rs.getInt("pid");
-        uid = rs.getInt("uid");
-        tweet = rs.getString("tweet");
-        timestamp = rs.getString("timestamp");
+        tweet = new TweetModel(rs.getInt("pid"), rs.getInt("uid"), rs.getString("tweet"), rs.getString("timestamp"));
         name = rs.getString("name");
     }
 
-    public int getPid() {
+    /*public int getPid() {
         return pid;
     }
 
@@ -48,13 +46,17 @@ public class TweetWrapper {
 
     public String getTimestamp() {
         return timestamp;
-    }
+    }*/
 
     public String getName() {
         return name;
     }
 
-    public void setPid(int pid) {
+    public TweetModel getTweet() {
+        return tweet;
+    }
+
+    /*public void setPid(int pid) {
         this.pid = pid;
     }
 
@@ -68,9 +70,13 @@ public class TweetWrapper {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTweet(TweetModel tweet) {
+        this.tweet = tweet;
     }
 }

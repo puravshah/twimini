@@ -129,8 +129,8 @@ function getFeed(input) {
             $('#ListOfTweets').empty();
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
-                var tweet = filter(item.tweet);
-                prependTweet({pid:item.pid, uid:item.uid, name: item.name, tweet:tweet, timestamp:item.timestamp});
+                var tweet = filter(item.tweet.tweet);
+                prependTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
             }
         },
         error: function(error) {

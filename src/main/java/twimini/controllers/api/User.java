@@ -59,6 +59,34 @@ public class User {
         return hashtable;
     }
 
+    @RequestMapping("/api/user/login")
+    @ResponseBody
+    Hashtable<String, String> apiLogin(@RequestParam String email, @RequestParam String password, HttpSession session) {
+        Hashtable <String, String> hashtable = new Hashtable <String, String> ();
+        if(email == null || email.equals("")) {
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", "Email id cannot be empty");
+        }
+        else if(password == null || password.equals("")) {
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", "Password cannot be empty");
+        }
+        else {
+            try {
+                UserModel user = userService.getUser(email, password);
+                hashtable.put("status", "1");
+                hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
+                /*session.setAttribute("uid", "" + (Integer) user.getUid());
+                session.setAttribute("name", user.getName());*/
+            } catch(Exception e) {
+                hashtable.put("status", "0");
+                hashtable.put("errorMessage", "Invalid email id or password");
+            }
+        }
+
+        return hashtable;
+    }
+
     /* REST API for getting the APIKEY */
     @RequestMapping("/api/getAPIKEY")
     @ResponseBody

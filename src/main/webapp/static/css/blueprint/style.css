@@ -24,6 +24,26 @@ h1, h2, h3, h4, h5, h6 {
     word-wrap: break-word; /* IE */
 }
 
+.rounded-box {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    padding: 20px;
+    background: white;
+}
+
+.following {
+    height: 12px;
+    width: 15px;
+    background: url(/static/images/tick.png);
+}
+
+.not-following {
+    height: 12px;
+    width: 15px;
+    background: url(/static/images/cross.png);
+}
+
 .add-margin-above-1 {
     margin-top: 1px;
 }
@@ -101,14 +121,23 @@ div.tab:hover {
     background: #EAEAEA !important;
 }
 
-.item-row {
+/*.item-row {
     margin-top: 5px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+}*/
+
+.item-row {
+    margin-bottom: 10px;
+    padding: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    background: #EAEAEA;
 }
 
 div.item-row:hover {
-    background: #F0F0F0;
+    background: #C0C0C0;
 }
 
 .center-text {
@@ -117,7 +146,7 @@ div.item-row:hover {
 }
 
 .error-container {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .error-msg {
@@ -228,6 +257,7 @@ form#signup-form input {
 
 form#form-container input {
     font-size: 20px !important;
+    margin-left: 20px;
 }
 
 #user-edit-follow {
@@ -377,7 +407,13 @@ div#dropdown div:hover {
 }
 
 #error-box {
-    margin-bottom: 20px;
+    background-color: #FFEBE8;
+    border: 1px solid #DD3C10;
+}
+
+#error-content {
+    padding: 20px;
+    text-align: center;
 }
 
 #tab-container {

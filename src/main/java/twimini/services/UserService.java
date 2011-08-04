@@ -2,6 +2,7 @@ package twimini.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import twimini.model.UserModel;
@@ -37,13 +38,30 @@ public class UserService {
     }
 
     public UserModel getUser(String uid) throws Exception {
-        int status;
-
+        /*int status = 1;
+        System.out.println("user : " + userID.get());
         try {
             int temporaryUid = db.queryForInt("SELECT uid FROM follow WHERE uid = ? and following = ? AND end IS NULL", userID.get(), uid);
             status = 1;
-        } catch (Exception e) {
+            System.out.println("Following");
+        } catch (EmptyResultDataAccessException e) {
             status = 0;
+            System.out.println("Not following");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        return db.queryForObject("SELECT *, 0 AS status FROM user WHERE uid = ?", UserModel.rowMapper3, uid);
+    }
+
+    public UserModel getUser2(String user, String uid) throws Exception {
+        int status = 1;
+        try {
+            int temporaryUid = db.queryForInt("SELECT uid FROM follow WHERE uid = ? and following = ? AND end IS NULL", user, uid);
+            status = 1;
+        } catch (EmptyResultDataAccessException e) {
+            status = 0;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return db.queryForObject("SELECT *, ? AS status FROM user WHERE uid = ?", UserModel.rowMapper3, status, uid);
     }

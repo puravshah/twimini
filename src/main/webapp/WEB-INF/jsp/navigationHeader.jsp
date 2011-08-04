@@ -21,7 +21,7 @@
                     </div>
 
                     <c:if test="${not empty sessionScope.name}">
-                        <div id="dropdown-text" class="span-2 append-3 last" onclick="toggleDropdown()">
+                        <div id="dropdown-text" class="span-3 append-2 center-text last" onclick="toggleDropdown()">
                             <a href="javascript:void(0);">${sessionScope.name}</a>
                             <img src="/static/images/icon_dropdown_1.png"/>
                         </div>

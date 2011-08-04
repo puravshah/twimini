@@ -38,7 +38,7 @@
                             }
                         </script>--%>
 
-                        <c:choose>
+                           <c:choose>
                             <c:when test="${not empty sessionScope.uid && sessionScope.uid == requestScope.uid}">
                                 <a href="/user/edit">Edit Profile</a>
                             </c:when>

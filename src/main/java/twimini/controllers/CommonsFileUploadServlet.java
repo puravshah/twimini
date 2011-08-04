@@ -8,7 +8,6 @@ package twimini.controllers;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.sun.imageio.plugins.common.ImageUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,7 +43,8 @@ public class CommonsFileUploadServlet extends HttpServlet {
     @RequestMapping(value="/user/imageInfo" ,method = RequestMethod.POST)
     public ModelAndView handleImageUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
     {
-        String path="/home/rakesh/IdeaProjects/image/";
+        //String path="/home/rakesh/IdeaProjects/image/";
+        String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
         try
         {
             File picture= new File(path+uid+".png");

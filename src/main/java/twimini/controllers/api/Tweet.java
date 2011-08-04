@@ -44,10 +44,13 @@ public class Tweet {
         TweetModel t = null;
 
         try {
-            String uid = (String)session.getAttribute("uid");//APIKEYService.getUid(APIKEY);
+            String uid = session.getAttribute("uid").toString();//APIKEYService.getUid(APIKEY);
             t = tweetService.addTweet(uid, tweet);
             ret.put("status", "1");
             ret.put("pid", "" + t.getPid());
+        } catch(NullPointerException e) {
+            ret.put("status", "0");
+            ret.put("errorMessage", "You need to login first");
         } catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
             ret.put("errorMessage", "Invalid APIKEY");

@@ -13,11 +13,11 @@
                     <img src = "/static/images/logo.png" alt = "Mini Twitter" />
                 </div>
 
-                <div id = "login-text" class = "span-5" onclick = "toggleLoginDropdown();">
+                <div id = "login-text" class = "span-5 append-3 last" onclick = "toggleLoginDropdown();">
                     <span>Already a memeber? <b>Sign in</b><img src = "/static/images/icon_dropdown_1.png"/></span>
                 </div>
 
-                <div id = "login-dropdown" class = "span-4 last">
+                <div id = "login-dropdown" class = "span-4">
                     <form action = "/login" method = "POST">
                         <div class = "span-4">
                             <input type = "email" placeholder = "Email" name = "email" class = "span-4" />
@@ -37,17 +37,26 @@
                 </script>
             </div>
 
-            <div id = "body-container" class = "span-24 last">
+            <div class = "prepend-5 span-14 append-5 last add-margin-above-20">
+            <%--<div id = "body-container" class = "span-24 last">
                 <div id = "signup-left" class = "span-6">
                     <h1>New to Twitter?</h1><br />
                     <h3>Create a new <br />account here.</h3>
-                </div>
-                <div class = "span-17 last">
-                    <div id = "error-box">
-                        <h3>${msg}</h3>
+                </div>--%>
+                <div class = "rounded-box span-14 last">
+                    <div id = "error-box" class = "prepend-2 span-10 append-2 last add-margin-above-20">
+                        <div id = "error-content" class = "prepend-1 span-8 append-1 last">
+                            <h3> ${msg} </h3>
+                        </div>
                     </div>
+                    <script type = "text/javascript">
+                        if("${msg}" == "") {
+                            dojo.style("error-box", "display", "none");
+                            //dojo.style("compulsory-notifier", "display", "none");
+                        }
+                    </script>
 
-                    <div class = "span-8 last">
+                    <div class = "prepend-1 span-8 add-margin-above-20">
                         <form id = "form-container" action = "/signup" method = "POST">
                             <div class = "span-8 last">
                                 <input type = "text" placeholder = "Full Name" name = "name" value = "${name}" class = "span-7" />
@@ -67,14 +76,14 @@
                         </form>
                     </div>
 
-                    <div class = "span-5 last error-container">
+                    <div class = "span-5 last error-container add-margin-above-20">
                         <div class = "span-5 error-msg">${nameMsg}</div>
                         <div class = "span-5 error-msg">${emailMsg}</div>
                         <div class = "span-5 error-msg">${passwordMsg}</div>
                         <div class = "span-5 error-msg">${cpasswordMsg}</div>
                     </div>
 
-                    <div id = "compulsory-notifier" class = "span-17 last">
+                    <div id = "compulsory-notifier" class = "prepend-3 span-6 append- last">
                         <strong>* All fields are compulsory</strong>
                     </div>
                 </div>

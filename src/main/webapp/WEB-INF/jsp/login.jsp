@@ -18,35 +18,49 @@
                 </div>
             </div>
 
-            <div class = "prepend-5 span-14 append-5 last add-margin-above-20">
-                <div id = "error-box" class = "span-14 last">
-                    <h3> ${msg} </h3>
-                </div>
+            <div class = "prepend-6 span-12 append-6 add-margin-above-20 center-text">
+                <div class = "span-12 rounded-box last">
+                    <div class = "span-12 last">
+                        <h3>Twimini Login</h3>
+                        <hr>
+                    </div>
 
-                <div class = "span-14 last">
-                    <form id = "form-container" action = "/login" method = "POST">
-                        <div class = "span-14 last">
-                            <input type = "email" placeholder = "Email" name = "email" class = "span-7" />
+                    <div id = "error-box" class = "prepend-1 span-10 append-1 last add-margin-above-20">
+                        <div id = "error-content" class = "prepend-1 span-8 append-1 last">
+                            <h3> ${msg} </h3>
                         </div>
-                            <div class = "span-14 last">
-                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
-                            </div>
-                        <div class = "span-7 append-7 last">
-                            <div class = "span-3">
-                                <input type = "submit" value = "Login" />
-                            </div>
-                            <div class = "span-4 last add-margin-above-10">
-                                <a href = "/forgot">Forgot Password?</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <script type = "text/javascript">
+                        if("${msg}" == "") {
+                            dojo.style("error-box", "display", "none");
+                        }
+                    </script>
 
-                <div class = "span-14 last add-margin-above-20">
-                    <h4>
-                        New user?
-                        <a href = "/signup">Sign up</a>
-                    </h4>
+                    <div class = "prepend-2 span-8 append-2 last add-margin-above-20">
+                        <form id = "form-container" action = "/login" method = "POST">
+                            <div class = "span-8 last">
+                                <input type = "email" placeholder = "Email" name = "email" class = "span-7" />
+                            </div>
+                                <div class = "span-8 last">
+                                    <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
+                                </div>
+                            <div class = "span-7 append-1 last">
+                                <div class = "span-3">
+                                    <input type = "submit" value = "Login" />
+                                </div>
+                                <div class = "span-4 last add-margin-above-10">
+                                    <a href = "/forgot">Forgot Password?</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class = "span-12 last add-margin-above-20">
+                        <h4>
+                            New user?
+                            <a href = "/signup">Sign up</a>
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>

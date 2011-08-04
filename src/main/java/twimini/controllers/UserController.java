@@ -1,8 +1,7 @@
 package twimini.controllers;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import twimini.PasswordMail;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
-import twimini.services.APIKEYService;
 import twimini.services.FollowService;
+import twimini.services.JSONParser;
 import twimini.services.TweetService;
 import twimini.services.UserService;
 
@@ -51,11 +50,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView loginPost(@RequestParam final String email,
-                                  @RequestParam final String password,
-                                  HttpSession session) {
+    public ModelAndView loginPost(@RequestParam String email, @RequestParam String password, HttpSession session) {
 
-        if (email.equals(""))
+        /*if (email.equals(""))
             return new ModelAndView("/login") {{
                 addObject("msg", "Email id field cannot be left blank");
             }};
@@ -68,9 +65,6 @@ public class UserController {
         UserModel m = null;
         try {
             m = userService.getUser(email, password);
-            if (m == null) {
-                throw new Exception("Invalid Email id or Password");
-            }
         } catch (EmptyResultDataAccessException e) {
             return new ModelAndView("/login") {{
                 addObject("msg", "Invalid Email id or Password");
@@ -80,14 +74,33 @@ public class UserController {
             return new ModelAndView("/login") {{
                 addObject("msg", "Login failed");
             }};
+        }*/
+
+        //session.setAttribute("uid", "" + (Integer) m.getUid());
+        //session.setAttribute("name", m.getName());
+        //session.setAttribute("apikey", APIKEYService.getAPIKEY(m.getUid()));
+
+        password = password.replace(' ', '+');
+        String url = String.format("http://localhost:8080/api/user/login?email=%s&password=%s", email, password);
+        final JSONObject jsonObject = JSONParser.getData(url);
+
+        if(jsonObject.get("status").equals("0")) {
+            return new ModelAndView("/login") {{
+                addObject("msg", jsonObject.get("errorMessage"));
+            }};
         }
 
-        session.setAttribute("uid", "" + (Integer) m.getUid());
-        session.setAttribute("name", m.getName());
-        session.setAttribute("apikey", APIKEYService.getAPIKEY(m.getUid()));
-        ModelAndView mv = new ModelAndView("/tweet");
-        mv.setViewName("redirect:/tweet");
-        return mv;
+        UserModel user = null;
+        try {
+            user = userService.getUser(jsonObject.get("uid").toString());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        session.setAttribute("uid", "" + user.getUid());
+        session.setAttribute("name", user.getName());
+        session.setAttribute("apikey", jsonObject.get("apikey"));
+        return new ModelAndView("redirect:/tweet");
     }
 
     @RequestMapping("/signup")
@@ -100,44 +113,56 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView signupPost(@RequestParam final String email,
-                                   @RequestParam final String password,
-                                   @RequestParam final String cpassword,
-                                   @RequestParam final String name,
+    public ModelAndView signupPost(@RequestParam String email,
+                                   @RequestParam String password,
+                                   @RequestParam String cpassword,
+                                   @RequestParam String name,
                                    HttpSession session) {
 
         boolean invalid = false;
         String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
         for (int i = 0; i < 4; i++) errorMsg[i] = "&nbsp;";
+        String msg = "";
 
         if (name.equals("")) {
             invalid = true;
             errorMsg[0] = "*";
+            msg = "Please fill out all the fields";
         }
 
         if (email.equals("")) {
             invalid = true;
             errorMsg[1] = "*";
+            msg = "Please fill out all the fields";
         }
 
         if (password.equals("")) {
             invalid = true;
             errorMsg[2] = "*";
+            msg = "Please fill out all the fields";
         }
 
         if (cpassword.equals("")) {
             invalid = true;
             errorMsg[3] = "*";
+            msg = "Please fill out all the fields";
         }
 
         if (!cpassword.equals(password)) {
             invalid = true;
-            errorMsg[2] = "Passwords do not match";
+            errorMsg[2] = errorMsg[3] = "*";
+            msg = "Passwords do not match";
+        }
+
+        if(!isValidEmail(email)) {
+            invalid = true;
+            errorMsg[1] = "*";
+            msg += "\nPlease enter a valid email id";
         }
 
         if (invalid) {
             ModelAndView emptyError = new ModelAndView("/signup");
-            emptyError.addObject("msg", "Please fill out all fields");
+            emptyError.addObject("msg", msg);
             emptyError.addObject("name", name);
             emptyError.addObject("email", email);
             for (int i = 0; i < 4; i++) emptyError.addObject(errorName[i], errorMsg[i]);
@@ -149,29 +174,50 @@ public class UserController {
                 addObject("msg", "The passwords is too short");
             }};*/
 
-        UserModel m = null;
+        /*UserModel user = null;
         try {
-            m = userService.addUser(name, email, password);
-            if (m == null) throw new Exception("Unable to register user");
+            user = userService.addUser(name, email, password);
+            if (user == null) throw new Exception("Unable to register user");
         } catch (DuplicateKeyException e) {
             ModelAndView errorDuplicate = new ModelAndView("/signup");
             errorMsg[1] = "Please choose another Email id";
             for (int i = 0; i < 4; i++) errorDuplicate.addObject(errorName[i], errorMsg[i]);
             errorDuplicate.addObject("msg", "Email id already exists");
             return errorDuplicate;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
-            final String E = e.toString();
             return new ModelAndView("/signup") {{
-                addObject("msg", "Unable to Signup: " + E);
+                addObject("msg", "Unable to Signup: " + e);
+            }};
+        }*/
+
+        password = password.replace(" ", "+");
+        cpassword = password.replace(" ", "+");
+        name = name.replace(" ", "+");
+        String url = String.format("http://localhost:8080/api/user/signup?email=%s&name=%s&password=%s&cpassword=%s", email, name, password, cpassword);
+        final JSONObject jsonObject = JSONParser.getData(url);
+
+        if(jsonObject.get("status").equals("0")) {
+            return new ModelAndView("/signup") {{
+                addObject("msg", jsonObject.get("errorMessage"));
             }};
         }
 
-        session.setAttribute("uid", "" + (Integer) m.getUid());
-        session.setAttribute("name", m.getName());
-        return new ModelAndView() {{
-            setViewName("redirect:/tweet");
-        }};
+        UserModel user = null;
+        try {
+            user = userService.getUser(jsonObject.get("uid").toString());
+        } catch (final Exception e) {
+            return new ModelAndView() {{
+                addObject("msg", e.toString());
+            }};
+        }
+        session.setAttribute("uid", "" + user.getUid());
+        session.setAttribute("name", user.getName());
+        return new ModelAndView("redirect:/tweet");
+    }
+
+    public boolean isValidEmail(String email) {
+        return true;
     }
 
     @RequestMapping("/logout")
@@ -249,7 +295,8 @@ public class UserController {
         UserModel u = null;
 
         try {
-            u = userService.getUser(uid);
+            if(user == null) u = userService.getUser(uid);
+            else u = userService.getUser2(user, uid);
             if (u == null) throw new Exception("Invalid User");
         } catch (Exception e) {
             e.printStackTrace();

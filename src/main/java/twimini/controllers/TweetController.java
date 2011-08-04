@@ -46,17 +46,14 @@ public class TweetController {
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
         String uid = (String) session.getAttribute("uid");
-        if (uid == null) {
-            return new ModelAndView("/index") {{
-                addObject("loginMsg", "You need to login first!");
-            }};
-        }
-
         List<TweetWrapper> tweetList = null;
         List<UserModel> followingList = null, followerList = null;
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
+            /*String urlPrefix = "localhost:8080/api";
+            JSONObject jsonObject = JSONParser.getData(String.format(""));*/
+
             tweetList = tweetService.getFeed(uid);
             followingList = followService.getFollowing2(uid, uid);
             followerList = followService.getFollower2(uid, uid);
@@ -129,7 +126,6 @@ public class TweetController {
         return ret;
     }
 
-    /* REST API for getting tweet list of a user */
     @RequestMapping("/tweet/getTweetList")
     @ResponseBody
     List<TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
@@ -146,7 +142,6 @@ public class TweetController {
         return ret;
     }
 
-    /* REST API for getting tweet feed of a user */
     @RequestMapping("/tweet/getFeed")
     @ResponseBody
     List<TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
