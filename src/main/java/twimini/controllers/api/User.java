@@ -76,8 +76,6 @@ public class User {
                 UserModel user = userService.getUser(email, password);
                 hashtable.put("status", "1");
                 hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
-                /*session.setAttribute("uid", "" + (Integer) user.getUid());
-                session.setAttribute("name", user.getName());*/
             } catch(Exception e) {
                 hashtable.put("status", "0");
                 hashtable.put("errorMessage", "Invalid email id or password");
@@ -87,7 +85,7 @@ public class User {
         return hashtable;
     }
 
-    /* REST API for getting the APIKEY */
+    /* REST API for getting the apikey */
     @RequestMapping("/api/getAPIKEY")
     @ResponseBody
     Hashtable<String, String> getAPIKEY(@RequestParam String email, @RequestParam String password) {
@@ -96,7 +94,7 @@ public class User {
         try {
             UserModel u = userService.getUser(email, password);
             ret.put("status", "1");
-            ret.put("APIKEY", APIKEYService.getAPIKEY(u.getUid()));
+            ret.put("apikey", APIKEYService.getAPIKEY(u.getUid()));
         } catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
             ret.put("errorMessage", "Invalid email id or password");
@@ -111,7 +109,7 @@ public class User {
     /* REST API for getting tweet list of a user */
     @RequestMapping("/api/user/{uid}/getTweetList")
     @ResponseBody
-    Hashtable<String, Object> getTweetList(@PathVariable String uid, HttpSession session) {
+    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, HttpSession session) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
         try {
@@ -129,17 +127,20 @@ public class User {
     /* REST API for getting tweet feed of a user */
     @RequestMapping("/api/user/{uid}/getFeed")
     @ResponseBody
-    Hashtable<String, Object> getFeed(@PathVariable String uid, HttpSession session) {
+    Hashtable<String, Object> getFeed(@PathVariable String uid, @RequestParam String apikey, HttpSession session) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
         try {
-            String user = session.getAttribute("uid").toString();
+            String user = APIKEYService.getUid(apikey);//session.getAttribute("uid").toString();
             List<TweetWrapper> list = tweetService.getFeed(uid);
             hashtable.put("status", "1");
             hashtable.put("feed", list);
         } catch (NullPointerException e) {
             hashtable.put("status", "0");
             hashtable.put("errorMessage", "You need to login first");
+        } catch (EmptyResultDataAccessException e) {
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", "Invalid apikey");
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");

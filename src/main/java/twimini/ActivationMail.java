@@ -1,6 +1,7 @@
 package twimini;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+import twimini.services.APIKEYService;
 import twimini.services.UserService;
 
 /**
@@ -73,6 +74,7 @@ public class ActivationMail extends Mail {
             while (true) {
 
                 runMultipleMail();
+                APIKEYService.removeInvalidApikeys();
                 sleep(150000);
             }
         } catch (Exception e1) {

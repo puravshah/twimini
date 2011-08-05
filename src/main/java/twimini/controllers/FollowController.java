@@ -1,19 +1,17 @@
 package twimini.controllers;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import twimini.model.UserModel;
 import twimini.services.FollowService;
+import twimini.services.JSONParser;
 import twimini.services.TweetService;
 import twimini.services.UserService;
 
 import javax.servlet.http.HttpSession;
-import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,7 +36,23 @@ public class FollowController {
 
     @RequestMapping("/user/unfollow")
     @ResponseBody
-    Hashtable<String, String> unFollow(@RequestParam String id, HttpSession session) {
+    public JSONObject unfollow(@RequestParam String id, HttpSession session) {
+        try {
+            String apikey = session.getAttribute("apikey").toString();
+            return JSONParser.unfollowFromJSON(id, apikey);
+        } catch (final NullPointerException e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
+    }
+    /*Hashtable<String, String> unFollow(@RequestParam String id, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String) session.getAttribute("uid");
 
@@ -55,11 +69,27 @@ public class FollowController {
         }
 
         return ret;
-    }
+    }*/
 
     @RequestMapping("/user/follow")
     @ResponseBody
-    Hashtable<String, String> follow(@RequestParam String id, HttpSession session) {
+    public JSONObject follow(@RequestParam String id, HttpSession session) {
+        try {
+            String apikey = session.getAttribute("apikey").toString();
+            return JSONParser.followFromJSON(id, apikey);
+        } catch (final NullPointerException e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
+    }
+    /*Hashtable<String, String> follow(@RequestParam String id, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String) session.getAttribute("uid");
         UserModel u = null;
@@ -82,11 +112,21 @@ public class FollowController {
         ret.put("name", u.getName());
         ret.put("email", u.getEmail());
         return ret;
-    }
+    }*/
 
-    @RequestMapping("/user/getFollower")
+    @RequestMapping("/user/getFollowers")
     @ResponseBody
-    public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
+    public JSONObject getFollowers(@RequestParam String uid, HttpSession session) {
+        try {
+            return JSONParser.getFollowersFromJSON(uid, (String)session.getAttribute("apikey"));
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
+    }
+    /*public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
         String user = (String) session.getAttribute("uid");
         List<UserModel> ret = null;
 
@@ -98,11 +138,21 @@ public class FollowController {
             return null;
         }
         return ret;
-    }
+    }*/
 
     @RequestMapping(value = "/user/getFollowing")
     @ResponseBody
-    public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
+    public JSONObject getFollowing(@RequestParam String uid, HttpSession session) {
+        try {
+            return JSONParser.getFollowingFromJSON(uid, (String)session.getAttribute("apikey"));
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
+    }
+    /*public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
         List<UserModel> ret = null;
 
         try {
@@ -114,5 +164,5 @@ public class FollowController {
             return null;
         }
         return ret;
-    }
+    }*/
 }

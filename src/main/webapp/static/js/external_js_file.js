@@ -53,13 +53,15 @@ function createTweet(input) {
     var str = dojo.byId("tweet-box").value;
 
     dojo.xhrPost({
-        url: "/api/tweet/create",
+        url: "/tweet/create",
         handleAs: "json",
         content: {'tweet': str},
         load: function(data) {
             if (data.status === "0") alert("Unable to add tweet: " + data.errorMessage);
             else {
-                getTweet( {pid: data.pid, name: input.name});
+                data = data.tweetDetails;
+                data.name = input.name;
+                prependTweet(data);
             }
         },
         error: function(error) {
@@ -86,6 +88,12 @@ function getImage() {
     $("#imageDiv").show();
 }
 
+function makeTabActive(index) {
+    var ids = ['tweetDiv', 'followingDiv', 'followerDiv'];
+    var div = dojo.byId("tab-container").getElementsByTagName("div");
+    for(var i = 0; i < 3; i++) dojo.removeClass(div[i], "tab-active");
+    dojo.addClass(div[index], "tab-active");
+}
 
 function prependTweet(data) {
     var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
@@ -106,9 +114,9 @@ function appendFollower(data) {
 
 function getFeed(input) {
     dojo.xhrPost({
-        url: "/api/user/" + input.uid + "/getFeed",
+        url: "/tweet/getFeed",
         handleAs: "json",
-        //content: {uid:input.uid},
+        content: {uid:input.uid},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -119,12 +127,7 @@ function getFeed(input) {
             $('#tweetDiv').show();
             $('#followingDiv').hide();
             $('#followerDiv').hide();
-
-            var divs = dojo.byId("tab-container").getElementsByTagName("div");
-            var newClass = "span-2 tab tab-active";
-            divs[0].setAttribute("class", newClass);
-            divs[1].setAttribute("class", "span-2 tab");
-            divs[2].setAttribute("class", "span-2 tab last");
+            makeTabActive(0);
 
             $('#ListOfTweets').empty();
             for (var i = 0; i < data.length; i++) {
@@ -141,9 +144,9 @@ function getFeed(input) {
 
 function getTweets(input) {
     dojo.xhrPost({
-        url: "/api/user/" + input.uid + "/getTweetList",
+        url: "/tweet/getTweetList",
         handleAs: "json",
-        //content: {uid:input.uid},
+        content: {uid:input.uid},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -154,12 +157,7 @@ function getTweets(input) {
             $('#tweetDiv').show();
             $('#followingDiv').hide();
             $('#followerDiv').hide();
-
-            var divs = dojo.byId("tab-container").getElementsByTagName("div");
-            var newClass = "span-2 tab tab-active";
-            divs[0].setAttribute("class", newClass);
-            divs[1].setAttribute("class", "span-2 tab");
-            divs[2].setAttribute("class", "span-2 tab last");
+            makeTabActive(0);
 
             $('#ListOfTweets').empty();
             for (var i = 0; i < data.length; i++) {
@@ -189,12 +187,7 @@ function getFollowing(input) {
             $('#tweetDiv').hide();
             $('#followingDiv').show();
             $('#followerDiv').hide();
-
-            var divs = dojo.byId("tab-container").getElementsByTagName("div");
-            var newClass = "span-2 tab tab-active";
-            divs[0].setAttribute("class", "span-2 tab");
-            divs[1].setAttribute("class", newClass);
-            divs[2].setAttribute("class", "span-2 tab last");
+            makeTabActive(1);
 
             $('#ListOfFollowing').empty();
             for (var i = 0; i < data.length; i++) {
@@ -211,9 +204,9 @@ function getFollowing(input) {
 
 function getFollowers(input) {
     dojo.xhrPost({
-        url: "api/user/" + input.uid + "/getFollower",
+        url: "/user/getFollowers",
         handleAs: "json",
-        //content: {uid:input.uid},
+        content: {uid:input.uid},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -224,12 +217,7 @@ function getFollowers(input) {
             $('#tweetDiv').hide();
             $('#followingDiv').hide();
             $('#followerDiv').show();
-
-            var divs = dojo.byId("tab-container").getElementsByTagName("div");
-            var newClass = "span-2 tab last tab-active";
-            divs[0].setAttribute("class", "span-2 tab");
-            divs[1].setAttribute("class", "span-2 tab");
-            divs[2].setAttribute("class", newClass);
+            makeTabActive(2);
 
             $('#ListOfFollower').empty();
             for (var i = 0; i < data.length; i++) {
@@ -251,9 +239,9 @@ function userAction(button, id) {
 
 function unfollow(button, id) {
     dojo.xhrPost({
-        url: "api/user/" + id + "/unfollow",
+        url: "user/unfollow",
         handleAs: "json",
-        //content: {id:id},
+        content: {id:id},
         load: function(data) {
             if (data.status === "1") {
                 setInnerText(button, "Follow");
@@ -270,9 +258,9 @@ function unfollow(button, id) {
 
 function follow(button, id) {
     dojo.xhrPost({
-        url: "/api/user/" + id + "/follow",
+        url: "/user/follow",
         handleAs: "json",
-        //content: {id:id},
+        content: {id:id},
         load: function(data) {
             if (data.status === "1") {
                 setInnerText(button, "Following");

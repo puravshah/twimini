@@ -1,5 +1,6 @@
 package twimini.controllers;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import twimini.model.TweetModel;
 import twimini.model.TweetWrapper;
 import twimini.model.UserModel;
 import twimini.services.FollowService;
+import twimini.services.JSONParser;
 import twimini.services.TweetService;
 import twimini.services.UserService;
 
@@ -67,7 +69,6 @@ public class TweetController {
         ModelAndView mv = new ModelAndView();
         mv.addObject("uid", uid);
         mv.addObject("name", session.getAttribute("name"));
-        mv.addObject("tweetList", tweetList);
         mv.addObject("followingList", followingList);
         mv.addObject("followerList", followerList);
         mv.addObject("tweetCount", tweetCount);
@@ -76,10 +77,26 @@ public class TweetController {
         return mv;
     }
 
-    /* REST API for creating a tweet */
     @RequestMapping("/tweet/create")
     @ResponseBody
-    Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
+    JSONObject createTweet(@RequestParam final String tweet, String apikey, HttpSession session) {
+        try {
+            JSONObject jsonObject = JSONParser.createTweetFromJSON(tweet, apikey);
+            if(jsonObject.get("status").equals("0")) return jsonObject;
+            return JSONParser.getTweetDetailsFromJSON(jsonObject.get("pid").toString(), apikey);
+        } catch (final NullPointerException e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
+    }
+    /*Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String) session.getAttribute("uid");
         TweetModel t = null;
@@ -99,7 +116,8 @@ public class TweetController {
         ret.put("timestamp", t.getTimestamp());
         ret.put("status", "1");
         return ret;
-    }
+    }*/
+
 
     @RequestMapping("/tweet/getTweetDetails")
     @ResponseBody
@@ -128,32 +146,27 @@ public class TweetController {
 
     @RequestMapping("/tweet/getTweetList")
     @ResponseBody
-    List<TweetModel> getTweetList(@RequestParam final String uid, HttpSession session) {
-        List<TweetModel> ret = null;
-
+    JSONObject getTweetList(@RequestParam final String uid, String apikey, HttpSession session) {
         try {
-            ret = tweetService.getTweetList(uid);
-            if (ret == null) throw new Exception("Could not render tweets");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return JSONParser.getTweetListFromJSON(uid, apikey);
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
         }
-
-        return ret;
     }
 
     @RequestMapping("/tweet/getFeed")
     @ResponseBody
-    List<TweetWrapper> getFeed(@RequestParam final String uid, HttpSession session) {
-        List<TweetWrapper> ret = null;
+    JSONObject getFeed(@RequestParam final String uid, HttpSession session) {
         try {
-            ret = tweetService.getFeed(uid);
-            if (ret == null) throw new Exception("Could not render tweets");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString());
+        } catch (final Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
         }
-
-        return ret;
     }
 }

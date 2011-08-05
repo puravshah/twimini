@@ -11,10 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import twimini.PasswordMail;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
-import twimini.services.FollowService;
-import twimini.services.JSONParser;
-import twimini.services.TweetService;
-import twimini.services.UserService;
+import twimini.services.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -92,15 +89,18 @@ public class UserController {
 
         UserModel user = null;
         try {
-            user = userService.getUser(jsonObject.get("uid").toString());
-        } catch(Exception e) {
+            String apikey = (String)jsonObject.get("apikey");
+            user = userService.getUser(APIKEYService.getUid(apikey));
+            session.setAttribute("uid", "" + user.getUid());
+            session.setAttribute("name", user.getName());
+            session.setAttribute("apikey", apikey);
+            return new ModelAndView("redirect:/tweet");
+        } catch(final Exception e) {
             e.printStackTrace();
+            return new ModelAndView("/login") {{
+                addObject("msg", e.toString());
+            }};
         }
-
-        session.setAttribute("uid", "" + user.getUid());
-        session.setAttribute("name", user.getName());
-        session.setAttribute("apikey", jsonObject.get("apikey"));
-        return new ModelAndView("redirect:/tweet");
     }
 
     @RequestMapping("/signup")
