@@ -1,7 +1,6 @@
 package twimini;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import twimini.services.APIKEYService;
 import twimini.services.UserService;
 
 /**
@@ -14,9 +13,11 @@ import twimini.services.UserService;
 public class ActivationMail extends Mail {
 
     private String emailMsg = "Hello";
-    private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
+    /*private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
+    private String emailSubjectTxt = "Confirmation Email";*/
+    private static String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
     private String emailActivationMsgTxt = "http://localhost:8080/activate";
-    private String emailSubjectTxt = "Confirmation Email";
+    private static String emailSubjectTxt = "Activation Link";
 
     public String getEmailSubjectTxt() {
         return emailSubjectTxt;
@@ -60,11 +61,11 @@ public class ActivationMail extends Mail {
 
             getSendTo()[index] = user.get(index).getEmail();
             //messageText[index] = String.format("Hello %s,\n\n%s\n%s?uid=%d\n\nRegards,\nTwimini\n\n%s", user.get(index).getName(), emailContent, emailMsgTxt, user.get(index).getUid(), notYou);
-            getMessageText()[index] = "Hello " + user.get(index).getName() + "\n" +
+            getMessageText()[index] = String.format("Hello %s,\n\n%s");/*"Hello " + user.get(index).getName() + "\n" +
                     getEmailContent() + "\n"
                     + getEmailActivationMsgTxt() + "?" + "uid" + "=" + user.get(index).getUid() +
                     "\n\n\n\n Regards\n" +
-                    "Rakesh Kumar";
+                    "Rakesh Kumar";*/
         }
     }
 
@@ -74,7 +75,6 @@ public class ActivationMail extends Mail {
             while (true) {
 
                 runMultipleMail();
-                APIKEYService.removeInvalidApikeys();
                 sleep(150000);
             }
         } catch (Exception e1) {

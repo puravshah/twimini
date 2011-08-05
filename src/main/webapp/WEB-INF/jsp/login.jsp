@@ -25,8 +25,8 @@
                         <hr>
                     </div>
 
-                    <div id = "error-box" class = "prepend-1 span-10 append-1 last add-margin-above-20">
-                        <div id = "error-content" class = "prepend-1 span-8 append-1 last">
+                    <div id = "error-box" class = "error-box prepend-1 span-10 append-1 last add-margin-above-20">
+                        <div id = "error-content" class = "error-content prepend-1 span-8 append-1 last">
                             <h3> ${msg} </h3>
                         </div>
                     </div>

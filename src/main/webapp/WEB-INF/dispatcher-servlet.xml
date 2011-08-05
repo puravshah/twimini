@@ -19,7 +19,8 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/tweet"/>
-            <!--<mvc:mapping path="/user"/>-->
+            <mvc:mapping path="/user/edit"/>
+            <mvc:mapping path="/user/edit/*"/>
             <mvc:mapping path="/tweet/create"/>
             <mvc:mapping path="/tweet/getFeed"/>
 

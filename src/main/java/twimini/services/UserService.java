@@ -28,8 +28,13 @@ public class UserService {
         this.userID = userID;
     }
 
-    public static String getPassword(String uid) {
-       return  (String)db.queryForObject("SELECT password FROM user WHERE uid=?",UserModel.rowMapper4,uid);
+    public boolean checkPassword(String uid, String password) {
+        try {
+            db.queryForInt("SELECT uid FROM user WHERE uid = ? and password = ?", uid, password);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public UserModel addUser(String name, String email, String password) throws Exception {
@@ -104,17 +109,19 @@ public class UserService {
         db.update("DELETE FROM forgot_token WHERE token = ?", token);
     }
 
-    public static void changePassword(String uid, String password) throws Exception {
-        db.update("UPDATE user SET password = ? WHERE uid = ?", password, uid);
+    public static int changePassword(String uid, String oldPassword, String newPassword) throws Exception {
+        return db.update("UPDATE user SET password = ? WHERE uid = ? and password = ?", newPassword, uid, oldPassword);
     }
 
-    public static void setAccountInfo(String name, String email,String uid) {
-        //To change body of created methods use File | Settings | File Templates.
-        db.update("update user SET name=? ,email=? WHERE uid=? ",name,email,uid);
+    public static int changePassword(String uid, String password) {
+        return db.update("update user SET password = ? WHERE uid = ?", password, uid);
     }
 
-    public static void setPassword(CharSequence newPassword,String uid) {
+    public static void setAccountInfo(String name, String email, String uid) {
+        db.update("update user SET name=? ,email=? WHERE uid=? ", name, email, uid);
+    }
 
-        db.update("update user SET password=? WHERE uid=? ",newPassword,uid);
+    public static void setPassword(CharSequence newPassword, String uid) {
+        db.update("update user SET password=? WHERE uid=? ", newPassword, uid);
     }
 }

@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import twimini.services.UserService;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,21 +31,20 @@ public class CommonsFileUploadServlet extends HttpServlet {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
 
-    @RequestMapping("/user/edit")
-    ModelAndView getedit(HttpSession session) {
+    /*@RequestMapping("/user/edit")
+    ModelAndView getEdit(HttpSession session) throws Exception {
         ModelAndView mv = new ModelAndView("/edit");
-        mv.addObject((String) session.getAttribute("uid"));
+        UserModel user = userService.getUser(session.getAttribute("uid").toString());
+        mv.addObject("email", user.getEmail());
         return mv;
-    }
+    }*/
 
-    @RequestMapping(value="/user/imageInfo" ,method = RequestMethod.POST)
-    public ModelAndView handleImageUpload(@RequestParam("uid")String uid,@RequestParam("file") MultipartFile file)
-    {
+    @RequestMapping(value = "/user/imageInfo", method = RequestMethod.POST)
+    public ModelAndView handleImageUpload(@RequestParam("uid") String uid, @RequestParam("file") MultipartFile file) {
         //String path="/home/rakesh/IdeaProjects/image/";
         String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
-        try
-        {
-            File picture= new File(path+uid+".png");
+        try {
+            File picture = new File(path + uid + ".png");
             if (picture.exists()) {
                 picture.delete();
             }
@@ -94,7 +91,7 @@ public class CommonsFileUploadServlet extends HttpServlet {
         return resizedImage;
     }
 
-    @RequestMapping(value = "/user/accountInfo", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/user/accountInfo", method = RequestMethod.POST)
     public ModelAndView handleAccountUpload(@RequestParam("name") String name, @RequestParam("email") String email, HttpSession session) {
         try {
             UserService.setAccountInfo(name, email, (String) session.getAttribute("uid"));
@@ -106,15 +103,20 @@ public class CommonsFileUploadServlet extends HttpServlet {
     }
 
     @RequestMapping(value = "/user/passwordInfo", method = RequestMethod.POST)
-    public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword, @RequestParam("new_password") String newPassword, HttpSession session) {
+    public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword, @RequestParam("new_password") String newPassword, @RequestParam("confirm_new_password") String confirmPassword, HttpSession session) {
         try {
-            String uid = (String) session.getAttribute("uid");
+            String uid = (String)session.getAttribute("uid");
+            if(newPassword.equals(confirmPassword)) {
+                return new ModelAndView("/user/edit") {{
+                    addObject("passwordMsg", "The passwords dont match");
+                    addObject("active", 1);
+                }};
+            }
             if (oldPassword.equals((String) UserService.getPassword(uid))) {
                 UserService.setPassword(newPassword, uid);
-
-                return new ModelAndView("/edit");
+                return new ModelAndView("/user/edit");
             } else {
-                ModelAndView mv = new ModelAndView("/edit");
+                ModelAndView mv = new ModelAndView("/user/edit");
 
                 mv.addObject("wrongPassword", "password is wrong please try again");
                 return mv;
@@ -124,7 +126,7 @@ public class CommonsFileUploadServlet extends HttpServlet {
             return new ModelAndView("/edit");
         }
 
-    }
+    }*/
 
 
 }

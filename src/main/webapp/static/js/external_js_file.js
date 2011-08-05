@@ -88,10 +88,23 @@ function getImage() {
     $("#imageDiv").show();
 }
 
+function makeTabActiveOnEdit(index) {
+    var ids = ['accountDiv', 'passwordDiv', 'imageDiv'];
+    var div = dojo.byId("tab-container").getElementsByTagName("div");
+    for(var i = 0; i < 3; i++) {
+        dojo.removeClass(div[i], "tab-active");
+        dojo.style(ids[i], "display", i == index ? "block" : "none");
+    }
+    dojo.addClass(div[index], "tab-active");
+}
+
 function makeTabActive(index) {
     var ids = ['tweetDiv', 'followingDiv', 'followerDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for(var i = 0; i < 3; i++) dojo.removeClass(div[i], "tab-active");
+    for(var i = 0; i < 3; i++) {
+        dojo.removeClass(div[i], "tab-active");
+        dojo.style(ids[i], "display", i == index ? "block" : "none");
+    }
     dojo.addClass(div[index], "tab-active");
 }
 
@@ -124,9 +137,9 @@ function getFeed(input) {
             }
 
             data = data.feed;
-            $('#tweetDiv').show();
+            /*$('#tweetDiv').show();
             $('#followingDiv').hide();
-            $('#followerDiv').hide();
+            $('#followerDiv').hide();*/
             makeTabActive(0);
 
             $('#ListOfTweets').empty();
@@ -154,9 +167,9 @@ function getTweets(input) {
             }
 
             data = data.tweets;
-            $('#tweetDiv').show();
+            /*$('#tweetDiv').show();
             $('#followingDiv').hide();
-            $('#followerDiv').hide();
+            $('#followerDiv').hide();*/
             makeTabActive(0);
 
             $('#ListOfTweets').empty();
@@ -184,9 +197,9 @@ function getFollowing(input) {
             }
 
             data = data.following
-            $('#tweetDiv').hide();
+            /*$('#tweetDiv').hide();
             $('#followingDiv').show();
-            $('#followerDiv').hide();
+            $('#followerDiv').hide();*/
             makeTabActive(1);
 
             $('#ListOfFollowing').empty();
@@ -214,9 +227,9 @@ function getFollowers(input) {
             }
 
             data = data.followers;
-            $('#tweetDiv').hide();
+            /*$('#tweetDiv').hide();
             $('#followingDiv').hide();
-            $('#followerDiv').show();
+            $('#followerDiv').show();*/
             makeTabActive(2);
 
             $('#ListOfFollower').empty();

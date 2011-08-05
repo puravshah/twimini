@@ -163,6 +163,7 @@ public class TweetController {
         try {
             return JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString());
         } catch (final Exception e) {
+            e.printStackTrace();
             return new JSONObject() {{
                 put("status", "0");
                 put("errorMessage", e.toString());

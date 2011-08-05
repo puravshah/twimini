@@ -33,7 +33,6 @@ public class PasswordMail extends Mail {
 
     @Override
     public void userInfo() throws Exception {
-
         //setEmail(getemail)
         String[] email = new String[1];
         email[0]=getEmail();

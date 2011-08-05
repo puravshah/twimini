@@ -1,146 +1,90 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Profile</title>
-
-        <style type="text/css">
-            @import "/static/css/blueprint/screen.css";
-            @import "/static/css/blueprint/print.css";
-            @import "/static/css/blueprint/style.css";
-            @import "/static/dojoroot/dijit/themes/tundra/tundra.css";
-            @import "/static/dojoroot/dojo/resources/dojo.css";
-        </style>
-
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/static/dojoroot/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
-        <script type="text/javascript" src="/static/js/ejs_production.js"></script>
-        <script type="text/javascript" src="/static/js/external_js_file.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" type="text/javascript"></script>
-
-        <script>
-            dojo.require("dojo.parser");
-            dojo.require("dijit.layout.ContentPane");
-            dojo.require("dijit.layout.TabContainer");
-        </script>
-
-        <style>
-            .formContainer {
-               width:800px;
-               height:600px;
-            }
-            label {
-               width:150px;
-               float:left;
-            }
-         </style>
+        <%@include file = "head include.txt"%>
     </head>
 
-    <body class="tundra">
+    <body>
         <div class="container">
-            <div id="navigation-bar" class="span-24 last header">
-                <div id="twitter-logo" class="span-6">
-                    <img src="/static/images/logo.png" alt="Mini Twitter"/>
-                </div>
-
-                <div id="user-nav-head" class span="18 last">
-                    <div class="span-2">
-                        <a href="/tweet">Home</a>
-                    </div>
-
-                    <div class="span-2">
-                        <a href="/user?uid=<%= session.getAttribute("uid") %>">Profile</a>
-                    </div>
-
-                    <div class="span-9 search-box">
-                        <input type="text" name="q" id="search-box"/>
-                        <input type="button" value="Search" id="search-button" onclick="search()"/>
-                    </div>
-
-                    <div id="dropdown-text" class="span-2" onclick="toggleDropdown()">
-                        <a href="#"><%= session.getAttribute("name") %>
-                        </a>
-                        <img src="/static/images/icon_dropdown_1.png"/>
-                    </div>
-                </div>
-
-                <div id="dropdown" class="span-2">
-                    <div class="span-2 last">
-                        <a href="/user/edit?uid=${uid}">Edit Profile</a>
-                    </div>
-                    <div class="span-2 last add-margin-above-20">
-                        <a href="/logout">Logout</a>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $('#dropdown').hide();
-                </script>
-            </div>
+            <jsp:include page="navigationHeader.jsp"></jsp:include>
 
             <div id="left-right-container" class="add-margin-above-20 span-24">
                 <div id="left-container" class="span-15">
                     <div class="span-15 last">
                         <div class="span-15 last">
                             <h3>Edit your Settings</h3>
-                            <h3>${wrongPassword}</h3>
-                            <br>
                         </div>
                     </div>
 
                     <div id="tab-container" class="span-15 last">
-                        <div class="span-2 tab " onclick="javascript:getAccount();">
+                        <div class="span-2 tab tab-active" onclick="javascript:makeTabActiveOnEdit(0);">
                             <span>Account</span>
                         </div>
-                        <div id="tabid" class="span-2 tab tab-active" onclick="javascript:getPassword();">
+                        <div class="span-2 tab" onclick="javascript:makeTabActiveOnEdit(1);">
                             <span>Password</span>
                         </div>
-                        <div class="span-2 tab last" onclick="javascript:getImage();">
+                        <div class="span-2 tab last" onclick="javascript:makeTabActiveOnEdit(2);">
                             <span>Image</span>
                         </div>
                     </div>
+
                     <div class="span-15 last">
                         <div id="accountDiv" class="span-15 last add-padding-above-20">
-                            <div id='accountInfo'>
-                                <br>
-                                <form action="/user/accountInfo" id=account_settings_form" method="post">
-                                    <div>
-                                        <label for="name">Name:</label>
-                                        <input type="text" name="name" id="name"  value="${name}"size="30" />
+                            <div id = "personal-error" class = "error-box prepend-2 span-11 append-2 last">
+                                <div id = "personal-error-content" class = "error-content">
+                                    ${personalMessage}
+                                </div>
+                            </div>
+                            <script type = "text/javascript">
+                                if("${personalMessage}" == "") {
+                                    dojo.style("personal-error", "display", "none");
+                                }
+                            </script>
+                            <div id='accountInfo' class = "span-15 add-padding-above-20 last">
+                                <form action="/user/edit/personalDetails" method="post">
+                                    <div class = "span-9 append-6 last">
+                                        <label for="name" class = "span-2 add-margin-above-10">Name</label>
+                                        <input type="text" name="name" id = "name" value = "${name}" class = "span-6" />
                                     </div>
-                                    <br>
-                                    <div>
-                                        <label for="emailId">Email</label>
-                                        <input type="email" name="email" value='${email}' size="30"/>
+                                    <div class = "span-9 append-6 last add-margin-above-20">
+                                        <label for="email" class = "span-2 add-margin-above-10">Email</label>
+                                        <input type="email" name="email" id = "email" value='${email}' class = "span-6"/>
                                     </div>
-                                    <br>
-                                    <div class="span-2 last add-margin-above-20">
-                                        <input type="submit" name="submit" value="save" size="20"/>
+                                    <div class="span-2 append-13 last add-margin-above-20">
+                                        <input type="submit" name="submit" value="Save" />
                                     </div>
                                 </form>
                             </div>
                         </div>
 
                         <div id="passwordDiv" class="span-15 last add-padding-above-20">
-                            <div id='passwordInfo'>
+                            <div id = "password-error" class = "error-box prepend-2 span-11 append-2">
+                                <div id = "password-error-content" class = "error-content">
+                                    ${passwordMessage}
+                                </div>
+                            </div>
+                            <script type = "text/javascript">
+                                if("${passwordMessage}" == "") {
+                                    dojo.style("password-error", "display", "none");
+                                }
+                            </script>
 
-                              <form action="/user/passwordInfo"  id=account_settings_form" method="post">
-                                    <div>
-                                        <label for="old_Password">Old Password</label>
-                                        <input type="text" name="old_password" id="old_password"  value="" size="30" />
-                                        <br>
+                            <div id='passwordInfo' class = "span-15 last add-padding-above-20">
+                              <form action="/user/edit/password" method="post">
+                                    <div class = "span-11 append-4 last add-margin-above-20">
+                                        <label for="old_password" class = "span-3 add-margin-above-10">Old Password</label>
+                                        <input type="password" name="old_password" id="old_password"  class = "span-6" />
                                     </div>
-                                    <div>
-                                        <label for="new_Password">New Password</label>
-                                        <input type="password" name="new_password" id="new_password" value='' size="30"/>
-                                        <br>
+                                    <div class = "span-11 append-4 last add-margin-above-20">
+                                        <label for="new_password" class = "span-3 add-margin-above-10">New Password</label>
+                                        <input type="password" name="new_password" id="new_password" class = "span-6"/>
                                     </div>
-                                    <div>
-                                        <label for="confirm_new_Password">confirm New Password</label>
-                                        <input type="password" name="confirm_new_password" id="confirm_new_password" value='' size="30"/>
+                                    <div class = "span-11 append-3 last add-margin-above-20">
+                                        <label for="confirm_password" class = "span-3">Confirm Password</label>
+                                        <input type="password" name="confirm_password" id="confirm_password" class = "span-6"/>
                                     </div>
-                                    <div>
-                                        <input type="Submit" value="Change" size="30"/>
-                                        <br>
+                                    <div class = "span-5 append-10 last add-margin-above-20">
+                                        <input type="Submit" value="Change" class = "span-2"/>
                                     </div>
                               </form>
                             </div>
@@ -162,11 +106,11 @@
                         </div>
 
                         <script type="text/javascript">
-                            $('#accountDiv').hide();
-                            $('#imageDiv').hide();
+                            makeTabActiveOnEdit(${active});
                         </script>
                     </div>
                 </div>
+
                 <div id="right-container" class="span-7 last">
                     <div class="span-6 last">
                         <h2>Help for settings</h2>
