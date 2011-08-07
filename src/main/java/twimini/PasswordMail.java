@@ -1,6 +1,5 @@
 package twimini;
 
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import twimini.model.UserModel;
 import twimini.services.UserService;
 
@@ -11,6 +10,7 @@ import twimini.services.UserService;
  * Time: 7:06 PM
  * To change this template use File | Settings | File Templates.
  */
+
 public class PasswordMail extends Mail {
     private UserService service;
     private UserModel userModel;
@@ -21,8 +21,8 @@ public class PasswordMail extends Mail {
     private String emailSubjectTxt = "Forgot password Email";
     private String uuid;
 
-    public PasswordMail(SimpleJdbcTemplate db) {
-        super(db);
+    public PasswordMail(UserService userService) {
+        super(userService);
     }
 
     public PasswordMail(UserModel userModel, String uuid) {
@@ -33,7 +33,6 @@ public class PasswordMail extends Mail {
 
     @Override
     public void userInfo() throws Exception {
-        //setEmail(getemail)
         String[] email = new String[1];
         email[0]=getEmail();
         setSendTo(email);

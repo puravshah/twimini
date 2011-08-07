@@ -1,6 +1,5 @@
 package twimini;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import twimini.model.UserModel;
@@ -39,13 +38,12 @@ public abstract class Mail extends Thread {
     String[] messageText;
     String email;
 
-    @Autowired
-    public Mail(SimpleJdbcTemplate db) {
-        this.db = db;
+
+    public Mail(UserService userService) {
+        this.userService=userService;
     }
 
-    @Autowired
-    public Mail(String email) {
+    public Mail(String email){
         this.email = email;
     }
 
@@ -91,7 +89,6 @@ public abstract class Mail extends Thread {
         return SMTP_PORT;
     }
 
-
     public static String getEmailFromAddress() {
         return emailFromAddress;
     }
@@ -133,16 +130,18 @@ public abstract class Mail extends Thread {
         String userMessage;
         try
         {
+//                List<Foo> foo = getJdbcTemplate().query("SELECT * FROM foo WHERE a IN (:ids)",
+//                     getRowMapper(), parameters);
                 userInfo();
                 if (sendTo.length > 0) {
                     Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
                     sendSSLMessage(sendTo, emailSubjectTxt, messageText, emailFromAddress);
-                    UserService.setToPartialState();
+
                 }
         }
         catch (Exception e)
         {
-            System.out.println("" + e);
+            e.printStackTrace();
         }
     }
 
@@ -179,8 +178,6 @@ public abstract class Mail extends Thread {
         for (int i = 0; i < recipients.length; i++) {
             addressTo[i] = new InternetAddress(recipients[i]);
             msg.setRecipient(Message.RecipientType.TO, addressTo[i]);
-
-            // Setting the Subject and Content Type
             msg.setSubject(subject);
             msg.setContent(message[i], "text/plain");
             Transport.send(msg);

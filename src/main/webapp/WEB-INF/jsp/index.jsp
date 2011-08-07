@@ -3,13 +3,21 @@
 
 <html>
     <head>
+        <style type="text/css">
+            @import "/static/dojoroot/dijit/themes/tundra/tundra.css";
+            @import "/static/dojoroot/dojo/resources/dojo.css" ;
+        </style>
         <%@include file="head include.txt"%>
+        <script type="text/javascript" src="/static/js/external_js_file.js"></script>
+
         <script>
+            dojo.require("dojo.parser" );
+            dojo.require("dijit.form.ValidationTextBox");
             history.forward();
         </script>
     </head>
 
-    <body>
+    <body class="tundra">
         <div class = "container">
             <jsp:include page = "indexHeader.jsp">
                 <jsp:param name="url" value="javascript:void(0);"></jsp:param>
@@ -18,25 +26,24 @@
                 <div class = "span-14">
                     <img src = "/static/images/social-network-2.jpg" height = "325" width = "500" alt = "image here" />
                 </div>
-
                 <div class = "span-7 last">
                     <h3>
                         New user? <em>Sign up here</em>
                     </h3>
                     <hr>
-                    <div class = "span-7 last">
-                        <form id = "signup-form" action = "/signup" method = "POST">
+                    <div class = "span-7 last ">
+                        <form id = "signup-form" action = "/signup" method = "POST" class="formContainer" onsubmit="return checkEmpty();">
                             <div class = "span-7 last">
-                                <input type = "text" placeholder = "Full Name" name = "name" class = "span-7" />
+                                <input type = "text" placeholder = "Full Name" id= "name" name = "name" class = "span-7"/ >
                             </div>
                             <div class = "span-7 last">
-                                <input type = "email" placeholder = "Email" name = "email" class = "span-7" autocomplete="off" />
+                                <input type = "email" placeholder = "Email" id="email" name = "email" class = "span-7" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" autocomplete="off" />
+                                <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-7" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
+                                <input type = "password" placeholder = "Confirm Password" id="cpassword" name = "cpassword" class = "span-7" />
                             </div>
                             <div class = "span-7 last add-margin-above-10">
                                 <input type = "submit" class = "yellow-button" value = "Signup" />

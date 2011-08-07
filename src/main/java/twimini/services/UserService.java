@@ -3,11 +3,13 @@ package twimini.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import twimini.model.UserModel;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,16 +83,13 @@ public class UserService {
     }
 
     public static List<UserModel> getInactiveUser() {
-        db.update("UPDATE user SET isActivated=3 Where isActivated=0");
-        return db.query("SELECT * FROM user where isActivated=3", UserModel.rowMapper);
-    }
 
-    public static void setToPartialState() {
-        db.update("UPDATE user SET isActivated=2 Where isActivated=3");
+        String activationStatus="email not sent";
+        return db.query("SELECT * FROM user WHERE isActivated = ?", UserModel.rowMapper,activationStatus);
     }
 
     public static UserModel getUserInfo(String email) {
-        return db.queryForObject("SELECT * FROM user where email = ?", UserModel.rowMapper, email);
+        return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
     public void setIsActivated(String uid) {
@@ -98,7 +97,7 @@ public class UserService {
     }
 
     public static void addToken(String token, int uid) throws Exception {
-        db.update("INSERT INTO forgot_token values(?, ?, now())", token, uid);
+        db.update("INSERT INTO forgot_token VALUES(?, ?, now())", token, uid);
     }
 
     public static int getUidFromForgotToken(String token) throws Exception {
@@ -117,11 +116,18 @@ public class UserService {
         return db.update("update user SET password = ? WHERE uid = ?", password, uid);
     }
 
-    public static void setAccountInfo(String name, String email, String uid) {
-        db.update("update user SET name=? ,email=? WHERE uid=? ", name, email, uid);
+    public static void setAccountInfo(String name, String email,String uid) {
+        //To change body of created methods use File | Settings | File Templates.
+        db.update("UPDATE user SET name=? ,email=? WHERE uid=? ",name,email,uid);
     }
 
     public static void setPassword(CharSequence newPassword, String uid) {
         db.update("update user SET password=? WHERE uid=? ", newPassword, uid);
+    }
+
+    public static void setToNotactivated(Set<String> ids) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("ids", ids);
+        db.update("UPDATE user SET isActivated='activated' where email in ( :ids )",parameters);
     }
 }

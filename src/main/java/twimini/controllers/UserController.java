@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import twimini.ActivationMail;
 import twimini.PasswordMail;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
@@ -23,6 +24,7 @@ public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
     private final FollowService followService;
+    public boolean  runMailSender= true;
 
     @Autowired
 
@@ -31,6 +33,12 @@ public class UserController {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
+        if(runMailSender==true)
+        {
+            Thread thread = new ActivationMail(userService);
+            thread.run();
+            runMailSender=false;
+        }
     }
 
     @RequestMapping("/")
@@ -48,7 +56,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView loginPost(@RequestParam String email, @RequestParam String password, HttpSession session) {
-
+        System.out.println("neter yhe");
         /*if (email.equals(""))
             return new ModelAndView("/login") {{
                 addObject("msg", "Email id field cannot be left blank");
@@ -225,6 +233,14 @@ public class UserController {
         session.invalidate();
         return new ModelAndView() {{
             setViewName("redirect:/");
+        }};
+    }
+
+    @RequestMapping("/use")
+    ModelAndView loMethod(HttpSession session) {
+        //session.invalidate();
+        return new ModelAndView() {{
+            setViewName("/temp");
         }};
     }
 

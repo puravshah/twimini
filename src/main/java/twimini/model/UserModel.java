@@ -13,8 +13,11 @@ import java.sql.SQLException;
  * To change this template use File | Settings | File Templates.
  */
 public class UserModel {
-    private String email, name;//, password, timestamp;
+    private String email;
+    private String name;
+    private String isActivated; //, password, timestamp;
     private int uid, status;
+
 
     public static final RowMapper<UserModel> rowMapper = new RowMapper<UserModel>() {
         @Override
@@ -61,6 +64,7 @@ public class UserModel {
         email = rs.getString("email");
         name = rs.getString("name");
         uid = rs.getInt("uid");
+        isActivated=rs.getString("isActivated");
         /*password = rs.getString("password");
         timestamp = rs.getString("timestamp");*/
     }
@@ -81,6 +85,13 @@ public class UserModel {
         return status;
     }
 
+    public String getActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(String activated) {
+        isActivated = activated;
+    }
 
     public void setStatus(int status) {
         this.status = status;

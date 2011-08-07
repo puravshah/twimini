@@ -8,6 +8,48 @@ function getInnerText(element) {
     return element.textContent;
 }
 
+function checkEmpty(){
+     var email=dojo.byId("email").value;
+     var password=dojo.byId("password").value;
+     if(email==null)
+     {
+        window.location="/login";
+        return false;
+     }
+     else if(email==null)
+     {
+        window.location="/login";
+        return false;
+     }
+}
+
+function checkEmpty(){
+    var name=dojo.byId("name").value;
+    alert(name);
+    var email=dojo.byId("email").value ;
+    var password=dojo.byId("password").value;
+    var cpassword=dojo.byId("cpassword").value;
+
+    if(name==null)
+    {
+        window.location="/signup";
+        return false;
+    }
+    else if(email==null)
+    {
+        window.location="/signup";
+        return false;
+    }
+    else if(password==null && cpassword==null)
+    {
+        if(password==cpassword)
+        {
+           window.location="/signup";
+           return false;
+        }
+    }
+
+}
 function filter(str) {
     str = str.replace(/[&]/g, '&amp;');
     str = str.replace(/[ ]/g, '&nbsp;');
