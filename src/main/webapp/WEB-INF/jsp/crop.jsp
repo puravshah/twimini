@@ -55,13 +55,13 @@
 	<div id="testWrap">
 		<img src="/image/${uid}.png" alt="test image" id="testImage" width="800" height="600" />
 	</div>
-	<form  id="photoCrapper" action="/crop">
-    	<input type="hidden" name="x1" id="x1"/>
-		<input type="hidden" name="y1" id="y1"/>
-		<input type="hidden" name="x2" id="x2"/>
-		<input type="hidden" name="y2" id="y2"/>
-		<input type="hidden" name="width" id="width"/>
-		<input type="hidden" name="height" id="height"/>
+	<form  id="photoCrapper" action="/crop" method="post">
+    	<input type="hidden" name="x1" id="x1" value="20"/>
+		<input type="hidden" name="y1" id="y1" value="20"/>
+		<input type="hidden" name="x2" id="x2" value="20"/>
+		<input type="hidden" name="y2" id="y2" value="20"/>
+		<input type="hidden" name="width" id="width" value="800"/>
+		<input type="hidden" name="height" id="height" value="600"/>
 	    <input type="hidden" name="file" value="${uid}"  id="uid"/>
 
 	    <input type="submit" name ="submit" value="submit" />

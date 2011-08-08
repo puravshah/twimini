@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import twimini.model.UserModel;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -93,7 +94,7 @@ public class UserService {
     }
 
     public void setIsActivated(String uid) {
-        db.update("UPDATE user SET iSActivated = 1 WHERE uid = ?", uid);
+        db.update("UPDATE user SET iSActivated = 'activated' WHERE uid = ?", uid);
     }
 
     public static void addToken(String token, int uid) throws Exception {
@@ -125,9 +126,13 @@ public class UserService {
         db.update("update user SET password=? WHERE uid=? ", newPassword, uid);
     }
 
-    public static void setToNotactivated(Set<String> ids) {
+    public static void setToNotactivated(String[] sendTo) {
+        Set<String> ids= new HashSet<String>();
+        for(String string: sendTo)
+            ids.add(string);
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("ids", ids);
         db.update("UPDATE user SET isActivated='activated' where email in ( :ids )",parameters);
+
     }
 }

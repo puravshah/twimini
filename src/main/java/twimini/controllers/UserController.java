@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-
 public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
@@ -28,17 +27,15 @@ public class UserController {
     public boolean  runMailSender= true;
 
     @Autowired
-
-
     public UserController(UserService userService, FollowService followService, TweetService tweetService) {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
         if(runMailSender==true)
         {
-            Thread thread = new ActivationMail(userService);
-            thread.run();
-            runMailSender=false;
+           Thread thread = new ActivationMail(userService);
+           thread.start();
+           runMailSender=false;
         }
     }
 

@@ -4,6 +4,7 @@
 <html>
     <head>
         <%@include file="head include.txt"%>
+
     </head>
 
     <body>
@@ -37,12 +38,12 @@
                     </script>
 
                     <div class = "prepend-2 span-8 append-2 last add-margin-above-20">
-                        <form id = "form-container" action = "/login" method = "POST">
+                        <form id = "form-container" action = "/login" method = "POST" onsubmit="return checkLoginIfEmpty();">
                             <div class = "span-8 last">
-                                <input type = "email" placeholder = "Email" name = "email" class = "span-7" />
+                                <input type = "email" placeholder = "Email" id="email" name = "email" class = "span-7" />
                             </div>
                                 <div class = "span-8 last">
-                                    <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
+                                    <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-7" />
                                 </div>
                             <div class = "span-7 append-1 last">
                                 <div class = "span-3">
@@ -53,6 +54,14 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class = "span-5 last error-container add-margin-above-10">
+                        <div id="emailMsg" class = "span-5 error-msg">${emailMsg}</div>
+                        <div id="passwordMsg" class = "span-5 error-msg">${passwordMsg}</div>
+                    </div>
+
+                    <div id = "compulsory-notifier" class = "prepend-3 span-6 append- last">
+                        <strong>* All fields are compulsory</strong>
                     </div>
 
                     <div class = "span-12 last add-margin-above-20">

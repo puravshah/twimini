@@ -8,6 +8,8 @@ package twimini;
  * To change this template use File | Settings | File Templates.
  */
 
+import org.springframework.stereotype.Controller;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLDecoder;
 
+@Controller
 public class ImageServlet extends HttpServlet {
 
     private static final int DEFAULT_BUFFER_SIZE = 10240; // 10KB.
     private String imagePath;
-    public static final int WIDTH  = 800;
+    public static final int WIDTH  = 600;
     public static final int HEIGHT = 600;
 
     public void init() throws ServletException {
@@ -34,8 +37,8 @@ public class ImageServlet extends HttpServlet {
             return;
         }
 
-        //String imageCopyPath="/home/rakesh/IdeaProjects/";
-        String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
+        String imageCopyPath="/home/rakesh/IdeaProjects/";
+        //String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
         File image = new File(imageCopyPath+imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
 
         if (!image.exists()) {

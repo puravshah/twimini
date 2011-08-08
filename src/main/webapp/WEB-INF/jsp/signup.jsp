@@ -57,18 +57,18 @@
                     </script>
 
                     <div class = "prepend-1 span-8 add-margin-above-20">
-                        <form id = "form-container" action = "/signup" method = "POST">
+                        <form id = "form-container" action = "/signup" method = "POST" onsubmit="return resetError();return isAlpha('name');return checkIfEmpty();return checkPassword();">
                             <div class = "span-8 last">
-                                <input type = "text" placeholder = "Full Name" name = "name" value = "${name}" class = "span-7" />
+                                <input type = "text" placeholder = "Full Name" id="name" name = "name" value = "${name}" class = "span-7"/>
                             </div>
                             <div class = "span-8 last">
-                                <input type = "email" placeholder = "Email" name = "email" value = "${email}" class = "span-7" />
+                                <input type = "email" placeholder = "Email" id="email" name = "email" value = "${email}" class = "span-7" />
                             </div>
                             <div class = "span-8 last">
-                                <input type = "password" placeholder = "Password" name = "password" class = "span-7" />
+                                <input type = "password" placeholder = "Password"  id="password" name = "password" class = "span-7" />
                             </div>
                             <div class = "span-8 last">
-                                <input type = "password" placeholder = "Confirm Password" name = "cpassword" class = "span-7" />
+                                <input type = "password" placeholder = "Confirm Password" id="cpassword" name = "cpassword" class = "span-7" />
                             </div>
                             <div class = "span-8 last">
                                 <input type = "submit" value = "Create Account" class = "span-7 yellow-button" />
@@ -77,10 +77,10 @@
                     </div>
 
                     <div class = "span-5 last error-container add-margin-above-20">
-                        <div class = "span-5 error-msg">${nameMsg}</div>
-                        <div class = "span-5 error-msg">${emailMsg}</div>
-                        <div class = "span-5 error-msg">${passwordMsg}</div>
-                        <div class = "span-5 error-msg">${cpasswordMsg}</div>
+                        <div id="nameMsg" class = "span-5 error-msg">${nameMsg}</div>
+                        <div id="emailMsg" class = "span-5 error-msg">${emailMsg}</div>
+                        <div id="passwordMsg" class = "span-5 error-msg">${passwordMsg}</div>
+                        <div id="cpasswordMsg" class = "span-5 error-msg">${cpasswordMsg}</div>
                     </div>
 
                     <div id = "compulsory-notifier" class = "prepend-3 span-6 append- last">

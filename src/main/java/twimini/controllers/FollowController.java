@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
  * Time: 4:36 PM
  * To change this template use File | Settings | File Templates.
  */
-
 @Controller
 public class FollowController {
     private final UserService userService;

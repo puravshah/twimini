@@ -1,7 +1,6 @@
 package twimini;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import twimini.model.UserModel;
 import twimini.services.UserService;
 
@@ -38,6 +37,17 @@ public abstract class Mail extends Thread {
     String[] messageText;
     String email;
 
+    public static String getNotYou() {
+            return notYou;
+        }
+
+    public String getEmailSubjectTxt() {
+        return emailSubjectTxt;
+    }
+
+    public void setEmailSubjectTxt(String emailSubjectTxt) {
+        this.emailSubjectTxt = emailSubjectTxt;
+    }
 
     public Mail(UserService userService) {
         this.userService=userService;
@@ -125,7 +135,7 @@ public abstract class Mail extends Thread {
         return email;
     }
 
-    @Async
+
     public void runMultipleMail() {
         String userMessage;
         try
@@ -136,7 +146,7 @@ public abstract class Mail extends Thread {
                 if (sendTo.length > 0) {
                     Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
                     sendSSLMessage(sendTo, emailSubjectTxt, messageText, emailFromAddress);
-
+                    UserService.setToNotactivated(sendTo);
                 }
         }
         catch (Exception e)

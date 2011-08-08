@@ -8,48 +8,139 @@ function getInnerText(element) {
     return element.textContent;
 }
 
-function checkEmpty(){
+function checkLoginEmpty(){
      var email=dojo.byId("email").value;
      var password=dojo.byId("password").value;
-     if(email==null)
+     if((email==null)||(email==""))
      {
         window.location="/login";
         return false;
      }
-     else if(email==null)
+     else if(password=="")
      {
         window.location="/login";
         return false;
      }
+     return true;
 }
 
-function checkEmpty(){
+
+function checkLoginIfEmpty(){
+     var email=dojo.byId("email").value;
+     var password=dojo.byId("password").value;
+     if((email==null)||(email==""))
+     {
+        dojo.byId("emailMsg").innerHTML="email cannot be empty";
+        dojo.byId("passwordMsg").innerHTML="";
+
+        return false;
+     }
+     else if((password==null)||(password==""))
+     {
+        dojo.byId("emailMsg").innerHTML="";
+        dojo.byId("passwordMsg").innerHTML="password cannot be empty";
+        return false;
+     }
+     return true;
+}
+
+
+
+
+function checkSignupEmpty(){
     var name=dojo.byId("name").value;
     alert(name);
     var email=dojo.byId("email").value ;
     var password=dojo.byId("password").value;
     var cpassword=dojo.byId("cpassword").value;
 
-    if(name==null)
+    if((name==null)||(name==""))
     {
         window.location="/signup";
         return false;
     }
-    else if(email==null)
+    else if((email==null)||(email==""))
     {
         window.location="/signup";
         return false;
     }
-    else if(password==null && cpassword==null)
+    else if((password==null)||(password==""))
     {
-        if(password==cpassword)
-        {
            window.location="/signup";
            return false;
-        }
-    }
 
+    }
+    return true;
 }
+
+function checkIfEmpty(){
+    var name=dojo.byId("name").value;
+    var email=dojo.byId("email").value ;
+    var password=dojo.byId("password").value;
+    var cpassword=dojo.byId("cpassword").value;
+    if((name==null)||(name==""))
+    {
+        dojo.byId("nameMsg").innerHTML="name cannot be empty";
+        return false;
+    }
+    else if((email==null)||(email==""))
+    {
+        dojo.byId("emailMsg").innerHTML="email cannot be empty";
+        dojo.byId("nameMsg").innerHTML="";
+        return false;
+    }
+    else if((password==null)||(password==""))
+    {
+        dojo.byId("passwordMsg").innerHTML="password cannot be empty";
+           return false;
+
+    }
+   return true;
+}
+
+function resetError()
+{
+ dojo.byId("nameMsg").innerHTML="";
+ dojo.byId("emailMsg").innerHTML="";
+ dojo.byId("passwordMsg").innerHTML="";
+ dojo.byId("cpasswordMsg").innerHTML="";
+ return true;
+}
+
+
+ function isAlpha(name){
+    alert(name);
+    var xStr=dojo.byId(name).value;
+    alert(xStr);
+    var regEx = /^[a-zA-Z\ ]/;
+    if(xStr.match(regEx))
+    {
+       return true;
+    }
+    else
+    {
+        dojo.byId("nameMsg").innerHTML=" only english alphabets are allowed";
+        return false;
+    }
+    return true;
+  }
+
+function checkPassword()
+{
+ var password=dojo.byId("password").value;
+ var cpassword=dojo.byId("cpassword").value;
+ if(password==cpassword)
+ {
+  if(password.length>6)
+  {
+    dojo.byId("passwordMsg").innerHTML="password should be of atleast 6 characters";
+    return false;
+  }
+  return true;
+ }
+ return true;
+}
+
 function filter(str) {
     str = str.replace(/[&]/g, '&amp;');
     str = str.replace(/[ ]/g, '&nbsp;');
@@ -113,9 +204,9 @@ function getImage() {
 }
 
 function makeTabActiveOnEdit(index) {
-    var ids = ['accountDiv', 'passwordDiv', 'imageDiv'];
+    var ids = ['accountDiv', 'passwordDiv', 'imageDiv','cropDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < 4; i++) {
         dojo.removeClass(div[i], "tab-active");
         dojo.style(ids[i], "display", i == index ? "block" : "none");
     }
@@ -185,6 +276,14 @@ function getFeed(input) {
             alert('You need to login first');
         }
     });
+}
+
+function activateCropper(uid)
+{
+     var src=dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
+     src.src="/image/"+uid+".png";
+     alert(dojo.byId("uidImage").getAttribute("src"));
+    makeTabActiveOnEdit(3);
 }
 
 function getTweets(input) {
