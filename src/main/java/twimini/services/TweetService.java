@@ -37,16 +37,16 @@ public class TweetService {
         return db.queryForObject("SELECT * FROM post WHERE pid = ?", TweetModel.rowMapper, pid);
     }
 
-    public List<TweetWrapper> getFeed(String uid) throws Exception {
+    public List<TweetWrapper> getFeed(String uid, String start, String count) throws Exception {
         List<TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.uid IN " +
-                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp", TweetWrapper.rowMapper, uid, uid);
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp DESC LIMIT ?, ?", TweetWrapper.rowMapper, uid, uid, Integer.parseInt(start), Integer.parseInt(count));
         return l;
     }
 
-    public List<TweetModel> getTweetList(String uid) throws Exception {
-        List<TweetModel> l = db.query("SELECT * FROM post WHERE uid = ?", TweetModel.rowMapper, uid);
+    public List<TweetModel> getTweetList(String uid, String start, String count) throws Exception {
+        List<TweetModel> l = db.query("SELECT * FROM post WHERE uid = ? ORDER BY pid DESC LIMIT ?, ?", TweetModel.rowMapper, uid, Integer.parseInt(start), Integer.parseInt(count));
         return l;
     }
 

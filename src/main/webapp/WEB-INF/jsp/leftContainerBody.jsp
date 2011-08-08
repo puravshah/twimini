@@ -14,12 +14,19 @@
                         </div>
                     </div>
 
+                    <input type = "hidden" id = "currentTweetCount" value = "0" />
+                    <input type = "hidden" id = "currentFollowingCount" value = "0" />
+                    <input type = "hidden" id = "currentFollowersCount" value = "0" />
+
                     <div class="span-14 last">
                         <div id="tweetDiv" class="span-14 last add-padding-above-20">
                             <div id='ListOfTweets'>
                                 <script type="text/javascript">
                                     ${param.firstTabUrl}
                                 </script>
+                            </div>
+                            <div class = "add-margin-above-20 span-14 last">
+                                <input type = "button" id = "loadMoreTweets" value = "Load More" onclick = "${param.loadMoreTweetsUrl}">
                             </div>
                         </div>
 

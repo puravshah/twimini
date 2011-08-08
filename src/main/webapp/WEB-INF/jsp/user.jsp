@@ -58,6 +58,7 @@
                     <jsp:include page="leftContainerBody.jsp">
                         <jsp:param name="firstTabName" value="Tweets"></jsp:param>
                         <jsp:param name="firstTabUrl" value="getTweets( {uid: ${uid}, name: '${name}'} );"></jsp:param>
+                        <jsp:param name="loadMoreTweetsUrl" value="loadMoreTweets({uid:${uid}, name: '${name}'})"></jsp:param>
                     </jsp:include>
                 </div>
 

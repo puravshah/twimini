@@ -3,10 +3,7 @@ package twimini.controllers.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import twimini.model.TweetModel;
 import twimini.services.APIKEYService;
 import twimini.services.FollowService;
@@ -38,14 +35,13 @@ public class Tweet {
     }
 
     /* REST API for creating a tweet */
-    @RequestMapping("/api/tweet/create")
+    @RequestMapping(value = "/api/tweet/create", method = RequestMethod.POST)
     @ResponseBody
-    Hashtable<String, String> createTweet(@RequestParam final String tweet, @RequestParam String APIKEY, HttpSession session) {
+    Hashtable<String, String> createTweet(@RequestParam final String tweet, @RequestParam String apikey, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         TweetModel t = null;
-
         try {
-            String uid = APIKEYService.getUid(APIKEY);
+            String uid = APIKEYService.getUid(apikey);
             t = tweetService.addTweet(uid, tweet);
             ret.put("status", "1");
             ret.put("pid", "" + t.getPid());
@@ -65,11 +61,11 @@ public class Tweet {
 
     @RequestMapping("/api/tweet/{pid}/getTweetDetails")
     @ResponseBody
-    Hashtable<String, Object> getTweetDetails(@PathVariable String pid, @RequestParam String APIKEY, HttpSession session) {
+    Hashtable<String, Object> getTweetDetails(@PathVariable String pid, @RequestParam String apikey, HttpSession session) {
         Hashtable<String, Object> ret = new Hashtable<String, Object>();
 
         try {
-            String uid = APIKEYService.getUid(APIKEY);
+            String uid = APIKEYService.getUid(apikey);
         }
         catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");

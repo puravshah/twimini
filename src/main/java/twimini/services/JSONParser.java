@@ -4,9 +4,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,53 +32,108 @@ public class JSONParser {
             jsonObject = (JSONObject)JSONValue.parse(json);
         } catch (MalformedURLException e) {
             jsonObject.put("status", "0");
-            jsonObject.put("errorMsg", "Invalid url");
+            jsonObject.put("errorMessage", "Invalid Request");
         } catch (Exception e) {
+            e.printStackTrace();
             jsonObject.put("status", "0");
-            jsonObject.put("errorMsg", e.toString());
+            jsonObject.put("errorMessage", e.toString());
         }
         return jsonObject;
     }
+    
+    public static JSONObject postData(String url, Map <String, String> attributes) {
+        try {
+            //the URL to which we want to post
+            URLConnection urlConn = new URL(url).openConnection();
+            urlConn.setDoOutput (true);
+            urlConn.setDoInput (true);
+            urlConn.setUseCaches(false);
+            urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            DataOutputStream printout = new DataOutputStream (urlConn.getOutputStream ());
 
-    public static JSONObject getFeedFromJSON(String uid, String apikey) throws Exception {
-        String url = String.format("%s/api/user/%s/getFeed?apikey=%s", urlPrefix, uid, apikey);
-        return (JSONObject) JSONParser.getData(url);
+            //put the POST parameters here
+            String content = "";
+            for(String key: attributes.keySet()) content += key + "=" + URLEncoder.encode(attributes.get(key)) + "&";
+            printout.writeBytes(content);
+            //System.out.println("content " + content);
+            printout.flush();
+            printout.close();
+            
+            //fetch response from server
+            BufferedReader input = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+            String json = "", line;
+            while( (line = input.readLine()) != null ) json += line;
+            return (JSONObject)JSONValue.parse(json);
+        } catch (MalformedURLException e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "Invalid Request");
+            }};
+        } catch (final Exception e) {
+            e.printStackTrace();
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", e.toString());
+            }};
+        }
     }
 
-    public static JSONObject getTweetListFromJSON(String uid, String apikey) throws Exception {
-        String url = String.format("%s/api/user/%s/getTweetList?apikey=%s", urlPrefix, uid, apikey);
-        return (JSONObject) JSONParser.getData(url);
+    public static JSONObject getFeedFromJSON(String uid, String apikey, String start, String count) throws Exception {
+        String attributes = "?apikey=" + apikey;
+        if(start != null) attributes += "&start=" + start;
+        if(count != null) attributes += "&count=" + count;
+        String url = String.format("%s/api/user/%s/getFeed%s", urlPrefix, uid, attributes);
+        return JSONParser.getData(url);
+    }
+
+    public static JSONObject getTweetListFromJSON(String uid, String apikey, String start, String count) throws Exception {
+        String attributes = "?apikey=" + apikey;
+        if(start != null) attributes += "&start=" + start;
+        if(count != null) attributes += "&count=" + count;
+        String url = String.format("%s/api/user/%s/getTweetList%s", urlPrefix, uid, attributes);
+        return JSONParser.getData(url);
     }
 
     public static JSONObject getFollowingFromJSON(String uid, String apikey) throws Exception {
         String addApikey = apikey == null ? "" : "?apikey=" + apikey;
         String url = String.format("%s/api/user/%s/getFollowing%s", urlPrefix, uid, addApikey);
-        return (JSONObject) JSONParser.getData(url);
+        return JSONParser.getData(url);
     }
 
     public static JSONObject getFollowersFromJSON(String uid, String apikey) throws Exception {
         String addApikey = apikey == null ? "" : "?apikey=" + apikey;
         String url = String.format("%s/api/user/%s/getFollowers%s", urlPrefix, uid, addApikey);
-        return (JSONObject) JSONParser.getData(url);
+        return JSONParser.getData(url);
     }
 
     public static JSONObject getTweetDetailsFromJSON(String pid, String apikey) throws Exception {
         String url = String.format("%s/api/tweet/%s/getTweetDetails?apikey=%s", urlPrefix, pid, apikey);
-        return (JSONObject) JSONParser.getData(url);
+        return JSONParser.getData(url);
     }
 
     public static JSONObject createTweetFromJSON(String tweet, String apikey) throws Exception {
-        String url = String.format("%s/api/tweet/create?tweet=%s&apikey=%s", urlPrefix, tweet, apikey);
-        return (JSONObject) JSONParser.getData(url);
+        /*String url = String.format("%s/api/tweet/create?tweet=%s&apikey=%s", urlPrefix, tweet, apikey);
+        return JSONParser.getData(url);*/
+        Map <String, String> attributes = new HashMap<String, String>();
+        attributes.put("tweet", tweet);
+        attributes.put("apikey", apikey);
+        return JSONParser.postData(urlPrefix + "/api/tweet/create", attributes);
     }
 
     public static JSONObject followFromJSON(String uid, String apikey) throws Exception {
         String url = String.format("%s/api/user/%s/follow?apikey=%s", urlPrefix, uid, apikey);
-        return (JSONObject) JSONParser.getData(url);
+        return JSONParser.getData(url);
     }
 
     public static JSONObject unfollowFromJSON(String uid, String apikey) throws Exception {
         String url = String.format("%s/api/user/%s/unfollow?apikey=%s", urlPrefix, uid, apikey);
-        return (JSONObject) JSONParser.getData(url);
+        return JSONParser.getData(url);
+    }
+
+    public static JSONObject loginFromJSON(String email, String password) throws Exception {
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("email", email);
+        attributes.put("password", password);
+        return JSONParser.postData(urlPrefix + "/api/user/login", attributes);
     }
 }

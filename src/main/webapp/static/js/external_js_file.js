@@ -69,28 +69,6 @@ function checkCharacterLimit(field) {
     setInnerText(dojo.byId("tweet-char-left"), 140 - field.value.length);
 }
 
-function getTweet(input) {
-    var output;
-    dojo.xhrPost({
-        url: "/api/tweet/" + input.pid + "/getTweetDetails",
-        handleAs: "json",
-        load: function(data) {
-            data = data.tweetDetails;
-            data.name = input.name;
-            data.tweet = filter(data.tweet);
-            prependTweet(data);
-
-            dojo.byId("tweet-box").value = "";
-            setInnerText(dojo.byId("tweet-char-left"), 140);
-            setInnerText(dojo.byId("tweet-count"), parseInt(getInnerText(dojo.byId("tweet-count"))) + 1);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-    return output;
-}
-
 function createTweet(input) {
     var str = dojo.byId("tweet-box").value;
 
@@ -104,10 +82,14 @@ function createTweet(input) {
                 data = data.tweetDetails;
                 data.name = input.name;
                 prependTweet(data);
+                dojo.byId("tweet-box").value = "";
+                dojo.byId("currentTweetCount").value = (parseInt(dojo.byId("currentTweetCount").value) + 1);
+                //alert(dojo.byId("currentTweetCount").value);
             }
         },
         error: function(error) {
-            alert(error);
+            //alert(error);
+            alert('You need to login first');
         }
     });
 }
@@ -155,6 +137,11 @@ function prependTweet(data) {
     dojo.place(html, "ListOfTweets", "first");
 }
 
+function appendTweet(data) {
+    var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
+    dojo.place(html, "ListOfTweets", "last");
+}
+
 function appendFollowing(data) {
     data.divId = 'followingItem_' + data.id;
     var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
@@ -168,10 +155,11 @@ function appendFollower(data) {
 }
 
 function getFeed(input) {
+    var start = 0;//loadMore ? dojo.byId("currentTweetCount").value : 0;
     dojo.xhrPost({
         url: "/tweet/getFeed",
         handleAs: "json",
-        content: {uid:input.uid},
+        content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -179,20 +167,22 @@ function getFeed(input) {
             }
 
             data = data.feed;
-            /*$('#tweetDiv').show();
-            $('#followingDiv').hide();
-            $('#followerDiv').hide();*/
             makeTabActive(0);
 
-            $('#ListOfTweets').empty();
+            dojo.empty('ListOfTweets');
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                prependTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
             }
+
+            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentTweetCount').value = data.length;
+            //alert("start : " + dojo.byId('currentTweetCount').value);
         },
         error: function(error) {
-            alert(error);
+            //alert('error : ' + error);
+            alert('You need to login first');
         }
     });
 }
@@ -201,7 +191,7 @@ function getTweets(input) {
     dojo.xhrPost({
         url: "/tweet/getTweetList",
         handleAs: "json",
-        content: {uid:input.uid},
+        content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -209,17 +199,81 @@ function getTweets(input) {
             }
 
             data = data.tweets;
-            /*$('#tweetDiv').show();
-            $('#followingDiv').hide();
-            $('#followerDiv').hide();*/
             makeTabActive(0);
 
-            $('#ListOfTweets').empty();
+            dojo.empty('ListOfTweets');
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                prependTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:item.timestamp});
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:item.timestamp});
             }
+
+            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentTweetCount').value = data.length;
+            //alert("start : " + dojo.byId('currentTweetCount').value);
+        },
+        error: function(error) {
+            alert('error : ' + error);
+        }
+    });
+}
+
+
+function loadMoreFeed(input) {
+    var start = dojo.byId("currentTweetCount").value;
+    dojo.xhrPost({
+        url: "/tweet/getFeed",
+        handleAs: "json",
+        content: {uid:input.uid, start:start},
+        load: function(data) {
+            if (data.status == 0) {
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.feed;
+            makeTabActive(0);
+
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                var tweet = filter(item.tweet.tweet);
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
+            }
+
+            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
+            //alert("start : " + dojo.byId('currentTweetCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function loadMoreTweets(input) {
+    var start = dojo.byId("currentTweetCount").value;
+    dojo.xhrPost({
+        url: "/tweet/getTweetList",
+        handleAs: "json",
+        content: {uid:input.uid, start:start},
+        load: function(data) {
+            if (data.status == 0) {
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.tweets;
+            makeTabActive(0);
+
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                var tweet = filter(item.tweet);
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:item.timestamp});
+            }
+
+            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
+            //alert("start : " + dojo.byId('currentTweetCount').value);
         },
         error: function(error) {
             alert(error);
@@ -229,9 +283,9 @@ function getTweets(input) {
 
 function getFollowing(input) {
     dojo.xhrPost({
-        url: "/api/user/" + input.uid + "/getFollowing",
+        url: "/user/getFollowing",
         handleAs: "json",
-        //content: {uid:input.uid},
+        content: {uid:input.uid},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -239,12 +293,9 @@ function getFollowing(input) {
             }
 
             data = data.following
-            /*$('#tweetDiv').hide();
-            $('#followingDiv').show();
-            $('#followerDiv').hide();*/
             makeTabActive(1);
+            dojo.empty('ListOfFollowing');
 
-            $('#ListOfFollowing').empty();
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
@@ -269,12 +320,8 @@ function getFollowers(input) {
             }
 
             data = data.followers;
-            /*$('#tweetDiv').hide();
-            $('#followingDiv').hide();
-            $('#followerDiv').show();*/
             makeTabActive(2);
-
-            $('#ListOfFollower').empty();
+            dojo.empty('ListOfFollower');
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 appendFollower({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});

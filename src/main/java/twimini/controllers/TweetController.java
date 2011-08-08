@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import twimini.model.TweetModel;
-import twimini.model.TweetWrapper;
 import twimini.model.UserModel;
 import twimini.services.FollowService;
 import twimini.services.JSONParser;
@@ -48,15 +47,10 @@ public class TweetController {
     @RequestMapping("/tweet")
     public ModelAndView tweetGet(HttpSession session) {
         String uid = (String) session.getAttribute("uid");
-        List<TweetWrapper> tweetList = null;
         List<UserModel> followingList = null, followerList = null;
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            /*String urlPrefix = "localhost:8080/api";
-            JSONObject jsonObject = JSONParser.getData(String.format(""));*/
-
-            tweetList = tweetService.getFeed(uid);
             followingList = followService.getFollowing2(uid, uid);
             followerList = followService.getFollower2(uid, uid);
             tweetCount = tweetService.getTweetCount(uid);
@@ -79,8 +73,9 @@ public class TweetController {
 
     @RequestMapping("/tweet/create")
     @ResponseBody
-    JSONObject createTweet(@RequestParam final String tweet, String apikey, HttpSession session) {
+    JSONObject createTweet(@RequestParam final String tweet, HttpSession session) {
         try {
+            String apikey = session.getAttribute("apikey").toString();
             JSONObject jsonObject = JSONParser.createTweetFromJSON(tweet, apikey);
             if(jsonObject.get("status").equals("0")) return jsonObject;
             return JSONParser.getTweetDetailsFromJSON(jsonObject.get("pid").toString(), apikey);
@@ -90,12 +85,14 @@ public class TweetController {
                 put("errorMessage", "You need to login first");
             }};
         } catch (final Exception e) {
+            e.printStackTrace();
             return new JSONObject() {{
                 put("status", "0");
                 put("errorMessage", e.toString());
             }};
         }
     }
+
     /*Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String uid = (String) session.getAttribute("uid");
@@ -147,9 +144,29 @@ public class TweetController {
 
     @RequestMapping("/tweet/getTweetList")
     @ResponseBody
-    JSONObject getTweetList(@RequestParam final String uid, String apikey, HttpSession session) {
+    JSONObject getTweetList(@RequestParam final String uid, String start, String count, HttpSession session) {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
         try {
-            return JSONParser.getTweetListFromJSON(uid, apikey);
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+        try {
+            return JSONParser.getTweetListFromJSON(uid, (String)session.getAttribute("apikey"), start, count);
         } catch (final Exception e) {
             return new JSONObject() {{
                 put("status", "0");
@@ -160,9 +177,29 @@ public class TweetController {
 
     @RequestMapping("/tweet/getFeed")
     @ResponseBody
-    JSONObject getFeed(@RequestParam final String uid, HttpSession session) {
+    JSONObject getFeed(@RequestParam final String uid, String start, String count, HttpSession session) {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
         try {
-            return JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString());
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+        try {
+            return JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString(), start, count);
         } catch (final Exception e) {
             e.printStackTrace();
             return new JSONObject() {{

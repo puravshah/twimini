@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import twimini.model.TweetModel;
 import twimini.model.TweetWrapper;
 import twimini.model.UserModel;
@@ -16,7 +13,6 @@ import twimini.services.FollowService;
 import twimini.services.TweetService;
 import twimini.services.UserService;
 
-import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -33,7 +29,7 @@ public class User {
         this.tweetService = tweetService;
     }
 
-    @RequestMapping("/api/user/signup")
+    @RequestMapping(value = "/api/user/signup")//, method = RequestMethod.POST)
     @ResponseBody
     Hashtable<String, String> apiSignup(@RequestParam String email, @RequestParam String password, @RequestParam String cpassword, @RequestParam String name) {
         Hashtable<String, String> hashtable = new Hashtable<String, String>();
@@ -47,36 +43,36 @@ public class User {
             try {
                 UserModel user = userService.addUser(name, email, password);
                 hashtable.put("status", "1");
-                hashtable.put("uid", "" + user.getUid());
+                hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
             } catch (DuplicateKeyException e) {
                 hashtable.put("status", "1");
                 hashtable.put("errorMessage", "" + "Email id already exists");
             } catch (Exception e) {
-                hashtable.put("status", "1");
-                hashtable.put("errorMessage", "" + e.toString());
+                e.printStackTrace();
+                hashtable.put("status", "0");
+                hashtable.put("errorMessage", e.toString());
             }
         }
         return hashtable;
     }
 
-    @RequestMapping("/api/user/login")
+    @RequestMapping(value = "/api/user/login", method = RequestMethod.POST)
     @ResponseBody
-    Hashtable<String, String> apiLogin(@RequestParam String email, @RequestParam String password, HttpSession session) {
-        Hashtable <String, String> hashtable = new Hashtable <String, String> ();
-        if(email == null || email.equals("")) {
+    Hashtable<String, String> apiLogin(@RequestParam String email, @RequestParam String password) {
+        Hashtable<String, String> hashtable = new Hashtable<String, String>();
+        if (email == null || email.equals("")) {
             hashtable.put("status", "0");
             hashtable.put("errorMessage", "Email id cannot be empty");
-        }
-        else if(password == null || password.equals("")) {
+        } else if (password == null || password.equals("")) {
             hashtable.put("status", "0");
             hashtable.put("errorMessage", "Password cannot be empty");
-        }
-        else {
+        } else {
             try {
                 UserModel user = userService.getUser(email, password);
                 hashtable.put("status", "1");
                 hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
-            } catch(Exception e) {
+            } catch (Exception e) {
+                e.printStackTrace();
                 hashtable.put("status", "0");
                 hashtable.put("errorMessage", "Invalid email id or password");
             }
@@ -109,11 +105,31 @@ public class User {
     /* REST API for getting tweet list of a user */
     @RequestMapping("/api/user/{uid}/getTweetList")
     @ResponseBody
-    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, HttpSession session) {
+    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
+        if (count == null || count.equals("")) count = "10";
+                if (start == null || start.equals("")) start = "0";
+                try {
+                    Integer.parseInt(count);
+                } catch (Exception e) {
+                    return new Hashtable<String, Object>() {{
+                        put("status", "0");
+                        put("errorMessage", "count attribute should be a valid number");
+                    }};
+                }
+
+                try {
+                    Integer.parseInt(start);
+                } catch (Exception e) {
+                    return new Hashtable<String, Object>() {{
+                        put("status", "0");
+                        put("errorMessage", "start attribute should be a valid number");
+                    }};
+                }
+
         try {
-            List<TweetModel> list = tweetService.getTweetList(uid);
+            List<TweetModel> list = tweetService.getTweetList(uid, start, count);
             hashtable.put("status", "1");
             hashtable.put("tweets", list);
         } catch (Exception e) {
@@ -127,12 +143,32 @@ public class User {
     /* REST API for getting tweet feed of a user */
     @RequestMapping("/api/user/{uid}/getFeed")
     @ResponseBody
-    Hashtable<String, Object> getFeed(@PathVariable String uid, @RequestParam String apikey, HttpSession session) {
+    Hashtable<String, Object> getFeed(@PathVariable String uid, @RequestParam String apikey, String start, String count) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
+        try {
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
 
         try {
-            String user = APIKEYService.getUid(apikey);//session.getAttribute("uid").toString();
-            List<TweetWrapper> list = tweetService.getFeed(uid);
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+
+        try {
+            String user = APIKEYService.getUid(apikey);
+            List<TweetWrapper> list = tweetService.getFeed(uid, start, count);
             hashtable.put("status", "1");
             hashtable.put("feed", list);
         } catch (NullPointerException e) {

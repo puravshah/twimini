@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import twimini.ActivationMail;
 import twimini.PasswordMail;
-import twimini.model.TweetModel;
 import twimini.model.UserModel;
 import twimini.services.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -56,7 +57,6 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView loginPost(@RequestParam String email, @RequestParam String password, HttpSession session) {
-        System.out.println("neter yhe");
         /*if (email.equals(""))
             return new ModelAndView("/login") {{
                 addObject("msg", "Email id field cannot be left blank");
@@ -85,10 +85,14 @@ public class UserController {
         //session.setAttribute("name", m.getName());
         //session.setAttribute("apikey", APIKEYService.getAPIKEY(m.getUid()));
 
-        password = password.replace(' ', '+');
+        /*password = password.replace(' ', '+');
         String url = String.format("http://localhost:8080/api/user/login?email=%s&password=%s", email, password);
-        final JSONObject jsonObject = JSONParser.getData(url);
+        final JSONObject jsonObject = JSONParser.getData(url);*/
 
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("email", email);
+        attributes.put("password", password);
+        final JSONObject jsonObject = JSONParser.postData("http://localhost:8080/api/user/login", attributes);
         if(jsonObject.get("status").equals("0")) {
             return new ModelAndView("/login") {{
                 addObject("msg", jsonObject.get("errorMessage"));
@@ -199,11 +203,18 @@ public class UserController {
             }};
         }*/
 
-        password = password.replace(" ", "+");
+        /*password = password.replace(" ", "+");
         cpassword = password.replace(" ", "+");
         name = name.replace(" ", "+");
         String url = String.format("http://localhost:8080/api/user/signup?email=%s&name=%s&password=%s&cpassword=%s", email, name, password, cpassword);
-        final JSONObject jsonObject = JSONParser.getData(url);
+        final JSONObject jsonObject = JSONParser.getData(url);*/
+
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("email", email);
+        attributes.put("password", password);
+        attributes.put("cpassword", cpassword);
+        attributes.put("name", name);
+        final JSONObject jsonObject = JSONParser.postData("http://localhost:8080/api/user/signup", attributes);
 
         if(jsonObject.get("status").equals("0")) {
             return new ModelAndView("/signup") {{
@@ -221,6 +232,8 @@ public class UserController {
         }
         session.setAttribute("uid", "" + user.getUid());
         session.setAttribute("name", user.getName());
+        session.setAttribute("apikey", jsonObject.get("apikey"));
+        System.out.println("SESSION : " + session.getAttribute("apikey"));
         return new ModelAndView("redirect:/tweet");
     }
 
@@ -318,12 +331,11 @@ public class UserController {
             e.printStackTrace();
         }
 
-        List<TweetModel> tweetList = null;
+        //List<TweetModel> tweetList = null;
         List<UserModel> followingList = null, followerList = null;
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            tweetList = tweetService.getTweetList(uid);
             followingList = followService.getFollowing2(uid, user);
             followerList = followService.getFollower2(uid, user);
             tweetCount = tweetService.getTweetCount(uid);
@@ -338,7 +350,6 @@ public class UserController {
             mv.addObject("name", u.getName());
             mv.addObject("email", u.getEmail());
             mv.addObject("status", u.getStatus());
-            mv.addObject("tweetList", tweetList);
             mv.addObject("followingList", followingList);
             mv.addObject("followerList", followerList);
             mv.addObject("tweetCount", tweetCount);
