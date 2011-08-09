@@ -401,7 +401,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.findWidgets = function(/*DomNode*/ root){
 		// summary:
 		//		Search subtree under root returning widgets found.
-		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+		//		Doesn't search.jsp for nested widgets (ie, widgets inside other widgets).
 	
 		var outAry = [];
 	
@@ -1215,7 +1215,7 @@ dojo.extend(dojo.AdapterRegistry, {
 		//		returned instead of being called. Alternately, the
 		//		AdapterRegistry can be set globally to "return not call" using
 		//		the returnWrappers property. Either way, this behavior allows
-		//		the registry to act as a "search" function instead of a
+		//		the registry to act as a "search.jsp" function instead of a
 		//		function interception library.
 		//	override:
 		//		If override is given and true, the check function will be given
@@ -5545,7 +5545,7 @@ dojo.string.substitute = function(	/*String*/		template,
 	//		a string with expressions in the form `${key}` to be replaced or
 	//		`${key:format}` which specifies a format function. keys are case-sensitive.
 	//	map:
-	//		hash to search for substitutions
+	//		hash to search.jsp for substitutions
 	//	transform:
 	//		a function to process all parameters before substitution takes
 	//		place, e.g. mylib.encodeXML

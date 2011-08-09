@@ -4354,7 +4354,7 @@ var Expr = Sizzle.selectors = {
 
 		text: function( elem ) {
 			var attr = elem.getAttribute( "type" ), type = elem.type;
-			// IE6 and 7 will map elem.type to 'text' for new HTML5 types (search, etc) 
+			// IE6 and 7 will map elem.type to 'text' for new HTML5 types (search.jsp, etc)
 			// use getAttribute instead to test this case
 			return elem.nodeName.toLowerCase() === "input" && "text" === type && ( attr === type || attr === null );
 		},
@@ -7560,7 +7560,7 @@ function ajaxConvert( s, response ) {
 			conversion = prev + " " + current;
 			conv = converters[ conversion ] || converters[ "* " + current ];
 
-			// If there is no direct converter, search transitively
+			// If there is no direct converter, search.jsp transitively
 			if ( !conv ) {
 				conv2 = undefined;
 				for( conv1 in converters ) {

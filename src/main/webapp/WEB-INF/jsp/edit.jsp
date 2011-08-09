@@ -2,6 +2,52 @@
     <head>
         <title>Edit Profile</title>
         <%@include file = "head include.txt"%>
+        <script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/scriptaculous/1.9.0/scriptaculous.js" type="text/javascript"></script>
+        <script src="/static/js/cropper.js" type="text/javascript"></script>
+        <script type="text/javascript" charset="utf-8">
+                // setup the callback function
+                function onEndCrop( coords, dimensions ) {
+                    $( 'x1' ).value = coords.x1;
+                    $( 'y1' ).value = coords.y1;
+                    $( 'x2' ).value = coords.x2;
+                    $( 'y2' ).value = coords.y2;
+                    $( 'width' ).value = dimensions.width;
+                    $( 'height' ).value = dimensions.height;
+                }
+
+                // basic example
+                Event.observe(
+                    window,
+                    'load',
+                    function() {
+                        new Cropper.Img(
+                            'testImage',
+                            {
+                                onEndCrop: onEndCrop
+                            }
+                        );
+                    }
+                );
+        </script>
+        <style type="text/css">
+                label {
+                    clear: left;
+                    margin-left: 50px;
+                    float: left;
+                    width: 5em;
+                }
+
+                html, body {
+                    margin: 0;
+                }
+
+                #testWrap {
+                    margin: 20px 0 0 50px; /* Just while testing, to make sure we return the correct positions for the image & not the window */
+                }
+        </style>
+
+
     </head>
 
     <body>
@@ -25,9 +71,6 @@
                         </div>
                         <div class="span-2 tab " onclick="javascript:makeTabActiveOnEdit(2);">
                             <span>Image</span>
-                        </div>
-                        <div class="span-2 tab last" onclick="">
-                            <span>Crop Pic</span>
                         </div>
                     </div>
 
@@ -107,47 +150,23 @@
 
 		                        </form>
                             </div>
-                        </div>
-                        <script type="text/javascript" charset="utf-8">
-                            // setup the callback function
-                            function onEndCrop( coords, dimensions ) {
-                                $( 'x1' ).value = coords.x1;
-                                $( 'y1' ).value = coords.y1;
-                                $( 'x2' ).value = coords.x2;
-                                $( 'y2' ).value = coords.y2;
-                                $( 'width' ).value = dimensions.width;
-                                $( 'height' ).value = dimensions.height;
-                            }
-
-                            // basic example
-                            Event.observe(
-                                window,
-                                'load',
-                                function() {
-                                    new Cropper.Img(
-                                        'testImage',
-                                        {
-                                            onEndCrop: onEndCrop
-                                        }
-                                    );
-                                }
-                            );
-                        </script>
-                        <div id="cropDiv" class="span-15 last add-padding-above-20">
-                            <div id='cropInfo'>
-                                <div id="testWrap">
-                                    <img id="uidImage" src='${src}' alt="test image" id="testImage" width="600" height="600" />
+                            <div id="cropDiv" class="span-15 last add-padding-above-20">
+                                <div id='cropInfo'>
+                                    <div id="">
+                                        <h3 align="center">want to crop your image</h3>
+                                        <img  src='${src}' alt="test image" id="testImage" width="600" height="600" />
+                                    </div>
+                                    <form  id="photoCrapper" action="/crop" method="post">
+                                        <input type="hidden" name="x1" id="x1" value="0"/>
+                                        <input type="hidden" name="y1" id="y1" value="0"/>
+                                        <input type="hidden" name="x2" id="x2" value="0"/>
+                                        <input type="hidden" name="y2" id="y2" value="0"/>
+                                        <input type="hidden" name="width" id="width" value="600"/>
+                                        <input type="hidden" name="height" id="height" value="600"/>
+                                        <input type="hidden" name="file" value="${uid}"  id="uid"/>
+                                        <input type="submit" name ="submit" value="submit" />
+                                    </form>
                                 </div>
-                                <form  id="photoCrapper" action="/crop" method="post">
-                                    <input type="hidden" name="x1" id="x1" value="0"/>
-                                    <input type="hidden" name="y1" id="y1" value="0"/>
-                                    <input type="hidden" name="x2" id="x2" value="0"/>
-                                    <input type="hidden" name="y2" id="y2" value="0"/>
-                                    <input type="hidden" name="width" id="width" value="600"/>
-                                    <input type="hidden" name="height" id="height" value="600"/>
-                                    <input type="hidden" name="file" value="${uid}"  id="uid"/>
-                                    <input type="submit" name ="submit" value="submit" />
-                                </form>
                             </div>
                         </div>
 

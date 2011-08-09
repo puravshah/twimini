@@ -28,7 +28,7 @@ rq.page=rq.title;
 delete rq.title;
 }else{
 if(rq.action==="query"){
-rq.list="search";
+rq.list="search.jsp";
 rq.srwhat="text";
 rq.srsearch=rq.text;
 if(_3.start){

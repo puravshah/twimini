@@ -10,7 +10,7 @@ dojo._hasResource["dojox.grid.enhanced.plugins.Search"]=true;
 dojo.provide("dojox.grid.enhanced.plugins.Search");
 dojo.require("dojox.grid.enhanced._Plugin");
 dojo.require("dojo.data.util.filter");
-dojo.declare("dojox.grid.enhanced.plugins.Search",dojox.grid.enhanced._Plugin,{name:"search",constructor:function(_1,_2){
+dojo.declare("dojox.grid.enhanced.plugins.Search",dojox.grid.enhanced._Plugin,{name:"search.jsp",constructor:function(_1,_2){
 this.grid=_1;
 _2=(_2&&dojo.isObject(_2))?_2:{};
 this._cacheSize=_2.cacheSize||-1;

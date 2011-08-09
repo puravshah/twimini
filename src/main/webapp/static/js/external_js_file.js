@@ -9,19 +9,8 @@ function getInnerText(element) {
 }
 
 function checkLoginEmpty() {
-    /*var email = dojo.byId("email").value;
-    var password = dojo.byId("password").value;
-    if ((email == null) || (email == "")) {
-        window.location = "/login";
-        return false;
-    }
-    else if (password == "") {
-        window.location = "/login";
-        return false;
-    }*/
     return true;
 }
-
 
 function checkLoginIfEmpty() {
     var email = dojo.byId("email").value;
@@ -136,6 +125,38 @@ function checkCharacterLimit(field) {
     setInnerText(dojo.byId("tweet-char-left"), 140 - field.value.length);
 }
 
+function search(input)
+{
+    var name=dojo.byId("search-box").value;
+    dojo.xhrPost(
+            {
+               url:"/search",
+               handleAs:"json",
+               content:{'q':name},
+               load: function(data)
+               {
+                    window.location="/search";
+                    if(data.status==='0')
+                        alert("Unable to find name"+name);
+                    else
+                    {
+                        data= data.searchDetails;
+                        for (var i = 0; i < data.length; i++) {
+                            item = data[i];
+                            appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+                        }
+                    }
+               },
+               error:function()
+               {
+                 alert("there is an error");
+               }
+            }
+    ) ;
+
+
+}
+
 function createTweet(input) {
     var str = dojo.byId("tweet-box").value;
 
@@ -165,11 +186,32 @@ function createTweet(input) {
 function makeTabActiveOnEdit(index) {
     var ids = ['accountDiv', 'passwordDiv', 'imageDiv','cropDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for (var i = 0; i < 4; i++) {
-        dojo.removeClass(div[i], "tab-active");
-        dojo.style(ids[i], "display", i == index ? "block" : "none");
+
+    for (var i = 0; i < 3; i++) {
+        {
+            dojo.removeClass(div[i], "tab-active");
+            if(index==2 && i==2)
+            {
+                dojo.style(ids[2], "display","block");
+                dojo.style(ids[3],"display","none") ;
+            }
+            else
+            {
+                dojo.style(ids[i], "display", i == index ? "block" : "none");
+            }
+        }
     }
-    dojo.addClass(div[index], "tab-active");
+    if(index==3)
+    {
+        dojo.style(ids[2], "display","block");
+        //dojo.style(ids[3],"display","block") ;
+    }
+    if(index==3)
+    {
+      dojo.addClass(div[2], "tab-active");
+    }
+    else
+        dojo.addClass(div[index], "tab-active");
 }
 
 function makeTabActive(index) {
@@ -238,6 +280,21 @@ function getFeed(input) {
     });
 }
 
+function searchFollower(search1)
+{
+    alert(search1);
+     var input=search1;
+     var data= search1.searchdetails;
+    for (var i = 0; i < data.length; i++) {
+        item = data[i];
+        appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+    }
+
+
+   // appendFollowing({id:item.uid, name:'${item.name}', email:'${item.email}', user:${sessionScope.uid}, status:${item.status}});
+
+}
+
 function activateCropper(uid) {
     var src = dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
     src.src = "/image/" + uid + ".png";
@@ -276,6 +333,61 @@ function getTweets(input) {
         }
     });
 }
+
+
+
+
+function getTweetTime(timestamp){
+        //alert(timestamp);
+
+        var currentTime = new Date();
+        var diff = Math.abs(timestamp - (new Date().getTime()) ) / 1000;
+
+
+        var MIN = 60,        // some "constants" just
+               HOUR = 3600,     // for legibility
+               DAY = 86400
+           ;
+           var out="", temp;
+           if (diff < MIN) {
+               out = "Less than a minute";
+
+           } else if (diff < 15 * MIN) {
+               // less than fifteen minutes, show how many minutes
+               temp = Math.round(diff / MIN);
+               out = temp + " minute" + (temp == 1 ? "" : "s");
+               // eg: 12 minutes
+           } else if (diff < HOUR) {
+               // less than an hour, round down to the nearest 5 minutes
+               out = (Math.floor(diff / (5 * MIN)) * 5) + " minutes";
+           } else if (diff < DAY) {
+               // less than a day, just show hours
+               temp = Math.round(diff / HOUR);
+               out = temp + " hour" + (temp == 1 ? "" : "s");
+           } else if (diff < 30 * DAY) {
+               // show how many days ago
+               temp = Math.round(diff / DAY);
+               out = temp + " day" + (temp == 1 ? "" : "s");
+           } else if (diff < 90 * DAY) {
+               // more than 30 days, but less than 3 months, show the day and month
+               return this.getDate() + " " + this.getShortMonth();  // see below
+           } else {
+               // more than three months difference, better show the year too
+               return this.getDate() + " " + this.getShortMonth() + " " + this.getFullYear();
+           }
+
+
+           return out + " ago";
+
+
+    }
+
+
+
+
+
+
+
 
 function getFollowing(input) {
     dojo.xhrPost({
@@ -578,11 +690,6 @@ function doReset() {
         }
     });
     return false;
-}
-
-function search() {
-    searchText = dojo.byId("search-box").value;
-    alert(searchText);
 }
 
 function toggleDropdown() {

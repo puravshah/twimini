@@ -262,7 +262,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.findWidgets = function(/*DomNode*/ root){
 		// summary:
 		//		Search subtree under root returning widgets found.
-		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+		//		Doesn't search.jsp for nested widgets (ie, widgets inside other widgets).
 	
 		var outAry = [];
 	
@@ -2170,7 +2170,7 @@ dojo.extend(dojo.AdapterRegistry, {
 		//		returned instead of being called. Alternately, the
 		//		AdapterRegistry can be set globally to "return not call" using
 		//		the returnWrappers property. Either way, this behavior allows
-		//		the registry to act as a "search" function instead of a
+		//		the registry to act as a "search.jsp" function instead of a
 		//		function interception library.
 		//	override:
 		//		If override is given and true, the check function will be given
@@ -6855,7 +6855,7 @@ dojo.provide("dojox.gfx.gradutils");
 		if(o >= 1){
 			return c[len - 1].color;
 		}
-		//TODO: use binary search
+		//TODO: use binary search.jsp
 		for(var i = 0; i < len; ++i){
 			var stop = c[i];
 			if(stop.offset >= o){
@@ -10990,7 +10990,7 @@ dojo.string.substitute = function(	/*String*/		template,
 	//		a string with expressions in the form `${key}` to be replaced or
 	//		`${key:format}` which specifies a format function. keys are case-sensitive.
 	//	map:
-	//		hash to search for substitutions
+	//		hash to search.jsp for substitutions
 	//	transform:
 	//		a function to process all parameters before substitution takes
 	//		place, e.g. mylib.encodeXML
@@ -11619,8 +11619,8 @@ dojo.parser = new function(){
 		//				Hash possibly containing dir and lang settings to be applied to
 		//				parsed widgets, unless there's another setting on a sub-node that overrides
 		//			* scope: String
-		//				Root for attribute names to search for.   If scopeName is dojo,
-		//				will search for data-dojo-type (or dojoType).   For backwards compatibility
+		//				Root for attribute names to search.jsp for.   If scopeName is dojo,
+		//				will search.jsp for data-dojo-type (or dojoType).   For backwards compatibility
 		//				reasons defaults to dojo._scopeName (which is "dojo" except when
 		//				multi-version support is used, when it will be something like dojo16, dojo20, etc.)
 		//			* propsThis: Object
@@ -11688,10 +11688,10 @@ dojo.parser = new function(){
 				}
 			});
 
-			// if parent is a widget, then search for <script type=dojo/*> tags and put them in scripts[].
+			// if parent is a widget, then search.jsp for <script type=dojo/*> tags and put them in scripts[].
 			var scripts = parent.clsInfo && !parent.clsInfo.cls.prototype._noScript ? parent.scripts : null;
 
-			// unless parent is a widget with the stopParser flag set, continue search for dojoType, recursively
+			// unless parent is a widget with the stopParser flag set, continue search.jsp for dojoType, recursively
 			var recurse = (!parent.clsInfo || !parent.clsInfo.cls.prototype.stopParser) || (args && args.template);
 
 			// scan parent's children looking for dojoType and <script type=dojo/*>
@@ -12072,7 +12072,7 @@ dojo.declare("dijit._Templated",
 			//			* waiRole
 			//			* waiState
 			// rootNode: DomNode|Array[Widgets]
-			//		the node to search for properties. All children will be searched.
+			//		the node to search.jsp for properties. All children will be searched.
 			// getAttrFunc: Function?
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
@@ -12873,10 +12873,10 @@ dojo.provide("dojox.charting.scaler.common");
 			if(kwArgs.labelFunc){
 				var r = kwArgs.labelFunc(def, number, precision);
 				if(r){ return r; }
-				// else fall through to the regular labels search
+				// else fall through to the regular labels search.jsp
 			}
 			if(kwArgs.labels){
-				// classic binary search
+				// classic binary search.jsp
 				var l = kwArgs.labels, lo = 0, hi = l.length;
 				while(lo < hi){
 					var mid = Math.floor((lo + hi) / 2), val = l[mid].value;

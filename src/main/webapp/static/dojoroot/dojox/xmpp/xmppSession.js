@@ -412,7 +412,7 @@ this.state=_28;
 },search:function(_2a,_2b,_2c){
 var req={id:this.getNextIqId(),"xml:lang":this.lang,type:"set",from:this.jid+"/"+this.resource,to:_2b};
 var _2d=new dojox.string.Builder(dojox.xmpp.util.createElement("iq",req,false));
-_2d.append(dojox.xmpp.util.createElement("query",{xmlns:"jabber:iq:search"},false));
+_2d.append(dojox.xmpp.util.createElement("query",{xmlns:"jabber:iq:search.jsp"},false));
 _2d.append(dojox.xmpp.util.createElement(_2c,{},false));
 _2d.append(_2a);
 _2d.append("</").append(_2c).append(">");

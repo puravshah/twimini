@@ -33,7 +33,7 @@ dojo.mixin(_5,_2.query);
 }
 var _6=[];
 var _7=[];
-var _8={format:"json",method:"flickr.photos.search",api_key:this._apikey,extras:"owner_name,date_upload,date_taken"};
+var _8={format:"json",method:"flickr.photos.search.jsp",api_key:this._apikey,extras:"owner_name,date_upload,date_taken"};
 var _9=false;
 if(_5.userid){
 _9=true;

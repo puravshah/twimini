@@ -481,11 +481,11 @@ dojo.global = {
 		//	|		bar: { }
 		//	|	};
 		//	|
-		//	|	// search the global scope
+		//	|	// search.jsp the global scope
 		//	|	dojo.exists("foo.bar"); // true
 		//	|	dojo.exists("foo.bar.baz"); // false
 		//	|
-		//	|	// search from a particular scope
+		//	|	// search.jsp from a particular scope
 		//	|	dojo.exists("bar", foo); // true
 		//	|	dojo.exists("bar.baz", foo); // false
 		return d.getObject(name, false, obj) !== undefined; // Boolean
@@ -7577,7 +7577,7 @@ dojo.provide("dojo._base.NodeList");
 			//		see dojo.indexOf(). The primary difference is that the acted-on
 			//		array is implicitly this NodeList
 			// value: Object:
-			//		The value to search for.
+			//		The value to search.jsp for.
 			// fromIndex: Integer?:
 			//		The location to start searching from. Optional. Defaults to 0.
 			//	description:
@@ -7598,7 +7598,7 @@ dojo.provide("dojo._base.NodeList");
 			//		Mozilla's (lastIndexOf
 			//		docs)[http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Global_Objects:Array:lastIndexOf]
 			// value: Object
-			//		The value to search for.
+			//		The value to search.jsp for.
 			// fromIndex: Integer?
 			//		The location to start searching from. Optional. Defaults to 0.
 			// returns:
@@ -7886,7 +7886,7 @@ dojo.provide("dojo._base.NodeList");
 			//	summary:
 			//		Returns a new list whose members match the passed query,
 			//		assuming elements of the current NodeList as the root for
-			//		each search.
+			//		each search.jsp.
 			//	example:
 			//		assume a DOM created by this markup:
 			//	|	<div id="foo">
@@ -8190,7 +8190,7 @@ var defineQuery= function(d){
 
 	// global thunk to determine whether we should treat the current query as
 	// case sensitive or not. This switch is flipped by the query evaluator
-	// based on the document passed as the context to search.
+	// based on the document passed as the context to search.jsp.
 	var caseSensitive = false;
 
 	// how high?
@@ -8956,7 +8956,7 @@ var defineQuery= function(d){
 
 		// NOTE:
 		//		this function returns a function that searches for nodes and
-		//		filters them.  The search may be specialized by infix operators
+		//		filters them.  The search.jsp may be specialized by infix operators
 		//		(">", "~", or "+") else it will default to searching all
 		//		descendants (the " " selector). Once a group of children is
 		//		found, a test function is applied to weed out the ones we
@@ -8985,22 +8985,22 @@ var defineQuery= function(d){
 		//					return root.getElementsByTagName(tagName);
 		//
 		//			else:
-		//				# search by tag name, then filter
+		//				# search.jsp by tag name, then filter
 		//				return def(root):
 		//					return filter(root.getElementsByTagName(tagName||"*"));
 		//
 		//		elif infixOperator == ">":
-		//			# search direct children
+		//			# search.jsp direct children
 		//			return def(root):
 		//				return filter(root.children);
 		//
 		//		elif infixOperator == "+":
-		//			# search next sibling
+		//			# search.jsp next sibling
 		//			return def(root):
 		//				return filter(root.nextElementSibling);
 		//
 		//		elif infixOperator == "~":
-		//			# search rightward siblings
+		//			# search.jsp rightward siblings
 		//			return def(root):
 		//				return filter(nextSiblings(root));
 
@@ -9420,7 +9420,7 @@ var defineQuery= function(d){
 		//	summary:
 		//		Returns nodes which match the given CSS3 selector, searching the
 		//		entire document by default but optionally taking a node to scope
-		//		the search by. Returns an instance of dojo.NodeList.
+		//		the search.jsp by. Returns an instance of dojo.NodeList.
 		//	description:
 		//		dojo.query() is the swiss army knife of DOM node manipulation in
 		//		Dojo. Much like Prototype's "$$" (bling-bling) function or JQuery's
@@ -9506,20 +9506,20 @@ var defineQuery= function(d){
 		//		The CSS3 expression to match against. For details on the syntax of
 		//		CSS3 selectors, see <http://www.w3.org/TR/css3-selectors/#selectors>
 		//	root:
-		//		A DOMNode (or node id) to scope the search from. Optional.
+		//		A DOMNode (or node id) to scope the search.jsp from. Optional.
 		//	returns: dojo.NodeList
 		//		An instance of `dojo.NodeList`. Many methods are available on
 		//		NodeLists for searching, iterating, manipulating, and handling
 		//		events on the matched nodes in the returned list.
 		//	example:
-		//		search the entire document for elements with the class "foo":
+		//		search.jsp the entire document for elements with the class "foo":
 		//	|	dojo.query(".foo");
 		//		these elements will match:
 		//	|	<span class="foo"></span>
 		//	|	<span class="foo bar"></span>
 		//	|	<p class="thud foo"></p>
 		//	example:
-		//		search the entire document for elements with the classes "foo" *and* "bar":
+		//		search.jsp the entire document for elements with the classes "foo" *and* "bar":
 		//	|	dojo.query(".foo.bar");
 		//		these elements will match:
 		//	|	<span class="foo bar"></span>
@@ -9663,7 +9663,7 @@ var defineAcme= function(){
 				return id; // DomNode
 			}
 		},
-		// the default document to search
+		// the default document to search.jsp
 		doc: document,
 		// the constructor for node list objects returned from query()
 		NodeList: Array

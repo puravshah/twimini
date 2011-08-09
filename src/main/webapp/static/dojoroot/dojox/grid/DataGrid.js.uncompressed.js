@@ -401,7 +401,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.findWidgets = function(/*DomNode*/ root){
 		// summary:
 		//		Search subtree under root returning widgets found.
-		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+		//		Doesn't search.jsp for nested widgets (ie, widgets inside other widgets).
 	
 		var outAry = [];
 	
@@ -1215,7 +1215,7 @@ dojo.extend(dojo.AdapterRegistry, {
 		//		returned instead of being called. Alternately, the
 		//		AdapterRegistry can be set globally to "return not call" using
 		//		the returnWrappers property. Either way, this behavior allows
-		//		the registry to act as a "search" function instead of a
+		//		the registry to act as a "search.jsp" function instead of a
 		//		function interception library.
 		//	override:
 		//		If override is given and true, the check function will be given
@@ -3023,8 +3023,8 @@ dojo.parser = new function(){
 		//				Hash possibly containing dir and lang settings to be applied to
 		//				parsed widgets, unless there's another setting on a sub-node that overrides
 		//			* scope: String
-		//				Root for attribute names to search for.   If scopeName is dojo,
-		//				will search for data-dojo-type (or dojoType).   For backwards compatibility
+		//				Root for attribute names to search.jsp for.   If scopeName is dojo,
+		//				will search.jsp for data-dojo-type (or dojoType).   For backwards compatibility
 		//				reasons defaults to dojo._scopeName (which is "dojo" except when
 		//				multi-version support is used, when it will be something like dojo16, dojo20, etc.)
 		//			* propsThis: Object
@@ -3092,10 +3092,10 @@ dojo.parser = new function(){
 				}
 			});
 
-			// if parent is a widget, then search for <script type=dojo/*> tags and put them in scripts[].
+			// if parent is a widget, then search.jsp for <script type=dojo/*> tags and put them in scripts[].
 			var scripts = parent.clsInfo && !parent.clsInfo.cls.prototype._noScript ? parent.scripts : null;
 
-			// unless parent is a widget with the stopParser flag set, continue search for dojoType, recursively
+			// unless parent is a widget with the stopParser flag set, continue search.jsp for dojoType, recursively
 			var recurse = (!parent.clsInfo || !parent.clsInfo.cls.prototype.stopParser) || (args && args.template);
 
 			// scan parent's children looking for dojoType and <script type=dojo/*>
@@ -4695,7 +4695,7 @@ dojo.string.substitute = function(	/*String*/		template,
 	//		a string with expressions in the form `${key}` to be replaced or
 	//		`${key:format}` which specifies a format function. keys are case-sensitive.
 	//	map:
-	//		hash to search for substitutions
+	//		hash to search.jsp for substitutions
 	//	transform:
 	//		a function to process all parameters before substitution takes
 	//		place, e.g. mylib.encodeXML
@@ -5077,7 +5077,7 @@ dojo.declare("dijit._Templated",
 			//			* waiRole
 			//			* waiState
 			// rootNode: DomNode|Array[Widgets]
-			//		the node to search for properties. All children will be searched.
+			//		the node to search.jsp for properties. All children will be searched.
 			// getAttrFunc: Function?
 			//		a function which will be used to obtain property for a given
 			//		DomNode/Widget
@@ -6377,7 +6377,7 @@ dojo.declare("dijit.form._FormValueWidget", dijit.form._FormWidget,
 			var pingNode = domNode.firstChild || domNode; // target node most unlikely to have a custom filter
 			var origFilter = pingNode.style.filter; // save custom filter, most likely nothing
 			var _this = this;
-			while(parent && parent.clientHeight == 0){ // search for parents that haven't rendered yet
+			while(parent && parent.clientHeight == 0){ // search.jsp for parents that haven't rendered yet
 				(function ping(){
 					var disconnectHandle = _this.connect(parent, "onscroll",
 						function(e){
@@ -15467,7 +15467,7 @@ dojo.provide("dojox.grid._Grid");
 		headerMenu: null,
 
 		// placeholderLabel: String
-		// 		Label of placeholders to search for in the header menu to replace with column toggling
+		// 		Label of placeholders to search.jsp for in the header menu to replace with column toggling
 		// 		menu items.
 		placeholderLabel: "GridColumns",
 		
@@ -16184,7 +16184,7 @@ dojo.provide("dojox.grid._Grid");
 			//		find the rowNode that is not a rowSelector
 			if (this.focus.focusView && !(this.focus.focusView instanceof dojox.grid._RowSelector)){
 					return this.focus.focusView.rowNodes[inRowIndex];
-			}else{ // search through views
+			}else{ // search.jsp through views
 				for (var i = 0, cView; (cView = this.views.views[i]); i++) {
 					if (!(cView instanceof dojox.grid._RowSelector)) {
 						return cView.rowNodes[inRowIndex];

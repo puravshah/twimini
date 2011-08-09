@@ -726,7 +726,7 @@ dojo.declare("dijit._PaletteMixin",
 		}
 		this._selectedCell = -1;
 
-		// search for cell matching specified value
+		// search.jsp for cell matching specified value
 		if(value){
 			for(var i = 0; i < this._cells.length; i++){
 				if(value == this._cells[i].dye.getValue()){
@@ -3206,8 +3206,8 @@ dojo.getObject("html", true, dojo);
 			parseContent: false,
 
 			// parserScope: String
-			//		Flag passed to parser.  Root for attribute names to search for.   If scopeName is dojo,
-			//		will search for data-dojo-type (or dojoType).  For backwards compatibility
+			//		Flag passed to parser.  Root for attribute names to search.jsp for.   If scopeName is dojo,
+			//		will search.jsp for data-dojo-type (or dojoType).  For backwards compatibility
 			//		reasons defaults to dojo._scopeName (which is "dojo" except when
 			//		multi-version support is used, when it will be something like dojo16, dojo20, etc.)
 			parserScope: dojo._scopeName,
@@ -3519,8 +3519,8 @@ dojo.declare(
 	parseOnLoad: true,
 
 	// parserScope: String
-	//		Flag passed to parser.  Root for attribute names to search for.   If scopeName is dojo,
-	//		will search for data-dojo-type (or dojoType).  For backwards compatibility
+	//		Flag passed to parser.  Root for attribute names to search.jsp for.   If scopeName is dojo,
+	//		will search.jsp for data-dojo-type (or dojoType).  For backwards compatibility
 	//		reasons defaults to dojo._scopeName (which is "dojo" except when
 	//		multi-version support is used, when it will be something like dojo16, dojo20, etc.)
 	parserScope: dojo._scopeName,
@@ -12453,7 +12453,7 @@ dojo.declare(
 
 		// pageSize: Integer
 		//		Argument to data provider.
-		//		Specifies number of search results per page (before hitting "next" button)
+		//		Specifies number of search.jsp results per page (before hitting "next" button)
 		pageSize: Infinity,
 
 		// store: [const] Object
@@ -12483,7 +12483,7 @@ dojo.declare(
 		// highlightMatch: String
 		// 		One of: "first", "all" or "none".
 		//
-		//		If the ComboBox/FilteringSelect opens with the search results and the searched
+		//		If the ComboBox/FilteringSelect opens with the search.jsp results and the searched
 		//		string can be found, it will be highlighted.  If set to "all"
 		//		then will probably want to change `queryExpr` parameter to '*${0}*'
 		//
@@ -12610,7 +12610,7 @@ dojo.declare(
 			//		Handles paste events
 			if(!this.searchTimer && (evt.type == 'paste'/*IE|WebKit*/ || evt.type == 'input'/*Firefox*/) && this._lastInput != this.textbox.value){
 				this.searchTimer = setTimeout(dojo.hitch(this, function(){
-					this._onKey({charOrCode: 229}); // fake IME key to cause a search
+					this._onKey({charOrCode: 229}); // fake IME key to cause a search.jsp
 				}), 100); // long delay that will probably be preempted by keyboard input
 			}
 			this.inherited(arguments);
@@ -12731,7 +12731,7 @@ dojo.declare(
 					doSearch = typeof key == 'string' || key == 229;
 			}
 			if(doSearch){
-				// need to wait a tad before start search so that the event
+				// need to wait a tad before start search.jsp so that the event
 				// bubbles through DOM and we have value visible
 				this.item = undefined; // undefined means item needs to be set
 				this.searchTimer = setTimeout(dojo.hitch(this, "_startSearchFromInput"),1);
@@ -12771,7 +12771,7 @@ dojo.declare(
 
 		_openResultList: function(/*Object*/ results, /*Object*/ dataObject){
 			// summary:
-			//		Callback when a search completes.
+			//		Callback when a search.jsp completes.
 			// description:
 			//		1. generates drop-down list and calls _showResultList() to display it
 			//		2. if this result list is from user pressing "more choices"/"previous choices"
@@ -12972,8 +12972,8 @@ dojo.declare(
 
 		_startSearch: function(/*String*/ key){
 			// summary:
-			//		Starts a search for elements matching key (key=="" means to return all items),
-			//		and calls _openResultList() when the search completes, to display the results.
+			//		Starts a search.jsp for elements matching key (key=="" means to return all items),
+			//		and calls _openResultList() when the search.jsp completes, to display the results.
 			if(!this.dropDown){
 				var popupId = this.id + "_popup",
 				dropDownConstructor = dojo.getObject(this.dropDownClass, false);
@@ -13733,14 +13733,14 @@ dojo.declare(
 			// Callback when a data store query completes.
 			// Overrides ComboBox._openResultList()
 
-			// #3285: tap into search callback to see if user's query resembles a match
+			// #3285: tap into search.jsp callback to see if user's query resembles a match
 			if(dataObject.query[this.searchAttr] != this._lastQuery){
 				return;
 			}
 			dijit.form.ComboBoxMixin.prototype._openResultList.apply(this, arguments);
 
-			if(this.item === undefined){ // item == undefined for keyboard search
-				// If the search returned no items that means that the user typed
+			if(this.item === undefined){ // item == undefined for keyboard search.jsp
+				// If the search.jsp returned no items that means that the user typed
 				// in something invalid (and they can't make it valid by typing more characters),
 				// so flag the FilteringSelect as being in an invalid state
 				this.validate(true);
@@ -14306,7 +14306,7 @@ dojo.declare("dojo.data.ItemFileReadStore", null,{
 
 	_getItemsArray: function(/*object?*/queryOptions){
 		//	summary:
-		//		Internal function to determine which list of items to search over.
+		//		Internal function to determine which list of items to search.jsp over.
 		//	queryOptions: The query options parameter, if any.
 		if(queryOptions && queryOptions.deep){
 			return this._arrayOfAllItems;
@@ -17532,7 +17532,7 @@ dojo.declare("dijit._editor.plugins.LinkDialog", dijit._editor._Plugin, {
 		// summary:
 		//		Helper for _initButton above.   Not sure why it's a separate method.
 		this.dropDown.set({
-			parserScope: "dojo",		// make parser search for dojoType/data-dojo-type even if page is multi-version
+			parserScope: "dojo",		// make parser search.jsp for dojoType/data-dojo-type even if page is multi-version
 			content: staticPanel
 		});
 	},
@@ -21686,7 +21686,7 @@ dojo.declare(
 			}
 		}else{	// handle non-printables (arrow keys)
 			// clear record of recent printables (being saved for multi-char letter navigation),
-			// because "a", down-arrow, "b" shouldn't search for "ab"
+			// because "a", down-arrow, "b" shouldn't search.jsp for "ab"
 			if(this._curSearch){
 				clearTimeout(this._curSearch.timer);
 				delete this._curSearch;
@@ -21822,27 +21822,27 @@ dojo.declare(
 	// multiCharSearchDuration: Number
 	//		If multiple characters are typed where each keystroke happens within
 	//		multiCharSearchDuration of the previous keystroke,
-	//		search for nodes matching all the keystrokes.
+	//		search.jsp for nodes matching all the keystrokes.
 	//
-	//		For example, typing "ab" will search for entries starting with
+	//		For example, typing "ab" will search.jsp for entries starting with
 	//		"ab" unless the delay between "a" and "b" is greater than multiCharSearchDuration.
 	multiCharSearchDuration: 250,
 
 	_onLetterKeyNav: function(message){
 		// summary:
-		//		Called when user presses a prinatable key; search for node starting with recently typed letters.
+		//		Called when user presses a prinatable key; search.jsp for node starting with recently typed letters.
 		// message: Object
 		//		Like { node: TreeNode, key: 'a' } where key is the key the user pressed.
 
-		// Branch depending on whether this key starts a new search, or modifies an existing search
+		// Branch depending on whether this key starts a new search.jsp, or modifies an existing search.jsp
 		var cs = this._curSearch;
 		if(cs){
-			// We are continuing a search.  Ex: user has pressed 'a', and now has pressed
-			// 'b', so we want to search for nodes starting w/"ab".
+			// We are continuing a search.jsp.  Ex: user has pressed 'a', and now has pressed
+			// 'b', so we want to search.jsp for nodes starting w/"ab".
 			cs.pattern = cs.pattern + message.key;
 			clearTimeout(cs.timer);
 		}else{
-			// We are starting a new search
+			// We are starting a new search.jsp
 			cs = this._curSearch = {
 					pattern: message.key,
 					startNode: message.node
@@ -23238,7 +23238,7 @@ dojo.declare(
 			if(!this._created){ return; }
 			if(value){
 				var _this = this;
-				// search for radio buttons with the same name that need to be unchecked
+				// search.jsp for radio buttons with the same name that need to be unchecked
 				dojo.query("INPUT[type=radio]", this.focusNode.form || dojo.doc).forEach( // can't use name= since dojo.query doesn't support [] in the name
 					function(inputNode){
 						if(inputNode.name == _this.name && inputNode != _this.focusNode && inputNode.form == _this.focusNode.form){

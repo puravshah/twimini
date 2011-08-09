@@ -262,7 +262,7 @@ dojo.declare("dijit.WidgetSet", null, {
 	dijit.findWidgets = function(/*DomNode*/ root){
 		// summary:
 		//		Search subtree under root returning widgets found.
-		//		Doesn't search for nested widgets (ie, widgets inside other widgets).
+		//		Doesn't search.jsp for nested widgets (ie, widgets inside other widgets).
 	
 		var outAry = [];
 	

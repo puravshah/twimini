@@ -20,12 +20,12 @@
                     <div class="span-14 last">
                         <div id="followingDiv" class="span-14 last add-padding-above-20">
                             <div id='ListOfFollowing'>
-                                   <%--<c:forEach var ="item" items="${searchDetails}">--%>
+                                   <c:forEach var ="item" items="${searchDetails}">
                                         <script type="text/javascript">
-                                           javascript:searchFollower({searchDetails:'${searchDetails}',user:'${sessionScope.uid}'});
+                                             appendFollowing({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});
                                         </script>
-                                   <%--</c:forEach>--%>
-                            </div>
+                                   </c:forEach>
+                             </div>
                         </div>
 
                         <script type="text/javascript">

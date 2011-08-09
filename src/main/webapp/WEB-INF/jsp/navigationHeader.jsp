@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-            <div id="navigation-bar" class="span-24 last header">
+    <div id="navigation-bar" class="span-24 last header">
                 <div id="twitter-logo" class="span-6">
                     <img src="/static/images/logo.png" alt="Mini Twitter"/>
                 </div>
@@ -15,8 +15,10 @@
                     </c:if>
 
                     <div class="span-9 search-box">
+                    <form id="searchForm" action="/search">
                         <input type="text" name="q" id="search-box"/>
-                        <input type="button" value="Search" id="search-button" onclick="search()"/>
+                        <input type="submit" value="Search" id="search-button"/>
+                    </form>
                     </div>
 
                     <c:if test="${not empty sessionScope.name}">

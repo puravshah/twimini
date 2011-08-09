@@ -14,10 +14,7 @@ import twimini.model.UserModel;
 import twimini.services.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -308,17 +305,38 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("/search")
+    @RequestMapping("/searchData")
     @ResponseBody
-    List<UserModel> search(@RequestParam String q, HttpSession session) {
-        List<UserModel> ret = null;
+    Hashtable<String,Object> search(@RequestParam String q, HttpSession session) {
+        List<UserModel> searchDetails = null;
+        Hashtable<String,Object> ret= new Hashtable<String, Object>();
         try {
-            ret = userService.getSearch(q);
-            if (ret == null) throw new Exception("Null returned in search");
+            searchDetails = userService.getSearch(q);
+            if (ret == null) throw new Exception("Null returned in search.jsp");
         } catch (Exception e) {
-            e.printStackTrace();
+             ret.put("status",0);
+             ret.put("error","No user with this name");
+             return  ret;
         }
-
+        ret.put("status",1);
+        ret.put("searchDetails",searchDetails);
         return ret;
     }
+
+    @RequestMapping("/search")
+     ModelAndView searchInfo(@RequestParam String q, HttpSession session) {
+        List<UserModel> searchDetails = null;
+        String uid=(String)session.getAttribute("uid");
+        try {
+                searchDetails = userService.getSearch(q);
+        }
+        catch (Exception e)
+        {
+        }
+        ModelAndView mv= new ModelAndView();
+        mv.setViewName("/search");
+        mv.addObject("searchDetails",searchDetails);
+        mv.addObject("uid",uid);
+        return mv;
+     }
 }
