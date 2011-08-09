@@ -89,14 +89,14 @@ public class Follow {
 
     @RequestMapping("/api/user/{uid}/getFollowers")
     @ResponseBody
-    public Hashtable <String, Object> followGet(@PathVariable String uid, String apikey, HttpSession session) {
+    public Hashtable <String, Object> followGet(@PathVariable String uid, String apikey, String start, String count, HttpSession session) {
         Hashtable <String, Object> hashtable = new Hashtable <String, Object>();
         try {
             String user = null;
             if(apikey != null) user = APIKEYService.getUid(apikey);
             List<UserModel> list;
-            if(user != null) list = followService.getFollower2(uid, user);
-            else list = FollowService.getFollowerWithoutLogin(uid); 
+            if(user != null) list = followService.getFollower2(uid, user, start, count);
+            else list = FollowService.getFollowerWithoutLogin(uid, start, count);
             hashtable.put("status", "1");
             hashtable.put("followers", list);
         } catch (EmptyResultDataAccessException e) {
@@ -113,13 +113,13 @@ public class Follow {
 
     @RequestMapping("api/user/{uid}/getFollowing")
     @ResponseBody
-    public Hashtable <String, Object> followerGet(@PathVariable String uid, String apikey, HttpSession session) {
+    public Hashtable <String, Object> followerGet(@PathVariable String uid, String apikey, String start, String count, HttpSession session) {
         Hashtable <String, Object> hashtable = new Hashtable <String, Object>();
         try {
             String user = apikey == null ? null : APIKEYService.getUid(apikey);
             List<UserModel> list;
-            if(user != null) list = followService.getFollowing2(uid, user);
-            else list = FollowService.getFollowingWithoutLogin(uid);
+            if(user != null) list = followService.getFollowing2(uid, user, start, count);
+            else list = FollowService.getFollowingWithoutLogin(uid, start, count);
             hashtable.put("status", "1");
             hashtable.put("following", list);
         } catch (EmptyResultDataAccessException e) {

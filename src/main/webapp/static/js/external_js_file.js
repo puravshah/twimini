@@ -8,137 +8,116 @@ function getInnerText(element) {
     return element.textContent;
 }
 
-function checkLoginEmpty(){
-     var email=dojo.byId("email").value;
-     var password=dojo.byId("password").value;
-     if((email==null)||(email==""))
-     {
-        window.location="/login";
-        return false;
-     }
-     else if(password=="")
-     {
-        window.location="/login";
-        return false;
-     }
-     return true;
-}
-
-
-function checkLoginIfEmpty(){
-     var email=dojo.byId("email").value;
-     var password=dojo.byId("password").value;
-     if((email==null)||(email==""))
-     {
-        dojo.byId("emailMsg").innerHTML="email cannot be empty";
-        dojo.byId("passwordMsg").innerHTML="";
-
-        return false;
-     }
-     else if((password==null)||(password==""))
-     {
-        dojo.byId("emailMsg").innerHTML="";
-        dojo.byId("passwordMsg").innerHTML="password cannot be empty";
-        return false;
-     }
-     return true;
-}
-
-
-
-
-function checkSignupEmpty(){
-    var name=dojo.byId("name").value;
-    alert(name);
-    var email=dojo.byId("email").value ;
-    var password=dojo.byId("password").value;
-    var cpassword=dojo.byId("cpassword").value;
-
-    if((name==null)||(name==""))
-    {
-        window.location="/signup";
+function checkLoginEmpty() {
+    var email = dojo.byId("email").value;
+    var password = dojo.byId("password").value;
+    if ((email == null) || (email == "")) {
+        window.location = "/login";
         return false;
     }
-    else if((email==null)||(email==""))
-    {
-        window.location="/signup";
+    else if (password == "") {
+        window.location = "/login";
         return false;
-    }
-    else if((password==null)||(password==""))
-    {
-           window.location="/signup";
-           return false;
-
     }
     return true;
 }
 
-function checkIfEmpty(){
-    var name=dojo.byId("name").value;
-    var email=dojo.byId("email").value ;
-    var password=dojo.byId("password").value;
-    var cpassword=dojo.byId("cpassword").value;
-    if((name==null)||(name==""))
-    {
-        dojo.byId("nameMsg").innerHTML="name cannot be empty";
+
+function checkLoginIfEmpty() {
+    var email = dojo.byId("email").value;
+    var password = dojo.byId("password").value;
+    if ((email == null) || (email == "")) {
+        dojo.byId("emailMsg").innerHTML = "email cannot be empty";
+        dojo.byId("passwordMsg").innerHTML = "";
+
         return false;
     }
-    else if((email==null)||(email==""))
-    {
-        dojo.byId("emailMsg").innerHTML="email cannot be empty";
-        dojo.byId("nameMsg").innerHTML="";
+    else if ((password == null) || (password == "")) {
+        dojo.byId("emailMsg").innerHTML = "";
+        dojo.byId("passwordMsg").innerHTML = "password cannot be empty";
         return false;
     }
-    else if((password==null)||(password==""))
-    {
-        dojo.byId("passwordMsg").innerHTML="password cannot be empty";
-           return false;
+    return true;
+}
 
+function checkSignupEmpty() {
+    var name = dojo.byId("name").value;
+    //alert(name);
+    var email = dojo.byId("email").value;
+    var password = dojo.byId("password").value;
+    var cpassword = dojo.byId("cpassword").value;
+
+    if ((name == null) || (name == "")) {
+        window.location = "/signup";
+        return false;
     }
-   return true;
+    else if ((email == null) || (email == "")) {
+        window.location = "/signup";
+        return false;
+    }
+    else if ((password == null) || (password == "")) {
+        window.location = "/signup";
+        return false;
+    }
+    return true;
 }
 
-function resetError()
-{
- dojo.byId("nameMsg").innerHTML="";
- dojo.byId("emailMsg").innerHTML="";
- dojo.byId("passwordMsg").innerHTML="";
- dojo.byId("cpasswordMsg").innerHTML="";
- return true;
+function checkIfEmpty() {
+    var name = dojo.byId("name").value;
+    var email = dojo.byId("email").value;
+    var password = dojo.byId("password").value;
+    var cpassword = dojo.byId("cpassword").value;
+    if ((name == null) || (name == "")) {
+        dojo.byId("nameMsg").innerHTML = "name cannot be empty";
+        return false;
+    }
+    else if ((email == null) || (email == "")) {
+        dojo.byId("emailMsg").innerHTML = "email cannot be empty";
+        dojo.byId("nameMsg").innerHTML = "";
+        return false;
+    }
+    else if ((password == null) || (password == "")) {
+        dojo.byId("passwordMsg").innerHTML = "password cannot be empty";
+        return false;
+    }
+    return true;
+}
+
+function resetError() {
+    dojo.byId("nameMsg").innerHTML = "";
+    dojo.byId("emailMsg").innerHTML = "";
+    dojo.byId("passwordMsg").innerHTML = "";
+    dojo.byId("cpasswordMsg").innerHTML = "";
+    return true;
 }
 
 
- function isAlpha(name){
-    alert(name);
-    var xStr=dojo.byId(name).value;
+function isAlpha(name) {
+    //alert(name);
+    var xStr = dojo.byId(name).value;
     alert(xStr);
     var regEx = /^[a-zA-Z\ ]/;
-    if(xStr.match(regEx))
-    {
-       return true;
+    if (xStr.match(regEx)) {
+        return true;
     }
-    else
-    {
-        dojo.byId("nameMsg").innerHTML=" only english alphabets are allowed";
+    else {
+        dojo.byId("nameMsg").innerHTML = "Only lowercase English Alphabets are allowed";
         return false;
     }
     return true;
-  }
+}
 
-function checkPassword()
-{
- var password=dojo.byId("password").value;
- var cpassword=dojo.byId("cpassword").value;
- if(password==cpassword)
- {
-  if(password.length>6)
-  {
-    dojo.byId("passwordMsg").innerHTML="password should be of atleast 6 characters";
+function checkPassword() {
+    var password = dojo.byId("password").value;
+    var cpassword = dojo.byId("cpassword").value;
+    if (password == cpassword) {
+        /*if (password.length > 6) {
+            dojo.byId("passwordMsg").innerHTML = "password should be of atleast 6 characters";
+            return false;
+        }*/
+        return true;
+    }
     return false;
-  }
-  return true;
- }
- return true;
 }
 
 function filter(str) {
@@ -175,6 +154,7 @@ function createTweet(input) {
                 prependTweet(data);
                 dojo.byId("tweet-box").value = "";
                 dojo.byId("currentTweetCount").value = (parseInt(dojo.byId("currentTweetCount").value) + 1);
+                dojo.byId("tweet-count").value = (parseInt(dojo.byId("tweet-count")) + 1);
                 //alert(dojo.byId("currentTweetCount").value);
             }
         },
@@ -185,28 +165,10 @@ function createTweet(input) {
     });
 }
 
-function getAccount() {
-    $("#accountDiv").show();
-    $("#passwordDiv").hide();
-    $("#imageDiv").hide();
-}
-
-function getPassword() {
-    $("#accountDiv").hide();
-    $("#passwordDiv").show();
-    $("#imageDiv").hide();
-}
-
-function getImage() {
-    $("#accountDiv").hide();
-    $("#passwordDiv").hide();
-    $("#imageDiv").show();
-}
-
 function makeTabActiveOnEdit(index) {
     var ids = ['accountDiv', 'passwordDiv', 'imageDiv','cropDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for(var i = 0; i < 4; i++) {
+    for (var i = 0; i < 4; i++) {
         dojo.removeClass(div[i], "tab-active");
         dojo.style(ids[i], "display", i == index ? "block" : "none");
     }
@@ -216,7 +178,7 @@ function makeTabActiveOnEdit(index) {
 function makeTabActive(index) {
     var ids = ['tweetDiv', 'followingDiv', 'followerDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for(var i = 0; i < 3; i++) {
+    for (var i = 0; i < 3; i++) {
         dojo.removeClass(div[i], "tab-active");
         dojo.style(ids[i], "display", i == index ? "block" : "none");
     }
@@ -278,11 +240,10 @@ function getFeed(input) {
     });
 }
 
-function activateCropper(uid)
-{
-     var src=dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
-     src.src="/image/"+uid+".png";
-     alert(dojo.byId("uidImage").getAttribute("src"));
+function activateCropper(uid) {
+    var src = dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
+    src.src = "/image/" + uid + ".png";
+    alert(dojo.byId("uidImage").getAttribute("src"));
     makeTabActiveOnEdit(3);
 }
 
@@ -317,6 +278,66 @@ function getTweets(input) {
     });
 }
 
+function getFollowing(input) {
+    dojo.xhrPost({
+        url: "/user/getFollowing",
+        handleAs: "json",
+        content: {uid:input.uid, start:0},
+        load: function(data) {
+            if (data.status == 0) {
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.following
+            makeTabActive(1);
+            dojo.empty('ListOfFollowing');
+
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+            }
+
+            setInnerText(dojo.byId("following-count"), data.length);
+            dojo.style("loadMoreFollowing", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentFollowingCount').value = data.length;
+            //alert("start : " + dojo.byId('currentFollowingCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function getFollowers(input) {
+    dojo.xhrPost({
+        url: "/user/getFollowers",
+        handleAs: "json",
+        content: {uid:input.uid, start:0},
+        load: function(data) {
+            if (data.status == 0) {
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.followers;
+            makeTabActive(2);
+            dojo.empty('ListOfFollower');
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollower({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+            }
+
+            setInnerText(dojo.byId("follower-count"), data.length);
+            dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentFollowersCount').value = data.length;
+            //alert("start : " + dojo.byId('currentFollowersCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
 
 function loadMoreFeed(input) {
     var start = dojo.byId("currentTweetCount").value;
@@ -380,11 +401,12 @@ function loadMoreTweets(input) {
     });
 }
 
-function getFollowing(input) {
+function loadMoreFollowing(input) {
+    var start = dojo.byId('currentFollowingCount').value;
     dojo.xhrPost({
         url: "/user/getFollowing",
         handleAs: "json",
-        content: {uid:input.uid},
+        content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
@@ -393,13 +415,16 @@ function getFollowing(input) {
 
             data = data.following
             makeTabActive(1);
-            dojo.empty('ListOfFollowing');
 
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
             }
+
             setInnerText(dojo.byId("following-count"), data.length);
+            dojo.style("loadMoreFollowing", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentFollowingCount').value = (data.length + parseInt(dojo.byId('currentFollowingCount').value));
+            //alert("start : " + dojo.byId('currentFollowingCount').value);
         },
         error: function(error) {
             alert(error);
@@ -407,25 +432,30 @@ function getFollowing(input) {
     });
 }
 
-function getFollowers(input) {
+function loadMoreFollowers(input) {
+    var start = dojo.byId('currentFollowingCount').value;
     dojo.xhrPost({
         url: "/user/getFollowers",
         handleAs: "json",
-        content: {uid:input.uid},
+        content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
                 alert(data.errorMessage);
                 return;
             }
 
-            data = data.followers;
-            makeTabActive(2);
-            dojo.empty('ListOfFollower');
+            data = data.following
+            makeTabActive(1);
+
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
-                appendFollower({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
             }
-            setInnerText(dojo.byId("follower-count"), data.length);
+
+            setInnerText(dojo.byId("followers-count"), data.length);
+            dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentFollowersCount').value = (data.length + parseInt(dojo.byId('currentFollowersCount').value));
+            //alert("start : " + dojo.byId('currentFollowersCount').value);
         },
         error: function(error) {
             alert(error);
@@ -506,12 +536,12 @@ function doReset() {
     var password = dojo.byId("password").value;
     var cpassword = dojo.byId("cpassword").value;
     var uid = dojo.byId("uid").value;
-
-    if (password === "" || cpassword === "") {
+    alert("password : " + password + ", cpassword : " + cpassword);
+    if (password == "" || cpassword == "") {
         dojo.byId("forgot-msg").innerHTML = "<span>Please fill out all the fields</span>";
         return false;
     }
-    if (password !== cpassword) {
+    if (password != cpassword) {
         dojo.byId("forgot-msg").innerHTML = "<span>The passwords don't match</span>";
         return false;
     }
@@ -545,16 +575,22 @@ function search() {
 }
 
 function toggleDropdown() {
-    $("#dropdown").toggle();
+    var style = dojo.style('dropdown', "display");
+    dojo.style('dropdown', 'display', style == 'block' ? 'none' : 'block');
+    //$("#dropdown").toggle();
 }
 
 function toggleLoginDropdown() {
-    $("#login-dropdown").toggle();
+    var styles = dojo.style('login-dropdown', 'display');
+    dojo.style('login-dropdown', 'display', styles == 'block' ? 'none' : 'block');
+    //$("#login-dropdown").toggle();
 }
 
 function showResetFields() {
-    $('#reset-fields-container').show();
-    $('#reset-show-text').hide();
+    /*$('#reset-fields-container').show();
+     $('#reset-show-text').hide();*/
+    dojo.style('reset-fields-container', 'display', 'block');
+    dojo.style('reset-show-text', 'display', 'none');
 }
 
 function changeButtonText(button) {

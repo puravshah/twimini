@@ -41,15 +41,15 @@ public class FollowService {
         return following;
     }
 
-    public List<UserModel> getFollowing2(String uid, String user) throws Exception {
+    public List<UserModel> getFollowing2(String uid, String user, String start, String count) throws Exception {
         List<UserModel> following = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) UNION " +
-                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
+                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL AND following NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) LIMIT ?, ?", UserModel.rowMapper3, uid, user, uid, user, Integer.parseInt(start), Integer.parseInt(count));
         return following;
     }
 
-    public List<UserModel> getFollower2(String uid, String user) throws Exception {
+    public List<UserModel> getFollower2(String uid, String user, String start, String count) throws Exception {
         List<UserModel> follower = db.query("SELECT uid, name, email, 1 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid in (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) UNION " +
-                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL))", UserModel.rowMapper3, uid, user, uid, user);
+                "SELECT uid, name, email, 0 AS status FROM user WHERE uid IN (SELECT uid FROM follow WHERE following = ? AND end IS NULL AND uid NOT IN (SELECT following FROM follow WHERE uid = ? AND end IS NULL)) LIMIT ?, ?", UserModel.rowMapper3, uid, user, uid, user, Integer.parseInt(start), Integer.parseInt(count));
         return follower;
     }
 
@@ -66,11 +66,11 @@ public class FollowService {
         return db.queryForInt("SELECT count(uid) FROM follow WHERE following = ? AND end is NULL", uid);
     }
 
-    public static List<UserModel> getFollowerWithoutLogin(String uid) {
-        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL", UserModel.rowMapper3, uid);
+    public static List<UserModel> getFollowerWithoutLogin(String uid, String start, String count) {
+        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = follow.uid WHERE follow.following = ? AND end IS NULL LIMIT ?, ?", UserModel.rowMapper3, uid, Integer.parseInt(start), Integer.parseInt(count));
     }
 
-    public static List<UserModel> getFollowingWithoutLogin(String uid) {
-        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL", UserModel.rowMapper3, uid);
+    public static List<UserModel> getFollowingWithoutLogin(String uid, String start, String count) {
+        return db.query("SELECT user.uid, name, email, 2 as status FROM follow INNER JOIN user ON user.uid = following WHERE follow.uid = ? AND end IS NULL LIMIT ?, ?", UserModel.rowMapper3, uid, Integer.parseInt(start), Integer.parseInt(count));
     }
 }

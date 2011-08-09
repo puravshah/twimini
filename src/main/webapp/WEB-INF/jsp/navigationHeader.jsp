@@ -5,11 +5,10 @@
                 </div>
 
                 <div id="user-nav-head" class span="18 last">
-                    <div class="span-2">
-                        <a href="/tweet">Home</a>
-                    </div>
-
                     <c:if test="${not empty sessionScope.uid}">
+                        <div class="span-2">
+                            <a href="/tweet">Home</a>
+                        </div>
                         <div class="span-2">
                             <a href="/user?uid=${sessionScope.uid}">Profile</a>
                         </div>
@@ -36,7 +35,8 @@
                         </div>
 
                         <script type="text/javascript">
-                            $('#dropdown').hide();
+                            dojo.style('dropdown', 'display', 'none');
+                            //$('#dropdown').hide();
                         </script>
                     </c:if>
 

@@ -26,14 +26,18 @@
                             <input type = "password" placeholder = "Password" name = "password" class = "span-4" />
                         </div>
                         <div class = "span-4 last add-padding-above-5">
-                            <div>
+                            <div class = "span-2">
                                 <input type = "submit" value = "Login" />
+                            </div>
+                            <div class = "span-2 last center-text">
+                                <a href = "/forgot">Forgot Password?</a>
                             </div>
                         </div>
                     </form>
                 </div>
                 <script type = "text/javascript">
-                    $('#login-dropdown').hide();
+                    dojo.style("login-dropdown", "display", "none");
+                    //$('#login-dropdown').hide();
                 </script>
             </div>
 

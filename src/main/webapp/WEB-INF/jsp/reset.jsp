@@ -22,10 +22,10 @@
                         </div>
 
                         <div class = "span-5 append-10 add-margin-above-20 last">
-                                <input id = "password" type="password" name="password" placeholder="New Password"/>
-                                <input id = "cpassword" type="password" name="cpassword" placeholder="Confirm Password"/>
-                                <input id = "uid" type="hidden" name = "uid" value = ${uid} />
-                                <input type="button" value="Change Password" onclick = "doReset();"/>
+                            <input id = "password" type="password" name="password" placeholder="New Password"/>
+                            <input id = "cpassword" type="password" name="cpassword" placeholder="Confirm Password"/>
+                            <input id = "uid" type="hidden" name = "uid" value = ${uid} />
+                            <input type="button" value="Change Password" onclick = "doReset();"/>
                         </div>
 
                         <div id = "forgot-msg" class = "span-15 forgot-msg last add-margin-above-20">

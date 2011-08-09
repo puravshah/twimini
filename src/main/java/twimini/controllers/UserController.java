@@ -40,10 +40,11 @@ public class UserController {
     }
 
     @RequestMapping("/")
-    public ModelAndView index() {
+    public ModelAndView index(HttpSession session) {
 
         ModelAndView mv = new ModelAndView("/index");
-        //if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+        String uid = (String)session.getAttribute("uid");
+        if(uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
         return mv;
     }
 
@@ -221,7 +222,8 @@ public class UserController {
 
         UserModel user = null;
         try {
-            user = userService.getUser(jsonObject.get("uid").toString());
+            String uid = APIKEYService.getUid(jsonObject.get("apikey").toString());
+            user = userService.getUser(uid);
         } catch (final Exception e) {
             return new ModelAndView() {{
                 addObject("msg", e.toString());
@@ -230,7 +232,6 @@ public class UserController {
         session.setAttribute("uid", "" + user.getUid());
         session.setAttribute("name", user.getName());
         session.setAttribute("apikey", jsonObject.get("apikey"));
-        System.out.println("SESSION : " + session.getAttribute("apikey"));
         return new ModelAndView("redirect:/tweet");
     }
 
@@ -333,8 +334,8 @@ public class UserController {
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            followingList = followService.getFollowing2(uid, user);
-            followerList = followService.getFollower2(uid, user);
+            followingList = followService.getFollowing2(uid, user, "0", "10");
+            followerList = followService.getFollower2(uid, user, "0", "10");
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);

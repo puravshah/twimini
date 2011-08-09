@@ -25,8 +25,8 @@
                                     ${param.firstTabUrl}
                                 </script>
                             </div>
-                            <div class = "add-margin-above-20 span-14 last">
-                                <input type = "button" id = "loadMoreTweets" value = "Load More" onclick = "${param.loadMoreTweetsUrl}">
+                            <div class = "add-margin-above-20 span-14 last" id = "loadMoreTweets">
+                                <input type = "button" value = "Load More" onclick = "${param.loadMoreTweetsUrl}">
                             </div>
                         </div>
 
@@ -34,16 +34,22 @@
                             <div id='ListOfFollowing'>
 
                             </div>
+                            <div class = "add-margin-above-20 span-14 last" id = "loadMoreFollowing">
+                                <input type = "button" value = "Load More" onclick = "loadMoreFollowing( {uid:'${uid}', user:'${sessionScope.uid}'} )">
+                            </div>
                         </div>
 
                         <div id="followerDiv" class="span-14 last add-padding-above-20">
                             <div id='ListOfFollower'>
 
                             </div>
+                            <div class = "add-margin-above-20 span-14 last" id = "loadMoreFollowers">
+                                <input type = "button" value = "Load More" onclick = "loadMoreFollowers( {uid:'${uid}', user:'${sessionScope.uid}'} )">
+                            </div>
                         </div>
 
                         <script type="text/javascript">
-                            $('#followingDiv').hide();
-                            $('#followerDiv').hide();
+                            dojo.style('followingDiv', "display", "none");
+                            dojo.style('followerDiv', "display", "none");
                         </script>
                     </div>

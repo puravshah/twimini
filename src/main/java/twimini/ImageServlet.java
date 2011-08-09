@@ -37,8 +37,8 @@ public class ImageServlet extends HttpServlet {
             return;
         }
 
-        String imageCopyPath="/home/rakesh/IdeaProjects/";
-        //String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
+        //String imageCopyPath="/home/rakesh/IdeaProjects/";
+        String imageCopyPath = "C:\\Users\\purav.s\\Desktop\\twimini\\";
         File image = new File(imageCopyPath+imagePath, URLDecoder.decode(requestedImage, "UTF-8"));
 
         if (!image.exists()) {
@@ -71,8 +71,6 @@ public class ImageServlet extends HttpServlet {
             while ((length = input.read(buffer)) > 0) {
                 output.write(buffer, 0, length);
             }
-
-
         } finally {
             close(output);
             close(input);

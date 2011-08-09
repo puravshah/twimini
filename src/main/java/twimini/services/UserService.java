@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import twimini.model.UserModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,8 +86,8 @@ public class UserService {
 
     public static List<UserModel> getInactiveUser() {
 
-        String activationStatus="email not sent";
-        return db.query("SELECT * FROM user WHERE isActivated = ?", UserModel.rowMapper,activationStatus);
+        String activationStatus = "email not sent";
+        return db.query("SELECT * FROM user WHERE isActivated = ?", UserModel.rowMapper, activationStatus);
     }
 
     public static UserModel getUserInfo(String email) {
@@ -117,22 +118,28 @@ public class UserService {
         return db.update("update user SET password = ? WHERE uid = ?", password, uid);
     }
 
-    public static void setAccountInfo(String name, String email,String uid) {
-        //To change body of created methods use File | Settings | File Templates.
-        db.update("UPDATE user SET name=? ,email=? WHERE uid=? ",name,email,uid);
+    public static void setAccountInfo(String name, String email, String uid) {
+        db.update("UPDATE user SET name = ?, email = ? WHERE uid = ? ", name, email, uid);
     }
 
     public static void setPassword(CharSequence newPassword, String uid) {
-        db.update("update user SET password=? WHERE uid=? ", newPassword, uid);
+        db.update("update user SET password = ? WHERE uid = ? ", newPassword, uid);
     }
 
     public static void setToNotactivated(String[] sendTo) {
-        Set<String> ids= new HashSet<String>();
-        for(String string: sendTo)
+        /*Set<String> ids = new HashSet<String>();
+        for (String string : sendTo)
             ids.add(string);
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("ids", ids);
-        db.update("UPDATE user SET isActivated='activated' where email in ( :ids )",parameters);
+        db.update("UPDATE user SET isActivated='activated' where email in ( :ids )", parameters);*/
 
+        List <Object[]> list = new ArrayList<Object[]> ();
+        for(String id: sendTo) list.add(new Object[] {id});
+        db.batchUpdate("UPDATE user SET isActivated = 'not activated' WHERE email = ?", list);
+    }
+
+    public String getIsActivated(String uid) {
+        return db.queryForObject("SELECT isActivated FROM user WHERE uid = ?", String.class, uid);
     }
 }

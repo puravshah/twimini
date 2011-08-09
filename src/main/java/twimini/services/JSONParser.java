@@ -94,15 +94,21 @@ public class JSONParser {
         return JSONParser.getData(url);
     }
 
-    public static JSONObject getFollowingFromJSON(String uid, String apikey) throws Exception {
-        String addApikey = apikey == null ? "" : "?apikey=" + apikey;
-        String url = String.format("%s/api/user/%s/getFollowing%s", urlPrefix, uid, addApikey);
+    public static JSONObject getFollowingFromJSON(String uid, String apikey, String start, String count) throws Exception {
+        String attributes = apikey == null ? "" : "?apikey=" + apikey;
+        if(start != null) attributes += "&start=" + start;
+        if(count != null) attributes += "&count=" + count;
+        if(attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
+        String url = String.format("%s/api/user/%s/getFollowing%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
 
-    public static JSONObject getFollowersFromJSON(String uid, String apikey) throws Exception {
-        String addApikey = apikey == null ? "" : "?apikey=" + apikey;
-        String url = String.format("%s/api/user/%s/getFollowers%s", urlPrefix, uid, addApikey);
+    public static JSONObject getFollowersFromJSON(String uid, String apikey, String start, String count) throws Exception {
+        String attributes = apikey == null ? "" : "?apikey=" + apikey;
+        if(start != null) attributes += "&start=" + start;
+        if(count != null) attributes += "&count=" + count;
+        if(attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
+        String url = String.format("%s/api/user/%s/getFollowers%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
 

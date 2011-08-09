@@ -6,10 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import twimini.services.FollowService;
-import twimini.services.JSONParser;
-import twimini.services.TweetService;
-import twimini.services.UserService;
+import twimini.services.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +35,13 @@ public class FollowController {
     public JSONObject unfollow(@RequestParam String id, HttpSession session) {
         try {
             String apikey = session.getAttribute("apikey").toString();
+            String isActivated = userService.getIsActivated(APIKEYService.getUid(apikey));
+            if(!isActivated.equals("activated")) {
+                return new JSONObject() {{
+                    put("status", "0");
+                    put("errorMessage", "You need to activate your account before Unfollowing someone. Kindly check your email");
+                }};
+            }
             return JSONParser.unfollowFromJSON(id, apikey);
         } catch (final NullPointerException e) {
             return new JSONObject() {{
@@ -75,6 +79,13 @@ public class FollowController {
     public JSONObject follow(@RequestParam String id, HttpSession session) {
         try {
             String apikey = session.getAttribute("apikey").toString();
+            String isActivated = userService.getIsActivated(APIKEYService.getUid(apikey));
+            if(!isActivated.equals("activated")) {
+                return new JSONObject() {{
+                    put("status", "0");
+                    put("errorMessage", "You need to activate your account before Following someone. Kindly check your email");
+                }};
+            }
             return JSONParser.followFromJSON(id, apikey);
         } catch (final NullPointerException e) {
             return new JSONObject() {{
@@ -115,9 +126,29 @@ public class FollowController {
 
     @RequestMapping("/user/getFollowers")
     @ResponseBody
-    public JSONObject getFollowers(@RequestParam String uid, HttpSession session) {
+    public JSONObject getFollowers(@RequestParam String uid, String start, String count, HttpSession session) {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
         try {
-            return JSONParser.getFollowersFromJSON(uid, (String)session.getAttribute("apikey"));
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+        try {
+            return JSONParser.getFollowersFromJSON(uid, (String) session.getAttribute("apikey"), start, count);
         } catch (final Exception e) {
             return new JSONObject() {{
                 put("status", "0");
@@ -141,9 +172,29 @@ public class FollowController {
 
     @RequestMapping(value = "/user/getFollowing")
     @ResponseBody
-    public JSONObject getFollowing(@RequestParam String uid, HttpSession session) {
+    public JSONObject getFollowing(@RequestParam String uid, String start, String count, HttpSession session) {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
         try {
-            return JSONParser.getFollowingFromJSON(uid, (String)session.getAttribute("apikey"));
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+        try {
+            return JSONParser.getFollowingFromJSON(uid, (String) session.getAttribute("apikey"), start, count);
         } catch (final Exception e) {
             return new JSONObject() {{
                 put("status", "0");

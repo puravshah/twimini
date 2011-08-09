@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
-import twimini.services.FollowService;
-import twimini.services.JSONParser;
-import twimini.services.TweetService;
-import twimini.services.UserService;
+import twimini.services.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
@@ -51,8 +48,8 @@ public class TweetController {
         int tweetCount = 0, followingCount = 0, followerCount = 0;
 
         try {
-            followingList = followService.getFollowing2(uid, uid);
-            followerList = followService.getFollower2(uid, uid);
+            followingList = followService.getFollowing2(uid, uid, "0", "10");
+            followerList = followService.getFollower2(uid, uid, "0", "10");
             tweetCount = tweetService.getTweetCount(uid);
             followingCount = followService.getFollowingCount(uid);
             followerCount = followService.getFollowerCount(uid);
@@ -76,6 +73,13 @@ public class TweetController {
     JSONObject createTweet(@RequestParam final String tweet, HttpSession session) {
         try {
             String apikey = session.getAttribute("apikey").toString();
+            String isActivated = userService.getIsActivated(APIKEYService.getUid(apikey));
+            if(!isActivated.equals("activated")) {
+                return new JSONObject() {{
+                put("status", "0");
+                put("errorMessage", "You need to activate your account before posting a tweet. Kindly check your email");
+            }};
+            }
             JSONObject jsonObject = JSONParser.createTweetFromJSON(tweet, apikey);
             if(jsonObject.get("status").equals("0")) return jsonObject;
             return JSONParser.getTweetDetailsFromJSON(jsonObject.get("pid").toString(), apikey);

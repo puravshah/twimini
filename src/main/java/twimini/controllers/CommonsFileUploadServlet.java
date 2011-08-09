@@ -47,8 +47,8 @@ public class CommonsFileUploadServlet extends HttpServlet {
 
     @RequestMapping(value = "/user/imageInfo", method = RequestMethod.POST)
     public ModelAndView handleImageUpload(@RequestParam("uid") String uid, @RequestParam("file") MultipartFile file,HttpSession session) {
-        String path="/home/rakesh/IdeaProjects/image/";
-        //String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
+        //String path="/home/rakesh/IdeaProjects/image/";
+        String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
         try {
             File picture = new File(path + uid + ".png");
             if (picture.exists()) {
@@ -99,43 +99,4 @@ public class CommonsFileUploadServlet extends HttpServlet {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         return resizedImage;
     }
-
-    /*@RequestMapping(value = "/user/accountInfo", method = RequestMethod.POST)
-    public ModelAndView handleAccountUpload(@RequestParam("name") String name, @RequestParam("email") String email, HttpSession session) {
-        try {
-            UserService.setAccountInfo(name, email, (String) session.getAttribute("uid"));
-            return new ModelAndView("redirect:/user/edit");
-        } catch (Exception e) {
-            return new ModelAndView("/user/edit");
-        }
-
-    }
-
-    @RequestMapping(value = "/user/passwordInfo", method = RequestMethod.POST)
-    public ModelAndView handlePasswordUpload(@RequestParam("old_password") String oldPassword, @RequestParam("new_password") String newPassword, @RequestParam("confirm_new_password") String confirmPassword, HttpSession session) {
-        try {
-            String uid = (String)session.getAttribute("uid");
-            if(newPassword.equals(confirmPassword)) {
-                return new ModelAndView("/user/edit") {{
-                    addObject("passwordMsg", "The passwords dont match");
-                    addObject("active", 1);
-                }};
-            }
-            if (oldPassword.equals((String) UserService.getPassword(uid))) {
-                UserService.setPassword(newPassword, uid);
-                return new ModelAndView("/user/edit");
-            } else {
-                ModelAndView mv = new ModelAndView("/user/edit");
-
-                mv.addObject("wrongPassword", "password is wrong please try again");
-                return mv;
-            }
-
-        } catch (Exception e) {
-            return new ModelAndView("/edit");
-        }
-
-    }*/
-
-
 }

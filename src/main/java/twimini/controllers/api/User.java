@@ -29,7 +29,7 @@ public class User {
         this.tweetService = tweetService;
     }
 
-    @RequestMapping(value = "/api/user/signup")//, method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user/signup", method = RequestMethod.POST)
     @ResponseBody
     Hashtable<String, String> apiSignup(@RequestParam String email, @RequestParam String password, @RequestParam String cpassword, @RequestParam String name) {
         Hashtable<String, String> hashtable = new Hashtable<String, String>();
