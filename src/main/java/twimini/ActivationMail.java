@@ -17,9 +17,10 @@ public class ActivationMail extends Mail {
     private static String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
     private String emailActivationMsgTxt = "http://localhost:8080/activate";
     private static String emailSubjectTxt = "Activation Link";
-//    private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
-//    private String emailActivationMsgTxt = "http://localhost:8080/activate";
-//    private String emailSubjectTxt = "Confirmation Email";
+    private String note = "Note: If you do not activate your account within 2 days, then your account will be deleted.";
+    /*private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
+    private String emailActivationMsgTxt = "http://localhost:8080/activate";
+    private String emailSubjectTxt = "Confirmation Email";*/
     public String getEmailSubjectTxt() {
         return emailSubjectTxt;
     }
@@ -48,7 +49,6 @@ public class ActivationMail extends Mail {
         this.emailActivationMsgTxt = emailActivationMsgTxt;
     }
 
-
     public ActivationMail(UserService userService) {
         super(userService);
     }
@@ -60,14 +60,9 @@ public class ActivationMail extends Mail {
         setMessageText(new String[user.size()]);
 
         for (int index = 0; index < user.size(); index++) {
-
             getSendTo()[index] = user.get(index).getEmail();
-            getMessageText()[index] = String.format("Hello %s,\n\n%s\n%s?uid=%d\n\nRegards,\nTwimini\n\n%s", user.get(index).getName(), emailContent, getEmailActivationMsgTxt(), user.get(index).getUid(), getNotYou());
-//            getMessageText()[index] = String.format("Hello %s,\n\n%s");/*"Hello " + user.get(index).getName() + "\n" +
-//                    getEmailContent() + "\n"
-//                    + getEmailActivationMsgTxt() + "?" + "uid" + "=" + user.get(index).getUid() +
-//                    "\n\n\n\n Regards\n" +
-//                    "Rakesh Kumar";*/
+            String token = userService.getActivationToken(user.get(index).getUid());
+            getMessageText()[index] = String.format("Hello %s,\n\n%s\n%s?token=%s\n\nRegards,\nTwimini\n\n%s\n%s", user.get(index).getName(), emailContent, getEmailActivationMsgTxt(), token, note, getNotYou());
         }
     }
 
@@ -75,14 +70,12 @@ public class ActivationMail extends Mail {
     public void run() {
         try {
             while (true) {
-
-                sleep(150000);
+                sleep(5 * 60 * 1000);
                 runMultipleMail();
             }
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-
     }
 
 }

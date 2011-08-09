@@ -56,13 +56,16 @@ public class EditProfile {
             }};
         }
         try {
-            UserService.setAccountInfo(name, email, session.getAttribute("uid").toString());
-            final UserModel user = userService.getUser(session.getAttribute("uid").toString());
-            return new ModelAndView("/edit") {{
-                addObject("personalMessage", "account information successfully updated");
-                addObject("active", "0");
-                addObject("email", user.getEmail());
-            }};
+            int updatedRows = UserService.setAccountInfo(name, email, session.getAttribute("uid").toString());
+            //if(updatedRows == 1) {
+                final UserModel user = userService.getUser(session.getAttribute("uid").toString());
+                session.setAttribute("name", name);
+                return new ModelAndView("/edit") {{
+                    addObject("personalMessage", "account information successfully updated");
+                    addObject("active", "0");
+                    addObject("email", user.getEmail());
+                }};
+            //}
         } catch (DuplicateKeyException e) {
             final UserModel user = userService.getUser(session.getAttribute("uid").toString());
             return new ModelAndView("/edit") {{

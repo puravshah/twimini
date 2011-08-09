@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div id="navigation-bar" class="span-24 last header">
+            <div id="navigation-bar" class="span-24 last header">
                 <div id="twitter-logo" class="span-6">
                     <img src="/static/images/logo.png" alt="Mini Twitter"/>
                 </div>
@@ -36,9 +36,16 @@
 
                         <script type="text/javascript">
                             dojo.style('dropdown', 'display', 'none');
-                            //$('#dropdown').hide();
                         </script>
                     </c:if>
 
+                    <c:if test = "${empty sessionScope.name}">
+                        <div class = "prepend-3 span-2">
+                            <a href = "/login">Login</a>
+                        </div>
+                        <div class = "span-2 append-1 last">
+                            <a href = "/signup">Signup</a>
+                        </div>
+                    </c:if>
                 </div>
             </div>

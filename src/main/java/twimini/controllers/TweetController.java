@@ -97,29 +97,6 @@ public class TweetController {
         }
     }
 
-    /*Hashtable<String, String> createTweet(@RequestParam final String tweet, HttpSession session) {
-        Hashtable<String, String> ret = new Hashtable<String, String>();
-        String uid = (String) session.getAttribute("uid");
-        TweetModel t = null;
-
-        try {
-            t = tweetService.addTweet(uid, tweet);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
-            return ret;
-        }
-
-        ret.put("pid", "" + t.getPid());
-        ret.put("uid", "" + t.getUid());
-        ret.put("tweet", t.getTweet());
-        ret.put("timestamp", t.getTimestamp());
-        ret.put("status", "1");
-        return ret;
-    }*/
-
-
     @RequestMapping("/tweet/getTweetDetails")
     @ResponseBody
     Hashtable<String, String> getTweetDetails(@RequestParam final String pid, HttpSession session) {
@@ -203,7 +180,11 @@ public class TweetController {
         }
 
         try {
-            return JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString(), start, count);
+            JSONObject jsonObject = JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString(), start, count);
+            if(jsonObject.get("status").equals("0") && jsonObject.get("errorMessage").equals("Invalid apikey")) {
+                session.invalidate();
+            }
+            return jsonObject;
         } catch (final Exception e) {
             e.printStackTrace();
             return new JSONObject() {{

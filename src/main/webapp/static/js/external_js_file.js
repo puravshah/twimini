@@ -212,6 +212,7 @@ function getFeed(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -251,6 +252,7 @@ function getTweets(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -282,6 +284,7 @@ function getFollowing(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -313,6 +316,7 @@ function getFollowers(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -344,6 +348,7 @@ function loadMoreFeed(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -375,6 +380,7 @@ function loadMoreTweets(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
@@ -406,11 +412,12 @@ function loadMoreFollowing(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
 
-            data = data.following
+            data = data.following;
             makeTabActive(1);
 
             for (var i = 0; i < data.length; i++) {
@@ -437,11 +444,12 @@ function loadMoreFollowers(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
                 alert(data.errorMessage);
                 return;
             }
 
-            data = data.following
+            data = data.following;
             makeTabActive(1);
 
             for (var i = 0; i < data.length; i++) {
@@ -476,7 +484,10 @@ function unfollow(button, id) {
                 dojo.removeClass(button, "follow-unfollow-button");
                 dojo.addClass(button, "follow-button");
             }
-            else alert(data.errorMessage);
+            else {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                alert(data.errorMessage);
+            }
         },
         error: function(error) {
             alert(error);
@@ -495,7 +506,10 @@ function follow(button, id) {
                 dojo.removeClass(button, "follow-button");
                 dojo.addClass(button, "follow-unfollow-button");
             }
-            else alert(data.errorMessage);
+            else {
+                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                alert(data.errorMessage);
+            }
         },
         error: function(error) {
             alert(error);
@@ -515,7 +529,7 @@ function doForgot() {
         handleAs: "json",
         content: {email: email},
         load: function(data) {
-            if (data == true) {
+            if (data) {
                 dojo.byId("msg-container").innerHTML = "<span><h5>An email has been sent to you, which contains the instructions to reset your password</h5></span>";
                 dojo.byId("forgot-msg").innerHTML = "<span></span>";
             }
@@ -548,7 +562,7 @@ function doReset() {
         handleAs: "json",
         content: {password: password, cpassword: cpassword, uid: uid},
         load: function(data) {
-            if (data == true) {
+            if (data) {
                 dojo.byId("msg-container").innerHTML = "<span><h5>Password successfully changed.</h5></span>";
                 dojo.byId("forgot-msg").innerHTML = "<span></span>";
             }

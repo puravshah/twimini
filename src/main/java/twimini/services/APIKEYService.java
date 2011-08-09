@@ -28,8 +28,6 @@ public class APIKEYService {
 
     public static String getAPIKEY(int uid) {
         try {
-            /*Map<String, Object> map = db.queryForMap("SELECT apikey FROM user_apikey WHERE uid = ?", uid);
-            return (String) map.get("APIKEY");*/
             return db.queryForObject("SELECT apikey FROM user_apikey WHERE uid = ?", String.class, uid);
         } catch (Exception e) {
             String APIKEY = UUID.randomUUID().toString();
@@ -38,13 +36,15 @@ public class APIKEYService {
         }
     }
 
-    public static String getUid(String apikey) {
-        if(apikey == null || apikey.equals(null) || apikey == "") return null;
-        return "" + db.queryForInt("SELECT uid FROM user_apikey WHERE apikey = ?", apikey);
+    public static int updateLastUsedTimestamp(String apikey) {
+        return db.update("UPDATE user_apikey SET last_used = now() WHERE apikey = ?", apikey);
     }
 
-    public static int removeInvalidApikeys() {
-        return db.update("DELETE FROM user_apikey WHERE now() - timestamp > timedelta(hours=1)");
+    public static String getUid(String apikey) {
+        if(apikey == null || apikey.equals(null) || apikey == "") return null;
+        String uid = "" + db.queryForInt("SELECT uid FROM user_apikey WHERE apikey = ?", apikey);
+        updateLastUsedTimestamp(apikey);
+        return uid;
     }
 
     public static int removeAPIKEY(int uid) {

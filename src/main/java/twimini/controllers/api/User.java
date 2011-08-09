@@ -108,25 +108,34 @@ public class User {
     Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
-        if (count == null || count.equals("")) count = "10";
-                if (start == null || start.equals("")) start = "0";
-                try {
-                    Integer.parseInt(count);
-                } catch (Exception e) {
-                    return new Hashtable<String, Object>() {{
-                        put("status", "0");
-                        put("errorMessage", "count attribute should be a valid number");
-                    }};
-                }
+        try {
+            APIKEYService.getUid(apikey);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "Invalid apikey");
+            }};
+        }
 
-                try {
-                    Integer.parseInt(start);
-                } catch (Exception e) {
-                    return new Hashtable<String, Object>() {{
-                        put("status", "0");
-                        put("errorMessage", "start attribute should be a valid number");
-                    }};
-                }
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
+        try {
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
 
         try {
             List<TweetModel> list = tweetService.getTweetList(uid, start, count);

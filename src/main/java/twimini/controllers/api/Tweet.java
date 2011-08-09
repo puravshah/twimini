@@ -42,6 +42,7 @@ public class Tweet {
         TweetModel t = null;
         try {
             String uid = APIKEYService.getUid(apikey);
+            APIKEYService.updateLastUsedTimestamp(apikey);
             t = tweetService.addTweet(uid, tweet);
             ret.put("status", "1");
             ret.put("pid", "" + t.getPid());

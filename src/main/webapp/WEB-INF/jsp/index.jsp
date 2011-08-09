@@ -3,21 +3,11 @@
 
 <html>
     <head>
-        <style type="text/css">
-            @import "/static/dojoroot/dijit/themes/tundra/tundra.css";
-            @import "/static/dojoroot/dojo/resources/dojo.css" ;
-        </style>
         <%@include file="head include.txt"%>
         <script type="text/javascript" src="/static/js/external_js_file.js"></script>
-
-        <script>
-            dojo.require("dojo.parser" );
-            dojo.require("dijit.form.ValidationTextBox");
-            history.forward();
-        </script>
     </head>
 
-    <body class="tundra">
+    <body>
         <div class = "container">
             <jsp:include page = "indexHeader.jsp">
                 <jsp:param name="url" value="javascript:void(0);"></jsp:param>

@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div id="following-thumbs" class="span-8 last add-margin-above-20">
+                    <div id="following-thumbs" class="span-8 last">
                         <div class="span-8 last">
                             <h5>Following. <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
                         </div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div id="follower-thumbs" class="span-8 last add-margin-above-20">
+                    <div id="follower-thumbs" class="span-8 last">
                         <div class="span-8 last">
                             <h5>Followers. <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
                         </div>

@@ -55,24 +55,6 @@ public class FollowController {
             }};
         }
     }
-    /*Hashtable<String, String> unFollow(@RequestParam String id, HttpSession session) {
-        Hashtable<String, String> ret = new Hashtable<String, String>();
-        String uid = (String) session.getAttribute("uid");
-
-        try {
-            int rows = followService.removeFollowing(uid, id);
-            if (rows == 0) {
-                ret.put("status", "0");
-                ret.put("errorMsg", "You are not following this user");
-            } else ret.put("status", "1");
-        } catch (Exception e) {
-            e.printStackTrace();
-            ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
-        }
-
-        return ret;
-    }*/
 
     @RequestMapping("/user/follow")
     @ResponseBody
@@ -99,30 +81,6 @@ public class FollowController {
             }};
         }
     }
-    /*Hashtable<String, String> follow(@RequestParam String id, HttpSession session) {
-        Hashtable<String, String> ret = new Hashtable<String, String>();
-        String uid = (String) session.getAttribute("uid");
-        UserModel u = null;
-
-        try {
-            u = followService.addFollowing(uid, id);
-        } catch (EmptyResultDataAccessException e) {
-            ret.put("status", "0");
-            ret.put("errorMsg", "Invalid user id");
-            return ret;
-        } catch (Exception e) {
-            e.printStackTrace();
-            ret.put("status", "0");
-            ret.put("errorMsg", e.toString());
-            return ret;
-        }
-
-        ret.put("status", "1");
-        ret.put("uid", "" + u.getUid());
-        ret.put("name", u.getName());
-        ret.put("email", u.getEmail());
-        return ret;
-    }*/
 
     @RequestMapping("/user/getFollowers")
     @ResponseBody
@@ -156,19 +114,6 @@ public class FollowController {
             }};
         }
     }
-    /*public List<UserModel> followGet(@RequestParam String uid, HttpSession session) {
-        String user = (String) session.getAttribute("uid");
-        List<UserModel> ret = null;
-
-        try {
-            ret = followService.getFollower2(uid, user);
-            if (ret == null) throw new Exception("Could not render followers list");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return ret;
-    }*/
 
     @RequestMapping(value = "/user/getFollowing")
     @ResponseBody
@@ -202,17 +147,4 @@ public class FollowController {
             }};
         }
     }
-    /*public List<UserModel> followerGet(@RequestParam String uid, HttpSession session) {
-        List<UserModel> ret = null;
-
-        try {
-            String user = (String) session.getAttribute("uid");
-            ret = followService.getFollowing2(uid, user);
-            if (ret == null) throw new Exception("Could not render following list");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return ret;
-    }*/
 }

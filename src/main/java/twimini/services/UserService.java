@@ -3,15 +3,12 @@ package twimini.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
 import twimini.model.UserModel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -118,8 +115,8 @@ public class UserService {
         return db.update("update user SET password = ? WHERE uid = ?", password, uid);
     }
 
-    public static void setAccountInfo(String name, String email, String uid) {
-        db.update("UPDATE user SET name = ?, email = ? WHERE uid = ? ", name, email, uid);
+    public static int setAccountInfo(String name, String email, String uid) {
+        return db.update("UPDATE user SET name = ?, email = ? WHERE uid = ? ", name, email, uid);
     }
 
     public static void setPassword(CharSequence newPassword, String uid) {
@@ -141,5 +138,9 @@ public class UserService {
 
     public String getIsActivated(String uid) {
         return db.queryForObject("SELECT isActivated FROM user WHERE uid = ?", String.class, uid);
+    }
+
+    public String getActivationToken(int uid) {
+        return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
     }
 }

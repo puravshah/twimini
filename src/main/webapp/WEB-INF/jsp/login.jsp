@@ -28,7 +28,7 @@
 
                     <div id = "error-box" class = "error-box prepend-1 span-10 append-1 last add-margin-above-20">
                         <div id = "error-content" class = "error-content prepend-1 span-8 append-1 last">
-                            <h3 id class="error-msg"> ${msg} </h3>
+                            <h3>${msg}</h3>
                         </div>
                     </div>
                     <script type = "text/javascript">
@@ -42,9 +42,9 @@
                             <div class = "span-8 last">
                                 <input type = "email" placeholder = "Email" id="email" name = "email" class = "span-7" />
                             </div>
-                                <div class = "span-8 last">
-                                    <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-7" />
-                                </div>
+                            <div class = "span-8 last">
+                                <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-7" />
+                            </div>
                             <div class = "span-7 append-1 last">
                                 <div class = "span-3">
                                     <input type = "submit" value = "Login" />
@@ -55,15 +55,16 @@
                             </div>
                         </form>
                     </div>
-                    <div id = "compulsory-notifier" class = "prepend-3 span-6 append- last">
-                        <strong>* All fields are compulsory</strong>
-                    </div>
 
-                    <div class = "span-12 last add-margin-above-20">
+                    <div class = "span-12 last add-margin-above-10">
                         <h4>
                             New user?
                             <a href = "/signup">Sign up</a>
                         </h4>
+                    </div>
+
+                    <div id = "compulsory-notifier" class = "prepend-3 span-6 append-3 last add-margin-above-20">
+                        <strong>* All fields are compulsory</strong>
                     </div>
                 </div>
             </div>

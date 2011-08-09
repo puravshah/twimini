@@ -64,6 +64,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
 }
 
+.add-margin-above-50 {
+    margin-top: 50px;
+}
+
 .add-padding-above-1 {
     padding-top: 1px;
 }
@@ -426,8 +430,8 @@ div#dropdown div:hover {
     border-bottom: 1px solid #DDD;
 }
 
-#follower-thumbs, following-thumbs {
-    margin-top: 20px;
+#follower-thumbs, #following-thumbs {
+    margin-top: 40px;
 }
 
 ul {
@@ -441,6 +445,7 @@ ul#following-thumbs-container, ul#follower-thumbs-container {
 
 ul#following-thumbs-container li, ul#follower-thumbs-container li {
     display: inline !important;
+    padding: 3px;
 }
 
 ul#following-thumbs-container a, ul#follower-thumbs-container a {

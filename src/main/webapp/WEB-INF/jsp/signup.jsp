@@ -37,7 +37,15 @@
                 </div>
                 <script type = "text/javascript">
                     dojo.style("login-dropdown", "display", "none");
-                    //$('#login-dropdown').hide();
+                    var parentInfo = dojo.position('login-text', true);
+                    var left = parentInfo.x;
+                    var bottom = parentInfo.y + parentInfo.h;
+                    alert(left + " " + bottom);
+                    var hiddenChild = dojo.byId('login-dropdown');
+                    dojo.style(hiddenChild, {
+                        left: left + "px",
+                        top: bottom + "px"
+                    });
                 </script>
             </div>
 
@@ -48,8 +56,8 @@
                     <h3>Create a new <br />account here.</h3>
                 </div>--%>
                 <div class = "rounded-box span-14 last">
-                    <div id = "error-box" class = "prepend-2 span-10 append-2 last add-margin-above-20">
-                        <div id = "error-content" class = "prepend-1 span-8 append-1 last">
+                    <div id = "error-box" class = "error-box prepend-2 span-10 append-2 last add-margin-above-20">
+                        <div id = "error-content" class = "error-content prepend-1 span-8 append-1 last">
                             <h3> ${msg} </h3>
                         </div>
                     </div>
