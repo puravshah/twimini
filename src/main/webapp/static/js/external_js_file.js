@@ -9,7 +9,7 @@ function getInnerText(element) {
 }
 
 function checkLoginEmpty() {
-    var email = dojo.byId("email").value;
+    /*var email = dojo.byId("email").value;
     var password = dojo.byId("password").value;
     if ((email == null) || (email == "")) {
         window.location = "/login";
@@ -18,7 +18,7 @@ function checkLoginEmpty() {
     else if (password == "") {
         window.location = "/login";
         return false;
-    }
+    }*/
     return true;
 }
 
@@ -27,14 +27,11 @@ function checkLoginIfEmpty() {
     var email = dojo.byId("email").value;
     var password = dojo.byId("password").value;
     if ((email == null) || (email == "")) {
-        dojo.byId("emailMsg").innerHTML = "email cannot be empty";
-        dojo.byId("passwordMsg").innerHTML = "";
-
+        dojo.byId("error-Msg").innerHTML = "email cannot be empty";
         return false;
     }
     else if ((password == null) || (password == "")) {
-        dojo.byId("emailMsg").innerHTML = "";
-        dojo.byId("passwordMsg").innerHTML = "password cannot be empty";
+        dojo.byId("error-Msg").innerHTML = "password cannot be empty";
         return false;
     }
     return true;

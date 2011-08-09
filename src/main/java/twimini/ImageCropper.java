@@ -64,8 +64,8 @@ public class ImageCropper extends HttpServlet {
         }
 
         String file = request.getParameter("file");
-        //String serverPath = "/home/rakesh/IdeaProjects/image/";
-        String serverPath = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
+        String serverPath = "/home/rakesh/IdeaProjects/image/";
+        //String serverPath = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
         String sourceFile = serverPath + file + ".png";
         BufferedImage image = ImageIO.read(new File(sourceFile));
         BufferedImage out = image.getSubimage(x1, y1, w, h);

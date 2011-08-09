@@ -28,7 +28,7 @@
 
                     <div id = "error-box" class = "error-box prepend-1 span-10 append-1 last add-margin-above-20">
                         <div id = "error-content" class = "error-content prepend-1 span-8 append-1 last">
-                            <h3> ${msg} </h3>
+                            <h3 id class="error-msg"> ${msg} </h3>
                         </div>
                     </div>
                     <script type = "text/javascript">
@@ -55,11 +55,6 @@
                             </div>
                         </form>
                     </div>
-                    <div class = "span-5 last error-container add-margin-above-10">
-                        <div id="emailMsg" class = "span-5 error-msg">${emailMsg}</div>
-                        <div id="passwordMsg" class = "span-5 error-msg">${passwordMsg}</div>
-                    </div>
-
                     <div id = "compulsory-notifier" class = "prepend-3 span-6 append- last">
                         <strong>* All fields are compulsory</strong>
                     </div>
