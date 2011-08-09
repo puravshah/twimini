@@ -31,12 +31,7 @@ public class UserController {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
-        if(runMailSender==true)
-        {
-           Thread thread = new ActivationMail(userService);
-           thread.start();
-           runMailSender=false;
-        }
+
     }
 
     @RequestMapping("/")
@@ -129,6 +124,12 @@ public class UserController {
                                    @RequestParam String name,
                                    HttpSession session) {
 
+        if(runMailSender==true)
+        {
+           Thread thread = new ActivationMail(userService);
+           thread.start();
+           runMailSender=false;
+        }
         boolean invalid = false;
         String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
         for (int i = 0; i < 4; i++) errorMsg[i] = "&nbsp;";
