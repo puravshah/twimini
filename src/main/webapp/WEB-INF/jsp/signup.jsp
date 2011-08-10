@@ -19,11 +19,11 @@
 
                 <div id = "login-dropdown" class = "span-5">
                     <form action = "/login" method = "POST">
-                        <div class = "span-5">
-                            <input type = "email" placeholder = "Email" name = "email" class = "span-5" />
+                        <div class = "span-4">
+                            <input type = "email" placeholder = "Email" name = "email" class = "span-4" maxlength="40"/>
                         </div>
-                        <div class = "span-5">
-                            <input type = "password" placeholder = "Password" name = "password" class = "span-5" />
+                        <div class = "span-4">
+                            <input type = "password" placeholder = "Password" name = "password" class = "span-4" maxlength="40" />
                         </div>
                         <div class = "span-5 last add-padding-above-5">
                             <div class = "span-1">

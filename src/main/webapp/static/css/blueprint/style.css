@@ -64,6 +64,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
 }
 
+.add-margin-above-40 {
+    margin-top: 40px;
+}
+
 .add-margin-above-50 {
     margin-top: 50px;
 }

@@ -36,6 +36,7 @@ public abstract class Mail extends Thread {
     List<String> EmailList;
     String[] messageText;
     String email;
+    String userName;
 
     public static String getNotYou() {
             return notYou;
@@ -57,6 +58,10 @@ public abstract class Mail extends Thread {
         this.email = email;
     }
 
+    public Mail(String[] sendTo)
+    {
+        this.sendTo=sendTo;
+    }
 
     public void setSendTo(String[] sendTo) {
         this.sendTo = sendTo;
@@ -86,8 +91,9 @@ public abstract class Mail extends Thread {
         this.messageText=new String[1];
         this.messageText[0] = messageText;
     }
-    public void setEmail(String email) {
+    public void setEmail(String email,String userName) {
         this.email = email;
+        this.userName=userName;
     }
 
     public static String getSmtpHostName() {

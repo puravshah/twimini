@@ -12,6 +12,33 @@ function checkLoginEmpty() {
     return true;
 }
 
+function inviteFriends()
+{
+    var email=dojo.byId("email").value;
+    dojo.xhrPost(
+            {
+                 url:"/invite",
+                 handleAs:"json",
+                 content:{'email':email},
+                 load:function(data)
+                 {
+                     if(data.status==1)
+                     {
+                         dojo.byId("error-msg").innerHTML="mail sent successfully";
+                     }
+                     else
+                     {
+                         dojo.byId("error-msg").innerHTML="error sending mail";
+                     }
+                 },
+                 error:function(data)
+                 {
+                     dojo.byId("error-msg").innerHTML="error sending mail";
+                 }
+            }
+    )
+}
+
 function checkLoginIfEmpty() {
     var email = dojo.byId("email").value;
     var password = dojo.byId("password").value;
@@ -24,6 +51,12 @@ function checkLoginIfEmpty() {
         return false;
     }
     return true;
+}
+
+function clearError()
+{
+    dojo.byId("error-msg").innerHTML="";
+
 }
 
 function checkSignupEmpty() {

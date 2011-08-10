@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import twimini.ActivationMail;
+import twimini.InviteFriend;
 import twimini.PasswordMail;
 import twimini.model.UserModel;
 import twimini.services.*;
@@ -349,5 +350,26 @@ public class UserController {
         return new ModelAndView() {{
             addObject("query", query);
         }};
+    }
+
+    @RequestMapping("/invite")
+    @ResponseBody Hashtable<String,String> inviteFriends(@RequestParam String email,HttpSession httpSession)
+    {
+        Hashtable<String,String> ret= new Hashtable<String, String>();
+        String[] emailAddresses = email.split(";");
+         for(int index=0;index<emailAddresses.length;index++)
+         {
+             emailAddresses[index]=emailAddresses[index].trim();
+         }
+        try{
+        Thread thread= new InviteFriend(emailAddresses,(String)httpSession.getAttribute("name"));
+         thread.start();
+        }catch (Exception e)
+        {
+           ret.put("status","0");
+
+        }
+        ret.put("status","1");
+        return ret;
     }
 }

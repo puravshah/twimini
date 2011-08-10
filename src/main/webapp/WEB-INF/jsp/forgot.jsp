@@ -22,7 +22,7 @@
                         </div>
 
                         <div class = "span-5 append-10 add-margin-above-20 last">
-                            <input id = "email" type = "email" name = "email" placeholder = "Email" />
+                            <input id = "email" type = "email" name = "email" placeholder = "Email" maxlength="40" />
                             <input type = "button" value = "Submit" onclick = "doForgot();" />
                         </div>
 

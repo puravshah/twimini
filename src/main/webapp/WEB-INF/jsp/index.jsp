@@ -24,16 +24,16 @@
                     <div class = "span-7 last ">
                         <form id = "signup-form" action = "/signup" method = "POST" class="formContainer" onsubmit="return checkEmpty();">
                             <div class = "span-7 last">
-                                <input type = "text" placeholder = "Full Name" id= "name" name = "name" class = "span-7"/ >
+                                <input type = "text" placeholder = "Full Name" id= "name" name = "name" maxlength="40" class = "span-7"/ >
                             </div>
                             <div class = "span-7 last">
-                                <input type = "email" placeholder = "Email" id="email" name = "email" class = "span-7" />
+                                <input type = "email" placeholder = "Email" id="email" name = "email" maxlength="40" class = "span-7" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-7" />
+                                <input type = "password" placeholder = "Password" id="password" name = "password" maxlength="40" class = "span-7" />
                             </div>
                             <div class = "span-7 last">
-                                <input type = "password" placeholder = "Confirm Password" id="cpassword" name = "cpassword" class = "span-7" />
+                                <input type = "password" placeholder = "Confirm Password" id="cpassword" name = "cpassword" maxlength="40" class = "span-7" />
                             </div>
                             <div class = "span-7 last add-margin-above-10">
                                 <input type = "submit" class = "yellow-button" value = "Signup" />

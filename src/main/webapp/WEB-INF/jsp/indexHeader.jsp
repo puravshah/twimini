@@ -5,10 +5,10 @@
                 <div id = "login-handler" class = "span-10 last">
                     <form action = "/login" method = "POST" onsubmit="return checkLoginEmpty();">
                         <div class = "span-4">
-                            <input type = "email" placeholder = "Email" id="name" name = "email" class = "span-4" />
+                            <input type = "email" placeholder = "Email" id="name" name = "email" class = "span-4" maxlength="40"/>
                         </div>
                         <div class = "span-4">
-                            <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-4" />
+                            <input type = "password" placeholder = "Password" id="password" name = "password" class = "span-4" maxlength="40"/>
                         </div>
                         <div class = "span-2 last add-padding-above-5">
                             <input type = "submit" value = "Login" />

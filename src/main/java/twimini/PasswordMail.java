@@ -37,7 +37,8 @@ public class PasswordMail extends Mail {
         email[0]=getEmail();
         setSendTo(email);
         String url = "http://localhost:8080/reset?token=" + uuid;
-        setMessageText(String.format("Hello %s,\n\nYou have requested to reset your password.\nClick on the link below to do so.\n%s\n\nNote: This token can be used only once.\n\nRegards, \nTwimini.\n\nThis email was sent because someone requested to reset the password associated with this account. If you did not ask to reset your password, then kindly ignore this email.",userModel.getName(), url));
+        String message=(String.format("Hello %s,\n\nYou have requested to reset your password.\nClick on the link below to do so.\n%s\n\nNote: This token can be used only once.\n\nRegards, \nTwimini.\n\nThis email was sent because someone requested to reset the password associated with this account. If you did not ask to reset your password, then kindly ignore this email.",userModel.getName(), url));
+        setMessageText(message);
     }
 
     @Override
