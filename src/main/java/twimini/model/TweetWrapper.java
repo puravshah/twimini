@@ -2,9 +2,12 @@ package twimini.model;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.tools.JavaCompiler;
+import java.security.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Time;
+ import java.sql.*;
 /**
  * Created by IntelliJ IDEA.
  * User: purav.s
@@ -28,7 +31,7 @@ public class TweetWrapper {
     }
 
     TweetWrapper(ResultSet rs) throws SQLException {
-        tweet = new TweetModel(rs.getInt("pid"), rs.getInt("uid"), rs.getString("tweet"), rs.getString("timestamp"));
+        tweet = new TweetModel(rs.getInt("pid"), rs.getInt("uid"), rs.getString("tweet"), ((java.sql.Timestamp)rs.getObject("timestamp")).getTime());
         name = rs.getString("name");
     }
 

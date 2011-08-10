@@ -118,7 +118,7 @@ public class TweetController {
         ret.put("uid", "" + t.getUid());
         ret.put("tweet", t.getTweet());
 
-        ret.put("timestamp", t.getTimestamp());
+        ret.put("timestamp",""+(long)(t.getTimestamp()));
         ret.put("status", "1");
         return ret;
     }

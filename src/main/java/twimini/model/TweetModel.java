@@ -2,8 +2,11 @@ package twimini.model;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import java.security.PrivateKey;
+import java.security.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,7 +17,8 @@ import java.sql.SQLException;
  */
 public class TweetModel {
     private int pid, uid;
-    private String tweet, timestamp;
+    private String tweet ;
+    private long timestamp;
 
     public static final RowMapper<TweetModel> rowMapper = new RowMapper<TweetModel>() {
         @Override
@@ -30,10 +34,10 @@ public class TweetModel {
         pid = rs.getInt("pid");
         uid = rs.getInt("uid");
         tweet = rs.getString("tweet");
-        timestamp = rs.getString("timestamp");
+        timestamp = ((java.sql.Timestamp)rs.getObject("timestamp")).getTime();
     }
 
-    public TweetModel(int pid, int uid, String tweet, String timestamp) {
+    public TweetModel(int pid, int uid, String tweet, long timestamp) {
         this.pid = pid;
         this.uid = uid;
         this.tweet = tweet;
@@ -52,7 +56,7 @@ public class TweetModel {
         return tweet;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -68,7 +72,7 @@ public class TweetModel {
         this.tweet = tweet;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }
