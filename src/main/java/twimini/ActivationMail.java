@@ -61,7 +61,7 @@ public class ActivationMail extends Mail {
 
         for (int index = 0; index < user.size(); index++) {
             getSendTo()[index] = user.get(index).getEmail();
-            String token = userService.getActivationToken(user.get(index).getUid());
+            String token = userService.getActivationToken("" + user.get(index).getUid());
             getMessageText()[index] = String.format("Hello %s,\n\n%s\n%s?token=%s\n\nRegards,\nTwimini\n\n%s\n%s", user.get(index).getName(), emailContent, getEmailActivationMsgTxt(), token, note, getNotYou());
         }
     }

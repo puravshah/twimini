@@ -55,7 +55,7 @@ public class Follow {
             hashtable.put("errorMessage", "You need to login first");
         } catch (EmptyResultDataAccessException e) {
             hashtable.put("status", "0");
-            hashtable.put("errorMessage", "Invalid APIKEY");
+            hashtable.put("errorMessage", "Invalid apikey");
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");
@@ -78,7 +78,7 @@ public class Follow {
             hashtable.put("errorMessage", "You need to login first");
         } catch (EmptyResultDataAccessException e) {
             hashtable.put("status", "0");
-            hashtable.put("errorMessage", "Invalid APIKEY");
+            hashtable.put("errorMessage", "Invalid apikey");
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");
@@ -102,7 +102,7 @@ public class Follow {
         } catch (EmptyResultDataAccessException e) {
             hashtable.put("status", "0");
             System.out.println("empty result data access exception");
-            hashtable.put("errorMessage", "Invalid APIKEY");
+            hashtable.put("errorMessage", "Invalid apikey");
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");
@@ -124,7 +124,7 @@ public class Follow {
             hashtable.put("following", list);
         } catch (EmptyResultDataAccessException e) {
             hashtable.put("status", "0");
-            hashtable.put("errorMessage", "Invalid APIKEY");
+            hashtable.put("errorMessage", "Invalid apikey");
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "1");

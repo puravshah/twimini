@@ -17,35 +17,38 @@
                     <span>Already a memeber? <b>Sign in</b><img src = "/static/images/icon_dropdown_1.png"/></span>
                 </div>
 
-                <div id = "login-dropdown" class = "span-4">
+                <div id = "login-dropdown" class = "span-5">
                     <form action = "/login" method = "POST">
-                        <div class = "span-4">
-                            <input type = "email" placeholder = "Email" name = "email" class = "span-4" />
+                        <div class = "span-5">
+                            <input type = "email" placeholder = "Email" name = "email" class = "span-5" />
                         </div>
-                        <div class = "span-4">
-                            <input type = "password" placeholder = "Password" name = "password" class = "span-4" />
+                        <div class = "span-5">
+                            <input type = "password" placeholder = "Password" name = "password" class = "span-5" />
                         </div>
-                        <div class = "span-4 last add-padding-above-5">
-                            <div class = "span-2">
+                        <div class = "span-5 last add-padding-above-5">
+                            <div class = "span-1">
                                 <input type = "submit" value = "Login" />
                             </div>
-                            <div class = "span-2 last center-text">
+                            <div class = "span-4 last center-text add-margin-above-5">
                                 <a href = "/forgot">Forgot Password?</a>
                             </div>
                         </div>
                     </form>
                 </div>
                 <script type = "text/javascript">
-                    dojo.style("login-dropdown", "display", "none");
                     var parentInfo = dojo.position('login-text', true);
-                    var left = parentInfo.x;
-                    var bottom = parentInfo.y + parentInfo.h;
-                    alert(left + " " + bottom);
                     var hiddenChild = dojo.byId('login-dropdown');
+                    var hiddenChildInfo = dojo.position('login-dropdown', true);
+
+                    var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w;
+                    var bottom = parentInfo.y + parentInfo.h;
+                    //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
+
                     dojo.style(hiddenChild, {
                         left: left + "px",
                         top: bottom + "px"
                     });
+                    dojo.style("login-dropdown", "display", "none");
                 </script>
             </div>
 
@@ -56,6 +59,11 @@
                     <h3>Create a new <br />account here.</h3>
                 </div>--%>
                 <div class = "rounded-box span-14 last">
+                    <div class = "span-14 center-text last">
+                        <h3>Twimini Signup</h3>
+                        <hr>
+                    </div>
+
                     <div id = "error-box" class = "error-box prepend-2 span-10 append-2 last add-margin-above-20">
                         <div id = "error-content" class = "error-content prepend-1 span-8 append-1 last">
                             <h3> ${msg} </h3>

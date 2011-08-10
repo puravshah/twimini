@@ -70,7 +70,7 @@ public class Tweet {
         }
         catch (EmptyResultDataAccessException e) {
             ret.put("status", "0");
-            ret.put("errorMessage", "Invalid APIKEY");
+            ret.put("errorMessage", "Invalid apikey");
         }
         catch (Exception e) {
             ret.put("status", "0");

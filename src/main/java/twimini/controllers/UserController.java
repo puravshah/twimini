@@ -97,11 +97,10 @@ public class UserController {
                                    @RequestParam String name,
                                    HttpSession session) {
 
-        if(runMailSender)
-        {
-           Thread thread = new ActivationMail(userService);
-           thread.start();
-           runMailSender = false;
+        if (runMailSender) {
+            Thread thread = new ActivationMail(userService);
+            thread.start();
+            runMailSender = false;
         }
         boolean invalid = false;
         String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
@@ -208,8 +207,8 @@ public class UserController {
 
 
     @RequestMapping("/activate")
-    ModelAndView activateAccount(@RequestParam String uid) {
-        userService.setIsActivated(uid);
+    ModelAndView activateAccount(@RequestParam String token) {
+        userService.setIsActivated(token);
         return new ModelAndView("redirect:/");
     }
 
@@ -227,7 +226,7 @@ public class UserController {
             String token = UUID.randomUUID().toString();
             Thread thread = new PasswordMail(userModel, token);
             thread.start();
-            UserService.addToken(token, userModel.getUid());
+            UserService.addForgotToken(token, userModel.getUid());
         } catch (Exception e) {
             return false;
         }
@@ -307,36 +306,48 @@ public class UserController {
 
     @RequestMapping("/searchData")
     @ResponseBody
-    Hashtable<String,Object> search(@RequestParam String q, HttpSession session) {
+    Hashtable<String, Object> search(@RequestParam String query, String start, String count, HttpSession session) {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
+
         List<UserModel> searchDetails = null;
-        Hashtable<String,Object> ret= new Hashtable<String, Object>();
+        Hashtable<String, Object> ret = new Hashtable<String, Object>();
+        String uid = (String) session.getAttribute("uid");
         try {
-            searchDetails = userService.getSearch(q);
+            searchDetails = userService.getSearch(query, uid, start, count);
             if (ret == null) throw new Exception("Null returned in search.jsp");
         } catch (Exception e) {
-             ret.put("status",0);
-             ret.put("error","No user with this name");
-             return  ret;
+            ret.put("status", 0);
+            ret.put("error", "No user with this name");
+            return ret;
         }
-        ret.put("status",1);
-        ret.put("searchDetails",searchDetails);
+        ret.put("status", 1);
+        ret.put("searchDetails", searchDetails);
         return ret;
     }
 
-    @RequestMapping("/search")
-     ModelAndView searchInfo(@RequestParam String q, HttpSession session) {
-        List<UserModel> searchDetails = null;
-        String uid=(String)session.getAttribute("uid");
+    @RequestMapping("/searchMore")
+    @ResponseBody
+    Hashtable <String, Object> searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
+        Hashtable <String, Object> hashtable = new Hashtable<String, Object>();
+        String uid = (String) session.getAttribute("uid");
         try {
-                searchDetails = userService.getSearch(q);
+            List<UserModel> searchDetails = userService.getSearch(query, uid, start, count);
+            hashtable.put("status", "1");
+            hashtable.put("searchResults", searchDetails);
+        } catch (Exception e) {
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", e.toString());
+            e.printStackTrace();
         }
-        catch (Exception e)
-        {
-        }
-        ModelAndView mv= new ModelAndView();
-        mv.setViewName("/search");
-        mv.addObject("searchDetails",searchDetails);
-        mv.addObject("uid",uid);
-        return mv;
-     }
+        return hashtable;
+    }
+
+    @RequestMapping("/search")
+    ModelAndView searchInfo(@RequestParam final String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
+        final String uid = (String) session.getAttribute("uid");
+        return new ModelAndView() {{
+            addObject("query", query);
+        }};
+    }
 }

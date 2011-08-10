@@ -48,6 +48,7 @@ public class CommonsFileUploadServlet extends HttpServlet {
     @RequestMapping(value = "/user/imageInfo", method = RequestMethod.POST)
     public ModelAndView handleImageUpload(@RequestParam("uid") String uid, @RequestParam("file") MultipartFile file,HttpSession session) {
         //String path="/home/rakesh/IdeaProjects/image/";
+        //if(session.getAttribute("uid") == null) return new ModelAndView("/login");
         String path = "C:\\Users\\purav.s\\Desktop\\twimini\\image\\";
         try {
             File picture = new File(path + uid + ".png");

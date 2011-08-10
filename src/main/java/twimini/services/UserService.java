@@ -9,6 +9,7 @@ import twimini.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -76,9 +77,14 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
     }
 
-    public List<UserModel> getSearch(String query) throws Exception {
+    public List<UserModel> getSearch(String query, String uid, String start, String count) throws Exception {
+        if(uid == null || uid.equals("")) uid = "-1";
         query = "%" + query + "%";
-        return db.query("SELECT DISTINCT * FROM user WHERE name like ? or email like ?", UserModel.rowMapper, query, query);
+        return db.query("SELECT DISTINCT uid, name, email, 1 as status FROM user WHERE (name like ? or email like ?) AND uid IN \n" +
+                "(SELECT following FROM follow WHERE uid = ? AND end IS NULL) \n" +
+                "UNION\n" +
+                "SELECT DISTINCT uid, name, email, 0 as status FROM user WHERE (name like ? or email like ?) AND uid NOT IN \n" +
+                "(SELECT following FROM follow WHERE uid = ? AND end IS NULL) LIMIT ?, ?", UserModel.rowMapper3, query, query, uid, query, query, uid, Integer.parseInt(start), Integer.parseInt(count));
     }
 
     public static List<UserModel> getInactiveUser() {
@@ -91,11 +97,7 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public void setIsActivated(String uid) {
-        db.update("UPDATE user SET iSActivated = 'activated' WHERE uid = ?", uid);
-    }
-
-    public static void addToken(String token, int uid) throws Exception {
+    public static void addForgotToken(String token, int uid) throws Exception {
         db.update("INSERT INTO forgot_token VALUES(?, ?, now())", token, uid);
     }
 
@@ -140,7 +142,26 @@ public class UserService {
         return db.queryForObject("SELECT isActivated FROM user WHERE uid = ?", String.class, uid);
     }
 
-    public String getActivationToken(int uid) {
+    public String getActivationToken(String uid) {
         return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
+    }
+
+    public int addActivationToken(String uid) {
+        try {
+            removeActivationToken(getActivationToken(uid));
+        } catch(Exception e) {
+        }
+        String token = UUID.randomUUID().toString();
+        return db.update("INSERT INTO activation_token VALUES(?, ?, now())", uid, token);
+    }
+
+    public void setIsActivated(String token) {
+        String uid = db.queryForObject("SELECT uid FROM activation_token WHERE token = ?", String.class, token);
+        removeActivationToken(token);
+        db.update("UPDATE user SET iSActivated = 'activated' WHERE uid = ?", uid);
+    }
+
+    private int removeActivationToken(String token) {
+        return db.update("DELETE FROM activation_token WHERE token = ?", token);
     }
 }

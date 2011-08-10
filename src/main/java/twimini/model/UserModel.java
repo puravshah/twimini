@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class UserModel {
     private String email;
     private String name;
-    private String isActivated; //, password, timestamp;
+    private String isActivated;
     private int uid, status;
 
 
@@ -25,14 +25,6 @@ public class UserModel {
             return new UserModel(resultSet);
         }
     };
-
-    public static final RowMapper<String> rowMapper4= new RowMapper<String>() {
-        @Override
-        public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return rs.getString("password");
-        }
-    };
-
 
     public static final RowMapper<UserModel> rowMapper2 = new RowMapper<UserModel>() {
         @Override
@@ -64,9 +56,7 @@ public class UserModel {
         email = rs.getString("email");
         name = rs.getString("name");
         uid = rs.getInt("uid");
-        isActivated=rs.getString("isActivated");
-        /*password = rs.getString("password");
-        timestamp = rs.getString("timestamp");*/
+        isActivated = rs.getString("isActivated");
     }
 
     public int getUid() {
@@ -108,20 +98,4 @@ public class UserModel {
     public void setName(String name) {
         this.name = name;
     }
-
-    /*public String getPassword() {
-        return password;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }*/
 }

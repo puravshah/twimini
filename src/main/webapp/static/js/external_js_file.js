@@ -98,9 +98,9 @@ function checkPassword() {
     var cpassword = dojo.byId("cpassword").value;
     if (password == cpassword) {
         /*if (password.length > 6) {
-            dojo.byId("passwordMsg").innerHTML = "password should be of atleast 6 characters";
-            return false;
-        }*/
+         dojo.byId("passwordMsg").innerHTML = "password should be of atleast 6 characters";
+         return false;
+         }*/
         return true;
     }
     return false;
@@ -123,38 +123,6 @@ function checkCharacterLimit(field) {
         field.value = field.value.substring(0, 140);
     }
     setInnerText(dojo.byId("tweet-char-left"), 140 - field.value.length);
-}
-
-function search(input)
-{
-    var name=dojo.byId("search-box").value;
-    dojo.xhrPost(
-            {
-               url:"/search",
-               handleAs:"json",
-               content:{'q':name},
-               load: function(data)
-               {
-                    window.location="/search";
-                    if(data.status==='0')
-                        alert("Unable to find name"+name);
-                    else
-                    {
-                        data= data.searchDetails;
-                        for (var i = 0; i < data.length; i++) {
-                            item = data[i];
-                            appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-                        }
-                    }
-               },
-               error:function()
-               {
-                 alert("there is an error");
-               }
-            }
-    ) ;
-
-
 }
 
 function createTweet(input) {
@@ -190,25 +158,21 @@ function makeTabActiveOnEdit(index) {
     for (var i = 0; i < 3; i++) {
         {
             dojo.removeClass(div[i], "tab-active");
-            if(index==2 && i==2)
-            {
-                dojo.style(ids[2], "display","block");
-                dojo.style(ids[3],"display","none") ;
+            if (index == 2 && i == 2) {
+                dojo.style(ids[2], "display", "block");
+                dojo.style(ids[3], "display", "none");
             }
-            else
-            {
+            else {
                 dojo.style(ids[i], "display", i == index ? "block" : "none");
             }
         }
     }
-    if(index==3)
-    {
-        dojo.style(ids[2], "display","block");
+    if (index == 3) {
+        dojo.style(ids[2], "display", "block");
         //dojo.style(ids[3],"display","block") ;
     }
-    if(index==3)
-    {
-      dojo.addClass(div[2], "tab-active");
+    if (index == 3) {
+        dojo.addClass(div[2], "tab-active");
     }
     else
         dojo.addClass(div[index], "tab-active");
@@ -235,15 +199,67 @@ function appendTweet(data) {
 }
 
 function appendFollowing(data) {
-    data.divId = 'followingItem_' + data.id;
     var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     dojo.place(html, "ListOfFollowing", "last");
 }
 
 function appendFollower(data) {
-    data.divId = 'followerItem_' + data.id;
     var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     dojo.place(html, "ListOfFollower", "last")
+}
+
+function searchFollower(search1) {
+    alert(search1);
+    var input = search1;
+    var data = search1.searchdetails;
+    for (var i = 0; i < data.length; i++) {
+        item = data[i];
+        appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+    }
+    // appendFollowing({id:item.uid, name:'${item.name}', email:'${item.email}', user:${sessionScope.uid}, status:${item.status}});
+}
+
+function activateCropper(uid) {
+    var src = dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
+    src.src = "/image/" + uid + ".png";
+    alert(dojo.byId("uidImage").getAttribute("src"));
+    makeTabActiveOnEdit(3);
+}
+
+function getTweetTime(timestamp) {
+    //alert(timestamp);
+    var currentTime = new Date();
+    var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
+
+    var MIN = 60, HOUR = 3600, DAY = 86400;
+    var out = "", temp;
+    if (diff < MIN) {
+        out = "Less than a minute";
+
+    } else if (diff < 15 * MIN) {
+        // less than fifteen minutes, show how many minutes
+        temp = Math.round(diff / MIN);
+        out = temp + " minute" + (temp == 1 ? "" : "s");
+        // eg: 12 minutes
+    } else if (diff < HOUR) {
+        // less than an hour, round down to the nearest 5 minutes
+        out = (Math.floor(diff / (5 * MIN)) * 5) + " minutes";
+    } else if (diff < DAY) {
+        // less than a day, just show hours
+        temp = Math.round(diff / HOUR);
+        out = temp + " hour" + (temp == 1 ? "" : "s");
+    } else if (diff < 30 * DAY) {
+        // show how many days ago
+        temp = Math.round(diff / DAY);
+        out = temp + " day" + (temp == 1 ? "" : "s");
+    } else if (diff < 90 * DAY) {
+        // more than 30 days, but less than 3 months, show the day and month
+        return this.getDate() + " " + this.getShortMonth();  // see below
+    } else {
+        // more than three months difference, better show the year too
+        return this.getDate() + " " + this.getShortMonth() + " " + this.getFullYear();
+    }
+    return out + " ago";
 }
 
 function getFeed(input) {
@@ -254,7 +270,10 @@ function getFeed(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -280,28 +299,6 @@ function getFeed(input) {
     });
 }
 
-function searchFollower(search1)
-{
-    alert(search1);
-     var input=search1;
-     var data= search1.searchdetails;
-    for (var i = 0; i < data.length; i++) {
-        item = data[i];
-        appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-    }
-
-
-   // appendFollowing({id:item.uid, name:'${item.name}', email:'${item.email}', user:${sessionScope.uid}, status:${item.status}});
-
-}
-
-function activateCropper(uid) {
-    var src = dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
-    src.src = "/image/" + uid + ".png";
-    alert(dojo.byId("uidImage").getAttribute("src"));
-    makeTabActiveOnEdit(3);
-}
-
 function getTweets(input) {
     dojo.xhrPost({
         url: "/tweet/getTweetList",
@@ -309,7 +306,10 @@ function getTweets(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -334,61 +334,6 @@ function getTweets(input) {
     });
 }
 
-
-
-
-function getTweetTime(timestamp){
-        //alert(timestamp);
-
-        var currentTime = new Date();
-        var diff = Math.abs(timestamp - (new Date().getTime()) ) / 1000;
-
-
-        var MIN = 60,        // some "constants" just
-               HOUR = 3600,     // for legibility
-               DAY = 86400
-           ;
-           var out="", temp;
-           if (diff < MIN) {
-               out = "Less than a minute";
-
-           } else if (diff < 15 * MIN) {
-               // less than fifteen minutes, show how many minutes
-               temp = Math.round(diff / MIN);
-               out = temp + " minute" + (temp == 1 ? "" : "s");
-               // eg: 12 minutes
-           } else if (diff < HOUR) {
-               // less than an hour, round down to the nearest 5 minutes
-               out = (Math.floor(diff / (5 * MIN)) * 5) + " minutes";
-           } else if (diff < DAY) {
-               // less than a day, just show hours
-               temp = Math.round(diff / HOUR);
-               out = temp + " hour" + (temp == 1 ? "" : "s");
-           } else if (diff < 30 * DAY) {
-               // show how many days ago
-               temp = Math.round(diff / DAY);
-               out = temp + " day" + (temp == 1 ? "" : "s");
-           } else if (diff < 90 * DAY) {
-               // more than 30 days, but less than 3 months, show the day and month
-               return this.getDate() + " " + this.getShortMonth();  // see below
-           } else {
-               // more than three months difference, better show the year too
-               return this.getDate() + " " + this.getShortMonth() + " " + this.getFullYear();
-           }
-
-
-           return out + " ago";
-
-
-    }
-
-
-
-
-
-
-
-
 function getFollowing(input) {
     dojo.xhrPost({
         url: "/user/getFollowing",
@@ -396,7 +341,10 @@ function getFollowing(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -428,7 +376,10 @@ function getFollowers(input) {
         content: {uid:input.uid, start:0},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -460,7 +411,10 @@ function loadMoreFeed(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -492,7 +446,10 @@ function loadMoreTweets(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -524,7 +481,10 @@ function loadMoreFollowing(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -556,7 +516,10 @@ function loadMoreFollowers(input) {
         content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
                 return;
             }
@@ -580,9 +543,77 @@ function loadMoreFollowers(input) {
     });
 }
 
+function search(input) {
+    var start = dojo.byId('currentSearchCount').value, count = dojo.byId('currentSearchCountValue').value;
+    dojo.xhrPost({
+        url: "/searchMore",
+        handleAs: 'json',
+        content: {query: input.query, start: '0', count: count},
+        load: function(data) {
+            if (data.status == 0) {
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.searchResults;
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+            }
+
+            dojo.style("loadMoreSearch", "display", (data.length < count) ? "none" : "block");
+            dojo.byId('currentSearchCount').value = data.length;
+            //alert("start : " + dojo.byId('currentFollowersCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function loadMoreSearchResults(input) {
+    var start = dojo.byId('currentSearchCount').value, count = dojo.byId('currentSearchCountValue').value;
+    dojo.xhrPost({
+        url: "/searchMore",
+        handleAs: 'json',
+        content: {query: input.query, start: start, count: count},
+        load: function(data) {
+            if (data.status == 0) {
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.searchResults;
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+            }
+
+            dojo.style("loadMoreSearch", "display", (data.length < count) ? "none" : "block");
+            dojo.byId('currentSearchCount').value = (data.length + parseInt(dojo.byId('currentSearchCount').value));
+            //alert("start : " + dojo.byId('currentFollowersCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
 function userAction(button, id) {
     if (getInnerText(button) === 'Follow') follow(button, id);
-    else unfollow(button, id);
+    else {
+        /*dojo.style(button, "background-color", "#c80000");
+        dojo.style(button, "border-top-color", "#c80000");*/
+        unfollow(button, id);
+    }
 }
 
 function unfollow(button, id) {
@@ -597,7 +628,10 @@ function unfollow(button, id) {
                 dojo.addClass(button, "follow-button");
             }
             else {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
             }
         },
@@ -619,7 +653,10 @@ function follow(button, id) {
                 dojo.addClass(button, "follow-unfollow-button");
             }
             else {
-                if(data.errorMessage == 'Invalid apikey') {window.location = "/"; return;}
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
                 alert(data.errorMessage);
             }
         },
@@ -695,28 +732,36 @@ function doReset() {
 function toggleDropdown() {
     var style = dojo.style('dropdown', "display");
     dojo.style('dropdown', 'display', style == 'block' ? 'none' : 'block');
-    //$("#dropdown").toggle();
+    if(style == 'none') dojo.byId('dropdown-text').style.backgroundColor = '#2F2F2F';
+    else dojo.byId('dropdown-text').removeAttribute('style');
 }
 
 function toggleLoginDropdown() {
-    var styles = dojo.style('login-dropdown', 'display');
-    dojo.style('login-dropdown', 'display', styles == 'block' ? 'none' : 'block');
-    //$("#login-dropdown").toggle();
+    var style = dojo.style('login-dropdown', 'display');
+    dojo.style('login-dropdown', 'display', style == 'block' ? 'none' : 'block');
+    if(style == 'none') dojo.byId('login-text').style.backgroundColor = '#2F2F2F';
+    else dojo.byId('login-text').removeAttribute('style');
 }
 
 function showResetFields() {
-    /*$('#reset-fields-container').show();
-     $('#reset-show-text').hide();*/
     dojo.style('reset-fields-container', 'display', 'block');
     dojo.style('reset-show-text', 'display', 'none');
 }
 
 function changeButtonText(button) {
-    if (getInnerText(button) === 'Following') setInnerText(button, "Unfollow");
+    if (getInnerText(button) === 'Following') {
+        setInnerText(button, "Unfollow");
+        /*dojo.style(button, 'background-color', '#ff1818');
+        dojo.style(button, 'border-top-color', '#ff1818');*/
+    }
 }
 
 function restoreOriginal(button) {
-    if (getInnerText(button) === 'Unfollow') setInnerText(button, "Following");
+    if (getInnerText(button) === 'Unfollow') {
+        setInnerText(button, "Following");
+        /*dojo.style(button, 'background-color', '#12c91e');
+        dojo.style(button, 'border-top-color', '#12c91e');*/
+    }
 }
 
 function validate(data) {

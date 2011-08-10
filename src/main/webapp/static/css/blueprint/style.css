@@ -317,7 +317,7 @@ div#user-nav-head a {
 #dropdown-text {
     cursor: pointer;
     display: inline-block;
-    padding: 10px 0px 10px 10px;
+    padding: 12px 5px 18px 10px;
     margin-top: -10px;
 }
 
@@ -327,8 +327,8 @@ div#user-nav-head a {
 
 #dropdown {
     position: absolute;
-    right: 437px;
-    top: 50px;
+    /*right: 437px;
+    top: 50px;*/
     z-index: 2;
     cursor: pointer;
     background-color: #292929;
@@ -357,11 +357,11 @@ div#dropdown div:hover {
 }
 
 #twitter-logo {
-    padding: 20px 0px 10px 20px;
+    padding: 10px 0px 10px 20px;
 }
 
 #login-handler {
-    padding: 20px 0px 10px 20px;
+    padding: 5px 0px 10px 20px;
 }
 
 #signup-left {
@@ -370,7 +370,7 @@ div#dropdown div:hover {
 
 #login-text {
     cursor: pointer;
-    padding: 20px 0px 20px 20px;
+    padding: 20px 5px 20px 20px;
     margin-left: 20px;
 }
 
@@ -385,8 +385,8 @@ div#dropdown div:hover {
 
 #login-dropdown {
     position: absolute;
-    right: 445px;
-    top: 50px;
+    /*right: 445px;
+    top: 50px;*/
     z-index: 2;
     cursor: pointer;
     background-color: #292929;

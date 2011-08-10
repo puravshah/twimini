@@ -15,10 +15,12 @@
                     </c:if>
 
                     <div class="span-9 search-box">
-                    <form id="searchForm" action="/search">
-                        <input type="text" name="q" id="search-box"/>
-                        <input type="submit" value="Search" id="search-button"/>
-                    </form>
+                        <form id="searchForm" action="/search" method = "post">
+                            <input type="text" name="query" id="search-box"/>
+                            <input type="hidden" name="start" value="0" id = "currentSearchCount"/>
+                            <input type="hidden" name="count" value="10" id = "currentSearchCountValue"/>
+                            <input type="submit" value="Search" id="search-button"/>
+                        </form>
                     </div>
 
                     <c:if test="${not empty sessionScope.name}">
@@ -27,17 +29,29 @@
                             <img src="/static/images/icon_dropdown_1.png"/>
                         </div>
 
-                        <div id="dropdown" class="span-2">
-                            <div class="span-2 last">
+                        <div id="dropdown" class="span-3">
+                            <div class="span-3 last">
                                 <a href="/user/edit">Edit Profile</a>
                             </div>
-                            <div class="span-2 last add-margin-above-20">
+                            <div class="span-3 last add-margin-above-20">
                                 <a href="/logout">Logout</a>
                             </div>
                         </div>
 
                         <script type="text/javascript">
-                            dojo.style('dropdown', 'display', 'none');
+                            var parentInfo = dojo.position('dropdown-text', true);
+                            var hiddenChild = dojo.byId('dropdown');
+                            var hiddenChildInfo = dojo.position('dropdown', true);
+
+                            var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w - 9; //-9 is by trial and error
+                            var bottom = parentInfo.y + parentInfo.h;
+                            //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
+
+                            dojo.style(hiddenChild, {
+                                left: left + "px",
+                                top: bottom + "px"
+                            });
+                            dojo.style("dropdown", "display", "none");
                         </script>
                     </c:if>
 

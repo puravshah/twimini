@@ -15,6 +15,7 @@ import twimini.services.UserService;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class User {
@@ -42,6 +43,7 @@ public class User {
         } else {
             try {
                 UserModel user = userService.addUser(name, email, password);
+                int rowsUpdated = userService.addActivationToken("" + user.getUid());
                 hashtable.put("status", "1");
                 hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
             } catch (DuplicateKeyException e) {
@@ -110,6 +112,8 @@ public class User {
 
         try {
             APIKEYService.getUid(apikey);
+        } catch (EmptyResultDataAccessException e) {
+
         } catch (Exception e) {
             return new Hashtable<String, Object>() {{
                 put("status", "0");
