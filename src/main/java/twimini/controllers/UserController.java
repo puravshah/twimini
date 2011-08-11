@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import twimini.ActivationMail;
 import twimini.InviteFriend;
 import twimini.PasswordMail;
 import twimini.model.UserModel;
 import twimini.services.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
+import java.rmi.activation.Activatable;
 import java.util.*;
 
 @Controller
@@ -25,6 +28,7 @@ public class UserController {
     public boolean runMailSender = true;
 
     @Autowired
+
     public UserController(UserService userService, FollowService followService, TweetService tweetService) {
         this.userService = userService;
         this.followService = followService;
@@ -82,6 +86,13 @@ public class UserController {
         }
     }
 
+    @PostConstruct
+    public void runMailSender()
+    {
+        Thread thread = new ActivationMail(userService);
+        thread.start();
+    }
+
     @RequestMapping("/signup")
     public ModelAndView signupGet() {
         return new ModelAndView() {{
@@ -97,12 +108,6 @@ public class UserController {
                                    @RequestParam String cpassword,
                                    @RequestParam String name,
                                    HttpSession session) {
-
-        /*if (runMailSender) {
-            Thread thread = new ActivationMail(userService);
-            thread.start();
-            runMailSender = false;
-        }*/
         boolean invalid = false;
         String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
         for (int i = 0; i < 4; i++) errorMsg[i] = "&nbsp;";

@@ -197,9 +197,6 @@ function makeTabActiveOnEdit(index) {
     }
     if (index == 3) {
         dojo.style(ids[2], "display", "block");
-        //dojo.style(ids[3],"display","block") ;
-    }
-    if (index == 3) {
         dojo.addClass(div[2], "tab-active");
     }
     else
@@ -253,7 +250,9 @@ function activateCropper(uid) {
     makeTabActiveOnEdit(3);
 }
 
-function getTweetTime(timestamp) {
+tweetTimeDate= new Date();
+
+tweetTimeDate.getTweetTime= function(timestamp) {
     //alert(timestamp);
     var currentTime = new Date();
     var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
@@ -289,6 +288,14 @@ function getTweetTime(timestamp) {
     return out + " ago";
 }
 
+tweetTimeDate.getShortMonth = function() {
+    return ["Jan", "Feb", "Mar",
+            "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep",
+            "Oct", "Nov", "Dec"][this.getMonth()];
+};
+
+
 function getFeed(input, loadMore) {
     var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
     dojo.xhrPost({
@@ -312,7 +319,8 @@ function getFeed(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
+                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -320,7 +328,6 @@ function getFeed(input, loadMore) {
             //alert("start : " + dojo.byId('currentTweetCount').value);
         },
         error: function(error) {
-            //alert('error : ' + error);
             alert(error);
         }
     });
@@ -349,7 +356,7 @@ function getTweets(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:item.timestamp});
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.timestamp))});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -488,7 +495,7 @@ function search(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:item.tweet.timestamp});
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -523,7 +530,7 @@ function loadMoreTweets(input) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:item.timestamp});
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
