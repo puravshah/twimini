@@ -326,11 +326,12 @@ function getFeed(input, loadMore) {
     });
 }
 
-function getTweets(input) {
+function getTweets(input, loadMore) {
+    var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
     dojo.xhrPost({
         url: "/tweet/getTweetList",
         handleAs: "json",
-        content: {uid:input.uid, start:0},
+        content: {uid:input.uid, start:start},
         load: function(data) {
             if (data.status == 0) {
                 if (data.errorMessage == 'Invalid apikey') {
@@ -343,8 +344,8 @@ function getTweets(input) {
 
             data = data.tweets;
             makeTabActive(0);
+            if(!loadMore) dojo.empty('ListOfTweets');
 
-            dojo.empty('ListOfTweets');
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
@@ -352,7 +353,7 @@ function getTweets(input) {
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
-            dojo.byId('currentTweetCount').value = data.length;
+            dojo.byId('currentTweetCount').value = (data.length + (loadMore ? parseInt(dojo.byId('currentTweetCount').value) : 0));
             //alert("start : " + dojo.byId('currentTweetCount').value);
         },
         error: function(error) {
@@ -435,7 +436,6 @@ function getFollowers(input, loadMore) {
 
 function search(input, loadMore) {
     var start = (loadMore ? dojo.byId('currentSearchCount').value : 0), count = dojo.byId('currentSearchCountValue').value;
-    count = '3';
     dojo.xhrPost({
         url: "/searchMore",
         handleAs: 'json',

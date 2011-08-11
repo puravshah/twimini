@@ -31,14 +31,14 @@
                         </div>
 
                         <div class="span-2 colborder center-text">
-                            <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'} )">
+                            <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'}, false )">
                                 Following<br/>
                                 <span id="following-count">${followingCount}</span>
                             </a>
                         </div>
 
                         <div class="span-2 last center-text">
-                            <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} )">
+                            <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'}, false )">
                                 Followers<br/>
                                 <span id="follower-count">${followerCount}</span>
                             </a>
@@ -47,7 +47,7 @@
 
                     <div id="following-thumbs" class="span-8 last">
                         <div class="span-8 last">
-                            <h5>Following. <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
+                            <h5>Following. <a href="javascript:getFollowing( {uid:${uid}, user:'${sessionScope.uid}'}, false )">view all</a></h5>
                         </div>
 
                         <div class="span-8 last add-margin-above-10">
@@ -64,7 +64,7 @@
 
                     <div id="follower-thumbs" class="span-8 last">
                         <div class="span-8 last">
-                            <h5>Followers. <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} )">view all</a></h5>
+                            <h5>Followers. <a href="javascript:getFollowers( {uid:${uid}, user:'${sessionScope.uid}'}, false )">view all</a></h5>
                         </div>
 
                         <div class="span-8 last add-margin-above-10">
