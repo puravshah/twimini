@@ -78,16 +78,19 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="span-8 last add-margin-above-40">
-                        <h3>Invite Friends</h3>
-                        <div class="span-4 append-4 last">
-                            <input id="email" type="email" placeholder="Email Address" onfocus="clearError()">
-                        </div>
-                        <div class="span-3 append-5 last">
-                            <input style="width: 100px" type="button" name="send"  value="Send" onclick="inviteFriends()" width="30px">
-                        </div>
-                    </div>
-                    <div id="error-msg">
 
-                    </div>
+                    <c:if test = "${not empty sessionScope.uid}">
+                        <div class="span-8 last add-margin-above-40">
+                            <h3>Invite Friends</h3>
+                            <div class="span-4 append-4 last">
+                                <input id="email" type="email" placeholder="Email Address" onfocus="clearError()">
+                            </div>
+                            <div class="span-3 append-5 last">
+                                <input style="width: 100px" type="button" name="send"  value="Send" onclick="inviteFriends()" width="30px">
+                            </div>
+                        </div>
+                        <div id="error-msg">
+
+                        </div>
+                    </c:if>
                 </div>

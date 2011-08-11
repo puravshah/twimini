@@ -33,8 +33,8 @@
 
                     <jsp:include page="leftContainerBody.jsp">
                         <jsp:param name="firstTabName" value="Feed"></jsp:param>
-                        <jsp:param name="firstTabUrl" value="getFeed({uid:${uid}})"></jsp:param>
-                        <jsp:param name="loadMoreTweetsUrl" value="loadMoreFeed({uid:${uid}})"></jsp:param>
+                        <jsp:param name="firstTabUrl" value="getFeed({uid:${uid}}, false)"></jsp:param>
+                        <jsp:param name="loadMoreTweetsUrl" value="getFeed({uid:${uid}}, true)"></jsp:param>
                     </jsp:include>
                 </div>
 

@@ -313,6 +313,10 @@ div#login-text img, div#dropdown-text img {
     padding-bottom: 10px;
 }
 
+#search-box {
+    width: 220px;
+}
+
 div#user-nav-head a {
     text-decoration: none;
     color: white;
@@ -332,11 +336,12 @@ div#user-nav-head a {
 #dropdown {
     position: absolute;
     /*right: 437px;
-    top: 50px;*/
+    top: 50px;
+    padding: 20px;*/
     z-index: 2;
     cursor: pointer;
     background-color: #292929;
-    padding: 20px;
+    min-width: 150px;
 
     -moz-border-radius-topleft: 0px;
     -moz-border-radius-topright: 0px;
@@ -353,11 +358,12 @@ div#dropdown a {
 
 div#dropdown div:hover {
     background: #393939;
-}
-
-div#dropdown div:hover {
     color: white;
     cursor: pointer;
+}
+
+div#dropdown div {
+    padding: 15px 20px 15px 20px;
 }
 
 #twitter-logo {

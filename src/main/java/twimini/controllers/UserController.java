@@ -2,13 +2,13 @@ package twimini.controllers;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import twimini.ActivationMail;
 import twimini.InviteFriend;
 import twimini.PasswordMail;
 import twimini.model.UserModel;
@@ -98,11 +98,11 @@ public class UserController {
                                    @RequestParam String name,
                                    HttpSession session) {
 
-        if (runMailSender) {
+        /*if (runMailSender) {
             Thread thread = new ActivationMail(userService);
             thread.start();
             runMailSender = false;
-        }
+        }*/
         boolean invalid = false;
         String errorMsg[] = new String[4], errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
         for (int i = 0; i < 4; i++) errorMsg[i] = "&nbsp;";
@@ -209,8 +209,14 @@ public class UserController {
 
     @RequestMapping("/activate")
     ModelAndView activateAccount(@RequestParam String token) {
-        userService.setIsActivated(token);
-        return new ModelAndView("redirect:/");
+        try {
+            userService.setIsActivated(token);
+            return new ModelAndView("redirect:/");
+        } catch (EmptyResultDataAccessException e) {
+            return new ModelAndView("/signup") {{
+                addObject("msg", "Your activation token is no longer valid. Please create a new account");
+            }};
+        }
     }
 
     @RequestMapping("/forgot")
@@ -329,8 +335,8 @@ public class UserController {
 
     @RequestMapping("/searchMore")
     @ResponseBody
-    Hashtable <String, Object> searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
-        Hashtable <String, Object> hashtable = new Hashtable<String, Object>();
+    Hashtable<String, Object> searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
+        Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         String uid = (String) session.getAttribute("uid");
         try {
             List<UserModel> searchDetails = userService.getSearch(query, uid, start, count);
@@ -353,23 +359,21 @@ public class UserController {
     }
 
     @RequestMapping("/invite")
-    @ResponseBody Hashtable<String,String> inviteFriends(@RequestParam String email,HttpSession httpSession)
-    {
-        Hashtable<String,String> ret= new Hashtable<String, String>();
+    @ResponseBody
+    Hashtable<String, String> inviteFriends(@RequestParam String email, HttpSession httpSession) {
+        Hashtable<String, String> ret = new Hashtable<String, String>();
         String[] emailAddresses = email.split(";");
-         for(int index=0;index<emailAddresses.length;index++)
-         {
-             emailAddresses[index]=emailAddresses[index].trim();
-         }
-        try{
-        Thread thread= new InviteFriend(emailAddresses,(String)httpSession.getAttribute("name"));
-         thread.start();
-        }catch (Exception e)
-        {
-           ret.put("status","0");
-
+        for (int index = 0; index < emailAddresses.length; index++) {
+            emailAddresses[index] = emailAddresses[index].trim();
         }
-        ret.put("status","1");
+        try {
+            Thread thread = new InviteFriend(emailAddresses, (String) httpSession.getAttribute("name"));
+            thread.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ret.put("status", "0");
+        }
+        ret.put("status", "1");
         return ret;
     }
 }

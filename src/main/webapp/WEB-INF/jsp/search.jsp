@@ -21,12 +21,12 @@
                         <div id="followingDiv" class="span-14 last add-padding-above-20">
                             <div id='ListOfFollowing'>
                                 <script type="text/javascript">
-                                    search( {query: '${query}', user:'${sessionScope.uid}'} );
+                                    search( {query: '${query}', user:'${sessionScope.uid}'}, false );
                                     <%--appendFollowing({id:${item.uid}, name:'${item.name}', email:'${item.email}', user:'${uid}', status:${item.status}});--%>
                                 </script>
                             </div>
                             <div id = "loadMoreSearch" class = "span-14 last add-margin-above-20">
-                                <input type = "button" value = "Load More" onclick = "loadMoreSearchResults({query: '${query}', user:'${sessionScope.uid}'})"/>
+                                <input type = "button" value = "Load More" onclick = "search({query: '${query}', user:'${sessionScope.uid}'}, true)"/>
                             </div>
                         </div>
 

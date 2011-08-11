@@ -143,13 +143,21 @@ public class UserService {
     }
 
     public String getActivationToken(String uid) {
-        return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
+        try {
+            return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
+        } catch(EmptyResultDataAccessException e) {
+            addActivationToken(uid);
+            return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
+        }
     }
 
     public int addActivationToken(String uid) {
         try {
-            removeActivationToken(getActivationToken(uid));
+            String token = UUID.randomUUID().toString();
+            return db.update("INSERT INTO activation_token VALUES(?, ?, now())", uid, token);
         } catch(Exception e) {
+            System.out.println(e);
+            removeActivationToken(getActivationToken(uid));
         }
         String token = UUID.randomUUID().toString();
         return db.update("INSERT INTO activation_token VALUES(?, ?, now())", uid, token);

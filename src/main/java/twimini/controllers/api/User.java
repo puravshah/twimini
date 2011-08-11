@@ -15,7 +15,6 @@ import twimini.services.UserService;
 
 import java.util.Hashtable;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class User {
@@ -177,7 +176,6 @@ public class User {
                 put("errorMessage", "start attribute should be a valid number");
             }};
         }
-
 
         try {
             String user = APIKEYService.getUid(apikey);

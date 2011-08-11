@@ -5,11 +5,11 @@
                             <span>${param.firstTabName}</span>
                         </div>
                         <div class="span-2 tab"
-                             onclick="getFollowing( {uid:'${uid}', user:'${sessionScope.uid}'} );">
+                             onclick="getFollowing( {uid:'${uid}', user:'${sessionScope.uid}'}, false );">
                             <span>Following</span>
                         </div>
                         <div class="span-2 tab last"
-                             onclick="getFollowers( {uid:${uid}, user:'${sessionScope.uid}'} );">
+                             onclick="getFollowers( {uid:${uid}, user:'${sessionScope.uid}'}, false );">
                             <span>Followers</span>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
 
                             </div>
                             <div class = "add-margin-above-20 span-14 last" id = "loadMoreFollowing">
-                                <input type = "button" value = "Load More" onclick = "loadMoreFollowing( {uid:'${uid}', user:'${sessionScope.uid}'} )">
+                                <input type = "button" value = "Load More" onclick = "getFollowing( {uid:'${uid}', user:'${sessionScope.uid}'}, true )">
                             </div>
                         </div>
 
@@ -44,7 +44,7 @@
 
                             </div>
                             <div class = "add-margin-above-20 span-14 last" id = "loadMoreFollowers">
-                                <input type = "button" value = "Load More" onclick = "loadMoreFollowers( {uid:'${uid}', user:'${sessionScope.uid}'} )">
+                                <input type = "button" value = "Load More" onclick = "getFollowers( {uid:'${uid}', user:'${sessionScope.uid}'}, true )">
                             </div>
                         </div>
 

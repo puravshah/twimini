@@ -14,7 +14,7 @@
                     <span class = "follow-unfollow-button" onMouseover = "changeButtonText(this)" onmouseout = "restoreOriginal(this)" onclick = "userAction(this, <%= id %>);">Following</span>
             <%  }
                 else if(status == 0) { %>
-                    <span class = "follow-button" onclick = "userAction(this, <%= id %>);">Follow</span>
+                    <span class = "follow-button" onMouseover = "changeButtonText(this)" onmouseout = "restoreOriginal(this)" onclick = "userAction(this, <%= id %>);">Follow</span>
             <%  }
         } %>
     </div>

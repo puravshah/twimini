@@ -70,7 +70,8 @@ public class ActivationMail extends Mail {
     public void run() {
         try {
             while (true) {
-                sleep(5 * 60 * 1000);
+                sleep(10000);
+                //sleep(5 * 60 * 1000);
                 runMultipleMail();
             }
         } catch (Exception e1) {

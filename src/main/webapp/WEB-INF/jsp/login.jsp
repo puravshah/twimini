@@ -8,10 +8,10 @@
     </head>
 
     <body>
-        <div class = "container" style = "padding-left: 100px;">
+        <div class = "container">
             <div class = "span-24 last header">
                 <div id = "twitter-logo" class = "span-16">
-                    <img src = "/static/images/logo.png" alt = "Mini Twitter" />
+                    <a href = "/"><img src = "/static/images/logo.png" alt = "Mini Twitter" /></a>
                 </div>
 
                 <div id = "login-text" class = "span-4">

@@ -33,7 +33,7 @@
                             <div class="span-3 last">
                                 <a href="/user/edit">Edit Profile</a>
                             </div>
-                            <div class="span-3 last add-margin-above-20">
+                            <div class="span-3 last">
                                 <a href="/logout">Logout</a>
                             </div>
                         </div>
@@ -42,7 +42,6 @@
                             var parentInfo = dojo.position('dropdown-text', true);
                             var hiddenChild = dojo.byId('dropdown');
                             var hiddenChildInfo = dojo.position('dropdown', true);
-
                             var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w - 9; //-9 is by trial and error
                             var bottom = parentInfo.y + parentInfo.h;
                             //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
