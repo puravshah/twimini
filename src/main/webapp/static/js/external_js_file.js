@@ -25,11 +25,13 @@ function inviteFriends() {
                     dojo.byId("email").value = "";
                 }
                 else {
-                    dojo.byId("error-msg").innerHTML = "error sending mail";
+                    //dojo.byId("error-msg").innerHTML = data.errorMessage;//"error sending mail";
+                    alert(data.errorMessage);
                 }
             },
-            error:function(data) {
+            error:function(error) {
                 dojo.byId("error-msg").innerHTML = "error sending mail";
+                alert(error);
             }
         }
     )
@@ -233,16 +235,6 @@ function appendFollower(data) {
     dojo.place(html, "ListOfFollower", "last")
 }
 
-function searchFollower(search1) {
-    alert(search1);
-    var input = search1;
-    var data = search1.searchdetails;
-    for (var i = 0; i < data.length; i++) {
-        item = data[i];
-        appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-    }
-}
-
 function activateCropper(uid) {
     var src = dojo.byId("uidImage");//.setAttribute("src","/image/${uid}.png");
     src.src = "/image/" + uid + ".png";
@@ -434,6 +426,41 @@ function getFollowers(input, loadMore) {
             dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
             dojo.byId('currentFollowersCount').value = (data.length + (loadMore ? parseInt(dojo.byId('currentFollowersCount').value) : 0));
             //alert("start : " + dojo.byId('currentFollowersCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+function showResults(search) {
+    if(search.value.length == 0) {
+        dojo.style('search-dropdown', 'display', 'none');
+        return;
+    }
+
+    dojo.style('search-dropdown', 'display', 'block');
+    dojo.xhrPost({
+        url: "/searchMore",
+        handleAs: 'json',
+        content: {query: search.value, start: 0, count: 5},
+        load: function(data) {
+            if (data.status == 0) {
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.searchResults;
+            dojo.empty('search-results');
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                var html = new EJS({url: 'static/ejs/searchDropdown.ejs'}).render(item);
+                dojo.place(html, "search-results", "last");
+            }
         },
         error: function(error) {
             alert(error);

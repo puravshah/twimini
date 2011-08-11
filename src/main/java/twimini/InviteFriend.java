@@ -9,7 +9,7 @@ package twimini;
  */
 public class InviteFriend extends Mail {
     private static final String emailContent = "has sent you an invitation to join Twimini.";
-    private String emailSignupMsgTxt = "http://localhost:8080/signup";
+    private String emailSignupMsgTxt = "http://localhost:8080";
     private String userName;
     public InviteFriend(String[] email, String userName) {
         super(email);

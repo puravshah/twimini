@@ -16,11 +16,19 @@
 
                     <div class="span-9 search-box">
                         <form id="searchForm" action="/search" method = "post">
-                            <input type="text" name="query" id="search-box"/>
+                            <input type="text" name="query" id="search-box" onkeyup = "showResults(this)" onkeydown = "showResults(this)" autocomplete="off"/>
                             <input type="hidden" name="start" value="0" id = "currentSearchCount"/>
                             <input type="hidden" name="count" value="10" id = "currentSearchCountValue"/>
                             <input type="submit" value="Search" id="search-button"/>
                         </form>
+                    </div>
+
+                    <div class = "span-7" id = "search-dropdown">
+                        <ul id = "search-results"></ul>
+
+                        <div id = 'loadMoreSearchResults' class = "center-text">
+                            See More Results
+                        </div>
                     </div>
 
                     <c:if test="${not empty sessionScope.name}">
@@ -64,3 +72,16 @@
                     </c:if>
                 </div>
             </div>
+
+            <script type = "text/javascript">
+                var dropdown = dojo.byId('search-dropdown');
+                var searchBoxPos = dojo.position(dojo.byId('search-box'), true);
+                var dropdownPos = dojo.position(dropdown, true);
+
+                dojo.style(dropdown, {
+                    left: searchBoxPos.x - (dropdownPos.w - searchBoxPos.w) / 2 - 7,
+                    top: searchBoxPos.y + searchBoxPos.h
+                });
+                //alert( "(" + searchBoxPos.x + " " + searchBoxPos.w + "), (" + dropdownPos.x + " " + dropdownPos.w + ")");
+                dojo.style(dropdown, 'display', 'none');
+            </script>

@@ -366,6 +366,13 @@ public class UserController {
     @RequestMapping("/invite")
     @ResponseBody
     Hashtable<String, String> inviteFriends(@RequestParam String email, HttpSession httpSession) {
+        if(httpSession.getAttribute("uid") == null) {
+            return new Hashtable<String, String>() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        }
+
         Hashtable<String, String> ret = new Hashtable<String, String>();
         String[] emailAddresses = email.split(";");
         for (int index = 0; index < emailAddresses.length; index++) {
@@ -377,6 +384,7 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             ret.put("status", "0");
+            ret.put("errorMessage", e.toString());
         }
         ret.put("status", "1");
         return ret;
