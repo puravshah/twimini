@@ -2,6 +2,7 @@ package twimini.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -97,12 +98,18 @@ public class UserService {
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
-    public static void addForgotToken(String token, int uid) throws Exception {
-        db.update("INSERT INTO forgot_token VALUES(?, ?, now())", token, uid);
+    public static String addForgotToken(int uid) throws Exception {
+        String token = UUID.randomUUID().toString();
+        try {
+            db.update("INSERT INTO forgot_token VALUES(?, ?, now())", uid, token);
+        } catch(DuplicateKeyException e) {
+            db.update("UPDATE forgot_token set token = ? WHERE uid = ?", token, uid);
+        }
+        return token;
     }
 
-    public static int getUidFromForgotToken(String token) throws Exception {
-        return db.queryForInt("SELECT uid FROM forgot_token WHERE token = ?", token);
+    public static String getUidFromForgotToken(String token) throws Exception {
+        return db.queryForObject("SELECT uid FROM forgot_token WHERE token = ?", String.class, token);
     }
 
     public static void removeForgotToken(String token) throws Exception {

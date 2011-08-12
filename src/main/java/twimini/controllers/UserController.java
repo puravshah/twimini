@@ -17,7 +17,6 @@ import twimini.services.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.rmi.activation.Activatable;
 import java.util.*;
 
 @Controller
@@ -235,22 +234,19 @@ public class UserController {
         UserModel userModel;
         try {
             userModel = UserService.getUserInfo(email);
-            String token = UUID.randomUUID().toString();
-            Thread thread = new PasswordMail(userModel, token);
-            thread.start();
-            UserService.addForgotToken(token, userModel.getUid());
+            String token = UserService.addForgotToken(userModel.getUid());
+            new PasswordMail(userModel, token).start();
+            return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     @RequestMapping("/reset")
-    ModelAndView getResetPassword(@RequestParam String token) {
-        final int uid;
+    ModelAndView getResetPassword(@RequestParam final String token, HttpSession session) {
         try {
-            uid = UserService.getUidFromForgotToken(token);
-            UserService.removeForgotToken(token);
+            UserService.getUidFromForgotToken(token);
         } catch (Exception e) {
             return new ModelAndView("/forgot") {{
                 addObject("msg", "Reset Token is invalid");
@@ -258,19 +254,29 @@ public class UserController {
         }
 
         return new ModelAndView() {{
-            addObject("uid", uid);
+            addObject("token", token);
         }};
     }
 
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ResponseBody
-    boolean postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String uid) {
+    Hashtable <String, String> postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
+        Hashtable <String, String> hashtable = new Hashtable<String, String>();
         try {
+            String uid = UserService.getUidFromForgotToken(token);
             UserService.changePassword(uid, password);
+            UserService.removeForgotToken(token);
+            hashtable.put("status", "1");
+        } catch (EmptyResultDataAccessException e) {
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", "The token is either invalid or has expired");
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", e.toString());
         }
-        return true;
+
+        return hashtable;
     }
 
     @RequestMapping("/user")

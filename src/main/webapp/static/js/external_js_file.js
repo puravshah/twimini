@@ -242,9 +242,9 @@ function activateCropper(uid) {
     makeTabActiveOnEdit(3);
 }
 
-tweetTimeDate= new Date();
+tweetTimeDate = new Date();
 
-tweetTimeDate.getTweetTime= function(timestamp) {
+tweetTimeDate.getTweetTime = function(timestamp) {
     //alert(timestamp);
     var currentTime = new Date();
     var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
@@ -282,9 +282,9 @@ tweetTimeDate.getTweetTime= function(timestamp) {
 
 tweetTimeDate.getShortMonth = function() {
     return ["Jan", "Feb", "Mar",
-            "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep",
-            "Oct", "Nov", "Dec"][this.getMonth()];
+        "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec"][this.getMonth()];
 };
 
 
@@ -306,12 +306,12 @@ function getFeed(input, loadMore) {
 
             data = data.feed;
             makeTabActive(0);
-            if(!loadMore) dojo.empty('ListOfTweets');
-            
+            if (!loadMore) dojo.empty('ListOfTweets');
+
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
                 appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y});
             }
 
@@ -343,12 +343,12 @@ function getTweets(input, loadMore) {
 
             data = data.tweets;
             makeTabActive(0);
-            if(!loadMore) dojo.empty('ListOfTweets');
+            if (!loadMore) dojo.empty('ListOfTweets');
 
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.timestamp))});
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:tweetTimeDate.getTweetTime(item.timestamp)});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -379,7 +379,7 @@ function getFollowing(input, loadMore) {
 
             data = data.following
             makeTabActive(1);
-            if(!loadMore) dojo.empty('ListOfFollowing');
+            if (!loadMore) dojo.empty('ListOfFollowing');
 
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
@@ -415,7 +415,7 @@ function getFollowers(input, loadMore) {
 
             data = data.followers;
             makeTabActive(2);
-            if(!loadMore) dojo.empty('ListOfFollower');
+            if (!loadMore) dojo.empty('ListOfFollower');
 
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
@@ -434,7 +434,7 @@ function getFollowers(input, loadMore) {
 }
 
 function showResults(search) {
-    if(search.value.length == 0) {
+    if (search.value.length == 0) {
         dojo.style('search-dropdown', 'display', 'none');
         return;
     }
@@ -501,176 +501,176 @@ function search(input, loadMore) {
 }
 
 /*function loadMoreFeed(input) {
-    var start = dojo.byId("currentTweetCount").value;
-    dojo.xhrPost({
-        url: "/tweet/getFeed",
-        handleAs: "json",
-        content: {uid:input.uid, start:start},
-        load: function(data) {
-            if (data.status == 0) {
-                if (data.errorMessage == 'Invalid apikey') {
-                    window.location = "/";
-                    return;
-                }
-                alert(data.errorMessage);
-                return;
-            }
+ var start = dojo.byId("currentTweetCount").value;
+ dojo.xhrPost({
+ url: "/tweet/getFeed",
+ handleAs: "json",
+ content: {uid:input.uid, start:start},
+ load: function(data) {
+ if (data.status == 0) {
+ if (data.errorMessage == 'Invalid apikey') {
+ window.location = "/";
+ return;
+ }
+ alert(data.errorMessage);
+ return;
+ }
 
-            data = data.feed;
-            makeTabActive(0);
+ data = data.feed;
+ makeTabActive(0);
 
-            for (var i = 0; i < data.length; i++) {
-                item = data[i];
-                var tweet = filter(item.tweet.tweet);
-                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
-            }
+ for (var i = 0; i < data.length; i++) {
+ item = data[i];
+ var tweet = filter(item.tweet.tweet);
+ appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
+ }
 
-            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
-            dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
-            //alert("start : " + dojo.byId('currentTweetCount').value);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-}
+ dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+ dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
+ //alert("start : " + dojo.byId('currentTweetCount').value);
+ },
+ error: function(error) {
+ alert(error);
+ }
+ });
+ }
 
-function loadMoreTweets(input) {
-    var start = dojo.byId("currentTweetCount").value;
-    dojo.xhrPost({
-        url: "/tweet/getTweetList",
-        handleAs: "json",
-        content: {uid:input.uid, start:start},
-        load: function(data) {
-            if (data.status == 0) {
-                if (data.errorMessage == 'Invalid apikey') {
-                    window.location = "/";
-                    return;
-                }
-                alert(data.errorMessage);
-                return;
-            }
+ function loadMoreTweets(input) {
+ var start = dojo.byId("currentTweetCount").value;
+ dojo.xhrPost({
+ url: "/tweet/getTweetList",
+ handleAs: "json",
+ content: {uid:input.uid, start:start},
+ load: function(data) {
+ if (data.status == 0) {
+ if (data.errorMessage == 'Invalid apikey') {
+ window.location = "/";
+ return;
+ }
+ alert(data.errorMessage);
+ return;
+ }
 
-            data = data.tweets;
-            makeTabActive(0);
+ data = data.tweets;
+ makeTabActive(0);
 
-            for (var i = 0; i < data.length; i++) {
-                item = data[i];
-                var tweet = filter(item.tweet);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
-            }
+ for (var i = 0; i < data.length; i++) {
+ item = data[i];
+ var tweet = filter(item.tweet);
+ appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
+ }
 
-            dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
-            dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
-            //alert("start : " + dojo.byId('currentTweetCount').value);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-}
+ dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
+ dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
+ //alert("start : " + dojo.byId('currentTweetCount').value);
+ },
+ error: function(error) {
+ alert(error);
+ }
+ });
+ }
 
-function loadMoreFollowing(input) {
-    var start = dojo.byId('currentFollowingCount').value;
-    dojo.xhrPost({
-        url: "/user/getFollowing",
-        handleAs: "json",
-        content: {uid:input.uid, start:start},
-        load: function(data) {
-            if (data.status == 0) {
-                if (data.errorMessage == 'Invalid apikey') {
-                    window.location = "/";
-                    return;
-                }
-                alert(data.errorMessage);
-                return;
-            }
+ function loadMoreFollowing(input) {
+ var start = dojo.byId('currentFollowingCount').value;
+ dojo.xhrPost({
+ url: "/user/getFollowing",
+ handleAs: "json",
+ content: {uid:input.uid, start:start},
+ load: function(data) {
+ if (data.status == 0) {
+ if (data.errorMessage == 'Invalid apikey') {
+ window.location = "/";
+ return;
+ }
+ alert(data.errorMessage);
+ return;
+ }
 
-            data = data.following;
-            makeTabActive(1);
+ data = data.following;
+ makeTabActive(1);
 
-            for (var i = 0; i < data.length; i++) {
-                item = data[i];
-                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-            }
+ for (var i = 0; i < data.length; i++) {
+ item = data[i];
+ appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+ }
 
-            setInnerText(dojo.byId("following-count"), data.length);
-            dojo.style("loadMoreFollowing", "display", (data.length < 10) ? "none" : "block");
-            dojo.byId('currentFollowingCount').value = (data.length + parseInt(dojo.byId('currentFollowingCount').value));
-            //alert("start : " + dojo.byId('currentFollowingCount').value);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-}
+ setInnerText(dojo.byId("following-count"), data.length);
+ dojo.style("loadMoreFollowing", "display", (data.length < 10) ? "none" : "block");
+ dojo.byId('currentFollowingCount').value = (data.length + parseInt(dojo.byId('currentFollowingCount').value));
+ //alert("start : " + dojo.byId('currentFollowingCount').value);
+ },
+ error: function(error) {
+ alert(error);
+ }
+ });
+ }
 
-function loadMoreFollowers(input) {
-    var start = dojo.byId('currentFollowingCount').value;
-    dojo.xhrPost({
-        url: "/user/getFollowers",
-        handleAs: "json",
-        content: {uid:input.uid, start:start},
-        load: function(data) {
-            if (data.status == 0) {
-                if (data.errorMessage == 'Invalid apikey') {
-                    window.location = "/";
-                    return;
-                }
-                alert(data.errorMessage);
-                return;
-            }
+ function loadMoreFollowers(input) {
+ var start = dojo.byId('currentFollowingCount').value;
+ dojo.xhrPost({
+ url: "/user/getFollowers",
+ handleAs: "json",
+ content: {uid:input.uid, start:start},
+ load: function(data) {
+ if (data.status == 0) {
+ if (data.errorMessage == 'Invalid apikey') {
+ window.location = "/";
+ return;
+ }
+ alert(data.errorMessage);
+ return;
+ }
 
-            data = data.following;
-            makeTabActive(1);
+ data = data.following;
+ makeTabActive(1);
 
-            for (var i = 0; i < data.length; i++) {
-                item = data[i];
-                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-            }
+ for (var i = 0; i < data.length; i++) {
+ item = data[i];
+ appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+ }
 
-            setInnerText(dojo.byId("followers-count"), data.length);
-            dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
-            dojo.byId('currentFollowersCount').value = (data.length + parseInt(dojo.byId('currentFollowersCount').value));
-            //alert("start : " + dojo.byId('currentFollowersCount').value);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-}
+ setInnerText(dojo.byId("followers-count"), data.length);
+ dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
+ dojo.byId('currentFollowersCount').value = (data.length + parseInt(dojo.byId('currentFollowersCount').value));
+ //alert("start : " + dojo.byId('currentFollowersCount').value);
+ },
+ error: function(error) {
+ alert(error);
+ }
+ });
+ }
 
-function loadMoreSearchResults(input) {
-    var start = dojo.byId('currentSearchCount').value, count = dojo.byId('currentSearchCountValue').value;
-    dojo.xhrPost({
-        url: "/searchMore",
-        handleAs: 'json',
-        content: {query: input.query, start: start, count: count},
-        load: function(data) {
-            if (data.status == 0) {
-                if (data.errorMessage == 'Invalid apikey') {
-                    window.location = "/";
-                    return;
-                }
-                alert(data.errorMessage);
-                return;
-            }
+ function loadMoreSearchResults(input) {
+ var start = dojo.byId('currentSearchCount').value, count = dojo.byId('currentSearchCountValue').value;
+ dojo.xhrPost({
+ url: "/searchMore",
+ handleAs: 'json',
+ content: {query: input.query, start: start, count: count},
+ load: function(data) {
+ if (data.status == 0) {
+ if (data.errorMessage == 'Invalid apikey') {
+ window.location = "/";
+ return;
+ }
+ alert(data.errorMessage);
+ return;
+ }
 
-            data = data.searchResults;
-            for (var i = 0; i < data.length; i++) {
-                item = data[i];
-                appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
-            }
+ data = data.searchResults;
+ for (var i = 0; i < data.length; i++) {
+ item = data[i];
+ appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
+ }
 
-            dojo.style("loadMoreSearch", "display", (data.length < count) ? "none" : "block");
-            dojo.byId('currentSearchCount').value = (data.length + parseInt(dojo.byId('currentSearchCount').value));
-            //alert("start : " + dojo.byId('currentFollowersCount').value);
-        },
-        error: function(error) {
-            alert(error);
-        }
-    });
-}*/
+ dojo.style("loadMoreSearch", "display", (data.length < count) ? "none" : "block");
+ dojo.byId('currentSearchCount').value = (data.length + parseInt(dojo.byId('currentSearchCount').value));
+ //alert("start : " + dojo.byId('currentFollowersCount').value);
+ },
+ error: function(error) {
+ alert(error);
+ }
+ });
+ }*/
 
 function userAction(button, id) {
     if (getInnerText(button) === 'Follow') follow(button, id);
@@ -733,8 +733,10 @@ function follow(button, id) {
 
 function doForgot() {
     var email = dojo.byId("email").value;
-    if (email === "") {
-        dojo.byId("forgot-msg").innerHTML = "<span>Please enter your email id</span>";
+    if (email == "") {
+        dojo.byId("error-content").innerHTML = "<h4>Please enter your email id</h4>";
+        dojo.byId("msg-container").innerHTML = "<h4>Enter your Email id here, and we'll send you a reset link to change your password</h4>";
+        dojo.style("error-box", "display", "block");
         return;
     }
 
@@ -744,11 +746,14 @@ function doForgot() {
         content: {email: email},
         load: function(data) {
             if (data) {
-                dojo.byId("msg-container").innerHTML = "<span><h5>An email has been sent to you, which contains the instructions to reset your password</h5></span>";
-                dojo.byId("forgot-msg").innerHTML = "<span></span>";
+                dojo.byId("msg-container").innerHTML = "<h4>An email has been sent to you, which contains the instructions to reset your password</h4>";
+                dojo.byId("error-content").innerHTML = "";
+                dojo.style("error-box", "display", "none");
             }
             else {
-                dojo.byId("forgot-msg").innerHTML = "<span>Invalid email. We do not have a record of your email id</span>";
+                dojo.byId("error-content").innerHTML = "<h4>Invalid email. We do not have a record of your email id</h4>";
+                dojo.byId("msg-container").innerHTML = "<h4>Enter your Email id here, and we'll send you a reset link to change your password</h4>";
+                dojo.style("error-box", "display", "block");
             }
         },
         error: function(error) {
@@ -758,34 +763,41 @@ function doForgot() {
 }
 
 function doReset() {
-    var password = dojo.byId("password").value;
-    var cpassword = dojo.byId("cpassword").value;
-    var uid = dojo.byId("uid").value;
-    alert("password : " + password + ", cpassword : " + cpassword);
+    var password = dojo.byId("newPassword").value;
+    var cpassword = dojo.byId("confirmPassword").value;
+    var token = dojo.byId("token").value;
+
     if (password == "" || cpassword == "") {
-        dojo.byId("forgot-msg").innerHTML = "<span>Please fill out all the fields</span>";
+        dojo.style("error-box", "display", "block");
+        dojo.byId("error-content").innerHTML = "<h4>Please fill out all the fields</h4>";
+        dojo.byId("msg-container").innerHTML = "<h4>Change your password here</h4>";
         return false;
     }
     if (password != cpassword) {
-        dojo.byId("forgot-msg").innerHTML = "<span>The passwords don't match</span>";
+        dojo.byId("error-content").innerHTML = "<h4>The passwords don't match</h4>";
+        dojo.byId("msg-container").innerHTML = "<h4>Change your password here</h4>";
+        dojo.style("error-box", "display", "block");
         return false;
     }
 
     dojo.xhrPost({
         url: "/reset",
         handleAs: "json",
-        content: {password: password, cpassword: cpassword, uid: uid},
+        content: {password: password, cpassword: cpassword, token: token},
         load: function(data) {
             if (data) {
-                dojo.byId("msg-container").innerHTML = "<span><h5>Password successfully changed.</h5></span>";
-                dojo.byId("forgot-msg").innerHTML = "<span></span>";
+                dojo.byId("msg-container").innerHTML = "<h4>Password successfully changed</h4>";
+                dojo.byId("error-content").innerHTML = "";
+                dojo.style("error-box", "display", "none");
             }
             else {
-                dojo.byId("forgot-msg").innerHTML = "<span>Unable to change your password</span>";
+                dojo.byId("error-content").innerHTML = "<h4>Unable to change your password</h4>";
+                dojo.byId("msg-container").innerHTML = "<h4>Change your password here</h4>";
+                dojo.style("error-box", "display", "block");
             }
 
-            dojo.byId("password").value = "";
-            dojo.byId("cpassword").value = "";
+            dojo.byId("newPassword").value = "";
+            dojo.byId("confirmPassword").value = "";
         },
         error: function(error) {
             alert(error);
@@ -794,8 +806,8 @@ function doReset() {
     return false;
 }
 
-function toggleDropdown() {
-    var style = dojo.style('dropdown', "display");
+/*function toggleDropdown() {
+    var style = dojo.style('dropdown', 'display');
     dojo.style('dropdown', 'display', style == 'block' ? 'none' : 'block');
     if (style == 'none') dojo.byId('dropdown-text').style.backgroundColor = '#2F2F2F';
     else dojo.byId('dropdown-text').removeAttribute('style');
@@ -806,6 +818,14 @@ function toggleLoginDropdown() {
     dojo.style('login-dropdown', 'display', style == 'block' ? 'none' : 'block');
     if (style == 'none') dojo.byId('login-text').style.backgroundColor = '#2F2F2F';
     else dojo.byId('login-text').removeAttribute('style');
+}*/
+
+function toggleDropDown(id) {
+    var style = dojo.style(id, 'display');
+    dojo.style(id, 'display', style == 'block' ? 'none' : 'block');
+    id = (id == 'login-dropdown' ? 'login-text' : 'dropdown-text');
+    if (style == 'none') dojo.byId(id).style.backgroundColor = '#2F2F2F';
+    else dojo.byId(id).removeAttribute('style');
 }
 
 function showResetFields() {
