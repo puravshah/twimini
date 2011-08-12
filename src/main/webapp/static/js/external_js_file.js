@@ -434,7 +434,7 @@ function getFollowers(input, loadMore) {
 }
 
 function showResults(search) {
-    if (search.value.length == 0) {
+    if (search.value.length == 0 || !queryIsNotEmpty(search.value)) {
         dojo.style('search-dropdown', 'display', 'none');
         return;
     }
@@ -443,7 +443,7 @@ function showResults(search) {
     dojo.xhrPost({
         url: "/searchMore",
         handleAs: 'json',
-        content: {query: search.value, start: 0, count: 5},
+        content: {query: search.value.trim(), start: 0, count: 5},
         load: function(data) {
             if (data.status == 0) {
                 if (data.errorMessage == 'Invalid apikey') {
@@ -461,6 +461,10 @@ function showResults(search) {
                 var html = new EJS({url: 'static/ejs/searchDropdown.ejs'}).render(item);
                 dojo.place(html, "search-results", "last");
             }
+
+            if(data.length == 0) setInnerText(dojo.byId('loadMoreSearchResults'), "No Results found for '" + search.value.trim() + "'");
+            else if(data.length < 5) setInnerText(dojo.byId('loadMoreSearchResults'), "Showing all results");
+            else setInnerText(dojo.byId('loadMoreSearchResults'), "See more results");
         },
         error: function(error) {
             alert(error);
@@ -468,8 +472,25 @@ function showResults(search) {
     });
 }
 
+function gotoSearchPage() {
+    var query = dojo.byId('search-box').value;
+    if(!queryIsNotEmpty(query)) alert('enter a query to search');
+    else window.location = "/search?query=" + query;
+}
+
+function queryIsNotEmpty(str) {
+    var query;
+    if(str) query = str;
+    else query = dojo.byId('search-box').value;
+    return !(!query || /^\s*$/.test(query));
+}
+
 function search(input, loadMore) {
-    var start = (loadMore ? dojo.byId('currentSearchCount').value : 0), count = dojo.byId('currentSearchCountValue').value;
+    if(!queryIsNotEmpty(input.query)) {
+        dojo.style('')
+    }
+
+    var start = (loadMore ? dojo.byId('currentSearchCount').value : input.start), count = (loadMore ? dojo.byId('currentSearchCountValue').value : input.count);
     dojo.xhrPost({
         url: "/searchMore",
         handleAs: 'json',

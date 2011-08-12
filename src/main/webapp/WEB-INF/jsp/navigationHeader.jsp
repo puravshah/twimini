@@ -6,67 +6,66 @@
 
                 <div id="user-nav-head" class span="18 last">
                     <c:if test="${not empty sessionScope.uid}">
-                        <div class="span-2">
+                        <div class="span-2 whitelink">
                             <a href="/tweet">Home</a>
                         </div>
-                        <div class="span-2">
+                        <div class="span-2 whitelink">
                             <a href="/user?uid=${sessionScope.uid}">Profile</a>
                         </div>
                     </c:if>
 
                     <div class="span-9 search-box">
-                        <form id="searchForm" action="/search" method = "post">
+                        <%--<form id="searchForm" action="/search" onsubmit = "return queryIsNotEmpty();">--%>
                             <input type="text" name="query" id="search-box" onkeyup = "showResults(this)" onkeydown = "showResults(this)" autocomplete="off"/>
                             <input type="hidden" name="start" value="0" id = "currentSearchCount"/>
                             <input type="hidden" name="count" value="10" id = "currentSearchCountValue"/>
-                            <input type="submit" value="Search" id="search-button"/>
-                        </form>
+                            <input type="submit" value="Search" id="search-button" onclick="gotoSearchPage()"/>
+                        <%--</form>--%>
                     </div>
 
                     <div class = "span-7" id = "search-dropdown">
                         <ul id = "search-results"></ul>
-
-                        <div id = 'loadMoreSearchResults' class = "center-text">
-                            See More Results
-                        </div>
+                        <div id = 'loadMoreSearchResults' class = "center-text" onclick = "gotoSearchPage()"></div>
                     </div>
 
                     <c:if test="${not empty sessionScope.name}">
-                        <div id="dropdown-text" class="span-3 append-2 center-text last" onclick="toggleDropDown('dropdown')">
+                        <div id="dropdown-text" class="span-3 append-2 center-text last whitelink" onclick="toggleDropDown('dropdown')">
                             <a href="javascript:void(0);">${sessionScope.name}</a>
                             <img src="/static/images/icon_dropdown_1.png"/>
                         </div>
 
                         <div id="dropdown" class="span-3">
-                            <div class="span-3 last">
+                            <div class="span-3 last whitelink">
                                 <a href="/user/edit">Edit Profile</a>
                             </div>
-                            <div class="span-3 last">
+                            <div class="span-3 last whitelink">
                                 <a href="/logout">Logout</a>
                             </div>
                         </div>
 
                         <script type="text/javascript">
-                            var parentInfo = dojo.position('dropdown-text', true);
-                            var hiddenChild = dojo.byId('dropdown');
-                            var hiddenChildInfo = dojo.position('dropdown', true);
-                            var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w - 9; //-9 is by trial and error
-                            var bottom = parentInfo.y + parentInfo.h;
-                            //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
+                            dojo.addOnLoad(function () {
+                                var parentInfo = dojo.position('dropdown-text', true);
+                                var hiddenChild = dojo.byId('dropdown');
+                                var hiddenChildInfo = dojo.position('dropdown', true);
+                                var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w - 9; //-9 is by trial and error
+                                var bottom = parentInfo.y + parentInfo.h;
+                                //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
 
-                            dojo.style(hiddenChild, {
-                                left: left + "px",
-                                top: bottom + "px"
+                                dojo.style(hiddenChild, {
+                                    left: left + "px",
+                                    top: bottom + "px"
+                                });
+                                dojo.style("dropdown", "display", "none");
                             });
-                            dojo.style("dropdown", "display", "none");
                         </script>
                     </c:if>
 
                     <c:if test = "${empty sessionScope.name}">
-                        <div class = "prepend-3 span-2">
+                        <div class = "prepend-3 span-2 whitelink">
                             <a href = "/login">Login</a>
                         </div>
-                        <div class = "span-2 append-1 last">
+                        <div class = "span-2 append-1 last whitelink">
                             <a href = "/signup">Signup</a>
                         </div>
                     </c:if>

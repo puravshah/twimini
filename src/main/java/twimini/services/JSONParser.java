@@ -118,8 +118,6 @@ public class JSONParser {
     }
 
     public static JSONObject createTweetFromJSON(String tweet, String apikey) throws Exception {
-        /*String url = String.format("%s/api/tweet/create?tweet=%s&apikey=%s", urlPrefix, tweet, apikey);
-        return JSONParser.getData(url);*/
         Map <String, String> attributes = new HashMap<String, String>();
         attributes.put("tweet", tweet);
         attributes.put("apikey", apikey);
@@ -141,5 +139,11 @@ public class JSONParser {
         attributes.put("email", email);
         attributes.put("password", password);
         return JSONParser.postData(urlPrefix + "/api/user/login", attributes);
+    }
+
+    public static JSONObject searchFromJSON(String query, String apikey, String start, String count) {
+        String APIKEY = apikey == null ? "" : "&apikey=" + apikey;
+        String url = String.format("%s/api/search?query=%s&start=%s&count=%s%s", urlPrefix, query, start, count, APIKEY);
+        return JSONParser.getData(url);
     }
 }

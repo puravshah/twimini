@@ -322,29 +322,7 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("/searchData")
-    @ResponseBody
-    Hashtable<String, Object> search(@RequestParam String query, String start, String count, HttpSession session) {
-        if (count == null || count.equals("")) count = "10";
-        if (start == null || start.equals("")) start = "0";
-
-        List<UserModel> searchDetails = null;
-        Hashtable<String, Object> ret = new Hashtable<String, Object>();
-        String uid = (String) session.getAttribute("uid");
-        try {
-            searchDetails = userService.getSearch(query, uid, start, count);
-            if (ret == null) throw new Exception("Null returned in search.jsp");
-        } catch (Exception e) {
-            ret.put("status", 0);
-            ret.put("error", "No user with this name");
-            return ret;
-        }
-        ret.put("status", 1);
-        ret.put("searchDetails", searchDetails);
-        return ret;
-    }
-
-    @RequestMapping("/searchMore")
+    /*@RequestMapping("/searchMore")
     @ResponseBody
     Hashtable<String, Object> searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
@@ -359,13 +337,23 @@ public class UserController {
             e.printStackTrace();
         }
         return hashtable;
+    }*/
+
+    @RequestMapping("/searchMore")
+    @ResponseBody
+    JSONObject searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
+        return JSONParser.searchFromJSON(query, (String)session.getAttribute("apikey"), start, count);
     }
 
     @RequestMapping("/search")
-    ModelAndView searchInfo(@RequestParam final String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
-        final String uid = (String) session.getAttribute("uid");
+    ModelAndView searchInfo(@RequestParam final String query, String start, String count, HttpSession session) {
+        final String Start = start == null ? "0" : start;
+        final String Count = count == null ? "10" : count;
+
         return new ModelAndView() {{
             addObject("query", query);
+            addObject("start", Start);
+            addObject("count", Count);
         }};
     }
 

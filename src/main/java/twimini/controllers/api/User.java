@@ -196,4 +196,63 @@ public class User {
 
         return hashtable;
     }
+
+    @RequestMapping("/api/search") @ResponseBody
+    Hashtable <String, Object> getSearch(@RequestParam String query, String start, String count, String apikey) {
+        Hashtable <String, Object> hashtable = new Hashtable<String, Object>();
+        if(query.length() > 100) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "query string too long. Max 100 characters allowed");
+            }};
+        }
+
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
+        try {
+            Integer.parseInt(count);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "count attribute should be a valid number");
+            }};
+        }
+
+        try {
+            Integer.parseInt(start);
+        } catch (Exception e) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "start attribute should be a valid number");
+            }};
+        }
+
+        query = query.trim();
+        boolean whitespace = true;
+        for(int i = 0; i < query.length() && whitespace; i++) whitespace = query.charAt(i) < 32;
+        if(whitespace) {
+            return new Hashtable<String, Object>() {{
+                put("status", "0");
+                put("errorMessage", "query string contains no characters");
+            }};
+        }
+
+        String uid;
+        try {
+            uid = APIKEYService.getUid(apikey);
+        } catch (Exception e) {
+            uid = null;
+        }
+        try {
+            List<UserModel> list = userService.getSearch(query, uid, start, count);
+            hashtable.put("status", "1");
+            hashtable.put("searchResults", list);
+        } catch (Exception e) {
+            hashtable.put("status", "1");
+            hashtable.put("searchResults", "Unable to fetch results");
+            e.printStackTrace();
+        }
+
+        return hashtable;
+    }
 }

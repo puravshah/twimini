@@ -89,7 +89,6 @@ public class UserService {
     }
 
     public static List<UserModel> getInactiveUser() {
-
         String activationStatus = "email not sent";
         return db.query("SELECT * FROM user WHERE isActivated = ?", UserModel.rowMapper, activationStatus);
     }

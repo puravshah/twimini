@@ -129,12 +129,6 @@ div.tab:hover {
     background: #EAEAEA !important;
 }
 
-/*.item-row {
-    margin-top: 5px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
-}*/
-
 .item-row {
     margin-bottom: 10px;
     padding: 20px;
@@ -188,7 +182,6 @@ div.forgot-msg {
     box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
     color: white;
-    /*font-size: 14px;*/
     text-decoration: none;
     vertical-align: middle;
     padding: 10px;
@@ -222,8 +215,6 @@ span.follow-unfollow-button:active {
     box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
     text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
     color: #ffffff;
-    /*font-size: 14px;
-    font-family: Georgia, serif;*/
     text-decoration: none;
     vertical-align: middle;
     cursor: pointer;
@@ -303,12 +294,7 @@ form#form-container input {
 }
 
 div.search-text {
-    color: black;
     margin-left: -15px;
-}
-
-div.search-text:hover {
-    color: white !important;
 }
 
 div#loadMoreSearchResults {
@@ -338,8 +324,20 @@ ul#search-results {
     overflow: hidden;
 }
 
-ul#search-results li:hover {
+ul#search-results li {
     width: 260px;
+    padding: 5px !important;
+    color: black !important;
+}
+
+ul#search-results a {
+    color: black !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+ul#search-results a:hover {
+    color: white !important;
 }
 
 ul#search-results li:hover, div#loadMoreSearchResults:hover {
@@ -347,8 +345,8 @@ ul#search-results li:hover, div#loadMoreSearchResults:hover {
     color: white !important;
 }
 
-ul#search-results li {
-    padding: 5px !important;
+div#loadMoreSearchResults {
+    overflow: hidden;
 }
 
 div#login-text img, div#dropdown-text img {
@@ -366,7 +364,7 @@ div#login-text img, div#dropdown-text img {
     padding-bottom: 10px;
 }
 
-div#user-nav-head div a:first-child {
+div.whitelink a {
     text-decoration: none;
     color: white;
 }
