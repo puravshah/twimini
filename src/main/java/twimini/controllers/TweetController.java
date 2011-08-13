@@ -160,11 +160,7 @@ public class TweetController {
     @RequestMapping("/tweet/getFeed")
     @ResponseBody
     JSONObject getFeed(@RequestParam final String uid, String start, String count, HttpSession session) {
-        if (true) {
 
-            Thread thread = new ActivationMail(userService);
-            thread.start();
-        }
         if (count == null || count.equals("")) count = "10";
         if (start == null || start.equals("")) start = "0";
         try {

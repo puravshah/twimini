@@ -19,6 +19,7 @@ public class TweetModel {
     private int pid, uid;
     private String tweet ;
     private long timestamp;
+    private String status;
 
     public static final RowMapper<TweetModel> rowMapper = new RowMapper<TweetModel>() {
         @Override
@@ -35,6 +36,7 @@ public class TweetModel {
         uid = rs.getInt("uid");
         tweet = rs.getString("tweet");
         timestamp = ((java.sql.Timestamp)rs.getObject("timestamp")).getTime();
+        status=rs.getString("status");
     }
 
     public TweetModel(int pid, int uid, String tweet, long timestamp) {
@@ -56,9 +58,14 @@ public class TweetModel {
         return tweet;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public long getTimestamp() {
         return timestamp;
     }
+
 
     public void setPid(int pid) {
         this.pid = pid;
@@ -75,4 +82,9 @@ public class TweetModel {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
+

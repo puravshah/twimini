@@ -20,6 +20,8 @@ public class TweetWrapper {
     //private int pid, uid;
     private TweetModel tweet;
 
+    private String status;
+
     public static RowMapper<TweetWrapper> rowMapper = new RowMapper<TweetWrapper>() {
         @Override
         public TweetWrapper mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -33,6 +35,8 @@ public class TweetWrapper {
     TweetWrapper(ResultSet rs) throws SQLException {
         tweet = new TweetModel(rs.getInt("pid"), rs.getInt("uid"), rs.getString("tweet"), ((java.sql.Timestamp)rs.getObject("timestamp")).getTime());
         name = rs.getString("name");
+        status =rs.getString("status");
+        System.out.println(status);
     }
 
     /*public int getPid() {
@@ -59,6 +63,14 @@ public class TweetWrapper {
         return tweet;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
     /*public void setPid(int pid) {
         this.pid = pid;
     }

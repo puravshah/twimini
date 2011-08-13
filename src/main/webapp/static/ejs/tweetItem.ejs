@@ -9,4 +9,14 @@
         <div class = "span-11 last"><%= tweet %></div>
         <div class = "span-5 subtext"><%= timestamp %></div>
     </div>
+    <div class = "span-2  add-margin-above-10">
+        <%  {
+                if(status == 'true') { %>
+                   <span class = "follow-button"  onclick = "runAction(this,<%=pid %>);">unfavourite</span>
+            <%  }
+                else if(status == 'false') { %>
+                    <span class = "follow-button"  onclick = "runAction(this,<%= pid %>);">favourite</span>
+            <%  }
+        } %>
+    </div>
 </div>

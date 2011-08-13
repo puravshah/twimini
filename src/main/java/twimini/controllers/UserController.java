@@ -12,11 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 import twimini.ActivationMail;
 import twimini.InviteFriend;
 import twimini.PasswordMail;
+import twimini.model.LikeModel;
 import twimini.model.UserModel;
 import twimini.services.*;
 
 import javax.annotation.PostConstruct;
+import javax.mail.Session;
+import javax.naming.ldap.StartTlsRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Struct;
 import java.util.*;
 
 @Controller
@@ -24,14 +28,16 @@ public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
     private final FollowService followService;
+    private final LikeService   likeService;
     public boolean runMailSender = true;
 
     @Autowired
 
-    public UserController(UserService userService, FollowService followService, TweetService tweetService) {
+    public UserController(UserService userService, FollowService followService, TweetService tweetService,LikeService likeService) {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
+        this.likeService=likeService;
     }
 
     @RequestMapping("/")
@@ -383,4 +389,87 @@ public class UserController {
         ret.put("status", "1");
         return ret;
     }
+
+
+    @RequestMapping(value="/like",method=RequestMethod.POST)
+    @ResponseBody Hashtable<String,String> like(@RequestParam String tweetId,HttpSession httpSession)
+    {
+        Hashtable<String,String>  hashTable= new Hashtable<String, String>();
+        if(httpSession.getAttribute("uid") == null) {
+            return new Hashtable<String, String>() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        }
+        else
+        {
+            try{
+                likeService.insertLike(tweetId,((String)httpSession.getAttribute("uid")));
+                hashTable.put("status","1");
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return  hashTable;
+    }
+
+
+    @RequestMapping(value="/unlike",method=RequestMethod.POST)
+    @ResponseBody Hashtable<String,String> unlike(@RequestParam String tweetId,HttpSession httpSession)
+    {
+        Hashtable<String,String>  hashTable= new Hashtable<String, String>();
+        if(httpSession.getAttribute("uid") == null) {
+            return new Hashtable<String, String>() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        }
+        else
+        {
+            try{
+                likeService.deleteLike(tweetId, ((String) httpSession.getAttribute("uid")));
+                hashTable.put("status","1");
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return  hashTable;
+    }
+
+    @RequestMapping(value = "/user/getLikes",method=RequestMethod.POST)
+    @ResponseBody Hashtable<String,Object> getLikes(@RequestParam String uid, String start,String count, HttpSession httpSession)
+    {
+        if (count == null || count.equals("")) count = "10";
+        if (start == null || start.equals("")) start = "0";
+        Hashtable<String,Object> hashtable = new Hashtable<String, Object>();
+        if(httpSession.getAttribute("uid")==null)
+        {
+            return new Hashtable<String,Object>(){{
+                put("status","0");
+                put("errorMessage","You Need to login first");
+            }};
+        }
+        else
+        {
+            try{
+                hashtable.put("favourites",likeService.getLikes(uid,(String)httpSession.getAttribute("uid"),start,count));
+                hashtable.put("status","1");
+
+            }catch(Exception e)
+            {
+                e.printStackTrace();
+                hashtable.put("status", "0");
+                hashtable.put("errorMessage", e.getMessage());
+
+            }
+        }
+     return hashtable;
+    }
+
 }

@@ -38,15 +38,30 @@ public class TweetService {
     }
 
     public List<TweetWrapper> getFeed(String uid, String start, String count) throws Exception {
-        List<TweetWrapper> l = db.query("SELECT u.uid, name, pid, tweet, x.timestamp FROM post x, user u " +
+        List<TweetWrapper> l = db.query("SELECT u.uid,name, pid, tweet, x.timestamp,'true' as status FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
-                "(SELECT pid FROM post p WHERE p.uid IN " +
-                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) UNION SELECT pid FROM post WHERE post.uid = ?) ORDER BY x.timestamp DESC LIMIT ?, ?", TweetWrapper.rowMapper, uid, uid, Integer.parseInt(start), Integer.parseInt(count));
+                "(SELECT pid FROM post p WHERE p.pid in (SELECT likes.pid FROM likes WHERE likes.uid =?) AND p.uid IN " +
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now()))"+
+                " UNION " +
+                "SELECT pid FROM post WHERE post.uid = ? AND post.pid in ( SELECT likes.pid FROM likes WHERE likes.uid =?)) "+
+                "UNION " +
+                "SELECT u.uid, name, pid,tweet, x.timestamp,'false' as status FROM post x, user u " +
+                "WHERE u.uid = x.uid AND x.pid IN " +
+                "(SELECT pid FROM post p WHERE p.pid NOT in (SELECT likes.pid FROM likes WHERE likes.uid =?) AND p.uid IN " +
+                "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) " +
+                "UNION " +
+                "SELECT pid FROM post WHERE post.uid = ? AND post.pid NOT in ( SELECT likes.pid FROM likes WHERE likes.uid =?)) order by 5 desc   LIMIT ?, ?"
+                , TweetWrapper.rowMapper,uid,uid, uid, uid,uid,uid,uid, uid,Integer.parseInt(start),Integer.parseInt(count));
         return l;
     }
 
     public List<TweetModel> getTweetList(String uid, String start, String count) throws Exception {
-        List<TweetModel> l = db.query("SELECT * FROM post WHERE uid = ? ORDER BY pid DESC LIMIT ?, ?", TweetModel.rowMapper, uid, Integer.parseInt(start), Integer.parseInt(count));
+        List<TweetModel> l = db.query("SELECT *,'true' as status FROM post WHERE uid = ?" +
+                                      " AND post.pid in (SELECT likes.pid FROM likes WHERE likes.uid=?) " +
+                                      "UNION " +
+                                      "SELECT *,'false' as status FROM post WHERE uid=? AND " +
+                                      "post.pid NOT in (SELECT likes.pid FROM likes WHERE likes.uid=?)" +
+                                      "ORDER BY pid DESC LIMIT ?, ?", TweetModel.rowMapper,uid,uid,uid,uid, Integer.parseInt(start), Integer.parseInt(count));
         return l;
     }
 

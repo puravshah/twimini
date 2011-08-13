@@ -206,9 +206,9 @@ function makeTabActiveOnEdit(index) {
 }
 
 function makeTabActive(index) {
-    var ids = ['tweetDiv', 'followingDiv', 'followerDiv'];
+    var ids = ['tweetDiv', 'followingDiv', 'followerDiv','favouriteDiv'];
     var div = dojo.byId("tab-container").getElementsByTagName("div");
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
         dojo.removeClass(div[i], "tab-active");
         dojo.style(ids[i], "display", i == index ? "block" : "none");
     }
@@ -224,6 +224,13 @@ function appendTweet(data) {
     var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
     dojo.place(html, "ListOfTweets", "last");
 }
+
+function appendFavourites(data) {
+    var html = new EJS({url: '/static/ejs/tweetItem.ejs'}).render(data);
+    dojo.place(html, "ListOfFavourites", "last");
+}
+
+
 
 function appendFollowing(data) {
     var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
@@ -311,8 +318,8 @@ function getFeed(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
-                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y});
+                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -324,6 +331,60 @@ function getFeed(input, loadMore) {
         }
     });
 }
+
+
+
+function getFavourites(input, loadMore) {
+    var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
+        dojo.xhrPost({
+        url: "/user/getLikes",
+        handleAs: "json",
+        content: {uid:input.uid, start:start},
+        load: function(data) {
+            if (data.status == 0) {
+                if (data.errorMessage == 'Invalid apikey') {
+                    window.location = "/";
+                    return;
+                }
+                alert(data.errorMessage);
+                return;
+            }
+
+            data = data.favourites;
+            makeTabActive(3);
+            if (!loadMore) dojo.empty('ListOfFavourites');
+            for (var i = 0; i < data.length; i++) {
+                item = data[i];
+                var tweet = filter(item.tweet.tweet);
+                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                appendFavourites({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
+            }
+
+            dojo.style("loadMoreFavourites", "display", (data.length < 10) ? "none" : "block");
+            dojo.byId('currentFavouriteCount').value = (data.length + (loadMore ? parseInt(dojo.byId('currentFavouriteCount').value) : 0));
+            //alert("start : " + dojo.byId('currentTweetCount').value);
+        },
+        error: function(error) {
+            alert(error);
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function getTweets(input, loadMore) {
     var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
@@ -348,7 +409,8 @@ function getTweets(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:tweetTimeDate.getTweetTime(item.timestamp)});
+                var y=tweetTimeDate.getTweetTime(item.timestamp);
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:y,status:item.status});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -432,6 +494,84 @@ function getFollowers(input, loadMore) {
         }
     });
 }
+
+function runAction(button,tweetId)
+{
+  if(getInnerText(button)=='favourite')
+  {
+      like(button,tweetId);
+  }
+  else
+  {
+      unlike(button,tweetId)
+  }
+}
+
+
+
+
+function like(button,tweetId)
+{
+    var id=tweetId;
+    dojo.xhrPost(
+            {
+                url:"/like" ,
+                handleAs: "json",
+                content: {'tweetId':tweetId},
+                load:function(response)
+                {
+                    if(response.status=='0')
+                    {
+                        alert("you need to login first");
+                    }
+                    else
+                    {
+                          setInnerText(button, "unfavourite");
+                          //dojo.removeClass(button, "follow-button");
+                          //dojo.addClass(button, "follow-unfollow-button");
+                    }
+
+                },
+                error:function(error)
+                {
+                   alert(error);
+                }
+            }
+    );
+}
+
+
+function unlike(button,tweetId)
+{
+    var id=tweetId;
+    dojo.xhrPost(
+            {
+                url:"/unlike" ,
+                handleAs: "json",
+                content: {'tweetId':tweetId},
+                load:function(response)
+                {
+                    if(response.status=='0')
+                    {
+                        alert("you need to login first");
+                    }
+                    else
+                    {
+                          setInnerText(button, "favourite");
+                          //dojo.removeClass(button, "follow-unfollow-button");
+                          //dojo.addClass(button, "follow-button");
+                    }
+
+                },
+                error:function(error)
+                {
+                   alert(error);
+                }
+            }
+    );
+}
+
+
 
 function showResults(search) {
     if (search.value.length == 0 || !queryIsNotEmpty(search.value)) {
@@ -702,6 +842,8 @@ function userAction(button, id) {
     }
 }
 
+
+
 function unfollow(button, id) {
     dojo.xhrPost({
         url: "user/unfollow",
@@ -869,6 +1011,26 @@ function restoreOriginal(button) {
          dojo.style(button, 'border-top-color', '#12c91e');*/
     }
 }
+
+
+function changeLikeText(button) {
+    if (getInnerText(button) === 'favourite') {
+        setInnerText(button, 'unfavourite');
+        /*dojo.style(button, 'background-color', '#ff1818');
+         dojo.style(button, 'border-top-color', '#ff1818');*/
+    }
+}
+
+function restoreLikeOriginal(button) {
+    if (getInnerText(button) === 'unfavourite') {
+        setInnerText(button, 'favourite');
+        /*dojo.style(button, 'background-color', '#12c91e');
+         dojo.style(button, 'border-top-color', '#12c91e');*/
+    }
+}
+
+
+
 
 function validate(data) {
     var valid = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-.";

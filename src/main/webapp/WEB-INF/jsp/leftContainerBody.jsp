@@ -12,12 +12,16 @@
                              onclick="getFollowers( {uid:${uid}, user:'${sessionScope.uid}'}, false );">
                             <span>Followers</span>
                         </div>
+                        <div class="span-2 tab last"
+                             onclick="getFavourites( {uid:${uid}, user:'${sessionScope.uid}'}, false );">
+                            <span>Favourites</span>
+                        </div>
                     </div>
 
                     <input type = "hidden" id = "currentTweetCount" value = "0" />
                     <input type = "hidden" id = "currentFollowingCount" value = "0" />
                     <input type = "hidden" id = "currentFollowersCount" value = "0" />
-
+                    <input type = "hidden" id = "currentFavouriteCount" value = "0" />
                     <div class="span-14 last">
                         <div id="tweetDiv" class="span-14 last add-padding-above-20">
                             <div id='ListOfTweets'>
@@ -47,9 +51,20 @@
                                 <input type = "button" value = "Load More" onclick = "getFollowers( {uid:'${uid}', user:'${sessionScope.uid}'}, true )">
                             </div>
                         </div>
+                        <div id="favouriteDiv" class="span-14 last add-padding-above-20">
+                            <div id='ListOfFavourites'>
+
+                            </div>
+                            <div class = "add-margin-above-20 span-14 last" id = "loadMoreFavourites">
+                                <input type = "button" value = "Load More" onclick = "getFavourites( {uid:'${uid}', user:'${sessionScope.uid}'}, true )">
+                            </div>
+                        </div>
+
+
 
                         <script type="text/javascript">
                             dojo.style('followingDiv', "display", "none");
                             dojo.style('followerDiv', "display", "none");
+                            dojo.style('favouriteDiv','display','none');
                         </script>
                     </div>
