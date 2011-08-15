@@ -55,13 +55,13 @@ public class TweetService {
         return l;
     }
 
-    public List<TweetModel> getTweetList(String uid, String start, String count) throws Exception {
+    public List<TweetModel> getTweetList(String uid,String id, String start, String count) throws Exception {
         List<TweetModel> l = db.query("SELECT *,'true' as status FROM post WHERE uid = ?" +
                                       " AND post.pid in (SELECT likes.pid FROM likes WHERE likes.uid=?) " +
                                       "UNION " +
                                       "SELECT *,'false' as status FROM post WHERE uid=? AND " +
                                       "post.pid NOT in (SELECT likes.pid FROM likes WHERE likes.uid=?)" +
-                                      "ORDER BY pid DESC LIMIT ?, ?", TweetModel.rowMapper,uid,uid,uid,uid, Integer.parseInt(start), Integer.parseInt(count));
+                                      "ORDER BY pid DESC LIMIT ?, ?", TweetModel.rowMapper,uid,id,uid,id, Integer.parseInt(start), Integer.parseInt(count));
         return l;
     }
 

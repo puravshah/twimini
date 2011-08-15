@@ -13,6 +13,7 @@ import twimini.services.FollowService;
 import twimini.services.TweetService;
 import twimini.services.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class User {
     /* REST API for getting tweet list of a user */
     @RequestMapping("/api/user/{uid}/getTweetList")
     @ResponseBody
-    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count) {
+    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count,HttpSession session) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
         try {
@@ -141,9 +142,19 @@ public class User {
         }
 
         try {
-            List<TweetModel> list = tweetService.getTweetList(uid, start, count);
-            hashtable.put("status", "1");
-            hashtable.put("tweets", list);
+               String userId = APIKEYService.getUid(apikey);
+            if(uid==null)
+            {
+                List<TweetModel> list = tweetService.getTweetList(uid,uid, start, count);
+                hashtable.put("status", "1");
+                hashtable.put("tweets", list);
+            }
+            else
+            {
+                List<TweetModel> list = tweetService.getTweetList(uid,userId, start, count);
+                hashtable.put("status", "1");
+                hashtable.put("tweets", list);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");
