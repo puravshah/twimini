@@ -287,10 +287,10 @@ tweetTimeDate.getTweetTime = function(timestamp) {
         out = temp + " day" + (temp == 1 ? "" : "s");
     } else if (diff < 90 * DAY) {
         // more than 30 days, but less than 3 months, show the day and month
-        return time.getDate() + " " + time.getShortMonth();
+        return "on : "+time.getDate() + " " + time.getShortMonth();
     } else {
         // more than three months difference, better show the year too
-        return time.getDate() + " " + time.getShortMonth() + " " + time.getFullYear();
+        return "on : "+time.getDate() + " " + time.getShortMonth() + " " + time.getFullYear();
     }
     return out + " ago";
 }

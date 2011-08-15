@@ -7,7 +7,7 @@
     <div class = "span-11 last wordwrap">
         <a href= '/user?uid=<%= uid %>'><%= name %></a> <br />
         <div class = "span-11 last"><%= tweet %></div>
-        <div class = "span-5 subtext"><%= timestamp %></div>
+        <div class = "span-5 subtext">posted <%= timestamp %></div>
         <%  {
                 if(status == 'true') { %>
                     <img class="favouriteImage<%=pid%>" src="/static/images/unfavourites.png" width="30" height="30"></img>
