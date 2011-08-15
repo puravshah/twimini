@@ -33,7 +33,7 @@ public class UserService {
 
     public boolean checkPassword(String uid, String password) {
         try {
-            db.queryForInt("SELECT uid FROM user WHERE uid = ? and password = ?", uid, password);
+            db.queryForInt("SELECT uid FROM user WHERE uid = ? and password = sha1(?)", uid, password);
             return true;
         } catch (Exception e) {
             return false;
@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public UserModel addUser(String name, String email, String password) throws Exception {
-        db.update("INSERT INTO user(name, email, password, timestamp) values (?, ?, ?, now())", name, email, password);
+        db.update("INSERT INTO user(name, email, password, timestamp) values (?, ?, sha1(?), now())", name, email, password);
         return db.queryForObject("SELECT * FROM user WHERE email = ?", UserModel.rowMapper, email);
     }
 
@@ -75,7 +75,7 @@ public class UserService {
     }
 
     public UserModel getUser(String email, String password) throws Exception {
-        return db.queryForObject("SELECT * FROM user WHERE email = ? and password = ?", UserModel.rowMapper, email, password);
+        return db.queryForObject("SELECT * FROM user WHERE email = ? and password = sha1(?)", UserModel.rowMapper, email, password);
     }
 
     public List<UserModel> getSearch(String query, String uid, String start, String count) throws Exception {
@@ -116,11 +116,11 @@ public class UserService {
     }
 
     public static int changePassword(String uid, String oldPassword, String newPassword) throws Exception {
-        return db.update("UPDATE user SET password = ? WHERE uid = ? and password = ?", newPassword, uid, oldPassword);
+        return db.update("UPDATE user SET password = sha1(?) WHERE uid = ? and password = sha1(?)", newPassword, uid, oldPassword);
     }
 
     public static int changePassword(String uid, String password) {
-        return db.update("update user SET password = ? WHERE uid = ?", password, uid);
+        return db.update("update user SET password = sha1(?) WHERE uid = ?", password, uid);
     }
 
     public static int setAccountInfo(String name, String email, String uid) {
@@ -128,7 +128,7 @@ public class UserService {
     }
 
     public static void setPassword(CharSequence newPassword, String uid) {
-        db.update("update user SET password = ? WHERE uid = ? ", newPassword, uid);
+        db.update("update user SET password = sha1(?) WHERE uid = ? ", newPassword, uid);
     }
 
     public static void setToNotactivated(String[] sendTo) {

@@ -29,17 +29,26 @@ public class LikeService {
 
     public List<TweetWrapper> getLikes(String uid,String id,String start,String count)
     {
-      return  db.query("(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'true' AS " +
+        return  db.query("(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'true' AS " +
                 "status FROM post ,user " +
                 "WHERE post.uid=user.uid AND post.pid " +
                 "IN (" +
                 "SELECT likes.pid " +
                 "FROM likes " +
                 "WHERE likes.uid =?" +
-                ")" +
-                "AND"+
-                " post.uid =? )" +
-                "order by 5 Desc LIMIT ?,? ",TweetWrapper.rowMapper,id,uid,Integer.parseInt(start),Integer.parseInt(count));
+                "AND likes.pid IN " +
+                "(SELECT likes.pid FROM likes  WHERE likes.uid =?)))" +
+                "UNION " +
+                "(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'false' AS " +
+                "status FROM post ,user " +
+                "WHERE post.uid=user.uid AND post.pid " +
+                "IN (" +
+                "SELECT likes.pid " +
+                "FROM likes " +
+                "WHERE likes.uid =? " +
+                "AND likes.pid NOT IN " +
+                "(SELECT likes.pid FROM likes  WHERE likes.uid =?)))" +
+                "order by 5 Desc LIMIT ?,? ",TweetWrapper.rowMapper,uid,id,uid,id,Integer.parseInt(start),Integer.parseInt(count));
     }
 
     public void insertLike(String uid,String pid)

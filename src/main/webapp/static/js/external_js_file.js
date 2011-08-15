@@ -167,6 +167,7 @@ function createTweet(input) {
             else {
                 data = data.tweetDetails;
                 data.name = input.name;
+                data.timestamp=tweetTimeDate.getTweetTime(data.timestamp);
                 prependTweet(data);
                 dojo.byId("tweet-box").value = "";
                 dojo.byId("currentTweetCount").value = (parseInt(dojo.byId("currentTweetCount").value) + 1);
@@ -370,22 +371,6 @@ function getFavourites(input, loadMore) {
     });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function getTweets(input, loadMore) {
     var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
     dojo.xhrPost({
@@ -527,7 +512,11 @@ function like(image,button,tweetId)
                     else
                     {
                           setInnerText(button, "unfavourite");
-                          dojo.byId(image).setAttribute("src","/static/images/unfavourites.png") ;
+                          var favouriteList  =   dojo.query("."+image);
+                          for(var favourite=0;favourite<favouriteList.length;favourite++)
+                           {
+                                favouriteList[favourite].setAttribute("src","/static/images/unfavourites.png") ;
+                           }
                           //dojo.removeClass(button, "follow-button");
                           //dojo.addClass(button, "follow-unfollow-button");
                     }
@@ -559,7 +548,12 @@ function unlike(image,button,tweetId)
                     else
                     {
                           setInnerText(button, "favourite");
-                          dojo.byId(image).setAttribute("src","/static/images/favourite.png") ;
+                          //dojo.byId(image).setAttribute("src","/static/images/favourite.png") ;
+                          var favouriteList  =   dojo.query("."+image);
+                          for(var favourite=0;favourite<favouriteList.length;favourite++)
+                              {
+                                  favouriteList[favourite].setAttribute("src","/static/images/favourite.png") ;
+                              }
 
                           //dojo.removeClass(button, "follow-unfollow-button");
                           //dojo.addClass(button, "follow-button");

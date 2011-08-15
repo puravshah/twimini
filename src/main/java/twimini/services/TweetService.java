@@ -30,11 +30,11 @@ public class TweetService {
 
     public TweetModel addTweet(String uid, String tweet) throws Exception {
         db.update("INSERT INTO post(uid, tweet, timestamp) values(?, ?, now())", uid, tweet);
-        return db.queryForObject("SELECT * FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
+        return db.queryForObject("SELECT * ,'false' as status FROM post WHERE pid = (SELECT MAX(pid) FROM post)", TweetModel.rowMapper);
     }
 
     public TweetModel getTweetDetails(String pid) throws Exception {
-        return db.queryForObject("SELECT * FROM post WHERE pid = ?", TweetModel.rowMapper, pid);
+        return db.queryForObject("SELECT * ,'false' as status FROM post WHERE pid = ?", TweetModel.rowMapper, pid);
     }
 
     public List<TweetWrapper> getFeed(String uid, String start, String count) throws Exception {

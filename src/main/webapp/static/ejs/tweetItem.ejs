@@ -10,12 +10,12 @@
         <div class = "span-5 subtext"><%= timestamp %></div>
         <%  {
                 if(status == 'true') { %>
-                    <img id="favouriteImage<%=pid%>" src="/static/images/unfavourites.png" width="30" height="30"></img>
-                    <span  id="textFavourite<%=pid%>" onclick = "runAction('favouriteImage<%=pid%>',this,<%=pid %>);" width="30" height="30">unfavourite</span>
+                    <img class="favouriteImage<%=pid%>" src="/static/images/unfavourites.png" width="30" height="30"></img>
+                    <span  id="textFavourite<%=pid%>" onclick = "runAction('favouriteImage<%=pid%>',this,<%=pid %>);" width="30" height="30" style="cursor: pointer;">unfavourite</span>
             <%  }
                 else if(status == 'false') { %>
-                    <img id="unfavouriteImage<%=pid%>" src="/static/images/favourite.png" width="30" height="30"></img>
-                    <span  id="textunFavourite<%=pid%>"  onclick = "runAction('unfavouriteImage<%=pid%>',this,<%= pid %>);">favourite</span>
+                    <img class="unfavouriteImage<%=pid%>" src="/static/images/favourite.png" width="30" height="30"></img>
+                    <span  id="textunFavourite<%=pid%>"  onclick = "runAction('unfavouriteImage<%=pid%>',this,<%= pid %>);" style="cursor: pointer;">favourite</span>
             <%  }
         } %>
     </div>
