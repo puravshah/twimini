@@ -255,8 +255,15 @@ tweetTimeDate = new Date();
 tweetTimeDate.getTweetTime = function(timestamp) {
     //alert(timestamp);
     var currentTime = new Date();
-    var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
+    var time=new Date(timestamp);
 
+     time.getShortMonth = function() {
+      return ["Jan", "Feb", "Mar",
+        "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec"][time.getMonth()];
+     };
+    var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
     var MIN = 60, HOUR = 3600, DAY = 86400;
     var out = "", temp;
     if (diff < MIN) {
@@ -280,20 +287,14 @@ tweetTimeDate.getTweetTime = function(timestamp) {
         out = temp + " day" + (temp == 1 ? "" : "s");
     } else if (diff < 90 * DAY) {
         // more than 30 days, but less than 3 months, show the day and month
-        return this.getDate() + " " + this.getShortMonth();  // see below
+        return time.getDate() + " " + time.getShortMonth();
     } else {
         // more than three months difference, better show the year too
-        return this.getDate() + " " + this.getShortMonth() + " " + this.getFullYear();
+        return time.getDate() + " " + time.getShortMonth() + " " + time.getFullYear();
     }
     return out + " ago";
 }
 
-tweetTimeDate.getShortMonth = function() {
-    return ["Jan", "Feb", "Mar",
-        "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"][this.getMonth()];
-};
 
 
 function getFeed(input, loadMore) {

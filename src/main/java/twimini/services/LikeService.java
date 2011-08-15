@@ -47,7 +47,7 @@ public class LikeService {
                 "FROM likes " +
                 "WHERE likes.uid =? " +
                 "AND likes.pid NOT IN " +
-                "(SELECT likes.pid FROM likes  WHERE likes.uid =?)))" +
+                "(SELECT likes.pid FROM likes WHERE likes.uid =?)))" +
                 "order by 5 Desc LIMIT ?,? ",TweetWrapper.rowMapper,uid,id,uid,id,Integer.parseInt(start),Integer.parseInt(count));
     }
 

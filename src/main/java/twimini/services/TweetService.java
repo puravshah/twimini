@@ -38,19 +38,19 @@ public class TweetService {
     }
 
     public List<TweetWrapper> getFeed(String uid, String start, String count) throws Exception {
-        List<TweetWrapper> l = db.query("SELECT u.uid,name, pid, tweet, x.timestamp,'true' as status FROM post x, user u " +
+        List<TweetWrapper> l = db.query("(SELECT u.uid,name, pid, tweet, x.timestamp,'true' as status FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.pid in (SELECT likes.pid FROM likes WHERE likes.uid =?) AND p.uid IN " +
                 "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now()))"+
                 " UNION " +
-                "SELECT pid FROM post WHERE post.uid = ? AND post.pid in ( SELECT likes.pid FROM likes WHERE likes.uid =?)) "+
+                "SELECT pid FROM post WHERE post.uid = ? AND post.pid in ( SELECT likes.pid FROM likes WHERE likes.uid =?)))"+
                 "UNION " +
-                "SELECT u.uid, name, pid,tweet, x.timestamp,'false' as status FROM post x, user u " +
+                "(SELECT u.uid, name, pid,tweet, x.timestamp,'false' as status FROM post x, user u " +
                 "WHERE u.uid = x.uid AND x.pid IN " +
                 "(SELECT pid FROM post p WHERE p.pid NOT in (SELECT likes.pid FROM likes WHERE likes.uid =?) AND p.uid IN " +
                 "(SELECT following FROM follow f WHERE f.uid = ? AND p.timestamp BETWEEN start AND IFNULL(end, now())) " +
                 "UNION " +
-                "SELECT pid FROM post WHERE post.uid = ? AND post.pid NOT in ( SELECT likes.pid FROM likes WHERE likes.uid =?)) order by 5 desc   LIMIT ?, ?"
+                "SELECT pid FROM post WHERE post.uid = ? AND post.pid NOT in ( SELECT likes.pid FROM likes WHERE likes.uid =?))) order by 5 desc   LIMIT ?, ?"
                 , TweetWrapper.rowMapper,uid,uid, uid, uid,uid,uid,uid, uid,Integer.parseInt(start),Integer.parseInt(count));
         return l;
     }

@@ -448,27 +448,32 @@ public class UserController {
         if (count == null || count.equals("")) count = "10";
         if (start == null || start.equals("")) start = "0";
         Hashtable<String,Object> hashtable = new Hashtable<String, Object>();
-        /*if(httpSession.getAttribute("uid")==null)
+        try{
+        if(httpSession.getAttribute("uid")==null)
         {
-            return new Hashtable<String,Object>(){{
+
+            hashtable.put("favourites",likeService.getLikes(uid,uid,start,count));
+            hashtable.put("status","1");
+
+            /*return new Hashtable<String,Object>(){{
                 put("status","0");
                 put("errorMessage","You Need to login first");
-            }};
+            }};*/
         }
-        else*/
-        {
-            try{
+        else{
+
                 hashtable.put("favourites",likeService.getLikes(uid,(String)httpSession.getAttribute("uid"),start,count));
                 hashtable.put("status","1");
 
-            }catch(Exception e)
+            }
+        }catch(Exception e)
             {
                 e.printStackTrace();
                 hashtable.put("status", "0");
                 hashtable.put("errorMessage", e.getMessage());
 
             }
-        }
+
      return hashtable;
     }
 
