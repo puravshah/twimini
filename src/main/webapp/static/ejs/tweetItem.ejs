@@ -8,14 +8,14 @@
         <a href= '/user?uid=<%= uid %>'><%= name %></a> <br />
         <div class = "span-11 last"><%= tweet %></div>
         <div class = "span-5 subtext"><%= timestamp %></div>
-    </div>
-    <div class = "span-2  add-margin-above-10">
         <%  {
                 if(status == 'true') { %>
-                   <span class = "follow-button"  onclick = "runAction(this,<%=pid %>);">unfavourite</span>
+                    <img id="favouriteImage<%=pid%>" src="/static/images/unfavourites.png" width="30" height="30"></img>
+                    <span  id="textFavourite<%=pid%>" onclick = "runAction('favouriteImage<%=pid%>',this,<%=pid %>);" width="30" height="30">unfavourite</span>
             <%  }
                 else if(status == 'false') { %>
-                    <span class = "follow-button"  onclick = "runAction(this,<%= pid %>);">favourite</span>
+                    <img id="unfavouriteImage<%=pid%>" src="/static/images/favourite.png" width="30" height="30"></img>
+                    <span  id="textunFavourite<%=pid%>"  onclick = "runAction('unfavouriteImage<%=pid%>',this,<%= pid %>);">favourite</span>
             <%  }
         } %>
     </div>

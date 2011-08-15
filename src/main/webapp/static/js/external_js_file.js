@@ -495,22 +495,22 @@ function getFollowers(input, loadMore) {
     });
 }
 
-function runAction(button,tweetId)
+function runAction(image,button,tweetId)
 {
   if(getInnerText(button)=='favourite')
   {
-      like(button,tweetId);
+      like(image,button,tweetId);
   }
   else
   {
-      unlike(button,tweetId)
+      unlike(image,button,tweetId)
   }
 }
 
 
 
 
-function like(button,tweetId)
+function like(image,button,tweetId)
 {
     var id=tweetId;
     dojo.xhrPost(
@@ -527,6 +527,7 @@ function like(button,tweetId)
                     else
                     {
                           setInnerText(button, "unfavourite");
+                          dojo.byId(image).setAttribute("src","/static/images/unfavourites.png") ;
                           //dojo.removeClass(button, "follow-button");
                           //dojo.addClass(button, "follow-unfollow-button");
                     }
@@ -541,7 +542,7 @@ function like(button,tweetId)
 }
 
 
-function unlike(button,tweetId)
+function unlike(image,button,tweetId)
 {
     var id=tweetId;
     dojo.xhrPost(
@@ -558,6 +559,8 @@ function unlike(button,tweetId)
                     else
                     {
                           setInnerText(button, "favourite");
+                          dojo.byId(image).setAttribute("src","/static/images/favourite.png") ;
+
                           //dojo.removeClass(button, "follow-unfollow-button");
                           //dojo.addClass(button, "follow-button");
                     }

@@ -36,7 +36,6 @@ public class TweetWrapper {
         tweet = new TweetModel(rs.getInt("pid"), rs.getInt("uid"), rs.getString("tweet"), ((java.sql.Timestamp)rs.getObject("timestamp")).getTime());
         name = rs.getString("name");
         status =rs.getString("status");
-        System.out.println(status);
     }
 
     /*public int getPid() {
