@@ -12,41 +12,17 @@ import twimini.services.UserService;
 public class ActivationMail extends Mail {
 
     private String emailMsg = "Hello";
-    /*private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
-    private String emailSubjectTxt = "Confirmation Email";*/
     private static String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
     private String emailActivationMsgTxt = "http://localhost:8080/activate";
     private static String emailSubjectTxt = "Activation Link";
     private String note = "Note: If you do not activate your account within 2 days, then your account will be deleted.";
-    /*private String emailContent = "This is a activation mail .Please click on the below given link to activate your account\n";
-    private String emailActivationMsgTxt = "http://localhost:8080/activate";
-    private String emailSubjectTxt = "Confirmation Email";*/
     public String getEmailSubjectTxt() {
         return emailSubjectTxt;
     }
 
-    public String getEmailMsg() {
-        return emailMsg;
-    }
-
-    public String getEmailContent() {
-        return emailContent;
-    }
 
     public String getEmailActivationMsgTxt() {
         return emailActivationMsgTxt;
-    }
-
-    public void setEmailMsg(String emailMsg) {
-        this.emailMsg = emailMsg;
-    }
-
-    public void setEmailContent(String emailContent) {
-        this.emailContent = emailContent;
-    }
-
-    public void setEmailActivationMsgTxt(String emailActivationMsgTxt) {
-        this.emailActivationMsgTxt = emailActivationMsgTxt;
     }
 
     public ActivationMail(UserService userService) {

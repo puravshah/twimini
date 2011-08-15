@@ -44,8 +44,6 @@ public class ImageServlet extends HttpServlet {
         if (!image.exists()) {
             requestedImage="default-profile-picture.png";
             image=new File(imageCopyPath+imagePath,URLDecoder.decode(requestedImage,"UTF-8"));
-            //response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404.
-            //return;
         }
 
         String contentType = getServletContext().getMimeType(image.getName());

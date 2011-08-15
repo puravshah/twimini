@@ -12,18 +12,10 @@ import twimini.services.UserService;
  */
 
 public class PasswordMail extends Mail {
-    private UserService service;
     private UserModel userModel;
-    String name;
-    private String emailMsg = "Hello";
-    private static final String emailContent = "";
-    private String emailPasswordMsgTxt = "http://localhost:8080/forgotPassword";
     private String emailSubjectTxt = "Twimini Password Reset";
     private String uuid;
 
-    public PasswordMail(UserService userService) {
-        super(userService);
-    }
 
     public PasswordMail(UserModel userModel, String uuid) {
         super(userModel.getEmail());

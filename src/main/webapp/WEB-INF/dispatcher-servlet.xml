@@ -23,7 +23,6 @@
             <mvc:mapping path="/user/edit/*"/>
             <mvc:mapping path="/tweet/create"/>
             <mvc:mapping path="/tweet/getFeed"/>
-
             <bean class="twimini.controllers.AuthInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

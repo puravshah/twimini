@@ -33,13 +33,6 @@ public class CommonsFileUploadServlet extends HttpServlet {
     public static final int HEIGHT = 600;
     private final UserService userService;
 
-    /*@RequestMapping("/user/edit")
-    ModelAndView getEdit(HttpSession session) throws Exception {
-        ModelAndView mv = new ModelAndView("/edit");
-        UserModel user = userService.getUser(session.getAttribute("uid").toString());
-        mv.addObject("email", user.getEmail());
-        return mv;
-    }*/
     @Autowired
     public CommonsFileUploadServlet(UserService userService) {
         this.userService = userService;

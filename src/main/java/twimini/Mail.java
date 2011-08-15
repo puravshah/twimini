@@ -67,21 +67,6 @@ public abstract class Mail extends Thread {
         this.sendTo = sendTo;
     }
 
-    public void setDb(SimpleJdbcTemplate db) {
-        this.db = db;
-    }
-
-    public void setUser(List<UserModel> user) {
-        this.user = user;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setEmailList(List<String> emailList) {
-        EmailList = emailList;
-    }
 
     public void setMessageText(String[] messageText) {
         this.messageText = messageText;
@@ -91,47 +76,11 @@ public abstract class Mail extends Thread {
         this.messageText=new String[1];
         this.messageText[0] = messageText;
     }
-    public void setEmail(String email,String userName) {
-        this.email = email;
-        this.userName=userName;
-    }
-
-    public static String getSmtpHostName() {
-
-        return SMTP_HOST_NAME;
-    }
-
-    public static String getSmtpPort() {
-        return SMTP_PORT;
-    }
-
-    public static String getEmailFromAddress() {
-        return emailFromAddress;
-    }
-
-    public static String getSslFactory() {
-        return SSL_FACTORY;
-    }
 
     public String[] getSendTo() {
         return sendTo;
     }
 
-    public SimpleJdbcTemplate getDb() {
-        return db;
-    }
-
-    public List<UserModel> getUser() {
-        return user;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public List<String> getEmailList() {
-        return EmailList;
-    }
 
     public String[] getMessageText() {
         return messageText;
@@ -146,8 +95,6 @@ public abstract class Mail extends Thread {
         String userMessage;
         try
         {
-//                List<Foo> foo = getJdbcTemplate().query("SELECT * FROM foo WHERE a IN (:ids)",
-//                     getRowMapper(), parameters);
                 userInfo();
                 if (sendTo.length > 0) {
                     Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
