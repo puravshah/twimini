@@ -448,14 +448,14 @@ public class UserController {
         if (count == null || count.equals("")) count = "10";
         if (start == null || start.equals("")) start = "0";
         Hashtable<String,Object> hashtable = new Hashtable<String, Object>();
-        if(httpSession.getAttribute("uid")==null)
+        /*if(httpSession.getAttribute("uid")==null)
         {
             return new Hashtable<String,Object>(){{
                 put("status","0");
                 put("errorMessage","You Need to login first");
             }};
         }
-        else
+        else*/
         {
             try{
                 hashtable.put("favourites",likeService.getLikes(uid,(String)httpSession.getAttribute("uid"),start,count));
