@@ -47,8 +47,8 @@ public class User {
                 hashtable.put("status", "1");
                 hashtable.put("apikey", "" + APIKEYService.getAPIKEY(user.getUid()));
             } catch (DuplicateKeyException e) {
-                hashtable.put("status", "1");
-                hashtable.put("errorMessage", "" + "Email id already exists");
+                hashtable.put("status", "0");
+                hashtable.put("errorMessage", "Email id already exists");
             } catch (Exception e) {
                 e.printStackTrace();
                 hashtable.put("status", "0");
