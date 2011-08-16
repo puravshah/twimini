@@ -47,8 +47,11 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public ModelAndView loginGet() {
-        return new ModelAndView();
+    public ModelAndView loginGet(HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        String uid = (String) session.getAttribute("uid");
+        if (uid != null && !uid.equals("")) mv.setViewName("redirect:/tweet");
+        return mv;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -96,7 +99,11 @@ public class UserController {
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signupGet() {
+    public ModelAndView signupGet(HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        String uid = (String) session.getAttribute("uid");
+        if (uid != null && !uid.equals("")) return new ModelAndView("redirect:/tweet");
+
         return new ModelAndView() {{
             String errorName[] = {"nameMsg", "emailMsg", "passwordMsg", "cpasswordMsg"};
             for (int i = 0; i < 4; i++)

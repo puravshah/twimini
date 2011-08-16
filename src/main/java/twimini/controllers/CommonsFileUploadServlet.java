@@ -19,7 +19,6 @@ import twimini.model.UserModel;
 import twimini.services.UserService;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -27,7 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 @Controller
-public class CommonsFileUploadServlet extends HttpServlet {
+public class CommonsFileUploadServlet {
     private File destinationDir;
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
