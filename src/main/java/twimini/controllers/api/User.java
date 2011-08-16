@@ -30,7 +30,7 @@ public class User {
         this.tweetService = tweetService;
     }
 
-    @RequestMapping(value = "/api/user/signup", method = RequestMethod.POST)
+    @RequestMapping("/api/user/signup")
     @ResponseBody
     Hashtable<String, String> apiSignup(@RequestParam String email, @RequestParam String password, @RequestParam String cpassword, @RequestParam String name) {
         Hashtable<String, String> hashtable = new Hashtable<String, String>();
@@ -58,7 +58,7 @@ public class User {
         return hashtable;
     }
 
-    @RequestMapping(value = "/api/user/login", method = RequestMethod.POST)
+    @RequestMapping("/api/user/login")
     @ResponseBody
     Hashtable<String, String> apiLogin(@RequestParam String email, @RequestParam String password) {
         Hashtable<String, String> hashtable = new Hashtable<String, String>();
