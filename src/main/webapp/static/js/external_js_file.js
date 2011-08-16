@@ -147,6 +147,7 @@ function createTweet(input) {
                 data = data.tweetDetails;
                 data.name = input.name;
                 data.timestamp = tweetTimeDate.getTweetTime(data.timestamp);
+                data.user = input.user;
                 prependTweet(data);
                 dojo.byId("tweet-box").value = "";
                 dojo.byId("currentTweetCount").value = (parseInt(dojo.byId("currentTweetCount").value) + 1);
@@ -297,7 +298,7 @@ function getFeed(input, loadMore) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
                 var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
-                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
+                appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y, status:item.status, user: input.user});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -333,7 +334,7 @@ function getFavourites(input, loadMore) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
                 var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
-                appendFavourites({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
+                appendFavourites({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y, status:item.status, user: input.user});
             }
 
             dojo.style("loadMoreFavourites", "display", (data.length < 10) ? "none" : "block");
@@ -370,7 +371,7 @@ function getTweets(input, loadMore) {
                 item = data[i];
                 var tweet = filter(item.tweet);
                 var y = tweetTimeDate.getTweetTime(item.timestamp);
-                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:y,status:item.status});
+                appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:y, status:item.status, user: input.user});
             }
 
             dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
@@ -467,7 +468,7 @@ function likeAction(element, tweetId) {
 
     dojo.xhrPost(
         {
-            url:"/like" ,
+            url:"/tweet/like" ,
             handleAs: "json",
             content: {'tweetId':tweetId},
             load:function(response) {
@@ -492,7 +493,7 @@ function unlikeAction(element, tweetId) {
 
     dojo.xhrPost(
         {
-            url:"/unlike" ,
+            url:"/tweet/unlike" ,
             handleAs: "json",
             content: {'tweetId':tweetId},
             load:function(response) {

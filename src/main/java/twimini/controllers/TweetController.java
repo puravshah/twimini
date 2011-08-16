@@ -4,10 +4,10 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import twimini.ActivationMail;
 import twimini.model.TweetModel;
 import twimini.model.UserModel;
 import twimini.services.*;
@@ -29,12 +29,14 @@ public class TweetController {
     private final UserService userService;
     private final TweetService tweetService;
     private final FollowService followService;
+    private final LikeService likeService;
 
     @Autowired
-    public TweetController(UserService userService, FollowService followService, TweetService tweetService) {
+    public TweetController(UserService userService, FollowService followService, TweetService tweetService, LikeService likeService) {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
+        this.likeService = likeService;
     }
 
     @RequestMapping("/test")
@@ -75,14 +77,14 @@ public class TweetController {
         try {
             String apikey = session.getAttribute("apikey").toString();
             String isActivated = userService.getIsActivated(APIKEYService.getUid(apikey));
-            if(!isActivated.equals("activated")) {
+            if (!isActivated.equals("activated")) {
                 return new JSONObject() {{
-                put("status", "0");
-                put("errorMessage", "You need to activate your account before posting a tweet. Kindly check your email");
-            }};
+                    put("status", "0");
+                    put("errorMessage", "You need to activate your account before posting a tweet. Kindly check your email");
+                }};
             }
             JSONObject jsonObject = JSONParser.createTweetFromJSON(tweet, apikey);
-            if(jsonObject.get("status").equals("0")) return jsonObject;
+            if (jsonObject.get("status").equals("0")) return jsonObject;
             return JSONParser.getTweetDetailsFromJSON(jsonObject.get("pid").toString(), apikey);
         } catch (final NullPointerException e) {
             return new JSONObject() {{
@@ -119,7 +121,7 @@ public class TweetController {
         ret.put("uid", "" + t.getUid());
         ret.put("tweet", t.getTweet());
 
-        ret.put("timestamp",""+(long)(t.getTimestamp()));
+        ret.put("timestamp", "" + (long) (t.getTimestamp()));
         ret.put("status", "1");
         return ret;
     }
@@ -148,7 +150,7 @@ public class TweetController {
         }
 
         try {
-            return JSONParser.getTweetListFromJSON(uid, (String)session.getAttribute("apikey"), start, count);
+            return JSONParser.getTweetListFromJSON(uid, (String) session.getAttribute("apikey"), start, count);
         } catch (final Exception e) {
             return new JSONObject() {{
                 put("status", "0");
@@ -183,7 +185,7 @@ public class TweetController {
 
         try {
             JSONObject jsonObject = JSONParser.getFeedFromJSON(uid, session.getAttribute("apikey").toString(), start, count);
-            if(jsonObject.get("status").equals("0") && jsonObject.get("errorMessage").equals("Invalid apikey")) {
+            if (jsonObject.get("status").equals("0") && jsonObject.get("errorMessage").equals("Invalid apikey")) {
                 session.invalidate();
             }
             return jsonObject;
@@ -194,5 +196,49 @@ public class TweetController {
                 put("errorMessage", e.toString());
             }};
         }
+    }
+
+    @RequestMapping(value = "/tweet/like", method = RequestMethod.POST)
+    @ResponseBody
+    Hashtable<String, String> like(@RequestParam String tweetId, HttpSession httpSession) {
+        Hashtable<String, String> hashTable = new Hashtable<String, String>();
+        if (httpSession.getAttribute("uid") == null) {
+            return new Hashtable<String, String>() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        } else {
+            try {
+                likeService.insertLike(tweetId, ((String) httpSession.getAttribute("uid")));
+                hashTable.put("status", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return hashTable;
+    }
+
+
+    @RequestMapping(value = "/tweet/unlike", method = RequestMethod.POST)
+    @ResponseBody
+    Hashtable<String, String> unlike(@RequestParam String tweetId, HttpSession httpSession) {
+        Hashtable<String, String> hashTable = new Hashtable<String, String>();
+        if (httpSession.getAttribute("uid") == null) {
+            return new Hashtable<String, String>() {{
+                put("status", "0");
+                put("errorMessage", "You need to login first");
+            }};
+        } else {
+            try {
+                likeService.deleteLike(tweetId, ((String) httpSession.getAttribute("uid")));
+                hashTable.put("status", "1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return hashTable;
     }
 }

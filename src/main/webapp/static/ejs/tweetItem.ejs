@@ -9,18 +9,20 @@
         <div class = "span-11 last add-margin-above-10"><%= tweet %></div>
         <div class = "span-11 subtext add-margin-above-10">
             <div class = "span-4"><%= timestamp %></div>
-            <div class = "span-4 append-3 last favourite-container" onclick = "favouriteAction(this, <%= pid %>);">
-            <%  {
-                    if(status == 'true') { %>
-                        <img src="/static/images/unfavourites.png" style = "vertical-align:bottom"></img>
-                        <span class = "favourite-text">unfavourite</span>
-                <%  }
-                    else if(status == 'false') { %>
-                        <img src="/static/images/favourite.png" style = "vertical-align:bottom"></img>
-                        <span class = "favourite-text">favourite</span>
-                <%  }
-            } %>
-            </div>
+            <% if(user != '') { %>
+                <div class = "span-4 append-3 last favourite-container" onclick = "favouriteAction(this, <%= pid %>);">
+                <%  {
+                        if(status == 'true') { %>
+                            <img src="/static/images/unfavourites.png" style = "vertical-align:bottom"></img>
+                            <span class = "favourite-text">unfavourite</span>
+                    <%  }
+                        else if(status == 'false') { %>
+                            <img src="/static/images/favourite.png" style = "vertical-align:bottom"></img>
+                            <span class = "favourite-text">favourite</span>
+                    <%  }
+                } %>
+                </div>
+            <% } %>
         </div>
     </div>
 </div>

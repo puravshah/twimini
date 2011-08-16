@@ -57,13 +57,13 @@
 
                     <jsp:include page="leftContainerBody.jsp">
                         <jsp:param name="firstTabName" value="Tweets"></jsp:param>
-                        <jsp:param name="firstTabUrl" value="getTweets( {uid: ${uid}, name: '${name}'}, false );"></jsp:param>
-                        <jsp:param name="loadMoreTweetsUrl" value="getTweets({uid:${uid}, name: '${name}'}, true)"></jsp:param>
+                        <jsp:param name="firstTabUrl" value="getTweets( {uid: ${uid}, name: '${name}', user:'${sessionScope.uid}'}, false );"></jsp:param>
+                        <jsp:param name="loadMoreTweetsUrl" value="getTweets({uid:${uid}, name: '${name}', user:'${sessionScope.uid}'}, true)"></jsp:param>
                     </jsp:include>
                 </div>
 
                 <jsp:include page="rightContainer.jsp">
-                    <jsp:param name="tweetUrl" value="javascript:getTweets( {uid: ${uid}, name: '${name}'} );"></jsp:param>
+                    <jsp:param name="tweetUrl" value="javascript:getTweets( {uid: ${uid}, name: '${name}', user:'${sessionScope.uid}'} );"></jsp:param>
                 </jsp:include>
             </div>
 

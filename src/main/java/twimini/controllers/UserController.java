@@ -31,7 +31,6 @@ public class UserController {
     public boolean runMailSender = true;
 
     @Autowired
-
     public UserController(UserService userService, FollowService followService, TweetService tweetService, LikeService likeService) {
         this.userService = userService;
         this.followService = followService;
@@ -386,52 +385,6 @@ public class UserController {
         }
         ret.put("status", "1");
         return ret;
-    }
-
-
-    @RequestMapping(value = "/like", method = RequestMethod.POST)
-    @ResponseBody
-    Hashtable<String, String> like(@RequestParam String tweetId, HttpSession httpSession) {
-        Hashtable<String, String> hashTable = new Hashtable<String, String>();
-        if (httpSession.getAttribute("uid") == null) {
-            return new Hashtable<String, String>() {{
-                put("status", "0");
-                put("errorMessage", "You need to login first");
-            }};
-        } else {
-            try {
-                likeService.insertLike(tweetId, ((String) httpSession.getAttribute("uid")));
-                hashTable.put("status", "1");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return hashTable;
-    }
-
-
-    @RequestMapping(value = "/unlike", method = RequestMethod.POST)
-    @ResponseBody
-    Hashtable<String, String> unlike(@RequestParam String tweetId, HttpSession httpSession) {
-        Hashtable<String, String> hashTable = new Hashtable<String, String>();
-        if (httpSession.getAttribute("uid") == null) {
-            return new Hashtable<String, String>() {{
-                put("status", "0");
-                put("errorMessage", "You need to login first");
-            }};
-        } else {
-            try {
-                likeService.deleteLike(tweetId, ((String) httpSession.getAttribute("uid")));
-                hashTable.put("status", "1");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return hashTable;
     }
 
     @RequestMapping(value = "/user/getLikes", method = RequestMethod.POST)

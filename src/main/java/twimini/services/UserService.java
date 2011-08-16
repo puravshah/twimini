@@ -44,18 +44,6 @@ public class UserService {
     }
 
     public UserModel getUser(String uid) throws Exception {
-        /*int status = 1;
-        System.out.println("user : " + userID.get());
-        try {
-            int temporaryUid = db.queryForInt("SELECT uid FROM follow WHERE uid = ? and following = ? AND end IS NULL", userID.get(), uid);
-            status = 1;
-            System.out.println("Following");
-        } catch (EmptyResultDataAccessException e) {
-            status = 0;
-            System.out.println("Not following");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         return db.queryForObject("SELECT *, 0 AS status FROM user WHERE uid = ?", UserModel.rowMapper3, uid);
     }
 
@@ -77,7 +65,7 @@ public class UserService {
     }
 
     public List<UserModel> getSearch(String query, String uid, String start, String count) throws Exception {
-        if(uid == null || uid.equals("")) uid = "-1";
+        if (uid == null || uid.equals("")) uid = "-1";
         query = "%" + query + "%";
         return db.query("SELECT DISTINCT uid, name, email, 1 as status FROM user WHERE (name like ? or email like ?) AND uid IN \n" +
                 "(SELECT following FROM follow WHERE uid = ? AND end IS NULL) \n" +
@@ -99,7 +87,7 @@ public class UserService {
         String token = UUID.randomUUID().toString();
         try {
             db.update("INSERT INTO forgot_token VALUES(?, ?, now())", uid, token);
-        } catch(DuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
             db.update("UPDATE forgot_token set token = ? WHERE uid = ?", token, uid);
         }
         return token;
@@ -130,15 +118,8 @@ public class UserService {
     }
 
     public static void setToNotactivated(String[] sendTo) {
-        /*Set<String> ids = new HashSet<String>();
-        for (String string : sendTo)
-            ids.add(string);
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("ids", ids);
-        db.update("UPDATE user SET isActivated='activated' where email in ( :ids )", parameters);*/
-
-        List <Object[]> list = new ArrayList<Object[]> ();
-        for(String id: sendTo) list.add(new Object[] {id});
+        List<Object[]> list = new ArrayList<Object[]>();
+        for (String id : sendTo) list.add(new Object[]{id});
         db.batchUpdate("UPDATE user SET isActivated = 'not activated' WHERE email = ?", list);
     }
 
@@ -149,7 +130,7 @@ public class UserService {
     public String getActivationToken(String uid) {
         try {
             return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
-        } catch(EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             addActivationToken(uid);
             return db.queryForObject("SELECT token FROM activation_token WHERE uid = ?", String.class, uid);
         }
@@ -159,7 +140,7 @@ public class UserService {
         try {
             String token = UUID.randomUUID().toString();
             return db.update("INSERT INTO activation_token VALUES(?, ?, now())", uid, token);
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             removeActivationToken(getActivationToken(uid));
         }

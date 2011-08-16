@@ -14,7 +14,7 @@
                 </div>
 
                 <div id = "login-text" class = "span-5 append-3 last" onclick = "toggleDropDown('login-dropdown');">
-                    <span>Already a memeber? <b>Sign in</b><img src = "/static/images/icon_dropdown_1.png"/></span>
+                    <span>Already a member? <b>Sign in</b><img src = "/static/images/icon_dropdown_1.png"/></span>
                 </div>
 
                 <div id = "login-dropdown" class = "span-5">

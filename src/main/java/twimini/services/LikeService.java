@@ -17,44 +17,32 @@ import java.util.List;
  */
 @Service
 public class LikeService {
-        private static SimpleJdbcTemplate db;
+    private static SimpleJdbcTemplate db;
 
     @Autowired
     public LikeService(SimpleJdbcTemplate db) {
-        this.db=db;
+        this.db = db;
     }
 
-    public List<TweetWrapper> getLikes(String uid,String id,String start,String count)
-    {
-        return  db.query("(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'true' AS " +
-                "status FROM post ,user " +
-                "WHERE post.uid=user.uid AND post.pid " +
-                "IN (" +
-                "SELECT likes.pid " +
-                "FROM likes " +
-                "WHERE likes.uid =?" +
-                "AND likes.pid IN " +
-                "(SELECT likes.pid FROM likes  WHERE likes.uid =?)))" +
+    public List<TweetWrapper> getLikes(String uid, String id, String start, String count) {
+        return db.query("" +
+                "(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'true' AS status FROM post, user " +
+                "WHERE post.uid=user.uid AND post.pid IN " +
+                "(SELECT likes.pid FROM likes WHERE likes.uid = ? AND likes.pid IN " +
+                "(SELECT likes.pid FROM likes  WHERE likes.uid = ?)))" +
                 "UNION " +
-                "(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'false' AS " +
-                "status FROM post ,user " +
-                "WHERE post.uid=user.uid AND post.pid " +
-                "IN (" +
-                "SELECT likes.pid " +
-                "FROM likes " +
-                "WHERE likes.uid =? " +
-                "AND likes.pid NOT IN " +
-                "(SELECT likes.pid FROM likes WHERE likes.uid =?)))" +
-                "order by 5 Desc LIMIT ?,? ",TweetWrapper.rowMapper,uid,id,uid,id,Integer.parseInt(start),Integer.parseInt(count));
+                "(SELECT user.uid,user.name,post.pid,post.tweet ,post.timestamp,'false' AS status FROM post, user " +
+                "WHERE post.uid=user.uid AND post.pid IN " +
+                "(SELECT likes.pid FROM likes WHERE likes.uid = ? AND likes.pid NOT IN " +
+                "(SELECT likes.pid FROM likes WHERE likes.uid = ?))) " +
+                "ORDER BY 5 DESC LIMIT ?,? ", TweetWrapper.rowMapper, uid, id, uid, id, Integer.parseInt(start), Integer.parseInt(count));
     }
 
-    public void insertLike(String uid,String pid)
-    {
-          db.update("INSERT INTO likes values(?,?,now())", uid, pid);
+    public void insertLike(String uid, String pid) {
+        db.update("INSERT INTO likes values(?,?,now())", uid, pid);
     }
 
     public void deleteLike(String tweetId, String uid) {
-            //To change body of created methods use File | Settings | File Templates.
-        db.update("DELETE FROM likes WHERE pid =? AND uid=?",tweetId,uid);
+        db.update("DELETE FROM likes WHERE pid = ? AND uid = ?", tweetId, uid);
     }
 }

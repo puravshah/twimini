@@ -15,12 +15,10 @@
                     </c:if>
 
                     <div class="span-9 search-box">
-                        <%--<form id="searchForm" action="/search" onsubmit = "return queryIsNotEmpty();">--%>
-                            <input type="text" name="query" id="search-box" onkeyup = "showResults(this)" onkeydown = "showResults(this)" autocomplete="off"/>
-                            <input type="hidden" name="start" value="0" id = "currentSearchCount"/>
-                            <input type="hidden" name="count" value="10" id = "currentSearchCountValue"/>
-                            <input type="submit" value="Search" id="search-button" onclick="gotoSearchPage()"/>
-                        <%--</form>--%>
+                        <input type="text" name="query" id="search-box" onkeyup = "showResults(this)" onkeydown = "showResults(this)" autocomplete="off"/>
+                        <input type="hidden" name="start" value="0" id = "currentSearchCount"/>
+                        <input type="hidden" name="count" value="10" id = "currentSearchCountValue"/>
+                        <input type="submit" value="Search" id="search-button" onclick="gotoSearchPage()"/>
                     </div>
 
                     <div class = "span-7" id = "search-dropdown">
@@ -48,7 +46,7 @@
                                 var parentInfo = dojo.position('dropdown-text', true);
                                 var hiddenChild = dojo.byId('dropdown');
                                 var hiddenChildInfo = dojo.position('dropdown', true);
-                                var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w - 9; //-9 is by trial and error
+                                var left = parentInfo.x + parentInfo.w - hiddenChildInfo.w;
                                 var bottom = parentInfo.y + parentInfo.h;
                                 //alert(parentInfo.x + ", " + left + ", " + parentInfo.w + ", " + hiddenChildInfo.w);
 

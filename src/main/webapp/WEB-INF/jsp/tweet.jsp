@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="span-2 last add-margin-above-20">
-                            <input id = "tweet-button" value="Tweet" onclick="createTweet({name:'${name}'})" type="button" disabled = "disabled"/>
+                            <input id = "tweet-button" value="Tweet" onclick="createTweet({name:'${name}', user: '${sessionScope.uid}'})" type="button" disabled = "disabled"/>
                         </div>
 
                         <div id="char-count" class="span-2 last">
@@ -33,8 +33,8 @@
 
                     <jsp:include page="leftContainerBody.jsp">
                         <jsp:param name="firstTabName" value="Feed"></jsp:param>
-                        <jsp:param name="firstTabUrl" value="getFeed({uid:${uid}}, false)"></jsp:param>
-                        <jsp:param name="loadMoreTweetsUrl" value="getFeed({uid:${uid}}, true)"></jsp:param>
+                        <jsp:param name="firstTabUrl" value="getFeed({uid:${uid}, user:'${sessionScope.uid}'}, false)"></jsp:param>
+                        <jsp:param name="loadMoreTweetsUrl" value="getFeed({uid:${uid}, user:'${sessionScope.uid}'}, true)"></jsp:param>
                     </jsp:include>
                 </div>
 
