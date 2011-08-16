@@ -12,32 +12,31 @@ import org.springframework.web.servlet.ModelAndView;
 import twimini.ActivationMail;
 import twimini.InviteFriend;
 import twimini.PasswordMail;
-import twimini.model.LikeModel;
 import twimini.model.UserModel;
 import twimini.services.*;
 
 import javax.annotation.PostConstruct;
-import javax.mail.Session;
-import javax.naming.ldap.StartTlsRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Struct;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
     private final UserService userService;
     private final TweetService tweetService;
     private final FollowService followService;
-    private final LikeService   likeService;
+    private final LikeService likeService;
     public boolean runMailSender = true;
 
     @Autowired
 
-    public UserController(UserService userService, FollowService followService, TweetService tweetService,LikeService likeService) {
+    public UserController(UserService userService, FollowService followService, TweetService tweetService, LikeService likeService) {
         this.userService = userService;
         this.followService = followService;
         this.tweetService = tweetService;
-        this.likeService=likeService;
+        this.likeService = likeService;
     }
 
     @RequestMapping("/")
@@ -92,8 +91,7 @@ public class UserController {
     }
 
     @PostConstruct
-    public void runMailSender()
-    {
+    public void runMailSender() {
         Thread thread = new ActivationMail(userService);
         thread.start();
     }
@@ -176,7 +174,7 @@ public class UserController {
         final JSONObject jsonObject = JSONParser.postData("http://localhost:8080/api/user/signup", attributes);
         if (jsonObject.get("status").equals("0")) {
             return new ModelAndView("/signup") {{
-               addObject("msg", jsonObject.get("errorMessage"));
+                addObject("msg", jsonObject.get("errorMessage"));
             }};
         }
 
@@ -186,7 +184,7 @@ public class UserController {
             user = userService.getUser(uid);
         } catch (final Exception e) {
             return new ModelAndView() {{
-                 System.out.println("hello");
+                System.out.println("hello");
                 addObject("msg", e.toString());
             }};
         }
@@ -266,8 +264,8 @@ public class UserController {
 
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ResponseBody
-    Hashtable <String, String> postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
-        Hashtable <String, String> hashtable = new Hashtable<String, String>();
+    Hashtable<String, String> postResetPassword(@RequestParam String password, @RequestParam String cpassword, @RequestParam String token) {
+        Hashtable<String, String> hashtable = new Hashtable<String, String>();
         try {
             String uid = UserService.getUidFromForgotToken(token);
             UserService.changePassword(uid, password);
@@ -348,7 +346,7 @@ public class UserController {
     @RequestMapping("/searchMore")
     @ResponseBody
     JSONObject searchMore(@RequestParam String query, @RequestParam String start, @RequestParam String count, HttpSession session) {
-        return JSONParser.searchFromJSON(query, (String)session.getAttribute("apikey"), start, count);
+        return JSONParser.searchFromJSON(query, (String) session.getAttribute("apikey"), start, count);
     }
 
     @RequestMapping("/search")
@@ -366,7 +364,7 @@ public class UserController {
     @RequestMapping("/invite")
     @ResponseBody
     Hashtable<String, String> inviteFriends(@RequestParam String email, HttpSession httpSession) {
-        if(httpSession.getAttribute("uid") == null) {
+        if (httpSession.getAttribute("uid") == null) {
             return new Hashtable<String, String>() {{
                 put("status", "0");
                 put("errorMessage", "You need to login first");
@@ -391,90 +389,81 @@ public class UserController {
     }
 
 
-    @RequestMapping(value="/like",method=RequestMethod.POST)
-    @ResponseBody Hashtable<String,String> like(@RequestParam String tweetId,HttpSession httpSession)
-    {
-        Hashtable<String,String>  hashTable= new Hashtable<String, String>();
-        if(httpSession.getAttribute("uid") == null) {
+    @RequestMapping(value = "/like", method = RequestMethod.POST)
+    @ResponseBody
+    Hashtable<String, String> like(@RequestParam String tweetId, HttpSession httpSession) {
+        Hashtable<String, String> hashTable = new Hashtable<String, String>();
+        if (httpSession.getAttribute("uid") == null) {
             return new Hashtable<String, String>() {{
                 put("status", "0");
                 put("errorMessage", "You need to login first");
             }};
-        }
-        else
-        {
-            try{
-                likeService.insertLike(tweetId,((String)httpSession.getAttribute("uid")));
-                hashTable.put("status","1");
+        } else {
+            try {
+                likeService.insertLike(tweetId, ((String) httpSession.getAttribute("uid")));
+                hashTable.put("status", "1");
 
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return  hashTable;
+        return hashTable;
     }
 
 
-    @RequestMapping(value="/unlike",method=RequestMethod.POST)
-    @ResponseBody Hashtable<String,String> unlike(@RequestParam String tweetId,HttpSession httpSession)
-    {
-        Hashtable<String,String>  hashTable= new Hashtable<String, String>();
-        if(httpSession.getAttribute("uid") == null) {
+    @RequestMapping(value = "/unlike", method = RequestMethod.POST)
+    @ResponseBody
+    Hashtable<String, String> unlike(@RequestParam String tweetId, HttpSession httpSession) {
+        Hashtable<String, String> hashTable = new Hashtable<String, String>();
+        if (httpSession.getAttribute("uid") == null) {
             return new Hashtable<String, String>() {{
                 put("status", "0");
                 put("errorMessage", "You need to login first");
             }};
-        }
-        else
-        {
-            try{
+        } else {
+            try {
                 likeService.deleteLike(tweetId, ((String) httpSession.getAttribute("uid")));
-                hashTable.put("status","1");
+                hashTable.put("status", "1");
 
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return  hashTable;
+        return hashTable;
     }
 
-    @RequestMapping(value = "/user/getLikes",method=RequestMethod.POST)
-    @ResponseBody Hashtable<String,Object> getLikes(@RequestParam String uid, String start,String count, HttpSession httpSession)
-    {
+    @RequestMapping(value = "/user/getLikes", method = RequestMethod.POST)
+    @ResponseBody
+    Hashtable<String, Object> getLikes(@RequestParam String uid, String start, String count, HttpSession httpSession) {
         if (count == null || count.equals("")) count = "10";
         if (start == null || start.equals("")) start = "0";
-        Hashtable<String,Object> hashtable = new Hashtable<String, Object>();
-        try{
-        if(httpSession.getAttribute("uid")==null)
-        {
+        Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
+        try {
+            if (httpSession.getAttribute("uid") == null) {
 
-            hashtable.put("favourites",likeService.getLikes(uid,uid,start,count));
-            hashtable.put("status","1");
+                hashtable.put("favourites", likeService.getLikes(uid, uid, start, count));
+                hashtable.put("status", "1");
 
-            /*return new Hashtable<String,Object>(){{
-                put("status","0");
-                put("errorMessage","You Need to login first");
-            }};*/
+                /*return new Hashtable<String,Object>(){{
+                    put("status","0");
+                    put("errorMessage","You Need to login first");
+                }};*/
+            } else {
+
+                hashtable.put("favourites", likeService.getLikes(uid, (String) httpSession.getAttribute("uid"), start, count));
+                hashtable.put("status", "1");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            hashtable.put("status", "0");
+            hashtable.put("errorMessage", e.getMessage());
+
         }
-        else{
 
-                hashtable.put("favourites",likeService.getLikes(uid,(String)httpSession.getAttribute("uid"),start,count));
-                hashtable.put("status","1");
-
-            }
-        }catch(Exception e)
-            {
-                e.printStackTrace();
-                hashtable.put("status", "0");
-                hashtable.put("errorMessage", e.getMessage());
-
-            }
-
-     return hashtable;
+        return hashtable;
     }
 
 }

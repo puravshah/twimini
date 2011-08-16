@@ -8,8 +8,6 @@ package twimini.controllers;
  * To change this template use File | Settings | File Templates.
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
-      @Override
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 

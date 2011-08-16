@@ -39,7 +39,7 @@ public class APIKEYService {
     }
 
     public static String getUid(String apikey) {
-        if(apikey == null || apikey.equals(null) || apikey == "") return null;
+        if (apikey == null || apikey == "" || apikey.equals("null")) return null;
         String uid = "" + db.queryForInt("SELECT uid FROM user_apikey WHERE apikey = ?", apikey);
         updateLastUsedTimestamp(apikey);
         return uid;

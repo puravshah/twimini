@@ -146,7 +146,7 @@ function createTweet(input) {
             else {
                 data = data.tweetDetails;
                 data.name = input.name;
-                data.timestamp=tweetTimeDate.getTweetTime(data.timestamp);
+                data.timestamp = tweetTimeDate.getTweetTime(data.timestamp);
                 prependTweet(data);
                 dojo.byId("tweet-box").value = "";
                 dojo.byId("currentTweetCount").value = (parseInt(dojo.byId("currentTweetCount").value) + 1);
@@ -211,7 +211,6 @@ function appendFavourites(data) {
 }
 
 
-
 function appendFollowing(data) {
     var html = new EJS({url: 'static/ejs/followItem.ejs'}).render(data);
     dojo.place(html, "ListOfFollowing", "last");
@@ -234,14 +233,14 @@ tweetTimeDate = new Date();
 tweetTimeDate.getTweetTime = function(timestamp) {
     //alert(timestamp);
     var currentTime = new Date();
-    var time=new Date(timestamp);
+    var time = new Date(timestamp);
 
-     time.getShortMonth = function() {
-      return ["Jan", "Feb", "Mar",
-        "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"][time.getMonth()];
-     };
+    time.getShortMonth = function() {
+        return ["Jan", "Feb", "Mar",
+            "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep",
+            "Oct", "Nov", "Dec"][time.getMonth()];
+    };
     var diff = Math.abs(timestamp - (new Date().getTime())) / 1000;
     var MIN = 60, HOUR = 3600, DAY = 86400;
     var out = "", temp;
@@ -266,15 +265,13 @@ tweetTimeDate.getTweetTime = function(timestamp) {
         out = temp + " day" + (temp == 1 ? "" : "s");
     } else if (diff < 90 * DAY) {
         // more than 30 days, but less than 3 months, show the day and month
-        return "on : "+time.getDate() + " " + time.getShortMonth();
+        return time.getDate() + " " + time.getShortMonth();
     } else {
         // more than three months difference, better show the year too
-        return "on : "+time.getDate() + " " + time.getShortMonth() + " " + time.getFullYear();
+        return time.getDate() + " " + time.getShortMonth() + " " + time.getFullYear();
     }
     return out + " ago";
 }
-
-
 
 function getFeed(input, loadMore) {
     var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
@@ -299,7 +296,7 @@ function getFeed(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
                 appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
             }
 
@@ -313,11 +310,9 @@ function getFeed(input, loadMore) {
     });
 }
 
-
-
 function getFavourites(input, loadMore) {
     var start = (loadMore ? dojo.byId("currentTweetCount").value : 0);
-        dojo.xhrPost({
+    dojo.xhrPost({
         url: "/user/getLikes",
         handleAs: "json",
         content: {uid:input.uid, start:start},
@@ -337,7 +332,7 @@ function getFavourites(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet.tweet);
-                var y=tweetTimeDate.getTweetTime(item.tweet.timestamp);
+                var y = tweetTimeDate.getTweetTime(item.tweet.timestamp);
                 appendFavourites({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:y,status:item.status});
             }
 
@@ -374,7 +369,7 @@ function getTweets(input, loadMore) {
             for (var i = 0; i < data.length; i++) {
                 item = data[i];
                 var tweet = filter(item.tweet);
-                var y=tweetTimeDate.getTweetTime(item.timestamp);
+                var y = tweetTimeDate.getTweetTime(item.timestamp);
                 appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:y,status:item.status});
             }
 
@@ -460,95 +455,61 @@ function getFollowers(input, loadMore) {
     });
 }
 
-function runAction(image,button,tweetId)
-{
-  if(getInnerText(button)=='favourite')
-  {
-      like(image,button,tweetId);
-  }
-  else
-  {
-      unlike(image,button,tweetId)
-  }
+function favouriteAction(element, tweetId) {
+    var span = element.getElementsByTagName('span')[0];
+    if (getInnerText(span) == 'favourite') likeAction(element, tweetId);
+    else unlikeAction(element, tweetId);
 }
 
+function likeAction(element, tweetId) {
+    var img = element.getElementsByTagName('img')[0];
+    var span = element.getElementsByTagName('span')[0];
 
-
-
-function like(image,button,tweetId)
-{
-    var id=tweetId;
     dojo.xhrPost(
-            {
-                url:"/like" ,
-                handleAs: "json",
-                content: {'tweetId':tweetId},
-                load:function(response)
-                {
-                    if(response.status=='0')
-                    {
-                        alert("you need to login first");
-                    }
-                    else
-                    {
-                          setInnerText(button, "unfavourite");
-                          var favouriteList  =   dojo.query("."+image);
-                          for(var favourite=0;favourite<favouriteList.length;favourite++)
-                           {
-                                favouriteList[favourite].setAttribute("src","/static/images/unfavourites.png") ;
-                           }
-                          //dojo.removeClass(button, "follow-button");
-                          //dojo.addClass(button, "follow-unfollow-button");
-                    }
-
-                },
-                error:function(error)
-                {
-                   alert(error);
+        {
+            url:"/like" ,
+            handleAs: "json",
+            content: {'tweetId':tweetId},
+            load:function(response) {
+                if (response.status == '0') {
+                    alert("you need to login first");
                 }
+                else {
+                    setInnerText(span, "unfavourite");
+                    img.setAttribute("src", "/static/images/unfavourites.png");
+                }
+            },
+            error:function(error) {
+                alert(error);
             }
+        }
     );
 }
 
+function unlikeAction(element, tweetId) {
+    var img = element.getElementsByTagName('img')[0];
+    var span = element.getElementsByTagName('span')[0];
 
-function unlike(image,button,tweetId)
-{
-    var id=tweetId;
     dojo.xhrPost(
-            {
-                url:"/unlike" ,
-                handleAs: "json",
-                content: {'tweetId':tweetId},
-                load:function(response)
-                {
-                    if(response.status=='0')
-                    {
-                        alert("you need to login first");
-                    }
-                    else
-                    {
-                          setInnerText(button, "favourite");
-                          //dojo.byId(image).setAttribute("src","/static/images/favourite.png") ;
-                          var favouriteList  =   dojo.query("."+image);
-                          for(var favourite=0;favourite<favouriteList.length;favourite++)
-                              {
-                                  favouriteList[favourite].setAttribute("src","/static/images/favourite.png") ;
-                              }
-
-                          //dojo.removeClass(button, "follow-unfollow-button");
-                          //dojo.addClass(button, "follow-button");
-                    }
-
-                },
-                error:function(error)
-                {
-                   alert(error);
+        {
+            url:"/unlike" ,
+            handleAs: "json",
+            content: {'tweetId':tweetId},
+            load:function(response) {
+                if (response.status == '0') {
+                    alert("you need to login first");
                 }
+                else {
+                    setInnerText(span, "favourite");
+                    img.setAttribute("src", "/static/images/favourite.png");
+                }
+            },
+            error:function(error) {
+                alert(error);
             }
+        }
     );
 }
-
-
 
 function showResults(search) {
     if (search.value.length == 0 || !queryIsNotEmpty(search.value)) {
@@ -579,8 +540,8 @@ function showResults(search) {
                 dojo.place(html, "search-results", "last");
             }
 
-            if(data.length == 0) setInnerText(dojo.byId('loadMoreSearchResults'), "No Results found for '" + search.value.trim() + "'");
-            else if(data.length < 5) setInnerText(dojo.byId('loadMoreSearchResults'), "Showing all results");
+            if (data.length == 0) setInnerText(dojo.byId('loadMoreSearchResults'), "No Results found for '" + search.value.trim() + "'");
+            else if (data.length < 5) setInnerText(dojo.byId('loadMoreSearchResults'), "Showing all results");
             else setInnerText(dojo.byId('loadMoreSearchResults'), "See more results");
         },
         error: function(error) {
@@ -591,19 +552,19 @@ function showResults(search) {
 
 function gotoSearchPage() {
     var query = dojo.byId('search-box').value;
-    if(!queryIsNotEmpty(query)) alert('enter a query to search');
+    if (!queryIsNotEmpty(query)) alert('enter a query to search');
     else window.location = "/search?query=" + query;
 }
 
 function queryIsNotEmpty(str) {
     var query;
-    if(str) query = str;
+    if (str) query = str;
     else query = dojo.byId('search-box').value;
     return !(!query || /^\s*$/.test(query));
 }
 
 function search(input, loadMore) {
-    if(!queryIsNotEmpty(input.query)) {
+    if (!queryIsNotEmpty(input.query)) {
         dojo.style('')
     }
 
@@ -638,178 +599,6 @@ function search(input, loadMore) {
     });
 }
 
-/*function loadMoreFeed(input) {
- var start = dojo.byId("currentTweetCount").value;
- dojo.xhrPost({
- url: "/tweet/getFeed",
- handleAs: "json",
- content: {uid:input.uid, start:start},
- load: function(data) {
- if (data.status == 0) {
- if (data.errorMessage == 'Invalid apikey') {
- window.location = "/";
- return;
- }
- alert(data.errorMessage);
- return;
- }
-
- data = data.feed;
- makeTabActive(0);
-
- for (var i = 0; i < data.length; i++) {
- item = data[i];
- var tweet = filter(item.tweet.tweet);
- appendTweet({pid:item.tweet.pid, uid:item.tweet.uid, name: item.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
- }
-
- dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
- dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
- //alert("start : " + dojo.byId('currentTweetCount').value);
- },
- error: function(error) {
- alert(error);
- }
- });
- }
-
- function loadMoreTweets(input) {
- var start = dojo.byId("currentTweetCount").value;
- dojo.xhrPost({
- url: "/tweet/getTweetList",
- handleAs: "json",
- content: {uid:input.uid, start:start},
- load: function(data) {
- if (data.status == 0) {
- if (data.errorMessage == 'Invalid apikey') {
- window.location = "/";
- return;
- }
- alert(data.errorMessage);
- return;
- }
-
- data = data.tweets;
- makeTabActive(0);
-
- for (var i = 0; i < data.length; i++) {
- item = data[i];
- var tweet = filter(item.tweet);
- appendTweet({pid:item.pid, uid:item.uid, name:input.name, tweet:tweet, timestamp:Document.write(x.getTweetTime(item.tweet.timestamp))});
- }
-
- dojo.style("loadMoreTweets", "display", (data.length < 10) ? "none" : "block");
- dojo.byId('currentTweetCount').value = (data.length + parseInt(dojo.byId('currentTweetCount').value));
- //alert("start : " + dojo.byId('currentTweetCount').value);
- },
- error: function(error) {
- alert(error);
- }
- });
- }
-
- function loadMoreFollowing(input) {
- var start = dojo.byId('currentFollowingCount').value;
- dojo.xhrPost({
- url: "/user/getFollowing",
- handleAs: "json",
- content: {uid:input.uid, start:start},
- load: function(data) {
- if (data.status == 0) {
- if (data.errorMessage == 'Invalid apikey') {
- window.location = "/";
- return;
- }
- alert(data.errorMessage);
- return;
- }
-
- data = data.following;
- makeTabActive(1);
-
- for (var i = 0; i < data.length; i++) {
- item = data[i];
- appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
- }
-
- setInnerText(dojo.byId("following-count"), data.length);
- dojo.style("loadMoreFollowing", "display", (data.length < 10) ? "none" : "block");
- dojo.byId('currentFollowingCount').value = (data.length + parseInt(dojo.byId('currentFollowingCount').value));
- //alert("start : " + dojo.byId('currentFollowingCount').value);
- },
- error: function(error) {
- alert(error);
- }
- });
- }
-
- function loadMoreFollowers(input) {
- var start = dojo.byId('currentFollowingCount').value;
- dojo.xhrPost({
- url: "/user/getFollowers",
- handleAs: "json",
- content: {uid:input.uid, start:start},
- load: function(data) {
- if (data.status == 0) {
- if (data.errorMessage == 'Invalid apikey') {
- window.location = "/";
- return;
- }
- alert(data.errorMessage);
- return;
- }
-
- data = data.following;
- makeTabActive(1);
-
- for (var i = 0; i < data.length; i++) {
- item = data[i];
- appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
- }
-
- setInnerText(dojo.byId("followers-count"), data.length);
- dojo.style("loadMoreFollowers", "display", (data.length < 10) ? "none" : "block");
- dojo.byId('currentFollowersCount').value = (data.length + parseInt(dojo.byId('currentFollowersCount').value));
- //alert("start : " + dojo.byId('currentFollowersCount').value);
- },
- error: function(error) {
- alert(error);
- }
- });
- }
-
- function loadMoreSearchResults(input) {
- var start = dojo.byId('currentSearchCount').value, count = dojo.byId('currentSearchCountValue').value;
- dojo.xhrPost({
- url: "/searchMore",
- handleAs: 'json',
- content: {query: input.query, start: start, count: count},
- load: function(data) {
- if (data.status == 0) {
- if (data.errorMessage == 'Invalid apikey') {
- window.location = "/";
- return;
- }
- alert(data.errorMessage);
- return;
- }
-
- data = data.searchResults;
- for (var i = 0; i < data.length; i++) {
- item = data[i];
- appendFollowing({id:item.uid, name:item.name, email:item.email, user:input.user, status:item.status});
- }
-
- dojo.style("loadMoreSearch", "display", (data.length < count) ? "none" : "block");
- dojo.byId('currentSearchCount').value = (data.length + parseInt(dojo.byId('currentSearchCount').value));
- //alert("start : " + dojo.byId('currentFollowersCount').value);
- },
- error: function(error) {
- alert(error);
- }
- });
- }*/
-
 function userAction(button, id) {
     if (getInnerText(button) === 'Follow') follow(button, id);
     else {
@@ -818,7 +607,6 @@ function userAction(button, id) {
         unfollow(button, id);
     }
 }
-
 
 
 function unfollow(button, id) {
@@ -947,18 +735,18 @@ function doReset() {
 }
 
 /*function toggleDropdown() {
-    var style = dojo.style('dropdown', 'display');
-    dojo.style('dropdown', 'display', style == 'block' ? 'none' : 'block');
-    if (style == 'none') dojo.byId('dropdown-text').style.backgroundColor = '#2F2F2F';
-    else dojo.byId('dropdown-text').removeAttribute('style');
-}
+ var style = dojo.style('dropdown', 'display');
+ dojo.style('dropdown', 'display', style == 'block' ? 'none' : 'block');
+ if (style == 'none') dojo.byId('dropdown-text').style.backgroundColor = '#2F2F2F';
+ else dojo.byId('dropdown-text').removeAttribute('style');
+ }
 
-function toggleLoginDropdown() {
-    var style = dojo.style('login-dropdown', 'display');
-    dojo.style('login-dropdown', 'display', style == 'block' ? 'none' : 'block');
-    if (style == 'none') dojo.byId('login-text').style.backgroundColor = '#2F2F2F';
-    else dojo.byId('login-text').removeAttribute('style');
-}*/
+ function toggleLoginDropdown() {
+ var style = dojo.style('login-dropdown', 'display');
+ dojo.style('login-dropdown', 'display', style == 'block' ? 'none' : 'block');
+ if (style == 'none') dojo.byId('login-text').style.backgroundColor = '#2F2F2F';
+ else dojo.byId('login-text').removeAttribute('style');
+ }*/
 
 function toggleDropDown(id) {
     var style = dojo.style(id, 'display');
@@ -1005,8 +793,6 @@ function restoreLikeOriginal(button) {
          dojo.style(button, 'border-top-color', '#12c91e');*/
     }
 }
-
-
 
 
 function validate(data) {

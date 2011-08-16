@@ -161,6 +161,23 @@ div.forgot-msg {
     color: red !important;
 }
 
+div.favourite-container {
+    cursor: pointer;
+}
+
+.favourite-container img {
+    height: 20px;
+    width: 20px;
+}
+
+.favourite-container .favourite-text:hover {
+    text-decoration: underline;
+}
+
+.subtext {
+    font-size: 80%;
+}
+
 .follow-button, .follow-unfollow-button {
     padding: 10px;
 }

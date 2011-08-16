@@ -107,7 +107,7 @@ public class User {
     /* REST API for getting tweet list of a user */
     @RequestMapping("/api/user/{uid}/getTweetList")
     @ResponseBody
-    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count,HttpSession session) {
+    Hashtable<String, Object> getTweetList(@PathVariable String uid, String apikey, String start, String count, HttpSession session) {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
 
         try {
@@ -141,20 +141,13 @@ public class User {
             }};
         }
 
+        List<TweetModel> list;
         try {
-               String userId = APIKEYService.getUid(apikey);
-            if(uid==null)
-            {
-                List<TweetModel> list = tweetService.getTweetList(uid,uid, start, count);
-                hashtable.put("status", "1");
-                hashtable.put("tweets", list);
-            }
-            else
-            {
-                List<TweetModel> list = tweetService.getTweetList(uid,userId, start, count);
-                hashtable.put("status", "1");
-                hashtable.put("tweets", list);
-            }
+            String userId = APIKEYService.getUid(apikey);
+            if (userId == null) list = tweetService.getTweetList(uid, uid, start, count);
+            else list = tweetService.getTweetList(uid, userId, start, count);
+            hashtable.put("status", "1");
+            hashtable.put("tweets", list);
         } catch (Exception e) {
             e.printStackTrace();
             hashtable.put("status", "0");
@@ -208,10 +201,11 @@ public class User {
         return hashtable;
     }
 
-    @RequestMapping("/api/search") @ResponseBody
-    Hashtable <String, Object> getSearch(@RequestParam String query, String start, String count, String apikey) {
-        Hashtable <String, Object> hashtable = new Hashtable<String, Object>();
-        if(query.length() > 100) {
+    @RequestMapping("/api/search")
+    @ResponseBody
+    Hashtable<String, Object> getSearch(@RequestParam String query, String start, String count, String apikey) {
+        Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
+        if (query.length() > 100) {
             return new Hashtable<String, Object>() {{
                 put("status", "0");
                 put("errorMessage", "query string too long. Max 100 characters allowed");
@@ -240,8 +234,8 @@ public class User {
 
         query = query.trim();
         boolean whitespace = true;
-        for(int i = 0; i < query.length() && whitespace; i++) whitespace = query.charAt(i) < 32;
-        if(whitespace) {
+        for (int i = 0; i < query.length() && whitespace; i++) whitespace = query.charAt(i) < 32;
+        if (whitespace) {
             return new Hashtable<String, Object>() {{
                 put("status", "0");
                 put("errorMessage", "query string contains no characters");

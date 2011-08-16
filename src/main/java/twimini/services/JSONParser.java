@@ -29,7 +29,7 @@ public class JSONParser {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
             String json = "", temp;
             while ((temp = reader.readLine()) != null) json += temp;
-            jsonObject = (JSONObject)JSONValue.parse(json);
+            jsonObject = (JSONObject) JSONValue.parse(json);
         } catch (MalformedURLException e) {
             jsonObject.put("status", "0");
             jsonObject.put("errorMessage", "Invalid Request");
@@ -40,30 +40,30 @@ public class JSONParser {
         }
         return jsonObject;
     }
-    
-    public static JSONObject postData(String url, Map <String, String> attributes) {
+
+    public static JSONObject postData(String url, Map<String, String> attributes) {
         try {
             //the URL to which we want to post
             URLConnection urlConn = new URL(url).openConnection();
-            urlConn.setDoOutput (true);
-            urlConn.setDoInput (true);
+            urlConn.setDoOutput(true);
+            urlConn.setDoInput(true);
             urlConn.setUseCaches(false);
             urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            DataOutputStream printout = new DataOutputStream (urlConn.getOutputStream ());
+            DataOutputStream printout = new DataOutputStream(urlConn.getOutputStream());
 
             //put the POST parameters here
             String content = "";
-            for(String key: attributes.keySet()) content += key + "=" + URLEncoder.encode(attributes.get(key)) + "&";
+            for (String key : attributes.keySet()) content += key + "=" + URLEncoder.encode(attributes.get(key)) + "&";
             printout.writeBytes(content);
             //System.out.println("content " + content);
             printout.flush();
             printout.close();
-            
+
             //fetch response from server
             BufferedReader input = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
             String json = "", line;
-            while( (line = input.readLine()) != null ) json += line;
-            return (JSONObject)JSONValue.parse(json);
+            while ((line = input.readLine()) != null) json += line;
+            return (JSONObject) JSONValue.parse(json);
         } catch (MalformedURLException e) {
             return new JSONObject() {{
                 put("status", "0");
@@ -80,34 +80,34 @@ public class JSONParser {
 
     public static JSONObject getFeedFromJSON(String uid, String apikey, String start, String count) throws Exception {
         String attributes = "?apikey=" + apikey;
-        if(start != null) attributes += "&start=" + start;
-        if(count != null) attributes += "&count=" + count;
+        if (start != null) attributes += "&start=" + start;
+        if (count != null) attributes += "&count=" + count;
         String url = String.format("%s/api/user/%s/getFeed%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
 
     public static JSONObject getTweetListFromJSON(String uid, String apikey, String start, String count) throws Exception {
         String attributes = "?apikey=" + apikey;
-        if(start != null) attributes += "&start=" + start;
-        if(count != null) attributes += "&count=" + count;
+        if (start != null) attributes += "&start=" + start;
+        if (count != null) attributes += "&count=" + count;
         String url = String.format("%s/api/user/%s/getTweetList%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
 
     public static JSONObject getFollowingFromJSON(String uid, String apikey, String start, String count) throws Exception {
         String attributes = apikey == null ? "" : "?apikey=" + apikey;
-        if(start != null) attributes += "&start=" + start;
-        if(count != null) attributes += "&count=" + count;
-        if(attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
+        if (start != null) attributes += "&start=" + start;
+        if (count != null) attributes += "&count=" + count;
+        if (attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
         String url = String.format("%s/api/user/%s/getFollowing%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
 
     public static JSONObject getFollowersFromJSON(String uid, String apikey, String start, String count) throws Exception {
         String attributes = apikey == null ? "" : "?apikey=" + apikey;
-        if(start != null) attributes += "&start=" + start;
-        if(count != null) attributes += "&count=" + count;
-        if(attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
+        if (start != null) attributes += "&start=" + start;
+        if (count != null) attributes += "&count=" + count;
+        if (attributes.charAt(0) == '&') attributes = "?" + attributes.substring(1);
         String url = String.format("%s/api/user/%s/getFollowers%s", urlPrefix, uid, attributes);
         return JSONParser.getData(url);
     }
@@ -118,7 +118,7 @@ public class JSONParser {
     }
 
     public static JSONObject createTweetFromJSON(String tweet, String apikey) throws Exception {
-        Map <String, String> attributes = new HashMap<String, String>();
+        Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("tweet", tweet);
         attributes.put("apikey", apikey);
         return JSONParser.postData(urlPrefix + "/api/tweet/create", attributes);
