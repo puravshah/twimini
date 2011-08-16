@@ -56,27 +56,6 @@ function clearError() {
 
 }
 
-function checkSignupEmpty() {
-    var name = dojo.byId("name").value;
-    //alert(name);
-    var email = dojo.byId("email").value;
-    var password = dojo.byId("password").value;
-    var cpassword = dojo.byId("cpassword").value;
-
-    if ((name == null) || (name == "")) {
-        window.location = "/signup";
-        return false;
-    }
-    else if ((email == null) || (email == "")) {
-        window.location = "/signup";
-        return false;
-    }
-    else if ((password == null) || (password == "")) {
-        window.location = "/signup";
-        return false;
-    }
-    return true;
-}
 
 function checkIfEmpty() {
     var name = dojo.byId("name").value;

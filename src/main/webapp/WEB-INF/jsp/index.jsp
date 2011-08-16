@@ -22,9 +22,9 @@
                     </h3>
                     <hr>
                     <div class = "span-7 last ">
-                        <form id = "signup-form" action = "/signup" method = "POST" class="formContainer" onsubmit="return checkEmpty();">
+                        <form id = "signup-form" action = "/signup" method = "POST" class="formContainer" >
                             <div class = "span-7 last">
-                                <input type = "text" placeholder = "Full Name" id= "name" name = "name" maxlength="40" class = "span-7"/ >
+                                <input type = "text" placeholder = "Full Name" id= "name" name = "name" maxlength="40" class = "span-7"/>
                             </div>
                             <div class = "span-7 last">
                                 <input type = "email" placeholder = "Email" id="email" name = "email" maxlength="40" class = "span-7" />

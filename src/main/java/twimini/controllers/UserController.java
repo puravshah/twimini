@@ -174,10 +174,9 @@ public class UserController {
         attributes.put("cpassword", cpassword);
         attributes.put("name", name);
         final JSONObject jsonObject = JSONParser.postData("http://localhost:8080/api/user/signup", attributes);
-
         if (jsonObject.get("status").equals("0")) {
             return new ModelAndView("/signup") {{
-                addObject("msg", jsonObject.get("errorMessage"));
+               addObject("msg", jsonObject.get("errorMessage"));
             }};
         }
 
@@ -187,6 +186,7 @@ public class UserController {
             user = userService.getUser(uid);
         } catch (final Exception e) {
             return new ModelAndView() {{
+                 System.out.println("hello");
                 addObject("msg", e.toString());
             }};
         }
