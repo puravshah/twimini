@@ -17,13 +17,11 @@ import java.util.List;
  */
 @Service
 public class FollowService {
-    private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public FollowService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
+    public FollowService(SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID = userID;
     }
 
     public int removeFollowing(String uid, String id) throws Exception {

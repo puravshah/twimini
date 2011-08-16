@@ -17,13 +17,11 @@ import java.util.UUID;
  */
 @Service
 public class APIKEYService {
-    private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public APIKEYService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
+    public APIKEYService(SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID = userID;
     }
 
     public static String getAPIKEY(int uid) {

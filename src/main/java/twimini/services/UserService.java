@@ -22,13 +22,11 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public UserService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
+    public UserService(SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID = userID;
     }
 
     public boolean checkPassword(String uid, String password) {

@@ -19,13 +19,11 @@ import java.util.List;
 
 @Service
 public class TweetService {
-    private final ThreadLocal<Long> userID;
     private static SimpleJdbcTemplate db;
 
     @Autowired
-    public TweetService(@Qualifier("userID") ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
+    public TweetService(SimpleJdbcTemplate db) {
         this.db = db;
-        this.userID = userID;
     }
 
     public TweetModel addTweet(String uid, String tweet) throws Exception {

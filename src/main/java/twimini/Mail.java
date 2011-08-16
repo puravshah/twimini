@@ -22,10 +22,7 @@ import java.util.Properties;
 public abstract class Mail extends Thread {
     private static final String SMTP_HOST_NAME = "smtp.gmail.com";
     private static final String SMTP_PORT = "465";
-    //private static final String emailContent = "Thank you for signing up on Twimini. Please click on the link given below to activate your account";
-    //private static final String emailMsgTxt = "http://localhost:8080/activate";
-    //private static final String emailSubjectTxt = "Activation Link";
-    private static final String emailFromAddress = "twimini.activate@gmail.com";
+     private static final String emailFromAddress = "twimini.activate@gmail.com";
     private static final String notYou = "This email was sent because someone asked to register an account from this address. If you didn't do this, then kindly ignore this email";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
     private String emailSubjectTxt = "Confirmation Email";

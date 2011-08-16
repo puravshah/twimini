@@ -17,13 +17,10 @@ import java.util.List;
  */
 @Service
 public class LikeService {
-    private final ThreadLocal<Long> userID;
         private static SimpleJdbcTemplate db;
 
-        @Autowired
-
-    public LikeService(ThreadLocal<Long> userID, SimpleJdbcTemplate db) {
-        this.userID = userID;
+    @Autowired
+    public LikeService(SimpleJdbcTemplate db) {
         this.db=db;
     }
 

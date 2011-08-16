@@ -18,14 +18,7 @@ import javax.servlet.http.HttpSession;
 
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
-    private final ThreadLocal<Long> userID;
-
-    @Autowired
-    public AuthInterceptor(@Qualifier("userID") ThreadLocal<Long> userID) {
-        this.userID = userID;
-    }
-
-    @Override
+      @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
@@ -34,7 +27,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             String userName = (String) session.getAttribute("name");
 
             if (userName != null) {
-                userID.set((Long.parseLong((String) session.getAttribute("uid"))));
                 return true;
             }
         }
