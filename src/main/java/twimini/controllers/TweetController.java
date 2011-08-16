@@ -202,21 +202,30 @@ public class TweetController {
     @ResponseBody
     Hashtable<String, String> like(@RequestParam String tweetId, HttpSession httpSession) {
         Hashtable<String, String> hashTable = new Hashtable<String, String>();
-        if (httpSession.getAttribute("uid") == null) {
+        String uid = (String)httpSession.getAttribute("uid");
+        if (uid == null || uid.equals("null")) {
             return new Hashtable<String, String>() {{
                 put("status", "0");
                 put("errorMessage", "You need to login first");
+                System.out.println("Here");
             }};
         } else {
             try {
+                String isActivated = userService.getIsActivated(uid);
+                if(!isActivated.equals("activated")) {
+                    return new Hashtable<String, String>() {{
+                        put("status", "0");
+                        put("errorMessage", "You need to activate your account before marking a tweet as favourite. Kindly check your email");
+                    }};
+                }
                 likeService.insertLike(tweetId, ((String) httpSession.getAttribute("uid")));
                 hashTable.put("status", "1");
-
             } catch (Exception e) {
                 e.printStackTrace();
+                hashTable.put("status", "0");
+                hashTable.put("errorMessage", e.toString());
             }
         }
-
         return hashTable;
     }
 
@@ -225,13 +234,21 @@ public class TweetController {
     @ResponseBody
     Hashtable<String, String> unlike(@RequestParam String tweetId, HttpSession httpSession) {
         Hashtable<String, String> hashTable = new Hashtable<String, String>();
-        if (httpSession.getAttribute("uid") == null) {
+        String uid = (String)httpSession.getAttribute("uid");
+        if (uid == null || uid.equals("null")) {
             return new Hashtable<String, String>() {{
                 put("status", "0");
                 put("errorMessage", "You need to login first");
             }};
         } else {
             try {
+                String isActivated = userService.getIsActivated(uid);
+                if(!isActivated.equals("activated")) {
+                    return new Hashtable<String, String>() {{
+                        put("status", "0");
+                        put("errorMessage", "You need to activate your account before marking a tweet as unfavourite. Kindly check your email");
+                    }};
+                }
                 likeService.deleteLike(tweetId, ((String) httpSession.getAttribute("uid")));
                 hashTable.put("status", "1");
 

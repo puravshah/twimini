@@ -473,7 +473,7 @@ function likeAction(element, tweetId) {
             content: {'tweetId':tweetId},
             load:function(response) {
                 if (response.status == '0') {
-                    alert("you need to login first");
+                    alert(response.errorMessage);
                 }
                 else {
                     setInnerText(span, "unfavourite");
@@ -498,7 +498,7 @@ function unlikeAction(element, tweetId) {
             content: {'tweetId':tweetId},
             load:function(response) {
                 if (response.status == '0') {
-                    alert("you need to login first");
+                    alert(response.errorMessage);
                 }
                 else {
                     setInnerText(span, "favourite");
